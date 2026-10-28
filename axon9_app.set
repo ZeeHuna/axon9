@@ -1,0 +1,4 @@
+AppDB=https://axon9-7309e-default-rtdb.europe-west1.firebasedatabase.app
+AppURL=https://zeehuna.github.io/axon9/
+MaxEntries=10
+MaxLotPerEntry=0.09

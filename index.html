@@ -52,6 +52,16 @@ main{padding:4px 16px 16px;display:flex;flex-direction:column;gap:12px;max-width
 .btn.full{width:100%}
 .mkt{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:12px 0;border-bottom:1px solid var(--line)}
 .mkt:last-child{border-bottom:none}
+button.mkt{width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);color:inherit;font:inherit;cursor:pointer}
+button.mkt:active{background:var(--surface2)}
+.chev{color:var(--muted);font-size:18px;margin-left:6px}
+.px2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.px2 div{background:var(--surface2);border-radius:10px;padding:10px}
+.px2 span{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em}
+.px2 b{font-family:'JetBrains Mono',monospace;font-size:18px}
+.bs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.btn.buy{background:#1F7A4D;color:#fff}.btn.sell{background:#B3263E;color:#fff}
+.acct{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
 .tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--surface2);color:var(--muted)}
 .tag.trend{background:#2E1A4A;color:var(--gold)}
 .meter{height:10px;border-radius:99px;background:var(--surface2);overflow:hidden;margin:10px 0 6px}
@@ -104,9 +114,14 @@ nav svg{width:22px;height:22px}
   // link format: index.html#k=KEY&db=https://xxx.firebaseio.com
   var h = location.hash.replace(/^#/, ''), p = {};
   h.split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) p[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); });
-  if (p.k && p.db) { store.set('axk', p.k); store.set('axdb', p.db); history.replaceState(null, '', location.pathname); }
+  // v3.4: several accounts on one phone (Zola 1-3, Suzan 1-3 ...). Each /app link adds its account to the list.
+  function accts() { try { return JSON.parse(store.get('axaccts') || '[]'); } catch (e) { return []; } }
+  function saveAccts(a) { store.set('axaccts', JSON.stringify(a)); }
+  function addAcct(k, db) { var a = accts(); if (!a.some(function (x) { return x.k === k; })) { a.push({ k: k, db: db, name: '' }); saveAccts(a); } }
+  if (p.k && p.db) { store.set('axk', p.k); store.set('axdb', p.db); addAcct(p.k, p.db.replace(/\/$/, '')); history.replaceState(null, '', location.pathname); }
   var KEY = p.k || store.get('axk'), DB = (p.db || store.get('axdb') || '').replace(/\/$/, '');
-  var S = null, tab = 'home', picking = null, lastOk = 0, busy = false;
+  if (KEY && DB) addAcct(KEY, DB);
+  var S = null, tab = 'home', picking = null, lastOk = 0, busy = false, mkSel = 0, lotSel = 0.01, nSel = 1;
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function toast(t) { var e = $('toast'); e.textContent = t; e.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { e.classList.remove('show'); }, 2200); }
@@ -119,7 +134,16 @@ nav svg{width:22px;height:22px}
     if (!KEY || !DB || busy) return;
     busy = true;
     fetch(DB + '/axon/' + KEY + '/state.json', { cache: 'no-store' }).then(function (r) { return r.json(); })
-      .then(function (d) { busy = false; if (d) { S = d; lastOk = Date.now(); } render(); })
+      .then(function (d) {
+        busy = false;
+        if (d) {
+          S = d; lastOk = Date.now();
+          var a = accts(), ch = false;
+          a.forEach(function (x) { if (x.k === KEY && !x.login) { x.login = d.login; ch = true; } });
+          if (ch) saveAccts(a);
+        }
+        render();
+      })
       .catch(function () { busy = false; render(); });
   }
   function liveState() {
@@ -128,7 +152,8 @@ nav svg{width:22px;height:22px}
     var age = Date.now() / 1000 - S.t, live = age < 20;
     pill.className = 'pill ' + (live ? 'live' : 'off');
     pill.lastElementChild.textContent = live ? 'LIVE' : 'OFFLINE';
-    $('sub').textContent = 'v' + S.v + ' · ' + (S.mode || '') + ' · ' + (S.auto ? 'AUTO' : 'SIGNALS');
+    var me = accts().filter(function (x) { return x.k === KEY; })[0];
+    $('sub').textContent = (me && me.name ? me.name : '#' + (S.login || '')) + ' · v' + S.v + ' · ' + (S.auto ? 'AUTO' : 'SIGNALS') + ' ▾';
     return live;
   }
   function setupView() {
@@ -161,9 +186,10 @@ nav svg{width:22px;height:22px}
     out += '<button class="btn gold full" data-cmd="/now" data-msg="Reading the charts…">⚡ Signal now</button>';
     out += '<div class="card"><div class="row"><div class="label">Markets</div><div class="why">zones · 4H · 1H</div></div>';
     (s.markets || []).forEach(function (m) {
-      out += '<div class="mkt"><div><b>' + esc(m.n) + '</b>' + (m.off ? ' <span class="tag">OFF</span>' : '') + ' <span class="mono why">' + esc(m.px) + '</span></div>' +
-        '<span class="tag ' + (m.reg === 'TREND' ? 'trend' : '') + '">' + esc(m.reg) + '</span>' +
-        '<div class="why">4H ' + esc(m.h4) + ' · 1H ' + esc(m.h1) + ' · ' + m.z + ' zones</div><div class="why" style="text-align:right">' + esc(m.why).slice(0, 28) + '</div></div>';
+      out += '<button class="mkt" data-mkt="' + (m.i == null ? '' : m.i) + '" aria-label="Open ' + esc(m.n) + '"><div><b>' + esc(m.n) + '</b>' + (m.off ? ' <span class="tag">OFF</span>' : '') + ' <span class="mono why">' + esc(m.px) + '</span>' +
+        (m.np ? ' <span class="tag ' + (m.plUp ? 'trend' : '') + '">' + m.np + ' open ' + esc(m.pl) + '</span>' : '') + '</div>' +
+        '<span><span class="tag ' + (m.reg === 'TREND' ? 'trend' : '') + '">' + esc(m.reg) + '</span><span class="chev">›</span></span>' +
+        '<div class="why">4H ' + esc(m.h4) + ' · 1H ' + esc(m.h1) + (m.chg != null ? ' · ' + (m.chg >= 0 ? '+' : '') + m.chg + '% today' : '') + '</div><div class="why" style="text-align:right">' + esc(m.why).slice(0, 28) + '</div></button>';
     });
     out += (s.msg ? '<div class="last">Last: ' + esc(s.msg) + '</div>' : '') + '</div>';
     if (s.score) {
@@ -215,9 +241,63 @@ nav svg{width:22px;height:22px}
     out += '<button class="btn danger full" data-confirm="Close ALL trades on the account?" data-cmd="cb:closeall" data-msg="Closing everything…">Close all trades</button>';
     return out;
   }
+  //--- v3.4 one market: live prices, what the bot sees, your positions on it, signal + buy/sell from the phone
+  function market() {
+    var m = (S.markets || []).filter(function (x) { return x.i === mkSel; })[0];
+    if (!m) return '<div class="card empty">Market not found.</div><button class="btn ghost full" data-back="1">‹ Back</button>';
+    var maxLot = m.maxLot || 0.09, maxN = m.maxN || 10, out = '';
+    out += '<button class="btn ghost" data-back="1" style="margin-bottom:10px">‹ Markets</button>';
+    out += '<div class="card"><div class="row"><div><div class="big">' + esc(m.n) + '</div><div class="why mono">' + esc(m.sym || '') + ' · spread ' + (m.spr || 0) + ' pts</div></div>' +
+      '<span class="tag ' + (m.reg === 'TREND' ? 'trend' : '') + '">' + esc(m.reg) + '</span></div>' +
+      '<div class="px2"><div><span>SELL (BID)</span><b class="down">' + esc(m.bid || m.px) + '</b></div><div><span>BUY (ASK)</span><b class="up">' + esc(m.ask || m.px) + '</b></div></div>' +
+      '<div class="why" style="margin-top:10px">' + (m.chg >= 0 ? '+' : '') + m.chg + '% today · 4H ' + esc(m.h4) + ' · 1H ' + esc(m.h1) + ' · ADX ' + m.adx + ' · ATR ' + esc(m.atr) + '</div>' +
+      '<div class="why">' + esc(m.why) + (m.news ? ' · next news: ' + esc(m.news) : '') + '</div>' +
+      '<div class="why">Bot leans: <b>' + (m.lean > 0 ? 'UP' : m.lean < 0 ? 'DOWN' : 'no side') + '</b></div></div>';
+    out += '<button class="btn gold full" data-cmd="/now ' + esc(m.n) + '" data-msg="Reading ' + esc(m.n) + '…">⚡ Signal now for ' + esc(m.n) + '</button>';
+    // your positions on this market (bot + manual)
+    var mine = (S.trades || []).filter(function (t) { return t.sym === m.sym; });
+    if (mine.length) {
+      out += '<div class="card"><div class="row"><div class="label">Your positions on ' + esc(m.n) + '</div><b class="mono ' + (m.plUp ? 'up' : 'down') + '">' + esc(m.pl) + '</b></div>';
+      mine.forEach(function (t) {
+        out += '<div class="acct"><div><span class="tag ' + (t.side === 'BUY' ? 'buy' : 'sell') + '">' + t.side + '</span> ' + t.vol.toFixed(2) + ' @ ' + esc(t.open) + (t.bot ? '' : ' · manual') +
+          '<div class="why">SL ' + esc(t.sl) + ' · TP ' + esc(t.tp) + '</div></div><div style="display:flex;gap:6px;align-items:center"><b class="mono ' + (t.up ? 'up' : 'down') + '">' + esc(t.pl) + '</b>' +
+          '<button class="btn danger" style="height:36px" data-confirm="Close this position?" data-cmd="cb:close:' + t.tk + '" data-msg="Closing…">✕</button></div></div>';
+      });
+      out += '</div>';
+    }
+    // trade panel
+    var lots = [], ns = [];
+    for (var l = 1; l <= Math.round(maxLot * 100); l++) lots.push(l / 100);
+    for (var n = 1; n <= maxN; n++) ns.push(n);
+    var riskOne = (m.r001 || 0) * Math.round(lotSel * 100), riskAll = riskOne * nSel;
+    out += '<div class="card"><div class="label">Trade ' + esc(m.n) + ' now</div>' +
+      '<div class="why" style="margin-top:8px">Lot per position</div><div class="chips" style="margin-top:6px">' +
+      lots.map(function (x) { return '<button class="' + (Math.abs(x - lotSel) < 1e-9 ? 'on' : '') + '" data-lot="' + x + '">' + x.toFixed(2) + '</button>'; }).join('') + '</div>' +
+      '<div class="why" style="margin-top:10px">Number of positions</div><div class="chips" style="margin-top:6px">' +
+      ns.map(function (x) { return '<button class="' + (x === nSel ? 'on' : '') + '" data-n="' + x + '">' + x + '</button>'; }).join('') + '</div>' +
+      '<div class="why" style="margin-top:10px">Bot sets the stop ' + esc(m.slDist) + ' away + TP1 (1R) / TP2 (2R). Risk ≈ <b>' + riskAll.toFixed(2) + '%</b> of the account (' + nSel + ' × ' + lotSel.toFixed(2) + '). The account risk limit still applies.</div>' +
+      '<div class="bs"><button class="btn sell" data-confirm="SELL ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' sell ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Selling…">SELL ' + nSel + ' × ' + lotSel.toFixed(2) + '</button>' +
+      '<button class="btn buy" data-confirm="BUY ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' buy ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Buying…">BUY ' + nSel + ' × ' + lotSel.toFixed(2) + '</button></div></div>';
+    out += (S.msg ? '<div class="card"><div class="last" style="border:0;margin:0;padding:0">Bot: ' + esc(S.msg) + '</div></div>' : '');
+    return out;
+  }
+  //--- v3.4 accounts on this phone
+  function accounts() {
+    var a = accts(), out = '<div class="card"><div class="label">Accounts on this phone</div>';
+    a.forEach(function (x, i) {
+      var on = x.k === KEY;
+      out += '<div class="acct"><div><b>' + esc(x.name || ('Account ' + (i + 1))) + '</b>' + (on ? ' <span class="tag trend">OPEN</span>' : '') + '<div class="why">MT5 #' + esc(x.login || '?') + '</div></div>' +
+        '<div style="display:flex;gap:6px">' + (on ? '' : '<button class="btn gold" style="height:38px" data-acct="' + i + '">Open</button>') +
+        '<button class="btn ghost" style="height:38px" data-rename="' + i + '">Name</button>' +
+        '<button class="btn danger" style="height:38px" data-delacct="' + i + '">✕</button></div></div>';
+    });
+    out += '<div class="why" style="margin-top:12px">Add an account: on the PC running that account, send <b>/app</b> to its bot and open the link on this phone. It is added here automatically.</div></div>';
+    out += '<button class="btn ghost full" data-back="1">‹ Back</button>';
+    return out;
+  }
   function settings() {
     var s = S, out = '';
-    var risks = ['0.25', '0.5', '1', 'auto'], caps = ['2', '3', '5', '0'];
+    var risks = ['0.5', '1', '2', 'auto'], caps = ['2', '3', '5', '0'];
     var md = s.mode || 'BALANCED';
     out += '<div class="card"><div class="label">How picky (now ' + md + ')</div><div style="height:8px"></div><div class="chips">' +
       ['STRICT', 'BALANCED', 'ACTIVE'].map(function (m) { return '<button class="' + (m === md ? 'on' : '') + '" data-cmd="/mode ' + m.toLowerCase() + '">' + m + '</button>'; }).join('') +
@@ -226,7 +306,8 @@ nav svg{width:22px;height:22px}
       risks.map(function (r) { return '<button data-cmd="/risk ' + r + '">' + (r === 'auto' ? 'auto' : r + '%') + '</button>'; }).join('') + '</div></div>';
     out += '<div class="card"><div class="label">Risk cap per signal (now ' + (s.cap > 0 ? s.cap + '%' : 'off') + ')</div><div style="height:8px"></div><div class="chips">' +
       caps.map(function (c) { return '<button class="' + (Number(c) === s.cap ? 'on' : '') + '" data-cmd="/cap ' + c + '">' + (c === '0' ? 'off' : c + '%') + '</button>'; }).join('') + '</div></div>';
-    out += '<div class="card"><div class="label">Lot size</div><div style="height:8px"></div><div class="chips"><button class="' + (s.ladder ? 'on' : '') + '" data-cmd="/lots ladder">Ladder 0.01–0.09</button><button class="' + (!s.ladder ? 'on' : '') + '" data-cmd="/lots risk">By risk %</button></div></div>';
+    out += '<div class="card"><div class="row"><div><div class="label">Telegram messages</div><div class="why">' + (s.tgmute ? 'Off – signals and alerts come to this app only (emergencies still go to Telegram)' : 'On – everything is also sent to Telegram') + '</div></div>' +
+      '<button class="toggle ' + (!s.tgmute ? 'on' : '') + '" data-cmd="' + (s.tgmute ? '/tgon' : '/tgoff') + '" aria-label="Telegram messages on or off"><span></span></button></div></div>';
     out += '<div class="card"><div class="label">Markets</div>';
     (s.markets || []).forEach(function (m) {
       out += '<div class="row" style="padding:10px 0;border-bottom:1px solid var(--line)"><b>' + esc(m.n) + '</b><button class="toggle ' + (!m.off ? 'on' : '') + '" data-cmd="/market ' + m.n + ' ' + (m.off ? 'on' : 'off') + '" aria-label="Switch ' + esc(m.n) + '"><span></span></button></div>';
@@ -240,7 +321,7 @@ nav svg{width:22px;height:22px}
     if (!KEY || !DB) { v.innerHTML = setupView(); return; }
     var live = liveState();
     if (!S) { v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure the bot is running with the app switched on.</div>'; return; }
-    v.innerHTML = tab === 'home' ? home(live) : tab === 'signals' ? signals() : tab === 'trades' ? trades() : settings();
+    v.innerHTML = tab === 'home' ? home(live) : tab === 'signals' ? signals() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'accts' ? accounts() : settings();
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('button');
@@ -249,12 +330,21 @@ nav svg{width:22px;height:22px}
     if (b.id === 'forget') { if (confirm('Disconnect this phone from AXON-9?')) { store.set('axk', ''); store.set('axdb', ''); KEY = ''; DB = ''; S = null; render(); } return; }
     if (b.dataset.tab) { tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.pick !== undefined) { picking = Number(b.dataset.pick) || null; render(); return; }
+    if (b.dataset.mkt !== undefined && b.dataset.mkt !== '') { mkSel = Number(b.dataset.mkt); lotSel = 0.01; nSel = 1; tab = 'mkt'; render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.back) { tab = 'home'; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n.dataset.tab === 'home'); }); render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.lot) { lotSel = Number(b.dataset.lot); render(); return; }
+    if (b.dataset.n) { nSel = Number(b.dataset.n); render(); return; }
+    if (b.dataset.acct !== undefined) { var x = accts()[Number(b.dataset.acct)]; if (x) { KEY = x.k; DB = x.db; store.set('axk', KEY); store.set('axdb', DB); S = null; tab = 'home'; render(); load(); } return; }
+    if (b.dataset.rename !== undefined) { var aa = accts(), y = aa[Number(b.dataset.rename)]; if (y) { var nm = prompt('Name for this account (e.g. Zola 1, Suzan 2):', y.name || ''); if (nm !== null) { y.name = nm.trim().slice(0, 20); saveAccts(aa); render(); } } return; }
+    if (b.dataset.delacct !== undefined) { var ab = accts(), z = ab[Number(b.dataset.delacct)]; if (z && confirm('Remove ' + (z.name || 'this account') + ' from this phone? (the bot keeps running)')) { ab.splice(Number(b.dataset.delacct), 1); saveAccts(ab); if (z.k === KEY) { KEY = ab[0] ? ab[0].k : ''; DB = ab[0] ? ab[0].db : ''; store.set('axk', KEY); store.set('axdb', DB); S = null; load(); } render(); } return; }
     if (b.dataset.cmd) {
       if (b.dataset.confirm && !confirm(b.dataset.confirm)) return;
       picking = null;
       send(b.dataset.cmd, b.dataset.msg);
     }
   });
+  document.querySelector('header .brand').addEventListener('click', function () { if (KEY) { tab = 'accts'; render(); window.scrollTo(0, 0); } });
+  document.querySelector('header .brand').style.cursor = 'pointer';
   render(); load();
   setInterval(load, 3000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
