@@ -92,6 +92,85 @@ nav svg{width:22px;height:22px}
 .chips button{height:40px;padding:0 14px;border-radius:10px;background:var(--surface2);color:var(--text);font-weight:600;font-family:'JetBrains Mono',monospace}
 .chips button.on{background:var(--gold);color:#1A0F2E}
 .last{font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
+
+/* v3.4.1 onboarding + accounts */
+body.bare{padding-bottom:24px} body.bare nav{display:none}
+.hero{text-align:center;padding:26px 8px 6px}
+.logo{width:84px;height:84px;margin:0 auto 16px;border-radius:24px;background:radial-gradient(120% 120% at 30% 20%,#7B4CC4,var(--purple) 55%,#2A1250);border:2px solid var(--gold);display:grid;place-items:center;font-family:'Orbitron',sans-serif;font-weight:800;font-size:28px;color:var(--gold);box-shadow:0 18px 50px -12px rgba(143,106,208,.6)}
+.hero h2{font-family:'Orbitron',sans-serif;margin:0;font-size:24px;letter-spacing:.05em}
+.hero p{color:var(--muted);margin:8px 0 0;font-size:14px;line-height:1.5}
+.field{position:relative;margin-top:14px}
+.field label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+.field input{width:100%;height:52px;border-radius:14px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 14px;font-size:16px;font-family:inherit;outline:none;transition:border-color .15s}
+.field input:focus{border-color:var(--gold)}
+.eye{position:absolute;right:6px;bottom:6px;height:40px;padding:0 12px;border-radius:10px;background:var(--surface2);color:var(--muted);font-size:12px;font-weight:700}
+.btn.lg{height:54px;font-size:16px;border-radius:14px}
+.btn:disabled{opacity:.55}
+.link{background:none;color:var(--gold2);font-weight:600;font-size:14px;padding:10px;display:block;margin:6px auto 0}
+.trust{display:flex;justify-content:center;gap:16px;color:var(--muted);font-size:12px;margin-top:6px;flex-wrap:wrap}
+.trust span::before{content:'●';color:var(--buy);margin-right:6px;font-size:9px;vertical-align:2px}
+.acard{width:100%;display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:14px;border-radius:18px;background:var(--surface);border:1px solid var(--line);color:inherit;text-align:left;font:inherit}
+.acard.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.av{width:48px;height:48px;border-radius:14px;background:#2E1A4A;color:var(--gold);font-weight:800;font-size:16px;display:grid;place-items:center;position:relative}
+.av i{position:absolute;right:-3px;bottom:-3px;width:13px;height:13px;border-radius:99px;border:3px solid var(--surface);background:var(--line2)}
+.av i.live{background:var(--buy)} .av i.off{background:var(--sell)}
+.acard b{font-size:16px}
+.acard .eq{font-family:'JetBrains Mono',monospace;font-size:14px;text-align:right}
+.more{width:40px;height:40px;border-radius:12px;background:var(--surface2);color:var(--muted);font-size:18px;font-weight:800}
+.amenu{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:-4px}
+.add{width:100%;height:64px;border-radius:18px;border:1.5px dashed var(--line2);background:transparent;color:var(--gold);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
+.add span{width:30px;height:30px;border-radius:99px;background:var(--gold);color:#1A0F2E;display:grid;place-items:center;font-size:20px;line-height:1}
+.prog{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0 2px}
+.prog i{height:4px;border-radius:99px;background:var(--line)} .prog i.on{background:var(--gold)}
+.step{font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
+.wh{font-size:22px;font-weight:700;margin:6px 0 4px}
+.brokers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.brokers button{height:64px;border-radius:14px;background:var(--surface2);color:var(--text);font-weight:700;font-size:15px;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.brokers button small{color:var(--muted);font-weight:500;font-size:11px}
+.brokers button.on{border-color:var(--gold);background:#2E1A4A}
+.chk{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:10px;counter-reset:c}
+.chk li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.45}
+.chk li::before{counter-increment:c;content:counter(c);width:30px;height:30px;border-radius:99px;background:var(--surface2);color:var(--gold);font-weight:800;display:grid;place-items:center}
+.chk code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg);border:1px solid var(--line);padding:2px 6px;border-radius:6px;word-break:break-all}
+.dl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.dl a{display:flex;align-items:center;justify-content:center;height:48px;border-radius:12px;background:var(--surface2);color:var(--text);font-weight:700;font-size:14px;text-decoration:none;border:1px solid var(--line2)}
+.code{width:100%;height:68px;border-radius:16px;border:1.5px solid var(--line2);background:var(--bg);color:var(--gold);text-align:center;font-family:'JetBrains Mono',monospace;font-size:28px;letter-spacing:.18em;font-weight:600;text-transform:uppercase;outline:none;margin-top:14px}
+.code:focus{border-color:var(--gold)}
+.hint{display:flex;gap:10px;align-items:flex-start;background:var(--surface2);border-radius:14px;padding:12px;margin-top:12px;font-size:13px;color:var(--muted);line-height:1.45}
+.hint b{color:var(--text)}
+.copy{background:none;color:var(--gold2);font-weight:700;font-size:12px;padding:0 0 0 6px}
+
+/* v3.4.2 approval sheet, lot stepper, MT5 button */
+.sheetbg{position:fixed;inset:0;background:rgba(5,2,10,.6);z-index:20;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+.sheet{width:100%;max-width:560px;background:var(--surface);border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));animation:up .25s ease-out;box-shadow:0 -20px 60px rgba(0,0,0,.5)}
+.grab{width:44px;height:5px;border-radius:99px;background:var(--line2);margin:0 auto 14px}
+@keyframes up{from{transform:translateY(40px);opacity:.4}} @keyframes fade{from{opacity:0}}
+.ring{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--gold)}
+.ring i{width:10px;height:10px;border-radius:99px;background:var(--gold);box-shadow:0 0 0 0 rgba(255,198,47,.6);animation:pulse 1.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(255,198,47,0)}100%{box-shadow:0 0 0 0 rgba(255,198,47,0)}}
+.stepper{display:grid;grid-template-columns:56px 1fr 56px;gap:8px;align-items:center;margin-top:8px}
+.stepper button{height:52px;border-radius:14px;background:var(--surface2);color:var(--text);font-size:24px;font-weight:700}
+.stepper div{height:52px;border-radius:14px;background:var(--bg);border:1px solid var(--line2);display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:var(--gold)}
+.riskbar{margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--surface2);font-size:13px;color:var(--muted)}
+.riskbar.hot{background:#3A1E12;color:#FFC2A8}
+.riskbar b{color:var(--text)}
+.mt5{display:flex;align-items:center;justify-content:center;gap:10px;height:50px;border-radius:14px;background:#0F2236;border:1px solid #23466B;color:#8FD3FF;font-weight:700;font-size:15px;text-decoration:none}
+.mt5 svg{width:20px;height:20px}
+.bsearch{width:100%;height:48px;border-radius:14px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 14px;font-size:16px;margin-top:14px;font-family:inherit;outline:none}
+
+/* v3.4.3 chart reader */
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:180px;border:1.5px dashed var(--line2);border-radius:18px;background:var(--bg);color:var(--muted);text-align:center;padding:16px;cursor:pointer}
+.drop b{color:var(--gold);font-size:16px}
+.drop img{max-width:100%;max-height:320px;border-radius:12px}
+.verdict{border-radius:18px;padding:18px;background:linear-gradient(135deg,#2E1A4A,#1A1029);border:1px solid var(--line2)}
+.verdict .plan{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:800;letter-spacing:.04em}
+.verdict .plan.SCALP{color:#8FD3FF} .verdict .plan.HOLD{color:var(--gold)} .verdict .plan.WAIT{color:var(--muted)}
+.conf{height:8px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:6px}
+.conf i{display:block;height:100%;background:linear-gradient(90deg,var(--purple2),var(--gold))}
+.ul{margin:8px 0 0;padding-left:18px;font-size:14px;line-height:1.5}
+.spin{width:28px;height:28px;border-radius:99px;border:3px solid var(--line2);border-top-color:var(--gold);animation:sp 0.8s linear infinite;margin:0 auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+.rbtn{display:flex;align-items:center;justify-content:center;gap:8px}
 </style>
 </head>
 <body>
@@ -111,35 +190,154 @@ nav svg{width:22px;height:22px}
 (function () {
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
-  // link format: index.html#k=KEY&db=https://xxx.firebaseio.com
+  //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
+  var API_KEY = 'AIzaSyD_NBRMzDxqOFAOLjU33R8M0gT1Ey7ofBQ';
+  var READ_URL = 'PASTE_CHART_READER_URL';   // v3.4.3: Cloudflare Worker address (https://axon9-reader.<name>.workers.dev)
+  var HOME_DB = 'https://axon9-7309e-default-rtdb.europe-west1.firebasedatabase.app';
+  var AUTH = 'https://identitytoolkit.googleapis.com/v1/accounts:';
+  var U = null; try { U = JSON.parse(store.get('axuser') || 'null'); } catch (e) {}
+  // old v3.4 link format: index.html#k=KEY&db=https://xxx  (still works - adds that account to your list)
   var h = location.hash.replace(/^#/, ''), p = {};
   h.split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) p[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); });
-  // v3.4: several accounts on one phone (Zola 1-3, Suzan 1-3 ...). Each /app link adds its account to the list.
-  function accts() { try { return JSON.parse(store.get('axaccts') || '[]'); } catch (e) { return []; } }
-  function saveAccts(a) { store.set('axaccts', JSON.stringify(a)); }
-  function addAcct(k, db) { var a = accts(); if (!a.some(function (x) { return x.k === k; })) { a.push({ k: k, db: db, name: '' }); saveAccts(a); } }
-  if (p.k && p.db) { store.set('axk', p.k); store.set('axdb', p.db); addAcct(p.k, p.db.replace(/\/$/, '')); history.replaceState(null, '', location.pathname); }
-  var KEY = p.k || store.get('axk'), DB = (p.db || store.get('axdb') || '').replace(/\/$/, '');
-  if (KEY && DB) addAcct(KEY, DB);
-  var S = null, tab = 'home', picking = null, lastOk = 0, busy = false, mkSel = 0, lotSel = 0.01, nSel = 1;
+  if (p.k) history.replaceState(null, '', location.pathname);
+  function lsKey() { return U ? 'axaccts_' + U.uid : 'axaccts'; }
+  function accts() { try { return JSON.parse(store.get(lsKey()) || '[]'); } catch (e) { return []; } }
+  function saveAccts(a, noCloud) { store.set(lsKey(), JSON.stringify(a)); if (!noCloud) cloudSave(a); }
+  function addAcct(o) { var a = accts(), x = a.filter(function (y) { return y.k === o.k; })[0]; if (x) { for (var f in o) if (o[f] != null && f !== 'name') x[f] = o[f]; } else a.push(o); saveAccts(a); }
+  function token() {   // fresh ID token (they last 1 hour)
+    if (!U) return Promise.reject('signed out');
+    if (U.exp > Date.now() + 60000) return Promise.resolve(U.tok);
+    return fetch('https://securetoken.googleapis.com/v1/token?key=' + API_KEY, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(U.ref) })
+      .then(function (r) { return r.json(); }).then(function (d) {
+        if (!d.id_token) { signOut(true); throw 'expired'; }
+        U.tok = d.id_token; U.ref = d.refresh_token; U.exp = Date.now() + Number(d.expires_in) * 1000; store.set('axuser', JSON.stringify(U)); return U.tok;
+      });
+  }
+  function cloudSave(a) { if (!U) return; token().then(function (t) { return fetch(HOME_DB + '/users/' + U.uid + '/accts.json?auth=' + t, { method: 'PUT', body: JSON.stringify(a) }); }).catch(function () {}); }
+  function cloudLoad() {
+    if (!U) return Promise.resolve();
+    return token().then(function (t) { return fetch(HOME_DB + '/users/' + U.uid + '/accts.json?auth=' + t, { cache: 'no-store' }); })
+      .then(function (r) { return r.json(); }).then(function (cloud) {
+        cloud = Array.isArray(cloud) ? cloud.filter(Boolean) : [];
+        var local = accts(), ch = false;
+        local.forEach(function (x) { if (!cloud.some(function (y) { return y.k === x.k; })) { cloud.push(x); ch = true; } });
+        saveAccts(cloud, !ch);
+        if (!KEY || !cloud.some(function (y) { return y.k === KEY; })) pick(cloud[0]);
+      }).catch(function () {});
+  }
+  function authErr(m) {
+    m = String(m || '');
+    if (/EMAIL_EXISTS/.test(m)) return 'That email already has a login - tap Sign in.';
+    if (/INVALID_LOGIN|INVALID_PASSWORD|EMAIL_NOT_FOUND|INVALID_EMAIL/.test(m)) return 'Wrong email or password.';
+    if (/WEAK_PASSWORD/.test(m)) return 'Password needs at least 6 characters.';
+    if (/OPERATION_NOT_ALLOWED/.test(m)) return 'Email sign-in is not switched on in Firebase yet.';
+    if (/API key|API_KEY/.test(m)) return 'App setup: the Firebase Web API key is missing.';
+    if (/TOO_MANY/.test(m)) return 'Too many tries - wait a few minutes.';
+    return 'Could not sign in: ' + m;
+  }
+  function signIn(email, pass, create) {
+    return fetch(AUTH + (create ? 'signUp' : 'signInWithPassword') + '?key=' + API_KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: pass, returnSecureToken: true }) })
+      .then(function (r) { return r.json(); }).then(function (d) {
+        if (!d.idToken) throw (d.error && d.error.message) || 'error';
+        var legacy = []; try { legacy = JSON.parse(store.get('axaccts') || '[]'); } catch (e) {}
+        U = { uid: d.localId, email: d.email, tok: d.idToken, ref: d.refreshToken, exp: Date.now() + Number(d.expiresIn) * 1000 };
+        store.set('axuser', JSON.stringify(U));
+        if (legacy.length) { var a = accts(); legacy.forEach(function (x) { if (!a.some(function (y) { return y.k === x.k; })) a.push(x); }); saveAccts(a, true); store.set('axaccts', '[]'); }
+        if (p.k) addAcct({ k: p.k, db: (p.db || HOME_DB).replace(/\/$/, ''), name: '' });
+        KEY = ''; S = null; return cloudLoad();
+      });
+  }
+  function signOut(silent) {
+    U = null; store.set('axuser', ''); store.set('axk', ''); store.set('axdb', ''); KEY = ''; DB = ''; S = null; tab = 'home';
+    if (!silent) toast('Signed out');
+    render();
+  }
+  function pick(x) { KEY = x ? x.k : ''; DB = x ? (x.db || HOME_DB) : ''; store.set('axk', KEY); store.set('axdb', DB); S = null; }
+  var KEY = store.get('axk') || '', DB = (store.get('axdb') || '').replace(/\/$/, '');
+  if (U && p.k) addAcct({ k: p.k, db: (p.db || HOME_DB).replace(/\/$/, ''), name: '' });
+  if (U && !accts().some(function (y) { return y.k === KEY; })) pick(accts()[0]);
+  if (!U) { KEY = ''; DB = ''; }
+  var S = null, tab = 'home', picking = null, lastOk = 0, busy = false, mkSel = 0, lotSel = 0.01, nSel = 1, authMode = 'in', authBusy = false;
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function toast(t) { var e = $('toast'); e.textContent = t; e.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { e.classList.remove('show'); }, 2200); }
   function send(c, msg) {
-    if (!KEY || !DB) return;
+    if (!U || !KEY || !DB) return;
     fetch(DB + '/axon/' + KEY + '/cmd.json', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ c: c, t: Date.now() }) })
       .then(function () { toast(msg || 'Sent'); setTimeout(load, 3500); }).catch(function () { toast('Not sent - check internet'); });
   }
+  //--- v3.4.2 CHIMES + phone notifications + "AXON-9 wants to trade - approve?" sheet
+  var AC = null, prevS = null, prevKey = '', seenSig = {}, ask = null, askN = 1;
+  function soundOn() { return store.get('axsound') !== '0'; }
+  function chime(kind) {
+    if (!soundOn()) return;
+    try {
+      AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume();
+      var notes = { signal: [659, 880, 1175], open: [523, 659, 784, 1047], close: [784, 659], win: [659, 784, 988, 1319], alert: [880, 660, 880, 660] }[kind] || [880];
+      notes.forEach(function (f, i) {
+        var o = AC.createOscillator(), g = AC.createGain(), t = AC.currentTime + i * 0.14;
+        o.type = 'sine'; o.frequency.value = f; o.connect(g); g.connect(AC.destination);
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.35, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+        o.start(t); o.stop(t + 0.55);
+      });
+    } catch (e) {}
+    try { if (navigator.vibrate) navigator.vibrate(kind === 'alert' ? [300, 120, 300, 120, 300] : [120, 60, 120]); } catch (e) {}
+  }
+  function notify(title, body, tag) {
+    try {
+      if (!('Notification' in window) || Notification.permission !== 'granted' || !document.hidden) return;
+      var o = { body: body, tag: tag || 'axon9', icon: 'icon.png', badge: 'icon.png', renotify: true, vibrate: [120, 60, 120] };
+      if (navigator.serviceWorker && navigator.serviceWorker.ready) navigator.serviceWorker.ready.then(function (r) { r.showNotification(title, o); }).catch(function () { new Notification(title, o); });
+      else new Notification(title, o);
+    } catch (e) {}
+  }
+  if ('serviceWorker' in navigator) { try { navigator.serviceWorker.register('sw.js').catch(function () {}); } catch (e) {} }
+  function acctName() { var me = accts().filter(function (x) { return x.k === KEY; })[0]; return me && me.name ? me.name : 'AXON-9'; }
+  function detect(d) {
+    if (!prevS || prevKey !== KEY) { (d.sigs || []).forEach(function (g) { seenSig[KEY + g.id] = 1; }); prevS = d; prevKey = KEY; return; }
+    var nm = acctName();
+    (d.sigs || []).forEach(function (g) {
+      if (seenSig[KEY + g.id]) return; seenSig[KEY + g.id] = 1;
+      if (g.take && !g.done && g.max >= 1 && !d.auto) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m + ' - approve?', 'Grade ' + g.g + ' · entry ' + g.entry + ' · SL ' + g.sl + ' · TP ' + g.tp1, 'sig' + g.id); if (!ask) { ask = g.id; askN = 1; } }
+      else if (g.take) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m, d.auto ? 'Auto-trade is placing it.' : 'Signal', 'sig' + g.id); }
+    });
+    var was = {}; (prevS.trades || []).forEach(function (t) { was[t.tk] = t; });
+    var now = {}; (d.trades || []).forEach(function (t) { now[t.tk] = t; });
+    var opened = (d.trades || []).filter(function (t) { return !was[t.tk]; });
+    var closed = (prevS.trades || []).filter(function (t) { return !now[t.tk]; });
+    if (opened.length) { chime('open'); notify(nm + ': ' + opened.length + ' trade(s) opened', opened.map(function (t) { return t.side + ' ' + t.sym + ' ' + t.vol.toFixed(2); }).join(', '), 'open'); }
+    if (closed.length) { var up = closed.every(function (t) { return t.up; }); chime(up ? 'win' : 'close'); notify(nm + ': ' + closed.length + ' trade(s) closed', closed.map(function (t) { return t.sym + ' ' + t.pl; }).join(', '), 'close'); }
+    if (d.emergency && !prevS.emergency) { chime('alert'); notify(nm + ': EMERGENCY', 'A trade has no stop loss - check MT5 now', 'emerg'); }
+    if (d.dstop && !prevS.dstop) { chime('alert'); notify(nm + ': daily loss stop hit', 'Auto-trade is off until tomorrow', 'dstop'); }
+    prevS = d; prevKey = KEY;
+  }
+  function askSheet() {
+    if (!ask || !S) return '';
+    var g = (S.sigs || []).filter(function (x) { return x.id === ask; })[0];
+    if (!g || g.done || !g.take || g.max < 1) { ask = null; return ''; }
+    var buy = g.side === 'BUY', mx = Math.min(10, g.max), ch = '';
+    for (var n = 1; n <= mx; n++) ch += '<button class="' + (n === askN ? 'on' : '') + '" data-askn="' + n + '">' + n + '</button>';
+    return '<div class="sheetbg" data-askclose="1"><div class="sheet" role="dialog" aria-label="Approve trade"><div class="grab"></div>' +
+      '<div class="row"><span class="ring"><i></i>AXON-9 WANTS TO TRADE</span><span class="why">' + esc(acctName()) + '</span></div>' +
+      '<div class="row" style="margin-top:12px"><div style="display:flex;gap:10px;align-items:center"><span class="tag ' + (buy ? 'buy' : 'sell') + '" style="font-size:14px;padding:6px 12px">' + g.side + '</span><span class="big">' + esc(g.m) + '</span></div>' +
+      '<span class="tag ' + (g.style === 'HOLD' ? 'hold' : 'scalp') + '">' + g.style + '</span></div>' +
+      '<div class="lv"><div><span>Entry</span><b>' + esc(g.entry) + '</b></div><div><span>SL</span><b class="down">' + esc(g.sl) + '</b></div><div><span>TP1</span><b class="up">' + esc(g.tp1) + '</b></div><div><span>TP2</span><b class="up">' + esc(g.tp2) + '</b></div></div>' +
+      '<div class="why">' + esc(g.setup) + ' · grade <b style="color:var(--gold)">' + g.g + '</b> ' + g.sc + '/100 · ' + g.lots.toFixed(2) + ' lot each · risk ' + esc(g.risk) + ' each</div>' +
+      '<div class="why" style="margin-top:12px">How many positions?</div><div class="chips" style="margin-top:6px">' + ch + '</div>' +
+      '<div class="bs" style="grid-template-columns:2fr 1fr"><button class="btn gold lg" data-cmd="cb:n:t:' + g.id + ':' + askN + '" data-msg="Approved - placing ' + askN + '…" data-askdone="1">Approve ' + askN + ' × ' + g.lots.toFixed(2) + '</button>' +
+      '<button class="btn ghost lg" data-cmd="cb:skip:' + g.id + '" data-msg="Skipped" data-askdone="1">Skip</button></div>' +
+      '<button class="link" data-askclose="1">Decide later</button></div></div>';
+  }
   function load() {
-    if (!KEY || !DB || busy) return;
+    if (!U || !KEY || !DB || busy) return;
     busy = true;
     fetch(DB + '/axon/' + KEY + '/state.json', { cache: 'no-store' }).then(function (r) { return r.json(); })
       .then(function (d) {
         busy = false;
         if (d) {
-          S = d; lastOk = Date.now();
+          detect(d); S = d; lastOk = Date.now();
           var a = accts(), ch = false;
-          a.forEach(function (x) { if (x.k === KEY && !x.login) { x.login = d.login; ch = true; } });
+          a.forEach(function (x) { if (x.k === KEY) ['login', 'broker', 'real'].forEach(function (f) { if (d[f] != null && x[f] !== d[f]) { x[f] = d[f]; ch = true; } }); });
           if (ch) saveAccts(a);
         }
         render();
@@ -153,15 +351,132 @@ nav svg{width:22px;height:22px}
     pill.className = 'pill ' + (live ? 'live' : 'off');
     pill.lastElementChild.textContent = live ? 'LIVE' : 'OFFLINE';
     var me = accts().filter(function (x) { return x.k === KEY; })[0];
-    $('sub').textContent = (me && me.name ? me.name : '#' + (S.login || '')) + ' · v' + S.v + ' · ' + (S.auto ? 'AUTO' : 'SIGNALS') + ' ▾';
+    $('sub').textContent = (me && me.name ? me.name : '#' + (S.login || '')) + (S.real ? ' · REAL' : ' · demo') + ' · ' + (S.auto ? 'AUTO' : 'ASK ME') + ' ▾';
     return live;
   }
-  function setupView() {
-    return '<div class="card setup"><div class="big" style="font-family:Orbitron">Connect AXON-9</div>' +
-      '<p class="why">Open the link the bot sends with <b>/app</b> in Telegram, or paste the details here.</p>' +
-      '<label for="k">App key</label><input id="k" autocomplete="off" value="' + esc(KEY || '') + '">' +
-      '<label for="d">Database URL</label><input id="d" autocomplete="off" placeholder="https://….firebaseio.com" value="' + esc(DB || '') + '">' +
-      '<div style="height:14px"></div><button class="btn gold full" id="save">Connect</button></div>';
+  function signInView() {
+    var c = authMode === 'up';
+    return '<div class="hero"><div class="logo">A9</div><h2>AXON-9</h2><p>' + (c ? 'Create your own login.<br>Your accounts stay private to you.' : 'Your MT5 trading bot,<br>in your pocket.') + '</p></div>' +
+      '<div class="card"><div class="seg"><button class="' + (!c ? 'on' : '') + '" data-auth="in">Sign in</button><button class="' + (c ? 'on' : '') + '" data-auth="up">Create account</button></div>' +
+      '<div class="field"><label for="em">Email</label><input id="em" type="email" autocomplete="email" inputmode="email" placeholder="you@email.com" value="' + esc(store.get('axlastemail') || '') + '"></div>' +
+      '<div class="field"><label for="pw">Password' + (c ? ' · at least 6 characters' : '') + '</label><input id="pw" type="password" autocomplete="' + (c ? 'new-password' : 'current-password') + '"><button class="eye" id="eye" type="button">Show</button></div>' +
+      '<div style="height:18px"></div><button class="btn gold full lg" id="auth"' + (authBusy ? ' disabled' : '') + '>' + (authBusy ? 'One moment…' : c ? 'Create account' : 'Sign in') + '</button>' +
+      (c ? '' : '<button class="link" id="forgot">Forgot password?</button>') + '</div>' +
+      '<div class="trust"><span>Works with any MT5 broker</span><span>Demo &amp; real</span><span>Private per person</span></div>';
+  }
+  //--- connect wizard: any MT5 broker (Exness, Octa, RCG, Accumarkets, …) in 3 steps
+  var BROKERS = [['Exness', 'MT5'], ['Octa', 'MT5'], ['RCG Markets', 'MT5'], ['Accumarkets', 'MT5'], ['HFM', 'HotForex MT5'], ['XM', 'MT5'], ['FXTM', 'MT5'], ['Pepperstone', 'MT5'],
+    ['IC Markets', 'MT5'], ['Tickmill', 'MT5'], ['AvaTrade', 'MT5'], ['FBS', 'MT5'], ['JustMarkets', 'MT5'], ['Deriv', 'MT5'], ['FxPro', 'MT5'], ['Vantage', 'MT5'],
+    ['FP Markets', 'MT5'], ['Admirals', 'MT5'], ['RoboForex', 'MT5'], ['GT247', 'MT5'], ['Other', 'any MT5 broker']], bq = '';
+  var wiz = { step: 1, broker: '' };
+  function wizard() {
+    var st = wiz.step, br = wiz.broker || 'your broker', out = '';
+    out += '<button class="btn ghost" data-wizback="1" style="align-self:flex-start;height:40px">‹ ' + (st === 1 ? (accts().length ? 'Accounts' : 'Back') : 'Back') + '</button>';
+    out += '<div class="prog"><i class="on"></i><i class="' + (st >= 2 ? 'on' : '') + '"></i><i class="' + (st >= 3 ? 'on' : '') + '"></i></div>';
+    if (st === 1) {
+      out += '<div class="step">Step 1 of 3</div><div class="wh">Which broker?</div><div class="why">AXON-9 works with every broker that offers MetaTrader 5 – demo or real.</div>' +
+        '<input class="bsearch" id="bq" placeholder="Search brokers…" autocomplete="off" value="' + esc(bq) + '">' +
+        '<div class="brokers">' + BROKERS.filter(function (b) { return !bq || b[0] === 'Other' || b[0].toLowerCase().indexOf(bq.toLowerCase()) >= 0; }).map(function (b) { return '<button class="' + (wiz.broker === b[0] ? 'on' : '') + '" data-broker="' + b[0] + '">' + b[0] + '<small>' + b[1] + '</small></button>'; }).join('') + '</div>' +
+        '<div class="hint"><span>💡</span><span>Already have AXON-9 running in that MT5? <button class="copy" data-wizgo="3">Skip to the code ›</button></span></div>';
+    } else if (st === 2) {
+      out += '<div class="step">Step 2 of 3 · on the computer</div><div class="wh">Put AXON-9 in ' + esc(br) + ' MT5</div>' +
+        '<ol class="chk">' +
+        '<li><span>Install <b>' + esc(br) + ' MetaTrader 5</b> from their website and log in to the account (demo or real).</span></li>' +
+        '<li><span>In MT5: <b>File → Open Data Folder → MQL5 → Experts</b>. Put <b>AXON9.ex5</b> there. Then right-click <b>Expert Advisors → Refresh</b> in the Navigator.</span></li>' +
+        '<li><span><b>Tools → Options → Expert Advisors</b>: tick <b>Allow WebRequest</b> and add<br><code>' + esc(HOME_DB) + '</code><button class="copy" data-copy="' + esc(HOME_DB) + '">Copy</button></span></li>' +
+        '<li><span>Drag <b>AXON9</b> onto any chart → <b>Load</b> the <b>axon9_app.set</b> file → OK. Turn <b>Algo Trading</b> on (green).</span></li>' +
+        '</ol>' +
+        '<div class="dl"><a href="AXON9.ex5" download>⬇ AXON9.ex5</a><a href="axon9_app.set" download>⬇ axon9_app.set</a></div>' +
+        '<div class="why" style="margin-top:10px">Market names differ per broker (GER40 / DE40 / GER30…) – AXON-9 finds them by itself. Telegram is optional.</div>' +
+        '<button class="btn gold full lg" data-wizgo="3" style="margin-top:16px">Done – it shows a code ›</button>';
+    } else {
+      out += '<div class="step">Step 3 of 3</div><div class="wh">Type the pairing code</div>' +
+        '<div class="why">It is at the top-left of the MT5 chart: <b style="color:var(--text)">APP PAIRING CODE</b>.</div>' +
+        '<input id="pc" class="code" maxlength="9" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX" inputmode="text">' +
+        '<div class="field"><label for="an">Name this account</label><input id="an" maxlength="20" placeholder="' + esc((U && /suzan/i.test(U.email) ? 'Suzan' : 'My') + ' ' + (wiz.broker && wiz.broker !== 'Other' ? wiz.broker.split(' ')[0] : '') + ' demo').replace(/\s+/g, ' ') + '"></div>' +
+        '<button class="btn gold full lg" id="addcode" style="margin-top:16px">Connect account</button>' +
+        '<div class="hint"><span>⏱</span><span>Codes last 15 minutes. Need a new one? Send <b>/pair</b> to the bot on Telegram, or in MT5 double-click AXON9 on the chart → <b>OK</b>.</span></div>';
+    }
+    return out;
+  }
+  function noAcctView() {
+    return '<div class="hero"><div class="logo">A9</div><h2>Welcome</h2><p>Signed in as <b style="color:var(--text)">' + esc(U.email) + '</b>.<br>Connect your first MT5 account – it takes 2 minutes.</p></div>' +
+      '<button class="btn gold full lg" data-wizstart="1">Connect a broker account</button>' +
+      '<div class="trust"><span>Exness</span><span>Octa</span><span>RCG</span><span>Accumarkets</span><span>HFM</span><span>XM</span><span>any MT5</span></div>' +
+      '<button class="link" id="signout">Sign out</button>';
+  }
+  function addByCode() {
+    var c = ($('pc').value || '').toUpperCase().replace(/[^A-Z0-9]/g, ''), nmIn = (($('an') && $('an').value) || '').trim();
+    if (c.length !== 8) { toast('The code has 8 letters/numbers'); return; }
+    toast('Checking code…');
+    fetch(HOME_DB + '/pair/' + c + '.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+      if (!d || !d.k) { toast('Code not found or expired - get a new one with /pair'); return; }
+      if (d.exp && d.exp * 1000 < Date.now()) { toast('Code expired - get a new one with /pair'); return; }
+      var nm = nmIn || (wiz.broker && wiz.broker !== 'Other' ? wiz.broker : (d.broker || 'MT5').split(' ')[0]) + (d.real ? ' real' : ' demo');
+      addAcct({ k: d.k, db: HOME_DB, name: nm.slice(0, 20), login: d.login, broker: d.broker, real: d.real });
+      wiz = { step: 1, broker: '' };
+      fetch(HOME_DB + '/pair/' + c + '.json', { method: 'DELETE' }).catch(function () {});
+      pick({ k: d.k, db: HOME_DB }); tab = 'home'; setNav(); render(); load();
+      toast('Connected · ' + nm + ' #' + d.login);
+    }).catch(function () { toast('No internet - try again'); });
+  }
+  function usd(zar) { var v = Number(zar || 0) / (S && S.usdzar ? S.usdzar : 16.5); return '$' + v.toLocaleString('en-US', { maximumFractionDigits: v < 10000 ? 2 : 0 }); }
+  //--- v3.4.3 READ MY CHART: screenshot in, verdict out (scalp / hold / wait, how long, levels)
+  var rd = { img: '', type: '', busy: false, res: null, err: '', note: '' };
+  function pickImage(f) {
+    if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      var im = new Image();
+      im.onload = function () {   // shrink to max 1568 px: faster + cheaper, still sharp for the AI
+        var k = Math.min(1, 1568 / Math.max(im.width, im.height)), c = document.createElement('canvas');
+        c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+        rd.img = c.toDataURL('image/jpeg', 0.88); rd.type = 'image/jpeg'; rd.res = null; rd.err = ''; render();
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(f);
+  }
+  function readChart() {
+    if (!rd.img) { toast('Add a chart screenshot first'); return; }
+    if (/PASTE_/.test(READ_URL)) { rd.err = 'The chart reader is not switched on yet (setup step).'; render(); return; }
+    rd.busy = true; rd.err = ''; rd.res = null; render();
+    var ctx = S ? { account: acctName(), markets: (S.markets || []).map(function (m) { return { n: m.n, sym: m.sym, px: m.px, reg: m.reg, h4: m.h4, h1: m.h1, adx: m.adx, atr: m.atr, chg: m.chg, lean: m.lean, news: m.news, why: m.why }; }) } : {};
+    token().then(function (t) {
+      return fetch(READ_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tok: t, img: rd.img.split(',')[1], type: rd.type, note: rd.note, ctx: ctx }) });
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      rd.busy = false;
+      if (d && d.ok) { rd.res = d.read; chime(d.read.plan === 'WAIT' ? 'close' : 'signal'); } else rd.err = (d && d.error) || 'Could not read the chart';
+      render(); window.scrollTo(0, document.body.scrollHeight);
+    }).catch(function () { rd.busy = false; rd.err = 'No internet - try again'; render(); });
+  }
+  function reader() {
+    var out = '<button class="btn ghost" data-back="1" style="align-self:flex-start;height:40px">‹ Home</button>';
+    out += '<div><div class="wh" style="margin:0">Read my chart</div><div class="why">Upload a screenshot of any chart. AXON-9 reads it and tells you: scalp, buy &amp; hold, or wait – and for how long.</div></div>';
+    out += '<label class="drop" for="rfile">' + (rd.img ? '<img src="' + rd.img + '" alt="Your chart">' : '<span style="font-size:34px">📷</span><b>Tap to add a screenshot</b><span class="why">From MT5, TradingView, anything. Show the price axis and at least 50 candles.</span>') + '</label>' +
+      '<input type="file" id="rfile" accept="image/*" style="display:none">';
+    out += '<div class="field" style="margin-top:0"><label for="rnote">Anything to add? (optional)</label><input id="rnote" maxlength="200" placeholder="e.g. I want a quick trade on GER40" value="' + esc(rd.note) + '"></div>';
+    out += '<button class="btn gold full lg rbtn" id="readgo"' + (rd.busy || !rd.img ? ' disabled' : '') + '>' + (rd.busy ? 'Reading the chart…' : '🔍 Read this chart') + '</button>';
+    if (rd.busy) out += '<div class="card" style="text-align:center"><div class="spin"></div><div class="why" style="margin-top:10px">Looking at trend, zones and the last candles… about 10–20 seconds.</div></div>';
+    if (rd.err) out += '<div class="banner">' + esc(rd.err) + '</div>';
+    var v = rd.res;
+    if (v) {
+      var plan = (v.plan || 'WAIT').toUpperCase(), side = (v.side || 'NONE').toUpperCase(), cf = Math.max(0, Math.min(100, Number(v.confidence) || 0));
+      out += '<div class="verdict"><div class="row"><span class="label">' + esc(v.market || 'Chart') + (v.timeframe ? ' · ' + esc(v.timeframe) : '') + '</span>' + (v.trend ? '<span class="tag ' + (v.trend === 'UP' || v.trend === 'DOWN' ? 'trend' : '') + '">' + esc(v.trend) + '</span>' : '') + '</div>' +
+        '<div class="row" style="margin-top:8px"><div class="plan ' + plan + '">' + (plan === 'HOLD' ? 'BUY &amp; HOLD' : plan) + '</div>' + (side !== 'NONE' ? '<span class="tag ' + (side === 'BUY' ? 'buy' : 'sell') + '" style="font-size:14px;padding:6px 12px">' + side + '</span>' : '') + '</div>' +
+        (v.hold_for && plan !== 'WAIT' ? '<div style="margin-top:6px;font-size:15px">⏱ Hold for: <b>' + esc(v.hold_for) + '</b></div>' : '') +
+        '<div style="margin-top:10px;font-size:15px;line-height:1.45">' + esc(v.summary || '') + '</div>' +
+        '<div class="why" style="margin-top:12px">Confidence ' + cf + '%</div><div class="conf"><i style="width:' + cf + '%"></i></div></div>';
+      if (plan !== 'WAIT' && (v.entry || v.stop)) out += '<div class="card"><div class="lv" style="margin:0"><div><span>Entry</span><b>' + esc(v.entry || '–') + '</b></div><div><span>Stop</span><b class="down">' + esc(v.stop || '–') + '</b></div><div><span>Target 1</span><b class="up">' + esc((v.targets || [])[0] || '–') + '</b></div><div><span>Target 2</span><b class="up">' + esc((v.targets || [])[1] || '–') + '</b></div></div></div>';
+      if ((v.reasons || []).length) out += '<div class="card"><div class="label">Why</div><ul class="ul">' + v.reasons.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
+      if ((v.risks || []).length || v.watch) out += '<div class="card"><div class="label">Watch out</div><ul class="ul">' + (v.risks || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + (v.watch ? '<li><b>Plan is off if:</b> ' + esc(v.watch) + '</li>' : '') + '</ul></div>';
+      var mm = (S && S.markets || []).filter(function (m) { var a = String(v.market || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); return a && (a.indexOf(m.n.replace(/[^A-Z0-9]/g, '')) >= 0 || a.indexOf(String(m.sym || '').toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/M$/, '')) >= 0); })[0];
+      if (mm && plan !== 'WAIT') out += '<button class="btn gold full lg" data-mkt="' + mm.i + '">Trade ' + esc(mm.n) + ' now ›</button>';
+      out += '<div class="why" style="text-align:center">An AI opinion from one picture – not a promise. AXON-9 risk limits still apply to every trade.</div>';
+      out += '<button class="btn ghost full" id="readnew">Read another chart</button>';
+    }
+    return out;
   }
   function home(live) {
     var s = S, out = '';
@@ -170,20 +485,21 @@ nav svg{width:22px;height:22px}
     if (s.emergency) out += '<div class="banner"><b>EMERGENCY:</b> a trade has no stop loss. New entries are blocked and AXON-9 retries every 5 s. Check MT5 now.</div>';
     out += '<div class="card"><div class="row"><div><div class="label">Bot</div><div class="big">' + (s.on ? 'Running' : 'Stopped') + '</div></div>' +
       '<button class="toggle ' + (s.on ? 'on' : '') + '" data-cmd="' + (s.on ? '/off' : '/on') + '" aria-label="Turn bot on or off"><span></span></button></div>' +
-      '<div style="height:12px"></div><div class="seg"><button class="' + (!s.auto ? 'on' : '') + '" data-cmd="/signals">Signals only</button><button class="' + (s.auto ? 'on' : '') + '" data-cmd="/auto">Auto-trade</button></div></div>';
-    out += '<div class="grid2"><div class="card"><div class="label">Equity</div><div class="big mono">' + esc(s.eq) + '</div><div class="why">' + esc(s.eqUsd) + ' ' + esc(s.cur) + '</div></div>' +
+      '<div style="height:12px"></div><div class="seg"><button class="' + (!s.auto ? 'on' : '') + '" data-cmd="/signals">Ask me first</button><button class="' + (s.auto ? 'on' : '') + '" data-cmd="/auto">Auto-trade</button></div>' +
+      '<div class="why" style="margin-top:8px">' + (s.auto ? 'AXON-9 places trades by itself when the market favours you, with SL + TP. You get a chime for every trade.' : 'AXON-9 finds the trades, chimes, and waits for your <b>Approve</b>.') + '</div></div>';
+    out += '<div class="grid2"><div class="card"><div class="label">Equity</div><div class="big mono">' + esc(s.eq) + '</div><div class="why">' + (s.real ? 'real' : 'demo') + ' · ' + esc(s.cur || 'USD') + ' account</div></div>' +
       '<div class="card"><div class="label">Today</div><div class="big mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + '</div><div class="why">' + s.todayPct.toFixed(2) + '% · ' + s.open + ' open · risk ' + s.riskUsed.toFixed(1) + '%</div></div></div>';
     if (s.state) {
       var st = s.state, cls = (st === 'EMERGENCY_LOCK' || st === 'SHUTDOWN') ? 'bad' : (st === 'READY' || st === 'POSITION_MANAGEMENT') ? '' : 'warn';
       var pct = Math.max(0, Math.min(100, s.msPct || 0));
       out += '<div class="card"><div class="row"><div class="label">Growth engine</div><span class="state ' + cls + '">' + esc(st.replace(/_/g, ' ')) + '</span></div>' +
-        '<div class="row" style="margin-top:10px"><div class="mono">R' + Number(s.eqZar || 0).toLocaleString('en-ZA') + '</div><div class="why">target R' + Number(s.msTarget || 0).toLocaleString('en-ZA') + '</div></div>' +
+        '<div class="row" style="margin-top:10px"><div class="mono">' + usd(s.eqZar) + '</div><div class="why">target ' + usd(s.msTarget) + '</div></div>' +
         '<div class="meter"><i style="width:' + pct.toFixed(1) + '%"></i></div>' +
         '<div class="row why"><span>Milestone ' + ((s.msN || 0) + 1) + ' · ' + pct.toFixed(0) + '%</span><span>Drawdown ' + (s.dd || 0).toFixed(1) + '% · risk ×' + (s.ddf || 1).toFixed(2) + '</span></div>' +
         (s.riskWhy ? '<div class="why" style="margin-top:8px">Last sizing: ' + esc(s.riskWhy) + '</div>' : '') +
         '<div class="seg" style="margin-top:10px"><button data-cmd="/growth">Growth details</button><button data-cmd="/status">Status</button></div></div>';
     }
-    out += '<button class="btn gold full" data-cmd="/now" data-msg="Reading the charts…">⚡ Signal now</button>';
+    out += '<div class="grid2"><button class="btn gold lg" data-cmd="/now" data-msg="Reading the charts…">⚡ Signal now</button><button class="btn ghost lg" data-tab2="read">📷 Read my chart</button></div>';
     out += '<div class="card"><div class="row"><div class="label">Markets</div><div class="why">zones · 4H · 1H</div></div>';
     (s.markets || []).forEach(function (m) {
       out += '<button class="mkt" data-mkt="' + (m.i == null ? '' : m.i) + '" aria-label="Open ' + esc(m.n) + '"><div><b>' + esc(m.n) + '</b>' + (m.off ? ' <span class="tag">OFF</span>' : '') + ' <span class="mono why">' + esc(m.px) + '</span>' +
@@ -242,6 +558,16 @@ nav svg{width:22px;height:22px}
     return out;
   }
   //--- v3.4 one market: live prices, what the bot sees, your positions on it, signal + buy/sell from the phone
+  function mt5Link() {
+    var ua = navigator.userAgent || '';
+    if (/Android/i.test(ua)) return 'intent://#Intent;package=net.metaquotes.metatrader5;S.browser_fallback_url=' + encodeURIComponent('https://play.google.com/store/apps/details?id=net.metaquotes.metatrader5') + ';end';
+    if (/iPhone|iPad|iPod/i.test(ua)) return 'https://apps.apple.com/app/metatrader-5/id413251709';
+    return 'https://web.metatrader.app/terminal';
+  }
+  function lotStep(x, d) {   // 0.01 steps to 0.10, 0.05 to 0.50, 0.10 to 2.00
+    var st = (d > 0 ? x < 0.1 - 1e-9 : x <= 0.1 + 1e-9) ? 0.01 : (d > 0 ? x < 0.5 - 1e-9 : x <= 0.5 + 1e-9) ? 0.05 : 0.1;
+    return Math.round((x + d * st) * 100) / 100;
+  }
   function market() {
     var m = (S.markets || []).filter(function (x) { return x.i === mkSel; })[0];
     if (!m) return '<div class="card empty">Market not found.</div><button class="btn ghost full" data-back="1">‹ Back</button>';
@@ -266,33 +592,49 @@ nav svg{width:22px;height:22px}
       out += '</div>';
     }
     // trade panel
-    var lots = [], ns = [];
-    for (var l = 1; l <= Math.round(maxLot * 100); l++) lots.push(l / 100);
+    var ns = [];
     for (var n = 1; n <= maxN; n++) ns.push(n);
+    lotSel = Math.min(lotSel, maxLot);
     var riskOne = (m.r001 || 0) * Math.round(lotSel * 100), riskAll = riskOne * nSel;
+    var presets = [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2].filter(function (x) { return x <= maxLot + 1e-9; });
     out += '<div class="card"><div class="label">Trade ' + esc(m.n) + ' now</div>' +
-      '<div class="why" style="margin-top:8px">Lot per position</div><div class="chips" style="margin-top:6px">' +
-      lots.map(function (x) { return '<button class="' + (Math.abs(x - lotSel) < 1e-9 ? 'on' : '') + '" data-lot="' + x + '">' + x.toFixed(2) + '</button>'; }).join('') + '</div>' +
-      '<div class="why" style="margin-top:10px">Number of positions</div><div class="chips" style="margin-top:6px">' +
+      '<div class="why" style="margin-top:10px">Lot per position (max ' + maxLot.toFixed(2) + ')</div>' +
+      '<div class="stepper"><button data-lotstep="-1" aria-label="Smaller lot">−</button><div>' + lotSel.toFixed(2) + '</div><button data-lotstep="1" aria-label="Bigger lot">+</button></div>' +
+      '<div class="chips" style="margin-top:8px">' + presets.map(function (x) { return '<button class="' + (Math.abs(x - lotSel) < 1e-9 ? 'on' : '') + '" data-lot="' + x + '">' + x.toFixed(2) + '</button>'; }).join('') + '</div>' +
+      '<div class="why" style="margin-top:12px">Number of positions</div><div class="chips" style="margin-top:6px">' +
       ns.map(function (x) { return '<button class="' + (x === nSel ? 'on' : '') + '" data-n="' + x + '">' + x + '</button>'; }).join('') + '</div>' +
-      '<div class="why" style="margin-top:10px">Bot sets the stop ' + esc(m.slDist) + ' away + TP1 (1R) / TP2 (2R). Risk ≈ <b>' + riskAll.toFixed(2) + '%</b> of the account (' + nSel + ' × ' + lotSel.toFixed(2) + '). The account risk limit still applies.</div>' +
-      '<div class="bs"><button class="btn sell" data-confirm="SELL ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' sell ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Selling…">SELL ' + nSel + ' × ' + lotSel.toFixed(2) + '</button>' +
-      '<button class="btn buy" data-confirm="BUY ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' buy ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Buying…">BUY ' + nSel + ' × ' + lotSel.toFixed(2) + '</button></div></div>';
+      '<div class="riskbar ' + (riskAll > 5 ? 'hot' : '') + '">' + nSel + ' × ' + lotSel.toFixed(2) + ' lot · stop ' + esc(m.slDist) + ' away · risk ≈ <b>' + riskAll.toFixed(1) + '%</b> of the account' +
+      (riskAll > 10 ? '<br><b>Too big:</b> the bot\'s 10% account limit will stop some of these.' : riskAll > 5 ? '<br>That is a lot for one trade.' : '') + '</div>' +
+      '<div class="bs"><button class="btn sell lg" data-confirm="SELL ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' sell ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Selling…">SELL ' + nSel + ' × ' + lotSel.toFixed(2) + '</button>' +
+      '<button class="btn buy lg" data-confirm="BUY ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' buy ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Buying…">BUY ' + nSel + ' × ' + lotSel.toFixed(2) + '</button></div>' +
+      '<div class="why" style="margin-top:8px">Orders go straight into your MT5 account - you will see them in MT5 and on the Trades tab.</div></div>';
+    out += '<button class="btn ghost full lg" data-tab2="read">📷 Read a ' + esc(m.n) + ' screenshot</button>';
+    out += '<a class="mt5" href="' + mt5Link() + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Open ' + esc(m.sym || m.n) + ' in MetaTrader 5</a>';
     out += (S.msg ? '<div class="card"><div class="last" style="border:0;margin:0;padding:0">Bot: ' + esc(S.msg) + '</div></div>' : '');
     return out;
   }
   //--- v3.4 accounts on this phone
-  function accounts() {
-    var a = accts(), out = '<div class="card"><div class="label">Accounts on this phone</div>';
-    a.forEach(function (x, i) {
-      var on = x.k === KEY;
-      out += '<div class="acct"><div><b>' + esc(x.name || ('Account ' + (i + 1))) + '</b>' + (on ? ' <span class="tag trend">OPEN</span>' : '') + '<div class="why">MT5 #' + esc(x.login || '?') + '</div></div>' +
-        '<div style="display:flex;gap:6px">' + (on ? '' : '<button class="btn gold" style="height:38px" data-acct="' + i + '">Open</button>') +
-        '<button class="btn ghost" style="height:38px" data-rename="' + i + '">Name</button>' +
-        '<button class="btn danger" style="height:38px" data-delacct="' + i + '">✕</button></div></div>';
+  var peek = {}, menuOpen = -1;   // quick look at every account (live dot + equity)
+  function peekAll() {
+    accts().forEach(function (x) {
+      fetch((x.db || HOME_DB) + '/axon/' + x.k + '/state.json', { cache: 'no-store' }).then(function (r) { return r.json(); })
+        .then(function (d) { if (d) { peek[x.k] = d; if (tab === 'accts') render(); } }).catch(function () {});
     });
-    out += '<div class="why" style="margin-top:12px">Add an account: on the PC running that account, send <b>/app</b> to its bot and open the link on this phone. It is added here automatically.</div></div>';
-    out += '<button class="btn ghost full" data-back="1">‹ Back</button>';
+  }
+  function initials(x) { var b = (x.name || x.broker || 'MT').replace(/[^A-Za-z ]/g, '').trim().split(/\s+/); return ((b[0] || 'M')[0] + ((b[1] || b[0] || 'T')[0])).toUpperCase(); }
+  function accounts() {
+    var a = accts(), out = '<div class="row" style="padding:4px 2px 0"><div><div class="wh" style="margin:0">Accounts</div><div class="why">' + esc(U.email) + '</div></div><span class="tag">' + a.length + ' linked</span></div>';
+    a.forEach(function (x, i) {
+      var on = x.k === KEY, d = peek[x.k] || (on ? S : null), live = d && (Date.now() / 1000 - d.t) < 20;
+      out += '<button class="acard ' + (on ? 'on' : '') + '" data-acct="' + i + '"><div class="av">' + esc(initials(x)) + '<i class="' + (d ? (live ? 'live' : 'off') : '') + '"></i></div>' +
+        '<div style="min-width:0"><b>' + esc(x.name || ('Account ' + (i + 1))) + '</b> ' + (x.real ? '<span class="tag sell">REAL</span>' : '<span class="tag">DEMO</span>') +
+        '<div class="why" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + esc((x.broker || 'MT5').replace(/ (Ltd|Limited|Incorporated|Inc\.?|LLC|\(SC\)).*$/i, '')) + ' · #' + esc(x.login || '?') + ' · ' + (d ? (live ? 'live' : 'offline') : '…') + '</div></div>' +
+        '<div style="display:flex;align-items:center;gap:8px"><div class="eq">' + (d ? esc(d.eq) : '') + '</div><span class="more" role="button" aria-label="Options" data-menu="' + i + '" style="display:grid;place-items:center">⋯</span></div></button>';
+      if (menuOpen === i) out += '<div class="amenu"><button class="btn ghost" data-rename="' + i + '">Rename</button>' + (on ? '<button class="btn ghost" data-back="1">Open</button>' : '<button class="btn ghost" data-acct="' + i + '">Open</button>') + '<button class="btn danger" data-delacct="' + i + '">Remove</button></div>';
+    });
+    out += '<button class="add" data-wizstart="1"><span>+</span>Connect a broker account</button>';
+    out += '<div class="why" style="text-align:center">Exness · Octa · RCG · Accumarkets · any MT5 broker, demo or real</div>';
+    out += '<button class="link" id="signout">Sign out</button>';
     return out;
   }
   function settings() {
@@ -306,6 +648,12 @@ nav svg{width:22px;height:22px}
       risks.map(function (r) { return '<button data-cmd="/risk ' + r + '">' + (r === 'auto' ? 'auto' : r + '%') + '</button>'; }).join('') + '</div></div>';
     out += '<div class="card"><div class="label">Risk cap per signal (now ' + (s.cap > 0 ? s.cap + '%' : 'off') + ')</div><div style="height:8px"></div><div class="chips">' +
       caps.map(function (c) { return '<button class="' + (Number(c) === s.cap ? 'on' : '') + '" data-cmd="/cap ' + c + '">' + (c === '0' ? 'off' : c + '%') + '</button>'; }).join('') + '</div></div>';
+    var np = ('Notification' in window) ? Notification.permission : 'unsupported';
+    out += '<div class="card"><div class="row"><div><div class="label">Chimes</div><div class="why">Sound + vibration for new trades to approve, trades opened, trades closed and emergencies</div></div>' +
+      '<button class="toggle ' + (soundOn() ? 'on' : '') + '" id="sound" aria-label="Chimes on or off"><span></span></button></div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px"><button class="btn ghost" id="testchime">▶ Test chime</button>' +
+      (np === 'granted' ? '<button class="btn ghost" disabled>Notifications on ✓</button>' : np === 'unsupported' ? '<button class="btn ghost" disabled>No notifications here</button>' : '<button class="btn gold" id="notif">Allow notifications</button>') + '</div>' +
+      '<div class="why" style="margin-top:8px">Chimes work while the app is open (also in the background). When the phone is locked or the app is closed, keep Telegram ON - it rings like a normal message.</div></div>';
     out += '<div class="card"><div class="row"><div><div class="label">Telegram messages</div><div class="why">' + (s.tgmute ? 'Off – signals and alerts come to this app only (emergencies still go to Telegram)' : 'On – everything is also sent to Telegram') + '</div></div>' +
       '<button class="toggle ' + (!s.tgmute ? 'on' : '') + '" data-cmd="' + (s.tgmute ? '/tgon' : '/tgoff') + '" aria-label="Telegram messages on or off"><span></span></button></div></div>';
     out += '<div class="card"><div class="label">Markets</div>';
@@ -313,39 +661,94 @@ nav svg{width:22px;height:22px}
       out += '<div class="row" style="padding:10px 0;border-bottom:1px solid var(--line)"><b>' + esc(m.n) + '</b><button class="toggle ' + (!m.off ? 'on' : '') + '" data-cmd="/market ' + m.n + ' ' + (m.off ? 'on' : 'off') + '" aria-label="Switch ' + esc(m.n) + '"><span></span></button></div>';
     });
     out += '</div><div class="card"><div class="label">Tools</div><div style="height:8px"></div><div class="chips"><button data-cmd="/be" data-msg="Moving to breakeven…">All to breakeven</button><button data-cmd="/report">Report → Telegram</button><button data-cmd="/resume">Clear pauses</button></div></div>';
-    out += '<button class="btn ghost full" id="forget">Disconnect this phone</button>';
+    out += '<div class="card"><div class="row"><div><div class="label">Signed in</div><div class="why">' + esc(U.email) + ' · ' + accts().length + ' account(s)</div></div>' +
+      '<button class="btn ghost" style="height:38px" data-tab2="accts">Accounts</button></div></div>';
+    out += '<button class="btn ghost full" id="signout">Sign out</button>';
     return out;
   }
   function render() {
     var v = $('view');
-    if (!KEY || !DB) { v.innerHTML = setupView(); return; }
+    document.body.classList.toggle('bare', !U || !KEY || tab === 'wiz');
+    document.querySelector('header').style.display = !U || (!KEY && tab !== 'wiz') ? 'none' : '';
+    $('live').style.visibility = U && KEY ? '' : 'hidden';
+    if (U && tab === 'wiz') { $('sub').textContent = U.email; v.innerHTML = wizard(); return; }
+    if (!U) { $('sub').textContent = 'not signed in'; $('live').className = 'pill'; $('live').lastElementChild.textContent = 'SIGN IN'; v.innerHTML = signInView(); return; }
+    if (!KEY) { $('sub').textContent = U.email; v.innerHTML = noAcctView(); return; }
+    if (tab === 'accts') { liveState(); v.innerHTML = accounts(); return; }
+    if (tab === 'read') { liveState(); v.innerHTML = reader(); return; }
+    setNav();
     var live = liveState();
-    if (!S) { v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure the bot is running with the app switched on.</div>'; return; }
-    v.innerHTML = tab === 'home' ? home(live) : tab === 'signals' ? signals() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'accts' ? accounts() : settings();
+    if (!S) { v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure that PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
+    v.innerHTML = (tab === 'home' ? home(live) : tab === 'signals' ? signals() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : settings()) + askSheet();
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('button');
     if (!b) return;
-    if (b.id === 'save') { KEY = $('k').value.trim(); DB = $('d').value.trim().replace(/\/$/, ''); store.set('axk', KEY); store.set('axdb', DB); load(); return; }
-    if (b.id === 'forget') { if (confirm('Disconnect this phone from AXON-9?')) { store.set('axk', ''); store.set('axdb', ''); KEY = ''; DB = ''; S = null; render(); } return; }
+    if (b.id === 'auth') {
+      var em = $('em').value.trim(), pw = $('pw').value;
+      if (!em || !pw) { toast('Type your email and password'); return; }
+      store.set('axlastemail', em); authBusy = true; render();
+      signIn(em, pw, authMode === 'up').then(function () { authBusy = false; tab = 'home'; render(); load(); toast('Welcome'); })
+        .catch(function (m) { authBusy = false; render(); toast(authErr(m)); });
+      return;
+    }
+    if (b.dataset.auth) { store.set('axlastemail', ($('em').value || '').trim()); authMode = b.dataset.auth; render(); return; }
+    if (b.id === 'eye') { var pw = $('pw'); pw.type = pw.type === 'password' ? 'text' : 'password'; b.textContent = pw.type === 'password' ? 'Show' : 'Hide'; return; }
+    if (b.dataset.wizstart) { wiz = { step: 1, broker: '' }; tab = 'wiz'; render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.broker) { wiz.broker = b.dataset.broker; wiz.step = 2; render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.wizgo) { wiz.step = Number(b.dataset.wizgo); render(); window.scrollTo(0, 0); if (wiz.step === 3) setTimeout(function () { var c = $('pc'); if (c) c.focus(); }, 50); return; }
+    if (b.dataset.wizback) { if (wiz.step > 1) wiz.step = wiz.step === 3 && !wiz.broker ? 1 : wiz.step - 1; else tab = KEY ? 'accts' : 'home'; render(); return; }
+    if (b.dataset.copy) { try { navigator.clipboard.writeText(b.dataset.copy); toast('Copied'); } catch (e2) { toast(b.dataset.copy); } return; }
+    if (b.id === 'forgot') {
+      var fe = ($('em').value || '').trim(); if (!fe) { toast('Type your email first'); return; }
+      fetch(AUTH + 'sendOobCode?key=' + API_KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ requestType: 'PASSWORD_RESET', email: fe }) })
+        .then(function () { toast('Reset email sent - check your inbox'); }).catch(function () { toast('No internet'); });
+      return;
+    }
+    if (b.id === 'signout') { if (confirm('Sign out of AXON-9 on this phone? (the bots keep running)')) signOut(); return; }
+    if (b.id === 'addcode') { addByCode(); return; }
+    if (b.dataset.tab2) { tab = b.dataset.tab2; if (tab === 'accts') { menuOpen = -1; peekAll(); } render(); window.scrollTo(0, 0); return; }
     if (b.dataset.tab) { tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.pick !== undefined) { picking = Number(b.dataset.pick) || null; render(); return; }
     if (b.dataset.mkt !== undefined && b.dataset.mkt !== '') { mkSel = Number(b.dataset.mkt); lotSel = 0.01; nSel = 1; tab = 'mkt'; render(); window.scrollTo(0, 0); return; }
-    if (b.dataset.back) { tab = 'home'; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n.dataset.tab === 'home'); }); render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.back) { tab = 'home'; menuOpen = -1; setNav(); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.lot) { lotSel = Number(b.dataset.lot); render(); return; }
+    if (b.dataset.lotstep) { var mm = (S.markets || []).filter(function (x) { return x.i === mkSel; })[0], ml = (mm && mm.maxLot) || 2; lotSel = Math.max(0.01, Math.min(ml, lotStep(lotSel, Number(b.dataset.lotstep)))); render(); return; }
+    if (b.dataset.askn) { askN = Number(b.dataset.askn); render(); return; }
+    if (b.dataset.askclose) { ask = null; render(); return; }
+    if (b.dataset.askdone) ask = null;
+    if (b.id === 'sound') { store.set('axsound', soundOn() ? '0' : '1'); if (soundOn()) chime('signal'); render(); return; }
+    if (b.id === 'notif') { try { Notification.requestPermission().then(function () { render(); chime('signal'); }); } catch (e3) { toast('This phone does not allow it'); } return; }
+    if (b.id === 'testchime') { chime('open'); return; }
+    if (b.id === 'readgo') { rd.note = ($('rnote').value || '').trim(); readChart(); return; }
+    if (b.id === 'readnew') { rd = { img: '', type: '', busy: false, res: null, err: '', note: '' }; render(); window.scrollTo(0, 0); return; }
     if (b.dataset.n) { nSel = Number(b.dataset.n); render(); return; }
-    if (b.dataset.acct !== undefined) { var x = accts()[Number(b.dataset.acct)]; if (x) { KEY = x.k; DB = x.db; store.set('axk', KEY); store.set('axdb', DB); S = null; tab = 'home'; render(); load(); } return; }
+    var mn = e.target.closest('[data-menu]');
+    if (mn) { var mi = Number(mn.dataset.menu); menuOpen = menuOpen === mi ? -1 : mi; render(); return; }
+    if (b.dataset.acct !== undefined) { var x = accts()[Number(b.dataset.acct)]; if (x) { if (x.k !== KEY) { pick(x); load(); } menuOpen = -1; tab = 'home'; setNav(); render(); window.scrollTo(0, 0); } return; }
     if (b.dataset.rename !== undefined) { var aa = accts(), y = aa[Number(b.dataset.rename)]; if (y) { var nm = prompt('Name for this account (e.g. Zola 1, Suzan 2):', y.name || ''); if (nm !== null) { y.name = nm.trim().slice(0, 20); saveAccts(aa); render(); } } return; }
-    if (b.dataset.delacct !== undefined) { var ab = accts(), z = ab[Number(b.dataset.delacct)]; if (z && confirm('Remove ' + (z.name || 'this account') + ' from this phone? (the bot keeps running)')) { ab.splice(Number(b.dataset.delacct), 1); saveAccts(ab); if (z.k === KEY) { KEY = ab[0] ? ab[0].k : ''; DB = ab[0] ? ab[0].db : ''; store.set('axk', KEY); store.set('axdb', DB); S = null; load(); } render(); } return; }
+    if (b.dataset.delacct !== undefined) { var ab = accts(), z = ab[Number(b.dataset.delacct)]; if (z && confirm('Remove ' + (z.name || 'this account') + ' from this phone? (the bot keeps running)')) { ab.splice(Number(b.dataset.delacct), 1); saveAccts(ab); if (z.k === KEY) { pick(ab[0]); load(); } tab = KEY ? 'accts' : 'home'; render(); } return; }
     if (b.dataset.cmd) {
       if (b.dataset.confirm && !confirm(b.dataset.confirm)) return;
       picking = null;
       send(b.dataset.cmd, b.dataset.msg);
     }
   });
-  document.querySelector('header .brand').addEventListener('click', function () { if (KEY) { tab = 'accts'; render(); window.scrollTo(0, 0); } });
+  function setNav() { document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n.dataset.tab === tab); }); }
+  document.querySelector('header .brand').addEventListener('click', function () { if (U && KEY) { tab = tab === 'accts' ? 'home' : 'accts'; menuOpen = -1; if (tab === 'accts') peekAll(); setNav(); render(); window.scrollTo(0, 0); } });
+  document.addEventListener('click', function (e) { if (e.target.classList && e.target.classList.contains('sheetbg')) { ask = null; render(); } });
+  document.addEventListener('click', function () { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) {} }, { once: true });
+  document.addEventListener('change', function (e) { if (e.target.id === 'rfile') pickImage(e.target.files && e.target.files[0]); });
+  document.addEventListener('input', function (e) {
+    if (e.target.id === 'rnote') { rd.note = e.target.value; return; }   // pairing code: auto-format ABCD-2345
+    if (e.target.id === 'bq') { bq = e.target.value; var pos = e.target.selectionStart; render(); var q = $('bq'); if (q) { q.focus(); q.setSelectionRange(pos, pos); } return; }
+    if (e.target.id !== 'pc') return;
+    var c = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
+    e.target.value = c.length > 4 ? c.slice(0, 4) + '-' + c.slice(4) : c;
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.id === 'pw') $('auth').click(); if (e.key === 'Enter' && e.target.id === 'pc') addByCode(); });
   document.querySelector('header .brand').style.cursor = 'pointer';
-  render(); load();
+  render(); load(); cloudLoad().then(function () { render(); load(); });
   setInterval(load, 3000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
 })();
