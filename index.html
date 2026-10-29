@@ -188,6 +188,11 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .chg{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:3px 8px;border-radius:8px;min-width:64px;text-align:center}
 .chg.up{background:var(--buyBg)} .chg.down{background:var(--sellBg)}
 .tag.app{background:#1B2A3A;color:#8FD3FF} .tag.auto{background:#2E1A4A;color:var(--gold)} .tag.man{background:var(--surface2);color:var(--muted)}
+
+/* v3.4.5 bot reply card */
+.reply{position:sticky;top:calc(64px + env(safe-area-inset-top));z-index:4;background:linear-gradient(135deg,#2E1A4A,#22163A);border:1px solid var(--gold);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:8px;box-shadow:0 12px 30px rgba(0,0,0,.45);animation:up .25s ease-out}
+.reply .label{color:var(--gold)} .reply p{margin:4px 0 0;font-size:14px;line-height:1.45;white-space:pre-line;max-height:40vh;overflow:auto}
+.reply button{background:none;color:var(--muted);font-size:20px;align-self:start;padding:0 4px}
 </style>
 </head>
 <body>
@@ -278,8 +283,10 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function toast(t) { var e = $('toast'); e.textContent = t; e.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { e.classList.remove('show'); }, 2200); }
+  var lastSent = 0, wantSig = 0, shownMsg = null, reply = '', replyT = 0;
   function send(c, msg) {
     if (!U || !KEY || !DB) return;
+    lastSent = Date.now(); if (/^\/now/.test(c)) wantSig = Date.now();
     fetch(DB + '/axon/' + KEY + '/cmd.json', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ c: c, t: Date.now() }) })
       .then(function () { toast(msg || 'Sent'); setTimeout(load, 3500); }).catch(function () { toast('Not sent - check internet'); });
   }
@@ -315,7 +322,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     var nm = acctName();
     (d.sigs || []).forEach(function (g) {
       if (seenSig[KEY + g.id]) return; seenSig[KEY + g.id] = 1;
-      if (g.take && !g.done && g.max >= 1 && !d.auto) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m + ' - approve?', 'Grade ' + g.g + ' · entry ' + g.entry + ' · SL ' + g.sl + ' · TP ' + g.tp1, 'sig' + g.id); if (!ask) { ask = g.id; askN = 1; } }
+      if (g.take && !g.done && g.max >= 1 && (!d.auto || Date.now() - wantSig < 90000)) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m + ' - approve?', 'Grade ' + g.g + ' · entry ' + g.entry + ' · SL ' + g.sl + ' · TP ' + g.tp1, 'sig' + g.id); if (!ask) { ask = g.id; askN = 1; } }
       else if (g.take) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m, d.auto ? 'Auto-trade is placing it.' : 'Signal', 'sig' + g.id); }
     });
     var was = {}; (prevS.trades || []).forEach(function (t) { was[t.tk] = t; });
@@ -352,7 +359,11 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
       .then(function (d) {
         busy = false;
         if (d) {
-          detect(d); S = d; lastOk = Date.now();
+          detect(d);
+          if (shownMsg !== null && d.msg && d.msg !== shownMsg && Date.now() - lastSent < 90000) { reply = d.msg; replyT = Date.now(); }   // v3.4.5: the bot's answer shows here, not on Telegram
+          shownMsg = d.msg || '';
+          if (!d.tgmute && store.get('axtg345') !== '1') { store.set('axtg345', '1'); send('/tgoff', 'Signals & trades now come to this app (Telegram only for emergencies)'); }
+          S = d; lastOk = Date.now();
           var a = accts(), ch = false;
           a.forEach(function (x) { if (x.k === KEY) ['login', 'broker', 'real'].forEach(function (f) { if (d[f] != null && x[f] !== d[f]) { x[f] = d[f]; ch = true; } }); });
           if (ch) saveAccts(a);
@@ -522,8 +533,8 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
   function symView() {
     var x = (S.watch || []).filter(function (y) { return y.s === symSel; })[0];
     if (!x) return '<div class="card empty">Loading ' + esc(symSel) + '…</div><button class="btn ghost full" data-back="1">‹ Back</button>';
-    var maxLot = 2, maxN = 10;
-    (S.markets || []).forEach(function (m) { if (m.maxLot) { maxLot = m.maxLot; maxN = m.maxN || 10; } });
+    var maxLot = x.vx || 100, maxN = 10;
+    (S.markets || []).forEach(function (m) { if (m.maxN) maxN = m.maxN; });
     lotSel = Math.min(lotSel, maxLot);
     var out = '<button class="btn ghost" data-back="1" style="align-self:flex-start;height:40px">‹ Markets</button>';
     out += '<div class="card"><div class="row"><div><div class="big">' + esc(x.s) + '</div><div class="why">' + esc(x.c) + ' · MT5 Market Watch</div></div><span class="chg ' + (x.ch >= 0 ? 'up' : 'down') + '">' + (x.ch >= 0 ? '+' : '') + Number(x.ch).toFixed(2) + '% today</span></div>' +
@@ -537,13 +548,11 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
       });
       out += '</div>';
     }
-    var presets = [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2].filter(function (v) { return v <= maxLot + 1e-9; }), ns = [];
+    var ns = [];
     for (var n = 1; n <= maxN; n++) ns.push(n);
     var cmd = function (side) { return '/tsym ' + x.s + ' ' + side + ' ' + lotSel.toFixed(2) + ' ' + nSel; };
     out += '<div class="card"><div class="label">Trade ' + esc(x.s) + ' now</div>' +
-      '<div class="why" style="margin-top:10px">Lot per position (max ' + maxLot.toFixed(2) + ')</div>' +
-      '<div class="stepper"><button data-lotstep="-1" aria-label="Smaller lot">−</button><div>' + lotSel.toFixed(2) + '</div><button data-lotstep="1" aria-label="Bigger lot">+</button></div>' +
-      '<div class="chips" style="margin-top:8px">' + presets.map(function (v) { return '<button class="' + (Math.abs(v - lotSel) < 1e-9 ? 'on' : '') + '" data-lot="' + v + '">' + v.toFixed(2) + '</button>'; }).join('') + '</div>' +
+      lotBox(maxLot) +
       '<div class="why" style="margin-top:12px">Number of positions</div><div class="chips" style="margin-top:6px">' + ns.map(function (v) { return '<button class="' + (v === nSel ? 'on' : '') + '" data-n="' + v + '">' + v + '</button>'; }).join('') + '</div>' +
       '<div class="riskbar">AXON-9 puts the stop 1 × the hourly range away (1.2 × on crypto/gold) and takes profit at 1R and 2R. The 10% account limit still protects you.</div>' +
       '<div class="bs"><button class="btn sell lg" data-confirm="SELL ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(x.s) + '?" data-cmd="' + esc(cmd('sell')) + '" data-msg="Selling in MT5…">SELL ' + nSel + ' × ' + lotSel.toFixed(2) + '</button>' +
@@ -642,14 +651,22 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     if (/iPhone|iPad|iPod/i.test(ua)) return 'https://apps.apple.com/app/metatrader-5/id413251709';
     return 'https://web.metatrader.app/terminal';
   }
-  function lotStep(x, d) {   // 0.01 steps to 0.10, 0.05 to 0.50, 0.10 to 2.00
-    var st = (d > 0 ? x < 0.1 - 1e-9 : x <= 0.1 + 1e-9) ? 0.01 : (d > 0 ? x < 0.5 - 1e-9 : x <= 0.5 + 1e-9) ? 0.05 : 0.1;
+  function lotStep(x, d) {   // 0.01 to 0.10, 0.05 to 0.50, 0.10 to 2, 0.50 to 10, then 1.00
+    var lim = [[0.1, 0.01], [0.5, 0.05], [2, 0.1], [10, 0.5], [1e9, 1]], st = 1;
+    for (var i = 0; i < lim.length; i++) { if (d > 0 ? x < lim[i][0] - 1e-9 : x <= lim[i][0] + 1e-9) { st = lim[i][1]; break; } }
     return Math.round((x + d * st) * 100) / 100;
+  }
+  var LOTS = [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10, 20, 50];
+  function lotBox(maxLot) {   // stepper + quick sizes + type any lot
+    return '<div class="why" style="margin-top:10px">Lot per position' + (maxLot < 1000 ? ' · broker max ' + Number(maxLot).toLocaleString('en-US') : '') + '</div>' +
+      '<div class="stepper"><button data-lotstep="-1" aria-label="Smaller lot">−</button><div>' + lotSel.toFixed(2) + '</div><button data-lotstep="1" aria-label="Bigger lot">+</button></div>' +
+      '<div class="chips" style="margin-top:8px">' + LOTS.filter(function (v) { return v <= maxLot + 1e-9; }).map(function (v) { return '<button class="' + (Math.abs(v - lotSel) < 1e-9 ? 'on' : '') + '" data-lot="' + v + '">' + (v < 1 ? v.toFixed(2) : v) + '</button>'; }).join('') + '</div>' +
+      '<div class="field" style="margin-top:8px"><label for="lotin">Or type any lot size</label><input id="lotin" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 3.5" enterkeyhint="done"></div>';
   }
   function market() {
     var m = (S.markets || []).filter(function (x) { return x.i === mkSel; })[0];
     if (!m) return '<div class="card empty">Market not found.</div><button class="btn ghost full" data-back="1">‹ Back</button>';
-    var maxLot = m.maxLot || 0.09, maxN = m.maxN || 10, out = '';
+    var maxLot = m.maxLot || 100, maxN = m.maxN || 10, out = '';
     out += '<button class="btn ghost" data-back="1" style="margin-bottom:10px">‹ Markets</button>';
     out += '<div class="card"><div class="row"><div><div class="big">' + esc(m.n) + '</div><div class="why mono">' + esc(m.sym || '') + ' · spread ' + (m.spr || 0) + ' pts</div></div>' +
       '<span class="tag ' + (m.reg === 'TREND' ? 'trend' : '') + '">' + esc(m.reg) + '</span></div>' +
@@ -674,15 +691,12 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     for (var n = 1; n <= maxN; n++) ns.push(n);
     lotSel = Math.min(lotSel, maxLot);
     var riskOne = (m.r001 || 0) * Math.round(lotSel * 100), riskAll = riskOne * nSel;
-    var presets = [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2].filter(function (x) { return x <= maxLot + 1e-9; });
     out += '<div class="card"><div class="label">Trade ' + esc(m.n) + ' now</div>' +
-      '<div class="why" style="margin-top:10px">Lot per position (max ' + maxLot.toFixed(2) + ')</div>' +
-      '<div class="stepper"><button data-lotstep="-1" aria-label="Smaller lot">−</button><div>' + lotSel.toFixed(2) + '</div><button data-lotstep="1" aria-label="Bigger lot">+</button></div>' +
-      '<div class="chips" style="margin-top:8px">' + presets.map(function (x) { return '<button class="' + (Math.abs(x - lotSel) < 1e-9 ? 'on' : '') + '" data-lot="' + x + '">' + x.toFixed(2) + '</button>'; }).join('') + '</div>' +
+      lotBox(maxLot) +
       '<div class="why" style="margin-top:12px">Number of positions</div><div class="chips" style="margin-top:6px">' +
       ns.map(function (x) { return '<button class="' + (x === nSel ? 'on' : '') + '" data-n="' + x + '">' + x + '</button>'; }).join('') + '</div>' +
-      '<div class="riskbar ' + (riskAll > 5 ? 'hot' : '') + '">' + nSel + ' × ' + lotSel.toFixed(2) + ' lot · stop ' + esc(m.slDist) + ' away · risk ≈ <b>' + riskAll.toFixed(1) + '%</b> of the account' +
-      (riskAll > 10 ? '<br><b>Too big:</b> the bot\'s 10% account limit will stop some of these.' : riskAll > 5 ? '<br>That is a lot for one trade.' : '') + '</div>' +
+      '<div class="riskbar ' + (riskAll > 5 ? 'hot' : '') + '">' + nSel + ' × ' + lotSel.toFixed(2) + ' lot · stop ' + esc(m.slDist) + ' away · if the stop is hit you lose ≈ <b>' + riskAll.toFixed(1) + '%</b> of the account' +
+      (riskAll > 10 ? '<br><b>Above the 10% account safety limit</b> – AXON-9 opens only what fits.' : riskAll > 5 ? '<br>Big trade – your call.' : '') + '</div>' +
       '<div class="bs"><button class="btn sell lg" data-confirm="SELL ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' sell ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Selling…">SELL ' + nSel + ' × ' + lotSel.toFixed(2) + '</button>' +
       '<button class="btn buy lg" data-confirm="BUY ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' buy ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Buying…">BUY ' + nSel + ' × ' + lotSel.toFixed(2) + '</button></div>' +
       '<div class="why" style="margin-top:8px">Orders go straight into your MT5 account - you will see them in MT5 and on the Trades tab.</div></div>';
@@ -761,7 +775,8 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     setNav();
     var live = liveState();
     if (!S) { v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure that PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
-    v.innerHTML = (tab === 'home' ? home(live) : tab === 'signals' ? signalsWrap() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings()) + askSheet();
+    var rp = reply && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
+    v.innerHTML = rp + (tab === 'home' ? home(live) : tab === 'signals' ? signalsWrap() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings()) + askSheet();
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('button');
@@ -792,12 +807,14 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     if (b.dataset.tab2) { tab = b.dataset.tab2; if (tab === 'accts') { menuOpen = -1; peekAll(); } render(); window.scrollTo(0, 0); return; }
     if (b.dataset.tab) { tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.pick !== undefined) { picking = Number(b.dataset.pick) || null; render(); return; }
+    if (b.dataset.replyx) { reply = ''; render(); return; }
     if (b.dataset.wcat) { wcat = b.dataset.wcat; store.set('axwcat', wcat); render(); return; }
     if (b.dataset.sym) { var wx = (S.watch || []).filter(function (y) { return y.s === b.dataset.sym; })[0]; lotSel = 0.01; nSel = 1; if (wx && wx.m >= 0) { mkSel = wx.m; tab = 'mkt'; } else { symSel = b.dataset.sym; tab = 'sym'; } render(); window.scrollTo(0, 0); return; }
     if (b.dataset.mkt !== undefined && b.dataset.mkt !== '') { mkSel = Number(b.dataset.mkt); lotSel = 0.01; nSel = 1; tab = 'mkt'; render(); window.scrollTo(0, 0); return; }
     if (b.dataset.back) { tab = 'home'; menuOpen = -1; setNav(); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.lot) { lotSel = Number(b.dataset.lot); render(); return; }
-    if (b.dataset.lotstep) { var mm = (S.markets || []).filter(function (x) { return x.i === mkSel; })[0], ml = (mm && mm.maxLot) || 2; lotSel = Math.max(0.01, Math.min(ml, lotStep(lotSel, Number(b.dataset.lotstep)))); render(); return; }
+    if (b.dataset.lotstep) { var mm = (S.markets || []).filter(function (x) { return x.i === mkSel; })[0], ml = 100;
+      if (tab === 'sym') { var wq = (S.watch || []).filter(function (x) { return x.s === symSel; })[0]; ml = (wq && wq.vx) || 100; } else if (mm && mm.maxLot) ml = mm.maxLot; lotSel = Math.max(0.01, Math.min(ml, lotStep(lotSel, Number(b.dataset.lotstep)))); render(); return; }
     if (b.dataset.askn) { askN = Number(b.dataset.askn); render(); return; }
     if (b.dataset.askclose) { ask = null; render(); return; }
     if (b.dataset.askdone) ask = null;
@@ -822,7 +839,10 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
   document.querySelector('header .brand').addEventListener('click', function () { if (U && KEY) { tab = tab === 'accts' ? 'home' : 'accts'; menuOpen = -1; if (tab === 'accts') peekAll(); setNav(); render(); window.scrollTo(0, 0); } });
   document.addEventListener('click', function (e) { if (e.target.classList && e.target.classList.contains('sheetbg')) { ask = null; render(); } });
   document.addEventListener('click', function () { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) {} }, { once: true });
-  document.addEventListener('change', function (e) { if (e.target.id === 'rfile') pickImage(e.target.files && e.target.files[0]); });
+  document.addEventListener('change', function (e) {
+    if (e.target.id === 'rfile') pickImage(e.target.files && e.target.files[0]);
+    if (e.target.id === 'lotin') { var v = Number(String(e.target.value).replace(',', '.')); if (v > 0) { lotSel = Math.round(v * 100) / 100; e.target.blur(); render(true); } }
+  });
   document.addEventListener('input', function (e) {
     if (e.target.id === 'rnote') { rd.note = e.target.value; return; }
     if (e.target.id === 'em') { store.set('axlastemail', e.target.value.trim()); return; }   // pairing code: auto-format ABCD-2345
@@ -832,7 +852,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     var c = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
     e.target.value = c.length > 4 ? c.slice(0, 4) + '-' + c.slice(4) : c; wiz.code = e.target.value;
   });
-  document.addEventListener('keydown', function (e) { if (e.key !== 'Enter') return; var id = e.target.id; if (id === 'pw' || id === 'em') { e.target.blur(); $('auth').click(); } if (id === 'pc' || id === 'an') { e.preventDefault(); e.target.blur(); addByCode(); } if (id === 'bq') e.target.blur(); });
+  document.addEventListener('keydown', function (e) { if (e.key !== 'Enter') return; var id = e.target.id; if (id === 'pw' || id === 'em') { e.target.blur(); $('auth').click(); } if (id === 'pc' || id === 'an') { e.preventDefault(); e.target.blur(); addByCode(); } if (id === 'bq' || id === 'lotin') e.target.blur(); });
   document.querySelector('header .brand').style.cursor = 'pointer';
   render(); load(); cloudLoad().then(function () { render(); load(); });
   setInterval(load, 3000);
