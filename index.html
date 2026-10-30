@@ -79,7 +79,7 @@ button.mkt:active{background:var(--surface2)}
 .counts button{min-width:44px;height:44px;border-radius:10px;background:var(--surface2);color:var(--text);font-weight:700}
 .counts button:hover{background:var(--purple)}
 .empty{color:var(--muted);text-align:center;padding:24px 8px;font-size:14px}
-nav{position:fixed;left:0;right:0;bottom:0;background:#00112A;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 6px calc(10px + env(safe-area-inset-bottom));z-index:6}
+nav{position:fixed;left:0;right:0;bottom:0;background:#00112A;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 4px calc(10px + env(safe-area-inset-bottom));z-index:6}
 nav button{background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;padding:6px 0;min-height:48px}
 nav button.on{color:var(--gold)}
 nav svg{width:22px;height:22px}
@@ -201,6 +201,20 @@ img.logo{object-fit:cover}
 #splash{position:fixed;inset:0;z-index:50;background:#00152E;display:flex;align-items:center;justify-content:center;transition:opacity .5s}
 #splash img{width:86%;max-width:440px;border-radius:20px}
 #splash.out{opacity:0;pointer-events:none}
+
+/* v3.4.9 Telegram-style home */
+.strip{display:grid;grid-template-columns:1.4fr 1.2fr .6fr .9fr;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+.strip div{display:flex;flex-direction:column;gap:2px;min-width:0}.strip b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat{display:flex;flex-direction:column;gap:8px;background:linear-gradient(180deg,#031B3D,#00152E);border:1px solid var(--line);border-radius:18px;padding:12px;height:46vh;min-height:260px;overflow-y:auto}
+.bub{max-width:86%;padding:9px 12px 18px;border-radius:16px;font-size:14px;line-height:1.42;white-space:pre-line;position:relative;word-wrap:break-word}
+.bub.bot{align-self:flex-start;background:var(--surface2);border-bottom-left-radius:4px}
+.bub.me{align-self:flex-end;background:#2A4FD6;border-bottom-right-radius:4px}
+.bub time{position:absolute;right:10px;bottom:3px;font-size:10px;color:var(--muted)}
+.bub.me time{color:#C9D6FF}
+.kbd{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.kbd button{height:52px;border-radius:12px;background:var(--surface2);color:var(--text);font-weight:700;font-size:15px;border:1px solid var(--line)}
+.kbd button:first-child{background:var(--gold);border-color:var(--gold)}
+.kbd button:active{transform:scale(.98)}
 </style>
 </head>
 <body>
@@ -212,8 +226,9 @@ img.logo{object-fit:cover}
 <main id="view"></main>
 <nav>
   <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>Home</button>
-  <button data-tab="signals" aria-label="Signals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Signals</button>
+  <button data-tab="markets" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Markets</button>
   <button data-tab="trades" aria-label="Trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Trades</button>
+  <button data-tab="news" aria-label="News"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h13v16H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v10a2 2 0 0 1-2 2"/><path d="M8 8h5M8 12h5M8 16h3"/></svg>News</button>
   <button data-tab="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>Settings</button>
 </nav>
 <div id="toast" class="toast"></div>
@@ -222,6 +237,10 @@ img.logo{object-fit:cover}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
+  var APP_VER = '3.4.9';
+  // self-update: if GitHub has a newer app than this phone, reload once
+  try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
+    var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
   var API_KEY = 'AIzaSyD_NBRMzDxqOFAOLjU33R8M0gT1Ey7ofBQ';
   var READ_URL = 'PASTE_CHART_READER_URL';   // v3.4.3: Cloudflare Worker address (https://axon9-reader.<name>.workers.dev)
   var HOME_DB = 'https://axon9-7309e-default-rtdb.europe-west1.firebasedatabase.app';
@@ -283,7 +302,7 @@ img.logo{object-fit:cover}
     if (!silent) toast('Signed out');
     render();
   }
-  function pick(x) { KEY = x ? x.k : ''; DB = x ? (x.db || HOME_DB) : ''; store.set('axk', KEY); store.set('axdb', DB); S = null; }
+  function pick(x) { chatMe = []; setTimeout(chatLoad, 0); KEY = x ? x.k : ''; DB = x ? (x.db || HOME_DB) : ''; store.set('axk', KEY); store.set('axdb', DB); S = null; }
   var KEY = store.get('axk') || '', DB = (store.get('axdb') || '').replace(/\/$/, '');
   if (U && p.k) addAcct({ k: p.k, db: (p.db || HOME_DB).replace(/\/$/, ''), name: '' });
   if (U && !accts().some(function (y) { return y.k === KEY; })) pick(accts()[0]);
@@ -586,18 +605,53 @@ img.logo{object-fit:cover}
     out += (S.msg ? '<div class="card"><div class="last" style="border:0;margin:0;padding:0">Bot: ' + esc(S.msg) + '</div></div>' : '');
     return out;
   }
+  //--- v3.4.8 HOME = like the Telegram bot: account strip, chat with AXON-9, the same 8 buttons
+  var chatMe = [];
+  function chatLoad() { try { chatMe = JSON.parse(store.get('axchat_' + KEY) || '[]'); } catch (e) { chatMe = []; } }
+  function chatSay(x) { chatMe.push({ t: Date.now() / 1000, x: x }); chatMe = chatMe.slice(-30); store.set('axchat_' + KEY, JSON.stringify(chatMe)); }
+  function chatHtml() {
+    var items = (S.feed || []).map(function (e) { return { t: e.t, x: e.x, me: false }; })
+      .concat(chatMe.map(function (e) { return { t: e.t, x: e.x, me: true }; }))
+      .sort(function (a, b) { return a.t - b.t; }).slice(-25);
+    if (!items.length) return '<div class="bub bot">Hi ' + esc((U.email || '').split('@')[0]) + ' 👋 Tap <b>Signal now</b> and I\'ll read the markets for you.</div>';
+    return items.map(function (e) {
+      var tm = new Date(e.t * 1000).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' });
+      return '<div class="bub ' + (e.me ? 'me' : 'bot') + '">' + esc(e.x) + '<time>' + tm + (e.me ? ' ✓✓' : '') + '</time></div>';
+    }).join('');
+  }
   function home(live) {
     var s = S, out = '';
-    if (!live) out += '<div class="banner"><b>OFFLINE:</b> AXON-9 has not reported for a while. Check the PC is on and MT5 is running. Trades keep their SL at the broker.</div>';
+    if (!live) out += '<div class="banner"><b>OFFLINE:</b> the PC with MT5 is not reporting. Trades keep their SL at the broker.</div>';
+    if (s.emergency) out += '<div class="banner"><b>EMERGENCY:</b> a trade has no stop loss. Check MT5 now.</div>';
+    if (s.dstop) out += '<div class="banner"><b>Daily loss stop hit</b> – auto-trade is off until tomorrow.</div>';
+    out += '<div class="strip"><div><span class="label">Equity</span><b class="mono">' + esc(s.eq) + '</b></div>' +
+      '<div><span class="label">Today</span><b class="mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + '</b></div>' +
+      '<div><span class="label">Open</span><b class="mono">' + (s.open || 0) + '</b></div>' +
+      '<div><span class="label">Mode</span><b class="' + (s.auto ? 'up' : '') + '">' + (s.auto ? 'AUTO' : 'ASK ME') + '</b></div></div>';
     out += hotCard();
-    if (s.dstop) out += '<div class="banner"><b>DAILY LOSS STOP HIT.</b> Auto-trade is off until tomorrow. Protect the account.</div>';
-    if (s.emergency) out += '<div class="banner"><b>EMERGENCY:</b> a trade has no stop loss. New entries are blocked and AXON-9 retries every 5 s. Check MT5 now.</div>';
-    out += '<div class="card"><div class="row"><div><div class="label">Bot</div><div class="big">' + (s.on ? 'Running' : 'Stopped') + '</div></div>' +
-      '<button class="toggle ' + (s.on ? 'on' : '') + '" data-cmd="' + (s.on ? '/off' : '/on') + '" aria-label="Turn bot on or off"><span></span></button></div>' +
-      '<div style="height:12px"></div><div class="seg"><button class="' + (!s.auto ? 'on' : '') + '" data-cmd="/signals">Ask me first</button><button class="' + (s.auto ? 'on' : '') + '" data-cmd="/auto">Auto-trade</button></div>' +
-      '<div class="why" style="margin-top:8px">' + (s.auto ? 'AXON-9 places trades by itself when the market favours you, with SL + TP. You get a chime for every trade.' : 'AXON-9 finds the trades, chimes, and waits for your <b>Approve</b>.') + '</div></div>';
-    out += '<div class="grid2"><div class="card"><div class="label">Equity</div><div class="big mono">' + esc(s.eq) + '</div><div class="why">' + (s.real ? 'real' : 'demo') + ' · ' + esc(s.cur || 'USD') + ' account</div></div>' +
-      '<div class="card"><div class="label">Today</div><div class="big mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + '</div><div class="why">' + s.todayPct.toFixed(2) + '% · ' + s.open + ' open · risk ' + s.riskUsed.toFixed(1) + '%</div></div></div>';
+    out += '<div class="chat" id="chat">' + chatHtml() + '</div>';
+    var K = [['⚡ Signal now', 'cmd', '/now'], ['📊 Status', 'cmd', '/status'], ['📈 Trades', 'tab', 'trades'], ['📋 Report', 'cmd', '/report'],
+             [(s.auto ? '✅ ' : '') + 'Auto ON', 'cmd', '/auto'], [(!s.auto ? '✅ ' : '') + 'Signals only', 'cmd', '/signals'], ['✖ Close all', 'close', 'cb:closeall'], ['❔ Help', 'cmd', '/help']];
+    out += '<div class="kbd">' + K.map(function (k) {
+      if (k[1] === 'tab') return '<button data-tab2="' + k[2] + '" data-say="' + k[0] + '">' + k[0] + '</button>';
+      return '<button data-cmd="' + k[2] + '" data-say="' + k[0].replace(/^✅ /, '') + '"' + (k[1] === 'close' ? ' data-confirm="Close ALL trades on this account?"' : '') + ' data-msg="Sent">' + k[0] + '</button>';
+    }).join('') + '</div>';
+    return out;
+  }
+  //--- NEWS tab
+  function newsTab() {
+    var out = '<div class="wh" style="margin:4px 2px 0">News</div><div class="why" style="margin:0 2px">High-impact events for your markets. AXON-9 does not open trades in a news blackout.</div>';
+    (S.markets || []).forEach(function (m) {
+      out += '<div class="card"><div class="row"><b style="font-size:16px">' + esc(m.n) + '</b>' + (m.blk ? '<span class="tag sell">BLACKOUT NOW</span>' : m.s60 ? '<span class="tag hold">NEWS WITHIN 1H</span>' : '<span class="tag">clear</span>') + '</div>' +
+        '<div class="why" style="margin-top:6px">Next: ' + (m.news ? '<b style="color:var(--text)">' + esc(m.news) + '</b>' : 'no high-impact event in the next 6 hours') + '</div>' +
+        (m.hl ? '<div style="margin-top:8px;font-size:14px;line-height:1.4">📰 ' + esc(m.hl) + '</div>' : '') + '</div>';
+    });
+    var nf = (S.feed || []).filter(function (e) { return /NEWS/i.test(e.x); }).slice(0, 10);
+    if (nf.length) out += '<div class="card"><div class="label">News alerts</div>' + nf.map(function (e) { return '<div class="fi"><span class="ic block">!</span><span>' + esc(e.x) + '</span><time>' + ago(e.t) + '</time></div>'; }).join('') + '</div>';
+    return out;
+  }
+  function marketsTab(live) {
+    var s = S, out = '';
     if (s.state) {
       var st = s.state, cls = (st === 'EMERGENCY_LOCK' || st === 'SHUTDOWN') ? 'bad' : (st === 'READY' || st === 'POSITION_MANAGEMENT') ? '' : 'warn';
       var pct = Math.max(0, Math.min(100, s.msPct || 0));
@@ -608,7 +662,7 @@ img.logo{object-fit:cover}
         (s.riskWhy ? '<div class="why" style="margin-top:8px">Last sizing: ' + esc(s.riskWhy) + '</div>' : '') +
         '<div class="seg" style="margin-top:10px"><button data-cmd="/growth">Growth details</button><button data-cmd="/status">Status</button></div></div>';
     }
-    out += '<div class="grid2"><button class="btn gold lg" data-cmd="/now" data-msg="Reading the charts…">⚡ Signal now</button><button class="btn ghost lg" data-tab2="read">📷 Read my chart</button></div>';
+    out += '<button class="btn ghost full lg" data-tab2="read">📷 Read my chart (upload a screenshot)</button>';
     out += '<div class="card"><div class="row"><div class="label">Markets</div><div class="why">zones · 4H · 1H</div></div>';
     (s.markets || []).forEach(function (m) {
       out += '<button class="mkt" data-mkt="' + (m.i == null ? '' : m.i) + '" aria-label="Open ' + esc(m.n) + '"><div><b>' + esc(m.n) + '</b>' + (m.off ? ' <span class="tag">OFF</span>' : '') + ' <span class="mono why">' + esc(m.px) + '</span>' +
@@ -617,7 +671,6 @@ img.logo{object-fit:cover}
         '<div class="why">4H ' + esc(m.h4) + ' · 1H ' + esc(m.h1) + (m.chg != null ? ' · ' + (m.chg >= 0 ? '+' : '') + m.chg + '% today' : '') + '</div><div class="why" style="text-align:right">' + esc(m.why).slice(0, 28) + '</div></button>';
     });
     out += '</div>';
-    out += '<div class="card"><div class="row"><div class="label">Live activity · signals &amp; trades</div><button class="why" style="background:none" data-tab2="signals">See all ›</button></div>' + feedHtml(5) + '</div>';
     out += watchHtml();
     if (s.score) {
       out += '<div class="card"><div class="row"><div class="label">Scoreboard · every signal, paper-traded after costs</div></div>';
@@ -654,6 +707,7 @@ img.logo{object-fit:cover}
   }
   function hotCard(onlyMkt) {   // v3.4.6: newest open signal on top of every screen
     if (!S) return '';
+    if (S.auto && Date.now() - wantSig > 120000) return '';   // v3.4.7: on AUTO the bot handles its own signals - cards only when YOU ask
     var g = (S.sigs || []).filter(function (x) { return !x.done && x.age <= 30 && (!onlyMkt || x.m === onlyMkt); })[0];
     return g ? sigCard(g, true) : '';
   }
@@ -793,6 +847,7 @@ img.logo{object-fit:cover}
     out += '<div class="card"><div class="row"><div><div class="label">Signed in</div><div class="why">' + esc(U.email) + ' · ' + accts().length + ' account(s)</div></div>' +
       '<button class="btn ghost" style="height:38px" data-tab2="accts">Accounts</button></div></div>';
     out += '<button class="btn ghost full" id="signout">Sign out</button>';
+    out += '<div class="why" style="text-align:center;margin-top:10px">App version ' + APP_VER + '</div>';
     return out;
   }
   var pendingRender = false;
@@ -812,10 +867,11 @@ img.logo{object-fit:cover}
     setNav();
     var live = liveState();
     if (!S) { v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure that PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
-    var rp = reply && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
+    var rp = reply && tab !== 'home' && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
     if (tab === 'mkt' || tab === 'trades' || tab === 'settings' || tab === 'sym') rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
-    v.innerHTML = rp + (tab === 'home' ? home(live) : tab === 'signals' ? signalsWrap() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings()) + askSheet();
+    v.innerHTML = rp + (tab === 'home' ? home(live) : tab === 'markets' ? marketsTab(live) : tab === 'news' ? newsTab() : tab === 'signals' ? signalsWrap() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings()) + askSheet();
+    var ch = $('chat'); if (ch) ch.scrollTop = ch.scrollHeight;
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('button');
@@ -843,7 +899,7 @@ img.logo{object-fit:cover}
     }
     if (b.id === 'signout') { if (confirm('Sign out of AXON-9 on this phone? (the bots keep running)')) signOut(); return; }
     if (b.id === 'addcode') { addByCode(); return; }
-    if (b.dataset.tab2) { tab = b.dataset.tab2; if (tab === 'accts') { menuOpen = -1; peekAll(); } render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.tab2) { if (b.dataset.say) chatSay(b.dataset.say); tab = b.dataset.tab2; if (tab === 'accts') { menuOpen = -1; peekAll(); } setNav(); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.tab) { tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.pick !== undefined) { picking = Number(b.dataset.pick) || null; render(); return; }
     if (b.dataset.replyx) { reply = ''; render(); return; }
@@ -851,7 +907,7 @@ img.logo{object-fit:cover}
     if (b.dataset.wcat) { wcat = b.dataset.wcat; store.set('axwcat', wcat); render(); return; }
     if (b.dataset.sym) { var wx = (S.watch || []).filter(function (y) { return y.s === b.dataset.sym; })[0]; lotSel = 0.01; nSel = 1; if (wx && wx.m >= 0) { mkSel = wx.m; tab = 'mkt'; } else { symSel = b.dataset.sym; tab = 'sym'; } render(); window.scrollTo(0, 0); return; }
     if (b.dataset.mkt !== undefined && b.dataset.mkt !== '') { mkSel = Number(b.dataset.mkt); lotSel = 0.01; nSel = 1; tab = 'mkt'; render(); window.scrollTo(0, 0); return; }
-    if (b.dataset.back) { tab = 'home'; menuOpen = -1; setNav(); render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.back) { tab = (tab === 'mkt' || tab === 'sym') ? 'markets' : 'home'; menuOpen = -1; setNav(); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.lot) { lotSel = Number(b.dataset.lot); render(); return; }
     if (b.dataset.lotstep) { var mm = (S.markets || []).filter(function (x) { return x.i === mkSel; })[0], ml = 100;
       if (tab === 'sym') { var wq = (S.watch || []).filter(function (x) { return x.s === symSel; })[0]; ml = (wq && wq.vx) || 100; } else if (mm && mm.maxLot) ml = mm.maxLot; lotSel = Math.max(0.01, Math.min(ml, lotStep(lotSel, Number(b.dataset.lotstep)))); render(); return; }
@@ -872,6 +928,7 @@ img.logo{object-fit:cover}
     if (b.dataset.delacct !== undefined) { var ab = accts(), z = ab[Number(b.dataset.delacct)]; if (z && confirm('Remove ' + (z.name || 'this account') + ' from this phone? (the bot keeps running)')) { ab.splice(Number(b.dataset.delacct), 1); saveAccts(ab); if (z.k === KEY) { pick(ab[0]); load(); } tab = KEY ? 'accts' : 'home'; render(); } return; }
     if (b.dataset.cmd) {
       if (b.dataset.confirm && !confirm(b.dataset.confirm)) return;
+      if (b.dataset.say) chatSay(b.dataset.say);
       picking = null;
       send(b.dataset.cmd, b.dataset.msg);
     }
@@ -896,6 +953,7 @@ img.logo{object-fit:cover}
   document.addEventListener('keydown', function (e) { if (e.key !== 'Enter') return; var id = e.target.id; if (id === 'pw' || id === 'em') { e.target.blur(); $('auth').click(); } if (id === 'pc' || id === 'an') { e.preventDefault(); e.target.blur(); addByCode(); } if (id === 'bq' || id === 'lotin') e.target.blur(); });
   document.querySelector('header .brand').style.cursor = 'pointer';
   setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 1300);
+  chatLoad();
   render(); load(); cloudLoad().then(function () { render(); load(); });
   setInterval(load, 3000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
