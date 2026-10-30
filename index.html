@@ -323,7 +323,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     (d.sigs || []).forEach(function (g) {
       if (seenSig[KEY + g.id]) return; seenSig[KEY + g.id] = 1;
       if (g.take && !g.done && g.max >= 1 && (!d.auto || Date.now() - wantSig < 90000)) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m + ' - approve?', 'Grade ' + g.g + ' · entry ' + g.entry + ' · SL ' + g.sl + ' · TP ' + g.tp1, 'sig' + g.id); if (!ask) { ask = g.id; askN = 1; } }
-      else if (g.take) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m, d.auto ? 'Auto-trade is placing it.' : 'Signal', 'sig' + g.id); }
+      else { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m, d.auto ? 'Auto-trade is placing it.' : 'Signal', 'sig' + g.id); }
     });
     var was = {}; (prevS.trades || []).forEach(function (t) { was[t.tk] = t; });
     var now = {}; (d.trades || []).forEach(function (t) { now[t.tk] = t; });
@@ -564,6 +564,8 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
   function home(live) {
     var s = S, out = '';
     if (!live) out += '<div class="banner"><b>OFFLINE:</b> AXON-9 has not reported for a while. Check the PC is on and MT5 is running. Trades keep their SL at the broker.</div>';
+    var hot = (s.sigs || []).filter(function (g) { return !g.done && g.age <= 30; })[0];
+    if (hot) out += sigCard(hot, true);
     if (s.dstop) out += '<div class="banner"><b>DAILY LOSS STOP HIT.</b> Auto-trade is off until tomorrow. Protect the account.</div>';
     if (s.emergency) out += '<div class="banner"><b>EMERGENCY:</b> a trade has no stop loss. New entries are blocked and AXON-9 retries every 5 s. Check MT5 now.</div>';
     out += '<div class="card"><div class="row"><div><div class="label">Bot</div><div class="big">' + (s.on ? 'Running' : 'Stopped') + '</div></div>' +
@@ -603,28 +605,35 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     }
     return out;
   }
+  var sigN = {};   // chosen number of positions per signal
+  //--- v3.4.6 signal card = same as Telegram: Take (bot TPs) / Take – SL only / Skip, pick how many
+  function sigCard(g, hot) {
+    var buy = g.side === 'BUY', safe = Math.max(0, Math.min(10, g.max || 0)), n = sigN[g.id] || Math.max(1, Math.min(safe, 1)), out = '';
+    out += '<div class="card"' + (hot ? ' style="border-color:var(--gold)"' : '') + '>' + (hot ? '<div class="row"><span class="ring"><i></i>NEW SIGNAL</span><span class="why">' + g.age + ' min ago</span></div><div style="height:8px"></div>' : '') +
+      '<div class="row"><div style="display:flex;gap:8px;align-items:center"><span class="tag ' + (buy ? 'buy' : 'sell') + '" style="font-size:13px;padding:5px 10px">' + g.side + ' ' + g.how + '</span><b style="font-size:18px">' + esc(g.m) + '</b></div>' +
+      '<span class="tag ' + (g.style === 'HOLD' ? 'hold' : 'scalp') + '">' + g.style + '</span></div>' +
+      '<div class="lv"><div><span>Entry</span><b>' + esc(g.entry) + '</b></div><div><span>SL</span><b class="down">' + esc(g.sl) + '</b></div><div><span>TP1</span><b class="up">' + esc(g.tp1) + '</b></div><div><span>TP2</span><b class="up">' + esc(g.tp2) + '</b></div></div>' +
+      '<div class="row why"><span>' + esc(g.setup) + (hot ? '' : ' · ' + g.age + ' min ago') + '</span><span>Grade <b style="color:' + (g.g === 'A' ? 'var(--gold)' : 'var(--muted)') + '">' + g.g + '</b> ' + g.sc + '/100</span></div>' +
+      '<div class="why">Lot ' + g.lots.toFixed(2) + ' · risk ' + esc(g.risk) + ' each' + (g.miss ? ' · missing: ' + esc(g.miss) : '') + '</div>';
+    if (g.done) return out + '<div class="last">✓ Handled.</div></div>';
+    if (g.age > 30) return out + '<div class="last">Older than 30 min – expired.</div></div>';
+    if (!g.take) out += '<div class="why" style="margin-top:8px;color:var(--warn)">Weaker setup – AXON-9 would not auto-trade it. Your call.</div>';
+    if ((g.max || 0) < 1) out += '<div class="why" style="margin-top:8px;color:var(--sell)">Account risk limit reached – close or protect open trades first.</div>';
+    out += '<div class="why" style="margin-top:12px">How many positions?</div>' +
+      '<div class="riskbar" style="margin-top:6px">' + (safe >= 1 ? 'Your account can safely take <b>up to ' + safe + '</b> position' + (safe > 1 ? 's' : '') + ' on this signal (' + esc(g.risk) + ' risk each).' + (safe < 10 ? ' More would break the 10% safety limit – the bot opens only what fits.' : '') : 'No room right now – the 10% safety limit is full.') + '</div>' +
+      '<div class="chips" style="margin-top:8px">';
+    for (var k = 1; k <= 10; k++) out += '<button class="' + (k === n ? 'on' : '') + '" data-sign="' + g.id + ':' + k + '"' + (k > safe ? ' style="opacity:.35" aria-label="' + k + ' – more than your account can carry"' : '') + '>' + k + '</button>';
+    out += '</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">' +
+      '<button class="btn gold" data-cmd="cb:n:t:' + g.id + ':' + n + '" data-msg="Placing ' + n + ' with bot TPs…">Take (bot TPs)</button>' +
+      '<button class="btn ghost" data-cmd="cb:n:s:' + g.id + ':' + n + '" data-msg="Placing ' + n + ', SL only…">Take – SL only</button></div>' +
+      '<button class="btn ghost full" style="margin-top:8px" data-cmd="cb:skip:' + g.id + '" data-msg="Skipped">Skip</button></div>';
+    return out;
+  }
   function signals() {
     var list = S.sigs || [], out = '';
     var fd = '<div class="card"><div class="label">Everything AXON-9 did · newest first</div>' + feedHtml(40) + '</div>';
     if (!list.length) return '<div class="card empty">No open signals in the last 6 hours.<br>AXON-9 signals when the chart lines up – auto-trades show below.</div><button class="btn gold full" data-cmd="/now" data-msg="Reading the charts…">⚡ Signal now</button>' + fd;
-    list.forEach(function (g) {
-      var buy = g.side === 'BUY';
-      out += '<div class="card"><div class="row"><div style="display:flex;gap:8px;align-items:center"><span class="tag ' + (buy ? 'buy' : 'sell') + '">' + g.side + ' ' + g.how + '</span><b>' + esc(g.m) + '</b></div>' +
-        '<span class="tag ' + (g.style === 'HOLD' ? 'hold' : 'scalp') + '">' + g.style + '</span></div>' +
-        '<div class="lv"><div><span>Entry</span><b>' + esc(g.entry) + '</b></div><div><span>SL</span><b class="down">' + esc(g.sl) + '</b></div><div><span>TP1</span><b class="up">' + esc(g.tp1) + '</b></div><div><span>TP2</span><b class="up">' + esc(g.tp2) + '</b></div></div>' +
-        '<div class="row why"><span>' + esc(g.setup) + ' · ' + g.age + ' min ago</span><span>Grade <b style="color:' + (g.g === 'A' ? 'var(--gold)' : 'var(--muted)') + '">' + g.g + '</b> ' + g.sc + '/100</span></div>' +
-        '<div class="why">Lot ' + g.lots.toFixed(2) + ' · risk ' + esc(g.risk) + ' each' + (g.miss ? ' · missing: ' + esc(g.miss) : '') + '</div>';
-      if (g.done) out += '<div class="last">Handled.</div>';
-      else if (!g.take) out += '<div class="last">Info only — not strong enough (or too risky for this account) to take.</div>';
-      else if (g.max < 1) out += '<div class="last">Blocked — account risk limit reached. Protect or close open trades first.</div>';
-      else if (picking === g.id) {
-        out += '<div class="counts" role="group" aria-label="How many positions">';
-        for (var n = 1; n <= Math.min(10, g.max); n++) out += '<button data-cmd="cb:n:t:' + g.id + ':' + n + '" data-msg="Placing ' + n + '…">' + n + '</button>';
-        out += '</div><div class="why" style="margin-top:6px">Cap: max ' + g.max + ' positions. Bot sets SL + TPs.</div>' +
-          '<div style="display:flex;gap:8px;margin-top:10px"><button class="btn ghost" data-cmd="cb:n:s:' + g.id + ':1" data-msg="Placing (SL only)…">1 × SL only</button><button class="btn ghost" data-pick="0">Cancel</button></div>';
-      } else out += '<div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:12px"><button class="btn gold" data-pick="' + g.id + '">Take trade</button><button class="btn ghost" data-cmd="cb:skip:' + g.id + '" data-msg="Skipped">Skip</button></div>';
-      out += '</div>';
-    });
+    list.forEach(function (g) { out += sigCard(g); });
     return out;
   }
   function signalsWrap() { var o = signals(); return o.indexOf('Everything AXON-9 did') >= 0 ? o : o + '<div class="card"><div class="label">Everything AXON-9 did · newest first</div>' + feedHtml(40) + '</div>'; }
@@ -808,6 +817,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     if (b.dataset.tab) { tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.pick !== undefined) { picking = Number(b.dataset.pick) || null; render(); return; }
     if (b.dataset.replyx) { reply = ''; render(); return; }
+    if (b.dataset.sign) { var sp = b.dataset.sign.split(':'); sigN[sp[0]] = Number(sp[1]); render(); return; }
     if (b.dataset.wcat) { wcat = b.dataset.wcat; store.set('axwcat', wcat); render(); return; }
     if (b.dataset.sym) { var wx = (S.watch || []).filter(function (y) { return y.s === b.dataset.sym; })[0]; lotSel = 0.01; nSel = 1; if (wx && wx.m >= 0) { mkSel = wx.m; tab = 'mkt'; } else { symSel = b.dataset.sym; tab = 'sym'; } render(); window.scrollTo(0, 0); return; }
     if (b.dataset.mkt !== undefined && b.dataset.mkt !== '') { mkSel = Number(b.dataset.mkt); lotSel = 0.01; nSel = 1; tab = 'mkt'; render(); window.scrollTo(0, 0); return; }
