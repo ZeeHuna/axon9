@@ -622,10 +622,10 @@ img.logo{object-fit:cover}
       '<span class="tag ' + (g.style === 'HOLD' ? 'hold' : 'scalp') + '">' + g.style + '</span></div>' +
       '<div class="lv"><div><span>Entry</span><b>' + esc(g.entry) + '</b></div><div><span>SL</span><b class="down">' + esc(g.sl) + '</b></div><div><span>TP1</span><b class="up">' + esc(g.tp1) + '</b></div><div><span>TP2</span><b class="up">' + esc(g.tp2) + '</b></div></div>' +
       '<div class="row why"><span>' + esc(g.setup) + (hot ? '' : ' · ' + g.age + ' min ago') + '</span><span>Grade <b style="color:' + (g.g === 'A' ? 'var(--gold)' : 'var(--muted)') + '">' + g.g + '</b> ' + g.sc + '/100</span></div>' +
-      '<div class="why">Lot ' + g.lots.toFixed(2) + ' · risk ' + esc(g.risk) + ' each' + (g.miss ? ' · missing: ' + esc(g.miss) : '') + '</div>';
+      '<div class="why">Lot ' + (g.lots > 0 ? g.lots.toFixed(2) : 'smallest (0.01)') + ' · risk ' + esc(g.risk) + ' each' + (g.miss ? ' · missing: ' + esc(g.miss) : '') + '</div>';
     if (g.done) return out + '<div class="last">✓ Handled.</div></div>';
     if (g.age > 30) return out + '<div class="last">Older than 30 min – expired.</div></div>';
-    if (!g.take) out += '<div class="why" style="margin-top:8px;color:var(--warn)">Weaker setup – AXON-9 would not auto-trade it. Your call.</div>';
+    if (!g.take) out += '<div class="why" style="margin-top:8px;color:var(--warn)">' + (g.lots <= 0 ? 'Even the smallest lot risks more than AXON-9 normally allows on this account – it would not auto-trade it. Your call.' : 'Weaker setup – AXON-9 would not auto-trade it. Your call.') + '</div>';
     out += '<div class="why" style="margin-top:12px">How many positions?</div>' +
       '<div class="riskbar" style="margin-top:6px">' + (safe >= 1 ? 'Your account can safely take <b>up to ' + safe + '</b> position' + (safe > 1 ? 's' : '') + ' on this signal (' + esc(g.risk) + ' risk each).' + (safe < 10 ? ' More would break the 10% safety limit – the bot opens only what fits.' : '') : 'Even 1 position (' + esc(g.risk) + ' risk) is above your risk cap or the 10% safety limit right now. Raise it in <b>Settings → Risk cap per signal</b>, or close open trades.') + '</div>' +
       '<div class="chips" style="margin-top:8px">';
