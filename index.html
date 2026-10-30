@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0D0716">
+<meta name="theme-color" content="#00152E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AXON-9">
@@ -14,16 +14,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500;600&display=swap">
 <style>
 :root{
-  --bg:#0D0716; --surface:#1A1029; --surface2:#22163A; --line:#33204F; --line2:#4A3270;
-  --text:#F4F1FA; --muted:#A99BC4; --gold:#FFC62F; --gold2:#FFE08A; --purple:#4F2683; --purple2:#8F6AD0;
-  --buy:#3DDC97; --buyBg:#123323; --sell:#FF8A5B; --sellBg:#3A1E12; --warn:#FFC62F;
+  --bg:#00152E; --surface:#05224D; --surface2:#0A2C60; --line:#163E7C; --line2:#2856A3;
+  --text:#FFFFFF; --muted:#A9BFE2; --gold:#E31837; --gold2:#FF8FA3; --purple:#00338D; --purple2:#4D7FD6;
+  --buy:#3DDC97; --buyBg:#123323; --sell:#FF8A5B; --sellBg:#3A1E12; --warn:#FFD36B;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--text);font-family:'Space Grotesk',system-ui,sans-serif}
 body{min-height:100vh;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 button{font-family:inherit;cursor:pointer;border:none}
 .mono{font-family:'JetBrains Mono',monospace}
-header{position:sticky;top:0;z-index:5;background:linear-gradient(var(--bg),rgba(13,7,22,.92));padding:calc(14px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+header{position:sticky;top:0;z-index:5;background:linear-gradient(var(--bg),rgba(0,21,46,.92));padding:calc(14px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .brand{display:flex;align-items:center;gap:10px}
 .badge{width:38px;height:38px;border-radius:10px;background:var(--purple);border:2px solid var(--gold);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:800;font-size:13px}
 .brand h1{margin:0;font-family:'Orbitron',sans-serif;font-size:18px;letter-spacing:.04em}
@@ -41,12 +41,12 @@ main{padding:4px 16px 16px;display:flex;flex-direction:column;gap:12px;max-width
 .up{color:var(--buy)} .down{color:var(--sell)}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);border-radius:14px;padding:4px}
 .seg button{height:44px;border-radius:11px;font-weight:700;font-size:14px;background:transparent;color:var(--muted)}
-.seg button.on{background:var(--gold);color:#1A0F2E}
+.seg button.on{background:var(--gold);color:#FFFFFF}
 .toggle{width:64px;height:38px;border-radius:99px;padding:3px;background:var(--line2);display:flex;align-items:center;transition:.2s}
 .toggle span{width:32px;height:32px;border-radius:99px;background:#fff;display:block;transition:.2s}
 .toggle.on{background:var(--gold);justify-content:flex-end}
 .btn{height:46px;border-radius:12px;font-weight:700;font-size:14px;padding:0 14px}
-.btn.gold{background:var(--gold);color:#1A0F2E}
+.btn.gold{background:var(--gold);color:#FFFFFF}
 .btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--text)}
 .btn.danger{background:transparent;border:1px solid var(--sell);color:var(--sell)}
 .btn.full{width:100%}
@@ -60,16 +60,16 @@ button.mkt:active{background:var(--surface2)}
 .px2 span{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em}
 .px2 b{font-family:'JetBrains Mono',monospace;font-size:18px}
 .bs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.btn.buy{background:#1F7A4D;color:#fff}.btn.sell{background:#B3263E;color:#fff}
+.btn.buy{background:#1F7A4D;color:#fff}.btn.sell{background:#C60C30;color:#fff}
 .acct{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
 .tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--surface2);color:var(--muted)}
-.tag.trend{background:#2E1A4A;color:var(--gold)}
+.tag.trend{background:#0E3A7A;color:var(--gold)}
 .meter{height:10px;border-radius:99px;background:var(--surface2);overflow:hidden;margin:10px 0 6px}
 .meter i{display:block;height:100%;background:linear-gradient(90deg,var(--purple2),var(--gold));border-radius:99px}
-.state{font-size:11px;font-weight:800;letter-spacing:.06em;padding:4px 9px;border-radius:99px;background:#2E1A4A;color:var(--gold)}
+.state{font-size:11px;font-weight:800;letter-spacing:.06em;padding:4px 9px;border-radius:99px;background:#0E3A7A;color:var(--gold)}
 .state.bad{background:#4A1A22;color:#FF8A8A} .state.warn{background:#3A2E12;color:#FFD36B}
 .tag.buy{background:var(--buyBg);color:var(--buy)} .tag.sell{background:var(--sellBg);color:var(--sell)}
-.tag.hold{background:#2E1A4A;color:var(--gold)} .tag.scalp{background:#1B2A3A;color:#8FD3FF}
+.tag.hold{background:#0E3A7A;color:var(--gold)} .tag.scalp{background:#1B2A3A;color:#8FD3FF}
 .why{font-size:12px;color:var(--muted)}
 .lv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:10px 0}
 .lv div{background:var(--bg);border-radius:10px;padding:8px}
@@ -79,24 +79,24 @@ button.mkt:active{background:var(--surface2)}
 .counts button{min-width:44px;height:44px;border-radius:10px;background:var(--surface2);color:var(--text);font-weight:700}
 .counts button:hover{background:var(--purple)}
 .empty{color:var(--muted);text-align:center;padding:24px 8px;font-size:14px}
-nav{position:fixed;left:0;right:0;bottom:0;background:#120A1F;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 6px calc(10px + env(safe-area-inset-bottom));z-index:6}
+nav{position:fixed;left:0;right:0;bottom:0;background:#00112A;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 6px calc(10px + env(safe-area-inset-bottom));z-index:6}
 nav button{background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;padding:6px 0;min-height:48px}
 nav button.on{color:var(--gold)}
 nav svg{width:22px;height:22px}
-.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--gold);color:#1A0F2E;font-weight:700;padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:9;max-width:90vw;text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--gold);color:#FFFFFF;font-weight:700;padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:9;max-width:90vw;text-align:center}
 .toast.show{opacity:1}
 .banner{background:var(--sellBg);border:1px solid #6A3420;color:#FFC2A8;border-radius:14px;padding:12px;font-size:13px}
 .setup input{width:100%;height:46px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 12px;font-size:14px;font-family:'JetBrains Mono',monospace}
 .setup label{font-size:12px;color:var(--muted);display:block;margin:12px 0 6px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chips button{height:40px;padding:0 14px;border-radius:10px;background:var(--surface2);color:var(--text);font-weight:600;font-family:'JetBrains Mono',monospace}
-.chips button.on{background:var(--gold);color:#1A0F2E}
+.chips button.on{background:var(--gold);color:#FFFFFF}
 .last{font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
 
 /* v3.4.1 onboarding + accounts */
 body.bare{padding-bottom:24px} body.bare nav{display:none}
 .hero{text-align:center;padding:26px 8px 6px}
-.logo{width:84px;height:84px;margin:0 auto 16px;border-radius:24px;background:radial-gradient(120% 120% at 30% 20%,#7B4CC4,var(--purple) 55%,#2A1250);border:2px solid var(--gold);display:grid;place-items:center;font-family:'Orbitron',sans-serif;font-weight:800;font-size:28px;color:var(--gold);box-shadow:0 18px 50px -12px rgba(143,106,208,.6)}
+.logo{width:84px;height:84px;margin:0 auto 16px;border-radius:24px;background:radial-gradient(120% 120% at 30% 20%,#2A64C8,var(--purple) 55%,#001A4F);border:2px solid var(--gold);display:grid;place-items:center;font-family:'Orbitron',sans-serif;font-weight:800;font-size:28px;color:var(--gold);box-shadow:0 18px 50px -12px rgba(77,127,214,.6)}
 .hero h2{font-family:'Orbitron',sans-serif;margin:0;font-size:24px;letter-spacing:.05em}
 .hero p{color:var(--muted);margin:8px 0 0;font-size:14px;line-height:1.5}
 .field{position:relative;margin-top:14px}
@@ -111,7 +111,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .trust span::before{content:'●';color:var(--buy);margin-right:6px;font-size:9px;vertical-align:2px}
 .acard{width:100%;display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:14px;border-radius:18px;background:var(--surface);border:1px solid var(--line);color:inherit;text-align:left;font:inherit}
 .acard.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
-.av{width:48px;height:48px;border-radius:14px;background:#2E1A4A;color:var(--gold);font-weight:800;font-size:16px;display:grid;place-items:center;position:relative}
+.av{width:48px;height:48px;border-radius:14px;background:#0E3A7A;color:var(--gold);font-weight:800;font-size:16px;display:grid;place-items:center;position:relative}
 .av i{position:absolute;right:-3px;bottom:-3px;width:13px;height:13px;border-radius:99px;border:3px solid var(--surface);background:var(--line2)}
 .av i.live{background:var(--buy)} .av i.off{background:var(--sell)}
 .acard b{font-size:16px}
@@ -119,7 +119,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .more{width:40px;height:40px;border-radius:12px;background:var(--surface2);color:var(--muted);font-size:18px;font-weight:800}
 .amenu{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:-4px}
 .add{width:100%;height:64px;border-radius:18px;border:1.5px dashed var(--line2);background:transparent;color:var(--gold);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
-.add span{width:30px;height:30px;border-radius:99px;background:var(--gold);color:#1A0F2E;display:grid;place-items:center;font-size:20px;line-height:1}
+.add span{width:30px;height:30px;border-radius:99px;background:var(--gold);color:#FFFFFF;display:grid;place-items:center;font-size:20px;line-height:1}
 .prog{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0 2px}
 .prog i{height:4px;border-radius:99px;background:var(--line)} .prog i.on{background:var(--gold)}
 .step{font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
@@ -127,7 +127,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .brokers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
 .brokers button{height:64px;border-radius:14px;background:var(--surface2);color:var(--text);font-weight:700;font-size:15px;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .brokers button small{color:var(--muted);font-weight:500;font-size:11px}
-.brokers button.on{border-color:var(--gold);background:#2E1A4A}
+.brokers button.on{border-color:var(--gold);background:#0E3A7A}
 .chk{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:10px;counter-reset:c}
 .chk li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.45}
 .chk li::before{counter-increment:c;content:counter(c);width:30px;height:30px;border-radius:99px;background:var(--surface2);color:var(--gold);font-weight:800;display:grid;place-items:center}
@@ -141,20 +141,20 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .copy{background:none;color:var(--gold2);font-weight:700;font-size:12px;padding:0 0 0 6px}
 
 /* v3.4.2 approval sheet, lot stepper, MT5 button */
-.sheetbg{position:fixed;inset:0;background:rgba(5,2,10,.6);z-index:20;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+.sheetbg{position:fixed;inset:0;background:rgba(0,8,20,.65);z-index:20;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
 .sheet{width:100%;max-width:560px;background:var(--surface);border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));animation:up .25s ease-out;box-shadow:0 -20px 60px rgba(0,0,0,.5)}
 .grab{width:44px;height:5px;border-radius:99px;background:var(--line2);margin:0 auto 14px}
 @keyframes up{from{transform:translateY(40px);opacity:.4}} @keyframes fade{from{opacity:0}}
 .ring{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--gold)}
-.ring i{width:10px;height:10px;border-radius:99px;background:var(--gold);box-shadow:0 0 0 0 rgba(255,198,47,.6);animation:pulse 1.4s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(255,198,47,0)}100%{box-shadow:0 0 0 0 rgba(255,198,47,0)}}
+.ring i{width:10px;height:10px;border-radius:99px;background:var(--gold);box-shadow:0 0 0 0 rgba(227,24,55,.6);animation:pulse 1.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(227,24,55,0)}100%{box-shadow:0 0 0 0 rgba(227,24,55,0)}}
 .stepper{display:grid;grid-template-columns:56px 1fr 56px;gap:8px;align-items:center;margin-top:8px}
 .stepper button{height:52px;border-radius:14px;background:var(--surface2);color:var(--text);font-size:24px;font-weight:700}
 .stepper div{height:52px;border-radius:14px;background:var(--bg);border:1px solid var(--line2);display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:var(--gold)}
 .riskbar{margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--surface2);font-size:13px;color:var(--muted)}
 .riskbar.hot{background:#3A1E12;color:#FFC2A8}
 .riskbar b{color:var(--text)}
-.mt5{display:flex;align-items:center;justify-content:center;gap:10px;height:50px;border-radius:14px;background:#0F2236;border:1px solid #23466B;color:#8FD3FF;font-weight:700;font-size:15px;text-decoration:none}
+.mt5{display:flex;align-items:center;justify-content:center;gap:10px;height:50px;border-radius:14px;background:#0A2C60;border:1px solid #2856A3;color:#8FD3FF;font-weight:700;font-size:15px;text-decoration:none}
 .mt5 svg{width:20px;height:20px}
 .bsearch{width:100%;height:48px;border-radius:14px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 14px;font-size:16px;margin-top:14px;font-family:inherit;outline:none}
 
@@ -162,7 +162,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:180px;border:1.5px dashed var(--line2);border-radius:18px;background:var(--bg);color:var(--muted);text-align:center;padding:16px;cursor:pointer}
 .drop b{color:var(--gold);font-size:16px}
 .drop img{max-width:100%;max-height:320px;border-radius:12px}
-.verdict{border-radius:18px;padding:18px;background:linear-gradient(135deg,#2E1A4A,#1A1029);border:1px solid var(--line2)}
+.verdict{border-radius:18px;padding:18px;background:linear-gradient(135deg,#0E3A7A,#05224D);border:1px solid var(--line2)}
 .verdict .plan{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:800;letter-spacing:.04em}
 .verdict .plan.SCALP{color:#8FD3FF} .verdict .plan.HOLD{color:var(--gold)} .verdict .plan.WAIT{color:var(--muted)}
 .conf{height:8px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:6px}
@@ -177,29 +177,38 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .fi{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.4}
 .fi:last-child{border-bottom:none}
 .fi .ic{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-size:14px;background:var(--surface2)}
-.fi .ic.open{background:var(--buyBg)} .fi .ic.close{background:#2E1A4A} .fi .ic.block{background:var(--sellBg)} .fi .ic.sig{background:#1B2A3A}
+.fi .ic.open{background:var(--buyBg)} .fi .ic.close{background:#0E3A7A} .fi .ic.block{background:var(--sellBg)} .fi .ic.sig{background:#1B2A3A}
 .fi time{color:var(--muted);font-size:11px;white-space:nowrap}
 .cats{display:flex;gap:6px;overflow-x:auto;margin:10px 0 4px;scrollbar-width:none}
 .cats button{height:36px;padding:0 14px;border-radius:99px;background:var(--surface2);color:var(--muted);font-weight:700;font-size:13px;white-space:nowrap}
-.cats button.on{background:var(--gold);color:#1A0F2E}
+.cats button.on{background:var(--gold);color:#FFFFFF}
 .wrow{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;width:100%;padding:12px 0;background:none;border:0;border-bottom:1px solid var(--line);color:inherit;font:inherit;text-align:left}
 .wrow:last-child{border-bottom:none}
 .wrow b{font-size:15px} .wrow .mono{font-size:13px}
 .chg{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:3px 8px;border-radius:8px;min-width:64px;text-align:center}
 .chg.up{background:var(--buyBg)} .chg.down{background:var(--sellBg)}
-.tag.app{background:#1B2A3A;color:#8FD3FF} .tag.auto{background:#2E1A4A;color:var(--gold)} .tag.man{background:var(--surface2);color:var(--muted)}
+.tag.app{background:#1B2A3A;color:#8FD3FF} .tag.auto{background:#0E3A7A;color:var(--gold)} .tag.man{background:var(--surface2);color:var(--muted)}
 
 /* v3.4.5 bot reply card */
-.reply{position:sticky;top:calc(64px + env(safe-area-inset-top));z-index:4;background:linear-gradient(135deg,#2E1A4A,#22163A);border:1px solid var(--gold);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:8px;box-shadow:0 12px 30px rgba(0,0,0,.45);animation:up .25s ease-out}
+.reply{position:sticky;top:calc(64px + env(safe-area-inset-top));z-index:4;background:linear-gradient(135deg,#0E3A7A,#0A2C60);border:1px solid var(--gold);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:8px;box-shadow:0 12px 30px rgba(0,0,0,.45);animation:up .25s ease-out}
 .reply .label{color:var(--gold)} .reply p{margin:4px 0 0;font-size:14px;line-height:1.45;white-space:pre-line;max-height:40vh;overflow:auto}
 .reply button{background:none;color:var(--muted);font-size:20px;align-self:start;padding:0 4px}
+
+/* v3.4.6 brand art */
+img.badge{width:42px;height:42px;padding:0;border:0;background:none;border-radius:11px;object-fit:cover}
+.hlogo{display:block;width:100%;max-width:380px;margin:0 auto 4px;border-radius:18px}
+img.logo{object-fit:cover}
+#splash{position:fixed;inset:0;z-index:50;background:#00152E;display:flex;align-items:center;justify-content:center;transition:opacity .5s}
+#splash img{width:86%;max-width:440px;border-radius:20px}
+#splash.out{opacity:0;pointer-events:none}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><div class="badge">A9</div><div><h1>AXON-9</h1><small id="sub">connecting…</small></div></div>
+  <div class="brand"><img class="badge" src="icon.png" alt="AXON-9"><div><h1>AXON-9</h1><small id="sub">connecting…</small></div></div>
   <div id="live" class="pill"><i></i><span>…</span></div>
 </header>
+<div id="splash"><img src="logo.jpg" alt="AXON-9"></div>
 <main id="view"></main>
 <nav>
   <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>Home</button>
@@ -322,7 +331,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     var nm = acctName();
     (d.sigs || []).forEach(function (g) {
       if (seenSig[KEY + g.id]) return; seenSig[KEY + g.id] = 1;
-      if (g.take && !g.done && g.max >= 1 && (!d.auto || Date.now() - wantSig < 90000)) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m + ' - approve?', 'Grade ' + g.g + ' · entry ' + g.entry + ' · SL ' + g.sl + ' · TP ' + g.tp1, 'sig' + g.id); if (!ask) { ask = g.id; askN = 1; } }
+      if (g.take && !g.done && g.max >= 1 && (!d.auto || Date.now() - wantSig < 90000)) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m + ' - approve?', 'Grade ' + g.g + ' · entry ' + g.entry + ' · SL ' + g.sl + ' · TP ' + g.tp1, 'sig' + g.id); }
       else { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m, d.auto ? 'Auto-trade is placing it.' : 'Signal', 'sig' + g.id); }
     });
     var was = {}; (prevS.trades || []).forEach(function (t) { was[t.tk] = t; });
@@ -384,7 +393,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
   }
   function signInView() {
     var c = authMode === 'up';
-    return '<div class="hero"><div class="logo">A9</div><h2>AXON-9</h2><p>' + (c ? 'Create your own login.<br>Your accounts stay private to you.' : 'Your MT5 trading bot,<br>in your pocket.') + '</p></div>' +
+    return '<div class="hero"><img class="hlogo" src="logo.jpg" alt="AXON-9 – Precision · Discipline · Profit"><p>' + (c ? 'Create your own login.<br>Your accounts stay private to you.' : 'Your MT5 trading bot,<br>in your pocket.') + '</p></div>' +
       '<div class="card"><div class="seg"><button class="' + (!c ? 'on' : '') + '" data-auth="in">Sign in</button><button class="' + (c ? 'on' : '') + '" data-auth="up">Create account</button></div>' +
       '<div class="field"><label for="em">Email</label><input id="em" type="email" autocomplete="email" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="you@email.com" value="' + esc(store.get('axlastemail') || '') + '"></div>' +
       '<div class="field"><label for="pw">Password' + (c ? ' · at least 6 characters' : '') + '</label><input id="pw" type="password" autocomplete="' + (c ? 'new-password' : 'current-password') + '"><button class="eye" id="eye" type="button">Show</button></div>' +
@@ -428,7 +437,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     return out;
   }
   function noAcctView() {
-    return '<div class="hero"><div class="logo">A9</div><h2>Welcome</h2><p>Signed in as <b style="color:var(--text)">' + esc(U.email) + '</b>.<br>Connect your first MT5 account – it takes 2 minutes.</p></div>' +
+    return '<div class="hero"><img class="logo" src="icon.png" alt="AXON-9" style="border:0;background:none;padding:0"><h2>Welcome</h2><p>Signed in as <b style="color:var(--text)">' + esc(U.email) + '</b>.<br>Connect your first MT5 account – it takes 2 minutes.</p></div>' +
       '<button class="btn gold full lg" data-wizstart="1">Connect a broker account</button>' +
       '<div class="trust"><span>Exness</span><span>Octa</span><span>RCG</span><span>Accumarkets</span><span>HFM</span><span>XM</span><span>any MT5</span></div>' +
       '<button class="link" id="signout">Sign out</button>';
@@ -564,8 +573,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
   function home(live) {
     var s = S, out = '';
     if (!live) out += '<div class="banner"><b>OFFLINE:</b> AXON-9 has not reported for a while. Check the PC is on and MT5 is running. Trades keep their SL at the broker.</div>';
-    var hot = (s.sigs || []).filter(function (g) { return !g.done && g.age <= 30; })[0];
-    if (hot) out += sigCard(hot, true);
+    out += hotCard();
     if (s.dstop) out += '<div class="banner"><b>DAILY LOSS STOP HIT.</b> Auto-trade is off until tomorrow. Protect the account.</div>';
     if (s.emergency) out += '<div class="banner"><b>EMERGENCY:</b> a trade has no stop loss. New entries are blocked and AXON-9 retries every 5 s. Check MT5 now.</div>';
     out += '<div class="card"><div class="row"><div><div class="label">Bot</div><div class="big">' + (s.on ? 'Running' : 'Stopped') + '</div></div>' +
@@ -618,9 +626,8 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     if (g.done) return out + '<div class="last">✓ Handled.</div></div>';
     if (g.age > 30) return out + '<div class="last">Older than 30 min – expired.</div></div>';
     if (!g.take) out += '<div class="why" style="margin-top:8px;color:var(--warn)">Weaker setup – AXON-9 would not auto-trade it. Your call.</div>';
-    if ((g.max || 0) < 1) out += '<div class="why" style="margin-top:8px;color:var(--sell)">Account risk limit reached – close or protect open trades first.</div>';
     out += '<div class="why" style="margin-top:12px">How many positions?</div>' +
-      '<div class="riskbar" style="margin-top:6px">' + (safe >= 1 ? 'Your account can safely take <b>up to ' + safe + '</b> position' + (safe > 1 ? 's' : '') + ' on this signal (' + esc(g.risk) + ' risk each).' + (safe < 10 ? ' More would break the 10% safety limit – the bot opens only what fits.' : '') : 'No room right now – the 10% safety limit is full.') + '</div>' +
+      '<div class="riskbar" style="margin-top:6px">' + (safe >= 1 ? 'Your account can safely take <b>up to ' + safe + '</b> position' + (safe > 1 ? 's' : '') + ' on this signal (' + esc(g.risk) + ' risk each).' + (safe < 10 ? ' More would break the 10% safety limit – the bot opens only what fits.' : '') : 'Even 1 position (' + esc(g.risk) + ' risk) is above your risk cap or the 10% safety limit right now. Raise it in <b>Settings → Risk cap per signal</b>, or close open trades.') + '</div>' +
       '<div class="chips" style="margin-top:8px">';
     for (var k = 1; k <= 10; k++) out += '<button class="' + (k === n ? 'on' : '') + '" data-sign="' + g.id + ':' + k + '"' + (k > safe ? ' style="opacity:.35" aria-label="' + k + ' – more than your account can carry"' : '') + '>' + k + '</button>';
     out += '</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">' +
@@ -628,6 +635,11 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
       '<button class="btn ghost" data-cmd="cb:n:s:' + g.id + ':' + n + '" data-msg="Placing ' + n + ', SL only…">Take – SL only</button></div>' +
       '<button class="btn ghost full" style="margin-top:8px" data-cmd="cb:skip:' + g.id + '" data-msg="Skipped">Skip</button></div>';
     return out;
+  }
+  function hotCard(onlyMkt) {   // v3.4.6: newest open signal on top of every screen
+    if (!S) return '';
+    var g = (S.sigs || []).filter(function (x) { return !x.done && x.age <= 30 && (!onlyMkt || x.m === onlyMkt); })[0];
+    return g ? sigCard(g, true) : '';
   }
   function signals() {
     var list = S.sigs || [], out = '';
@@ -785,6 +797,8 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
     var live = liveState();
     if (!S) { v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure that PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
     var rp = reply && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
+    var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
+    if (tab === 'mkt' || tab === 'trades' || tab === 'settings' || tab === 'sym') rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
     v.innerHTML = rp + (tab === 'home' ? home(live) : tab === 'signals' ? signalsWrap() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings()) + askSheet();
   }
   document.addEventListener('click', function (e) {
@@ -864,6 +878,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
   });
   document.addEventListener('keydown', function (e) { if (e.key !== 'Enter') return; var id = e.target.id; if (id === 'pw' || id === 'em') { e.target.blur(); $('auth').click(); } if (id === 'pc' || id === 'an') { e.preventDefault(); e.target.blur(); addByCode(); } if (id === 'bq' || id === 'lotin') e.target.blur(); });
   document.querySelector('header .brand').style.cursor = 'pointer';
+  setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 1300);
   render(); load(); cloudLoad().then(function () { render(); load(); });
   setInterval(load, 3000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
