@@ -141,8 +141,8 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .copy{background:none;color:var(--gold2);font-weight:700;font-size:12px;padding:0 0 0 6px}
 
 /* v3.4.2 approval sheet, lot stepper, MT5 button */
-.sheetbg{position:fixed;inset:0;background:rgba(0,8,20,.65);z-index:20;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
-.sheet{width:100%;max-width:560px;background:var(--surface);border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));animation:up .25s ease-out;box-shadow:0 -20px 60px rgba(0,0,0,.5)}
+.sheetbg{position:fixed;inset:0;background:rgba(0,8,20,.65);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:560px;background:var(--surface);border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -20px 60px rgba(0,0,0,.5)}
 .grab{width:44px;height:5px;border-radius:99px;background:var(--line2);margin:0 auto 14px}
 @keyframes up{from{transform:translateY(40px);opacity:.4}} @keyframes fade{from{opacity:0}}
 .ring{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--gold)}
@@ -190,7 +190,7 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .tag.app{background:#1B2A3A;color:#8FD3FF} .tag.auto{background:#0E3A7A;color:var(--gold)} .tag.man{background:var(--surface2);color:var(--muted)}
 
 /* v3.4.5 bot reply card */
-.reply{position:sticky;top:calc(64px + env(safe-area-inset-top));z-index:4;background:linear-gradient(135deg,#0E3A7A,#0A2C60);border:1px solid var(--gold);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:8px;box-shadow:0 12px 30px rgba(0,0,0,.45);animation:up .25s ease-out}
+.reply{position:sticky;top:calc(64px + env(safe-area-inset-top));z-index:4;background:linear-gradient(135deg,#0E3A7A,#0A2C60);border:1px solid var(--gold);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:8px;box-shadow:0 12px 30px rgba(0,0,0,.45)}
 .reply .label{color:var(--gold)} .reply p{margin:4px 0 0;font-size:14px;line-height:1.45;white-space:pre-line;max-height:40vh;overflow:auto}
 .reply button{background:none;color:var(--muted);font-size:20px;align-self:start;padding:0 4px}
 
@@ -237,7 +237,7 @@ img.logo{object-fit:cover}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '3.4.9';
+  var APP_VER = '3.5.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -850,7 +850,7 @@ img.logo{object-fit:cover}
     out += '<div class="why" style="text-align:center;margin-top:10px">App version ' + APP_VER + '</div>';
     return out;
   }
-  var pendingRender = false;
+  var pendingRender = false, lastHtml = '';
   function typing() { var a = document.activeElement; return a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA') && a.type !== 'file' && $('view').contains(a); }
   document.addEventListener('focusout', function () { setTimeout(function () { if (pendingRender && !typing()) { pendingRender = false; render(); } }, 150); });
   function render(force) {
@@ -859,19 +859,23 @@ img.logo{object-fit:cover}
     document.body.classList.toggle('bare', !U || !KEY || tab === 'wiz');
     document.querySelector('header').style.display = !U || (!KEY && tab !== 'wiz') ? 'none' : '';
     $('live').style.visibility = U && KEY ? '' : 'hidden';
-    if (U && tab === 'wiz') { $('sub').textContent = U.email; v.innerHTML = wizard(); return; }
-    if (!U) { $('sub').textContent = 'not signed in'; $('live').className = 'pill'; $('live').lastElementChild.textContent = 'SIGN IN'; v.innerHTML = signInView(); return; }
-    if (!KEY) { $('sub').textContent = U.email; v.innerHTML = noAcctView(); return; }
-    if (tab === 'accts') { liveState(); v.innerHTML = accounts(); return; }
-    if (tab === 'read') { liveState(); v.innerHTML = reader(); return; }
+    if (U && tab === 'wiz') { $('sub').textContent = U.email; lastHtml = ''; v.innerHTML = wizard(); return; }
+    if (!U) { $('sub').textContent = 'not signed in'; $('live').className = 'pill'; $('live').lastElementChild.textContent = 'SIGN IN'; lastHtml = ''; v.innerHTML = signInView(); return; }
+    if (!KEY) { $('sub').textContent = U.email; lastHtml = ''; v.innerHTML = noAcctView(); return; }
+    if (tab === 'accts') { liveState(); lastHtml = ''; v.innerHTML = accounts(); return; }
+    if (tab === 'read') { liveState(); lastHtml = ''; v.innerHTML = reader(); return; }
     setNav();
     var live = liveState();
-    if (!S) { v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure that PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
+    if (!S) { lastHtml = ''; v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure that PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
     var rp = reply && tab !== 'home' && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
     if (tab === 'mkt' || tab === 'trades' || tab === 'settings' || tab === 'sym') rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
-    v.innerHTML = rp + (tab === 'home' ? home(live) : tab === 'markets' ? marketsTab(live) : tab === 'news' ? newsTab() : tab === 'signals' ? signalsWrap() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings()) + askSheet();
-    var ch = $('chat'); if (ch) ch.scrollTop = ch.scrollHeight;
+    var html = rp + (tab === 'home' ? home(live) : tab === 'markets' ? marketsTab(live) : tab === 'news' ? newsTab() : tab === 'signals' ? signalsWrap() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings()) + askSheet();
+    if (html === lastHtml) return;          // v3.5.0: nothing changed - leave the screen alone (no flicker)
+    var chOld = $('chat'), atBottom = !chOld || chOld.scrollHeight - chOld.scrollTop - chOld.clientHeight < 40, oldTop = chOld ? chOld.scrollTop : 0, keepY = window.scrollY;
+    lastHtml = html; v.innerHTML = html;
+    window.scrollTo(0, keepY);
+    var ch = $('chat'); if (ch && atBottom) ch.scrollTop = ch.scrollHeight; else if (ch) ch.scrollTop = oldTop;
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('button');
