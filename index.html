@@ -300,6 +300,7 @@ img.logo{object-fit:cover}
       .then(function () { toast(msg || 'Sent'); setTimeout(load, 3500); }).catch(function () { toast('Not sent - check internet'); });
   }
   //--- v3.4.2 CHIMES + phone notifications + "AXON-9 wants to trade - approve?" sheet
+  var askSL = false, askT0 = 0, AUTO_SEC = 15, askTimer = null;
   var AC = null, prevS = null, prevKey = '', seenSig = {}, ask = null, askN = 1;
   function soundOn() { return store.get('axsound') !== '0'; }
   function chime(kind) {
@@ -331,7 +332,8 @@ img.logo{object-fit:cover}
     var nm = acctName();
     (d.sigs || []).forEach(function (g) {
       if (seenSig[KEY + g.id]) return; seenSig[KEY + g.id] = 1;
-      if (g.take && !g.done && g.max >= 1 && (!d.auto || Date.now() - wantSig < 90000)) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m + ' - approve?', 'Grade ' + g.g + ' · entry ' + g.entry + ' · SL ' + g.sl + ' · TP ' + g.tp1, 'sig' + g.id); }
+      if (!g.done && Date.now() - wantSig < 120000) { ask = g.id; askN = Math.max(1, Math.min(10, g.max || 1)); askSL = false; askT0 = Date.now(); chime('signal'); }
+      else if (g.take && !g.done && g.max >= 1 && !d.auto) { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m + ' - approve?', 'Grade ' + g.g + ' · entry ' + g.entry + ' · SL ' + g.sl + ' · TP ' + g.tp1, 'sig' + g.id); }
       else { chime('signal'); notify(nm + ': ' + g.side + ' ' + g.m, d.auto ? 'Auto-trade is placing it.' : 'Signal', 'sig' + g.id); }
     });
     var was = {}; (prevS.trades || []).forEach(function (t) { was[t.tk] = t; });
@@ -347,20 +349,34 @@ img.logo{object-fit:cover}
   function askSheet() {
     if (!ask || !S) return '';
     var g = (S.sigs || []).filter(function (x) { return x.id === ask; })[0];
-    if (!g || g.done || !g.take || g.max < 1) { ask = null; return ''; }
-    var buy = g.side === 'BUY', mx = Math.min(10, g.max), ch = '';
-    for (var n = 1; n <= mx; n++) ch += '<button class="' + (n === askN ? 'on' : '') + '" data-askn="' + n + '">' + n + '</button>';
-    return '<div class="sheetbg" data-askclose="1"><div class="sheet" role="dialog" aria-label="Approve trade"><div class="grab"></div>' +
-      '<div class="row"><span class="ring"><i></i>AXON-9 WANTS TO TRADE</span><span class="why">' + esc(acctName()) + '</span></div>' +
+    if (!g || g.done) { ask = null; return ''; }
+    var buy = g.side === 'BUY', safe = Math.max(0, Math.min(10, g.max || 0)), lot = g.lots > 0 ? g.lots.toFixed(2) : '0.01';
+    var riskOne = parseFloat(String(g.risk).replace(/[^0-9.]/g, '')) || 0;
+    var n = Math.min(askN, Math.max(1, safe)), left = S.auto && safe >= 1 ? Math.max(0, AUTO_SEC - Math.floor((Date.now() - askT0) / 1000)) : -1;
+    var ch = '';
+    for (var k = 1; k <= 10; k++) ch += '<button class="' + (k === n ? 'on' : '') + '" data-askn="' + k + '"' + (k > safe ? ' disabled style="opacity:.3"' : '') + '>' + k + '</button>';
+    return '<div class="sheetbg"><div class="sheet" role="dialog" aria-label="Signal"><div class="grab"></div>' +
+      '<div class="row"><span class="ring"><i></i>YOUR SIGNAL</span><span class="why">' + esc(acctName()) + '</span></div>' +
       '<div class="row" style="margin-top:12px"><div style="display:flex;gap:10px;align-items:center"><span class="tag ' + (buy ? 'buy' : 'sell') + '" style="font-size:14px;padding:6px 12px">' + g.side + '</span><span class="big">' + esc(g.m) + '</span></div>' +
       '<span class="tag ' + (g.style === 'HOLD' ? 'hold' : 'scalp') + '">' + g.style + '</span></div>' +
       '<div class="lv"><div><span>Entry</span><b>' + esc(g.entry) + '</b></div><div><span>SL</span><b class="down">' + esc(g.sl) + '</b></div><div><span>TP1</span><b class="up">' + esc(g.tp1) + '</b></div><div><span>TP2</span><b class="up">' + esc(g.tp2) + '</b></div></div>' +
-      '<div class="why">' + esc(g.setup) + ' · grade <b style="color:var(--gold)">' + g.g + '</b> ' + g.sc + '/100 · ' + g.lots.toFixed(2) + ' lot each · risk ' + esc(g.risk) + ' each</div>' +
-      '<div class="why" style="margin-top:12px">How many positions?</div><div class="chips" style="margin-top:6px">' + ch + '</div>' +
-      '<div class="bs" style="grid-template-columns:2fr 1fr"><button class="btn gold lg" data-cmd="cb:n:t:' + g.id + ':' + askN + '" data-msg="Approved - placing ' + askN + '…" data-askdone="1">Approve ' + askN + ' × ' + g.lots.toFixed(2) + '</button>' +
-      '<button class="btn ghost lg" data-cmd="cb:skip:' + g.id + '" data-msg="Skipped" data-askdone="1">Skip</button></div>' +
-      '<button class="link" data-askclose="1">Decide later</button></div></div>';
+      '<div class="riskbar" style="margin-top:0">' + (safe >= 1 ? 'Your account allows <b>up to ' + safe + ' position' + (safe > 1 ? 's' : '') + '</b> of <b>' + lot + ' lot</b> each · ' + esc(g.risk) + ' risk each' + (riskOne ? ' · total <b>$' + (riskOne * n).toFixed(2) + '</b> for ' + n : '') : 'Your account has no room for this trade right now (risk cap / 10% limit). Raise it in Settings → Risk cap, or close a trade.') + '</div>' +
+      '<div class="why" style="margin-top:10px">Positions</div><div class="chips" style="margin-top:6px">' + ch + '</div>' +
+      '<div class="seg" style="margin-top:12px"><button class="' + (!askSL ? 'on' : '') + '" data-asksl="0">Bot sets SL + TPs</button><button class="' + (askSL ? 'on' : '') + '" data-asksl="1">SL only</button></div>' +
+      (safe >= 1 ? '<button class="btn gold full lg" style="margin-top:12px" data-cmd="cb:n:' + (askSL ? 's' : 't') + ':' + g.id + ':' + n + '" data-msg="Placing ' + n + ' × ' + lot + '…" data-askdone="1">Place ' + n + ' × ' + lot + ' now' + (left >= 0 ? ' · auto in ' + left + 's' : '') + '</button>' : '') +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><button class="btn ghost" data-cmd="cb:skip:' + g.id + '" data-msg="Skipped" data-askdone="1">Skip</button><button class="btn ghost" data-askclose="1">Later</button></div>' +
+      '<div class="why" style="margin-top:8px;text-align:center">AXON-9 places the entry, stop loss and take profits for you.</div></div></div>';
   }
+  //--- AUTO mode: if you don't touch the pop-up, AXON-9 places the trade itself after 15 s
+  setInterval(function () {
+    if (!ask || !S || !S.auto) return;
+    var g = (S.sigs || []).filter(function (x) { return x.id === ask; })[0];
+    if (!g || g.done || (g.max || 0) < 1) return;
+    var left = AUTO_SEC - Math.floor((Date.now() - askT0) / 1000);
+    if (left <= 0) { var n = Math.min(askN, g.max); send('cb:n:' + (askSL ? 's' : 't') + ':' + g.id + ':' + n, 'Auto-placing ' + n + '…'); ask = null; render(true); }
+    else if (!typing()) { var b = document.querySelector('.sheet .btn.gold'); if (b) b.textContent = 'Place ' + n2() + ' now · auto in ' + left + 's'; }
+    function n2() { return Math.min(askN, g.max) + ' × ' + (g.lots > 0 ? g.lots.toFixed(2) : '0.01'); }
+  }, 1000);
   function load() {
     if (!U || !KEY || !DB || busy) return;
     busy = true;
@@ -369,7 +385,7 @@ img.logo{object-fit:cover}
         busy = false;
         if (d) {
           detect(d);
-          if (shownMsg !== null && d.msg && d.msg !== shownMsg && Date.now() - lastSent < 90000) { reply = d.msg; replyT = Date.now(); }   // v3.4.5: the bot's answer shows here, not on Telegram
+          if (shownMsg !== null && d.msg && d.msg !== shownMsg && Date.now() - lastSent < 90000 && !/^AXON-9 (SCALP|HOLD)/.test(d.msg)) { reply = d.msg; replyT = Date.now(); }   // v3.4.5: the bot's answer shows here, not on Telegram
           shownMsg = d.msg || '';
           if (!d.tgmute && store.get('axtg345') !== '1') { store.set('axtg345', '1'); send('/tgoff', 'Signals & trades now come to this app (Telegram only for emergencies)'); }
           S = d; lastOk = Date.now();
@@ -839,7 +855,8 @@ img.logo{object-fit:cover}
     if (b.dataset.lot) { lotSel = Number(b.dataset.lot); render(); return; }
     if (b.dataset.lotstep) { var mm = (S.markets || []).filter(function (x) { return x.i === mkSel; })[0], ml = 100;
       if (tab === 'sym') { var wq = (S.watch || []).filter(function (x) { return x.s === symSel; })[0]; ml = (wq && wq.vx) || 100; } else if (mm && mm.maxLot) ml = mm.maxLot; lotSel = Math.max(0.01, Math.min(ml, lotStep(lotSel, Number(b.dataset.lotstep)))); render(); return; }
-    if (b.dataset.askn) { askN = Number(b.dataset.askn); render(); return; }
+    if (b.dataset.askn) { askN = Number(b.dataset.askn); askT0 = Date.now(); render(); return; }
+    if (b.dataset.asksl) { askSL = b.dataset.asksl === '1'; askT0 = Date.now(); render(); return; }
     if (b.dataset.askclose) { ask = null; render(); return; }
     if (b.dataset.askdone) ask = null;
     if (b.id === 'sound') { store.set('axsound', soundOn() ? '0' : '1'); if (soundOn()) chime('signal'); render(); return; }
