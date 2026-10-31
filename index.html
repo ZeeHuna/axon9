@@ -237,7 +237,7 @@ img.logo{object-fit:cover}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '3.5.0';
+  var APP_VER = '3.5.1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -628,6 +628,11 @@ img.logo{object-fit:cover}
       '<div><span class="label">Today</span><b class="mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + '</b></div>' +
       '<div><span class="label">Open</span><b class="mono">' + (s.open || 0) + '</b></div>' +
       '<div><span class="label">Mode</span><b class="' + (s.auto ? 'up' : '') + '">' + (s.auto ? 'AUTO' : 'ASK ME') + '</b></div></div>';
+    if (s.tgt > 0) {
+      var tp = Math.max(0, Math.min(100, (s.tUsd || 0) / s.tgt * 100));
+      out += '<div class="card" style="padding:12px 14px"><div class="row"><span class="label">' + esc(s.goal || 'Daily') + ' target today</span><b class="mono ' + (s.tgtDone ? 'up' : '') + '">' + ((s.tUsd || 0) >= 0 ? '+$' : '-$') + Math.abs(s.tUsd || 0).toFixed(2) + ' / $' + Number(s.tgt).toFixed(0) + '</b></div>' +
+        '<div class="meter"><i style="width:' + tp.toFixed(1) + '%"></i></div><div class="why">' + (s.tgtDone ? '✅ Target reached – trades closed, AXON-9 rests until tomorrow.' : s.rentPause ? '🏠 Rent week – no trading until the 1st.' : 'AXON-9 trades until the target is reached, then closes everything.') + '</div></div>';
+    }
     out += hotCard();
     out += '<div class="chat" id="chat">' + chatHtml() + '</div>';
     var K = [['⚡ Signal now', 'cmd', '/now'], ['📊 Status', 'cmd', '/status'], ['📈 Trades', 'tab', 'trades'], ['📋 Report', 'cmd', '/report'],
@@ -831,6 +836,13 @@ img.logo{object-fit:cover}
       risks.map(function (r) { return '<button data-cmd="/risk ' + r + '">' + (r === 'auto' ? 'auto' : r + '%') + '</button>'; }).join('') + '</div></div>';
     out += '<div class="card"><div class="label">Risk cap per signal (now ' + (s.cap > 0 ? s.cap + '%' : 'off') + ')</div><div style="height:8px"></div><div class="chips">' +
       caps.map(function (c) { return '<button class="' + (Number(c) === s.cap ? 'on' : '') + '" data-cmd="/cap ' + c + '">' + (c === '0' ? 'off' : c + '%') + '</button>'; }).join('') + '</div></div>';
+    out += '<div class="card setup"><div class="label">Daily target for this account' + (s.goal ? ' (' + esc(s.goal) + ')' : '') + '</div>' +
+      '<div class="why" style="margin-top:6px">Now: ' + (s.tgt > 0 ? '<b style="color:var(--text)">$' + Number(s.tgt).toFixed(0) + ' a day</b> – when reached, all trades close until tomorrow' : 'off') + '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px"><input id="tgtin" type="text" inputmode="decimal" placeholder="e.g. 190" style="height:46px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 12px;font-size:16px">' +
+      '<button class="btn gold" id="tgtset">Set</button></div>' +
+      '<div class="chips" style="margin-top:8px">' + [['House', 190], ['Swift', 71], ['Mazda', 58], ['Business', 115], ['Rent', 36], ['Salary', 97], ['Off', 0]].map(function (x) { return '<button data-cmd="/daily ' + x[1] + '" data-msg="Target set">' + x[0] + (x[1] ? ' $' + x[1] : '') + '</button>'; }).join('') + '</div>' +
+      '<div class="row" style="margin-top:12px"><div><div class="label">Rent rule – week 4 off</div><div class="why">' + (s.pauseDay > 0 ? 'No trading from the ' + s.pauseDay + 'th to month-end' : 'Off') + '</div></div>' +
+      '<button class="toggle ' + (s.pauseDay > 0 ? 'on' : '') + '" data-cmd="/rentweek ' + (s.pauseDay > 0 ? 'off' : '22') + '" aria-label="Rent rule"><span></span></button></div></div>';
     var np = ('Notification' in window) ? Notification.permission : 'unsupported';
     out += '<div class="card"><div class="row"><div><div class="label">Chimes</div><div class="why">Sound + vibration for new trades to approve, trades opened, trades closed and emergencies</div></div>' +
       '<button class="toggle ' + (soundOn() ? 'on' : '') + '" id="sound" aria-label="Chimes on or off"><span></span></button></div>' +
@@ -922,6 +934,7 @@ img.logo{object-fit:cover}
     if (b.id === 'sound') { store.set('axsound', soundOn() ? '0' : '1'); if (soundOn()) chime('signal'); render(); return; }
     if (b.id === 'notif') { try { Notification.requestPermission().then(function () { render(); chime('signal'); }); } catch (e3) { toast('This phone does not allow it'); } return; }
     if (b.id === 'testchime') { chime('open'); return; }
+    if (b.id === 'tgtset') { var tv = Number(String(($('tgtin') || {}).value || '').replace(',', '.')); if (tv >= 0) send('/daily ' + tv, 'Target set'); return; }
     if (b.id === 'readgo') { rd.note = ($('rnote').value || '').trim(); readChart(); return; }
     if (b.id === 'readnew') { rd = { img: '', type: '', busy: false, res: null, err: '', note: '' }; render(); window.scrollTo(0, 0); return; }
     if (b.dataset.n) { nSel = Number(b.dataset.n); render(); return; }
