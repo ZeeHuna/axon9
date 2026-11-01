@@ -238,7 +238,7 @@ img.logo{object-fit:cover}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '4.1.0';
+  var APP_VER = '4.1.1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -550,8 +550,9 @@ img.logo{object-fit:cover}
   function a9Post(path, body) {
     var u = brainUrl();
     if (!u) return Promise.reject('A9 brain is not switched on yet - paste its link in Settings (setup step).');
-    return token().then(function (t) { body.tok = t; body.key = KEY; return fetch(u + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); })
-      .then(function (r) { return r.json(); }).then(function (d) { if (!d || d.error) throw (d && d.error) || 'A9 brain error'; return d; });
+    var ac = ('AbortController' in window) ? new AbortController() : null, tm = setTimeout(function () { if (ac) ac.abort(); }, 60000);
+    return token().then(function (t) { body.tok = t; body.key = KEY; return fetch(u + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ac ? ac.signal : undefined }); })
+      .then(function (r) { clearTimeout(tm); return r.json(); }, function (e) { clearTimeout(tm); throw (e && e.name === 'AbortError') ? 'A9 took longer than 60 s - try again (open the brain link + /diag to check it).' : 'Could not reach the A9 brain - check the link in Settings.'; }).then(function (d) { if (!d || d.error) throw (d && d.error) || 'A9 brain error'; return d; });
   }
   function a9Ask(q) {
     q = String(q || '').trim(); if (!q || a9.busy) return;
