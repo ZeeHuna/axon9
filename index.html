@@ -270,20 +270,105 @@ img.logo{object-fit:cover}
 .inp{height:46px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 12px;font-size:16px;min-width:0;width:100%}
 .reply{box-shadow:0 8px 20px rgba(0,0,0,.35)}
 @media (min-width:700px){main{max-width:720px}.tiles{grid-template-columns:repeat(3,1fr)}.metrics{grid-template-columns:repeat(4,1fr)}}
+
+/* ===== v6.0 design: as the mock-ups ===== */
+body{background:radial-gradient(1200px 500px at 70% -10%,#0A2C66 0%,rgba(0,21,46,0) 60%),var(--bg)}
+header{border-bottom:1px solid rgba(40,86,163,.45);padding:calc(10px + env(safe-area-inset-top)) 16px 10px;background:rgba(0,21,46,.94);backdrop-filter:blur(8px)}
+.brand h1{font-size:17px}.brand small{font-size:10.5px;color:var(--muted)}
+.acctpill{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border-radius:10px;border:1px solid var(--line2);background:rgba(5,34,77,.6);color:var(--text);font:inherit}
+.acctpill svg{width:18px;height:18px;flex:none}.acctpill .cv2{width:16px;height:16px}
+.acctpill span{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1}.acctpill b{font-size:12.5px;letter-spacing:.04em}.acctpill small{font-size:10px;color:var(--muted)}
+.hright{display:flex;align-items:center;gap:10px}
+.pill{background:transparent;padding:6px 4px;font-size:11.5px;letter-spacing:.03em}
+.pill.live{background:transparent;color:var(--buy)} .pill.off{background:transparent;color:#FF6B6B} .pill.stale{background:transparent;color:var(--warn)}
+.pill.live i{box-shadow:0 0 0 3px rgba(61,220,151,.18)}
+.hsep{width:1px;height:26px;background:var(--line2)}
+.hicon{width:36px;height:36px;border-radius:99px;background:none;color:var(--text);display:grid;place-items:center}.hicon svg{width:21px;height:21px}
+.hav{width:36px;height:36px;border-radius:99px;background:#0E3A7A;color:#fff;font-weight:700;font-size:13px}
+.brand h1,.acctpill b,.pill span{white-space:nowrap}
+@media (max-width:620px){.brand small,.hsep,.hicon,.hav,#acctname{display:none}.brand h1{font-size:15px}.badge,img.badge{width:36px;height:36px}.acctpill{height:36px;padding:0 8px;gap:6px}.acctpill svg:first-child{display:none}.acctpill b{font-size:11px}.pill span{font-size:10px}header{gap:6px;padding-left:12px;padding-right:12px}}
+main{gap:14px}
+.card{background:linear-gradient(180deg,rgba(8,40,92,.75),rgba(4,27,61,.85));border:1px solid rgba(40,86,163,.55)}
+.greet h2{font-size:34px;line-height:1.05;margin:10px 0 2px;font-weight:700;letter-spacing:-.01em}
+.greet p{margin:0;font-size:19px;color:#A9BFE2}.greet i{display:block;width:44px;height:3px;border-radius:2px;background:var(--gold);margin-top:6px}
+.mbar{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(40,86,163,.6);border-radius:14px;background:rgba(5,34,77,.55)}
+.mi{display:flex;gap:10px;align-items:flex-start;padding:12px;min-width:0}
+.mi:nth-child(odd){border-right:1px solid rgba(40,86,163,.45)} .mi:nth-child(-n+2){border-bottom:1px solid rgba(40,86,163,.45)}
+.mi .ic{width:24px;height:24px;color:#8FB4FF;flex:none}.mi .ic.up{color:var(--buy)}.mi .ic.down{color:#FF6B6B}.mi .ic svg{width:24px;height:24px}
+.mi div{min-width:0;display:flex;flex-direction:column;gap:2px}.mi span{font-size:12.5px;color:#C9D6EE}
+.mi b{font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mi small{font-size:11px;color:var(--muted)}
+.rst{font-family:'Space Grotesk',sans-serif;letter-spacing:.03em}.rst.ok{color:var(--buy)}.rst.warn{color:var(--warn)}.rst.bad{color:#FF6B6B}
+.mt5c{display:grid;grid-template-columns:1fr auto;gap:12px 10px;align-items:center;padding:14px;border-radius:14px;border:1.5px solid rgba(40,86,163,.6);background:rgba(5,34,77,.55)}
+.mt5c.ok{border-color:rgba(61,220,151,.75);box-shadow:0 0 18px rgba(61,220,151,.18),inset 0 0 18px rgba(61,220,151,.06)}
+.mt5c.stale{border-color:rgba(255,211,107,.7)} .mt5c.off{border-color:rgba(255,90,90,.7)}
+.mt5l{display:flex;gap:12px;align-items:center;min-width:0}.mt5l b{font-size:16px;display:block}.mt5l small{color:var(--muted);font-size:12px}
+.mt5i{position:relative;width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#1E5BB8,#0A2C60);display:grid;place-items:center;color:#9CC3FF;flex:none}
+.mt5i svg{width:22px;height:22px}.mt5i b{position:absolute;right:-4px;bottom:-4px;width:18px;height:18px;border-radius:99px;background:#F7931A;color:#fff;font-size:11px;display:grid!important;place-items:center}
+.mt5s{display:flex;flex-direction:column;align-items:flex-end;gap:4px}.mt5s small{font-size:11px;color:var(--muted)}
+.st{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;letter-spacing:.05em;padding:5px 11px;border-radius:99px}
+.st i{width:8px;height:8px;border-radius:99px;background:currentColor}
+.st.ok{background:rgba(61,220,151,.14);color:var(--buy)}.st.stale{background:rgba(255,211,107,.14);color:var(--warn)}.st.off,.st.wait{background:rgba(255,90,90,.14);color:#FF6B6B}
+.mbtn{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;height:40px;font-size:13px}.mbtn svg{width:16px;height:16px}
+.hgrid{display:flex;flex-direction:column;gap:14px}
+.pulse{padding:6px 0 4px}.ttl{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700}.ttl svg{width:18px;height:18px}
+.prow2{width:100%;display:grid;grid-template-columns:22px minmax(52px,1fr) auto minmax(64px,auto) 1fr auto;gap:8px;align-items:center;padding:10px 14px;background:none;border:0;border-top:1px solid rgba(40,86,163,.4);color:inherit;font:inherit;text-align:left}
+.prow2 b{font-size:14px}.mic{font-size:16px;text-align:center}
+.rc{font-size:10px;font-weight:800;letter-spacing:.05em;padding:4px 8px;border-radius:7px;text-align:center}
+.rc.trend{background:rgba(61,220,151,.15);color:var(--buy)}.rc.range{background:rgba(232,179,58,.18);color:#E8B33A}.rc.mixed{background:rgba(79,140,255,.18);color:#8FB4FF}
+.rc.chop{background:rgba(255,90,90,.15);color:#FF8A8A}.rc.news{background:rgba(168,184,255,.15);color:#C3CDFF}.rc.closed{background:rgba(107,122,148,.25);color:#A9B4C8}
+.pv{font-size:12px;font-weight:700;color:#C9D6EE;white-space:nowrap}.pv.buy{color:var(--buy)}.pv.sell{color:var(--sell)}
+.spk{width:100%;height:24px;min-width:40px}.spk.none{display:block}
+.pt{font-size:11px;color:var(--muted)}
+.ins{display:flex;flex-direction:column;gap:10px;background:radial-gradient(300px 120px at 100% 0%,rgba(77,127,214,.25),transparent),linear-gradient(180deg,rgba(8,40,92,.75),rgba(4,27,61,.85))}
+.ins .bulb{color:#E8B33A;width:24px;height:24px}.ins .bulb svg{width:24px;height:24px}.ins p{margin:0;font-size:14px;line-height:1.5;color:#DCE6F7}
+.askb{align-self:center;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 26px;border-radius:99px;border:1.5px solid var(--gold);background:rgba(227,24,55,.08);color:#fff;font-weight:700;font-size:14px}
+.askb svg{width:18px;height:18px}
+.ptitle h2{font-size:30px;margin:8px 0 4px}.ptitle p{font-size:15px}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.scard{display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:14px;border:1px solid rgba(40,86,163,.6);background:linear-gradient(180deg,rgba(8,40,92,.7),rgba(4,27,61,.85))}
+.scard.warn{border-color:rgba(232,179,58,.55);box-shadow:0 0 16px rgba(232,179,58,.1)}
+.scard .sh{display:flex;align-items:center;gap:8px}.scard .sh b{font-size:15px;line-height:1.2}.sic{width:22px;height:22px;flex:none;color:#C9D6EE}.sic svg{width:22px;height:22px}
+.scard p{margin:0;font-size:12.5px;color:#A9BFE2;line-height:1.4;flex:1}
+.chip{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.05em;padding:5px 10px;border-radius:7px}
+.chip i{width:7px;height:7px;border-radius:99px;background:currentColor}
+.chip.ok{background:rgba(61,220,151,.13);color:var(--buy)}.chip.warn{background:rgba(232,179,58,.16);color:#E8B33A}.chip.bad{background:rgba(227,24,55,.18);color:#FF5A6E}
+.sbtn{height:38px;font-size:13px;width:100%}
+.sysbar{display:grid;grid-template-columns:1fr;gap:10px;padding:14px;border-radius:14px;border:1px solid rgba(40,86,163,.6);background:rgba(5,34,77,.55)}
+.sysbar.bad{border-color:rgba(227,24,55,.6);background:linear-gradient(90deg,rgba(60,10,25,.55),rgba(5,34,77,.55))}
+.sysl{display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.06em}.sysl svg{width:20px;height:20px}
+.sysm b{display:block;font-size:14px}.sysm small{font-size:12px;color:var(--muted)}.down2{color:#FF5A6E}
+.sysbtn{background:transparent;border:1.5px solid var(--gold);color:#fff;height:44px}
+.mchips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.mchips button{flex:none;height:38px;padding:0 14px;border-radius:99px;background:rgba(5,34,77,.7);border:1px solid var(--line2);color:var(--text);font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px}
+.mchips button.on{background:var(--gold);border-color:var(--gold)}
+.mchips i{width:8px;height:8px;border-radius:99px}.mchips i.buy{background:var(--buy)}.mchips i.sell{background:var(--sell)}
+.chartcard{padding:12px}
+.tfs{display:flex;gap:4px;background:var(--bg);border-radius:10px;padding:3px;flex:none}.tfs button{height:30px;padding:0 12px;border-radius:8px;background:none;color:var(--muted);font-weight:700;font-size:12px}.tfs button.on{background:var(--surface2);color:#fff}
+.cv{display:block;width:100%;height:300px;margin-top:10px;border-radius:10px;background:rgba(0,12,30,.55)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:11px;color:var(--muted);align-items:center}.legend i{display:inline-block;width:10px;height:2px;margin-right:5px;vertical-align:3px}.legend .fr{margin-left:auto}
+nav{background:rgba(0,17,42,.97)}
+nav button.on{position:relative}nav button.on::after{content:'';position:absolute;bottom:-4px;left:22%;right:22%;height:3px;border-radius:2px;background:var(--gold)}
+@media (min-width:700px){.sgrid{grid-template-columns:repeat(3,1fr)}.mbar{grid-template-columns:repeat(4,1fr)}.mi{border-bottom:0!important;border-right:1px solid rgba(40,86,163,.45)}.mi:last-child{border-right:0}
+ .mt5c{grid-template-columns:1fr auto auto}.mbtn{grid-column:auto;padding:0 14px}.hgrid{display:grid;grid-template-columns:1.5fr 1fr}.sysbar{grid-template-columns:auto 1fr auto;align-items:center}.greet h2{font-size:44px}.cv{height:380px}}
+@media (min-width:1000px){main{max-width:1040px}body{padding-bottom:24px;padding-left:210px}
+ nav{top:0;bottom:0;right:auto;width:200px;display:flex;flex-direction:column;gap:4px;padding:90px 12px 12px;border-top:0;border-right:1px solid rgba(40,86,163,.45)}
+ nav button{flex-direction:row;justify-content:flex-start;gap:14px;font-size:15px;padding:10px 14px;min-height:44px;border-radius:10px}nav button.on{background:rgba(227,24,55,.08)}nav button.on::after{left:auto;right:-12px;top:6px;bottom:6px;width:3px;height:auto}
+ header{padding-left:16px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><img class="badge" src="icon.png" alt="AXON-9"><div><h1>AXON-9</h1><small id="sub">connecting…</small></div></div>
-  <div id="live" class="pill"><i></i><span>…</span></div>
+  <div class="brand"><img class="badge" src="icon.png" alt="AXON-9"><div><h1>AXON-9</h1><small>Multi-Market Trading Assistant</small></div></div>
+  <button id="acctbtn" class="acctpill" aria-label="Switch account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span><b id="sub">ACCOUNT</b><small id="acctname"></small></span><svg class="cv2" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button>
+  <div class="hright"><div id="live" class="pill"><i></i><span>…</span></div><span class="hsep"></span><button id="hset" class="hicon" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button><button id="hav" class="hav" aria-label="Accounts"></button></div>
 </header>
 <div id="splash"><img src="logo.jpg" alt="AXON-9"></div>
 <main id="view"></main>
 <nav>
   <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>Home</button>
   <button data-tab="markets" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Markets</button>
-  <button data-tab="chart" aria-label="Read a chart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h2l2-2h6l2 2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="4"/></svg>Chart</button>
-  <button data-tab="trades" aria-label="Trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Trades</button>
+  <button data-tab="a9" aria-label="A9 Assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>A9 Assistant</button>
+  <button data-tab="trades" aria-label="Trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></svg>Trades</button>
   <button data-tab="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>Settings</button>
 </nav>
 <div id="toast" class="toast"></div>
@@ -292,12 +377,11 @@ img.logo{object-fit:cover}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '5.0.0';
+  var APP_VER = '6.0.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
   var API_KEY = 'AIzaSyD_NBRMzDxqOFAOLjU33R8M0gT1Ey7ofBQ';
-  var READ_URL = 'https://a9-brain.zolahuna-zo.workers.dev';   // v5.0: chart reader (Cloudflare Worker) built in
   var HOME_DB = 'https://axon9-7309e-default-rtdb.europe-west1.firebasedatabase.app';
   var AUTH = 'https://identitytoolkit.googleapis.com/v1/accounts:';
   var U = null; try { U = JSON.parse(store.get('axuser') || 'null'); } catch (e) {}
@@ -357,7 +441,7 @@ img.logo{object-fit:cover}
     if (!silent) toast('Signed out');
     render();
   }
-  function pick(x) { rd.res = null; reads = null; KEY = x ? x.k : ''; DB = x ? (x.db || HOME_DB) : ''; store.set('axk', KEY); store.set('axdb', DB); S = null; }
+  function pick(x) { bars = null; barsT = 0; KEY = x ? x.k : ''; DB = x ? (x.db || HOME_DB) : ''; store.set('axk', KEY); store.set('axdb', DB); S = null; }
   var KEY = store.get('axk') || '', DB = (store.get('axdb') || '').replace(/\/$/, '');
   if (U && p.k) addAcct({ k: p.k, db: (p.db || HOME_DB).replace(/\/$/, ''), name: '' });
   if (U && !accts().some(function (y) { return y.k === KEY; })) pick(accts()[0]);
@@ -502,9 +586,12 @@ img.logo{object-fit:cover}
   function liveState() {
     var pill = $('live'), c = conn();
     pill.className = 'pill ' + (c.k === 'ok' ? 'live' : c.k === 'stale' ? 'stale' : c.k === 'off' ? 'off' : '');
-    pill.lastElementChild.textContent = c.k === 'ok' ? 'MT5 LIVE' : c.k === 'stale' ? 'MT5 STALE' : c.k === 'off' ? 'MT5 OFFLINE' : 'WAITING';
+    pill.lastElementChild.textContent = c.k === 'ok' ? 'MT5 CONNECTED' : c.k === 'stale' ? 'MT5 STALE' : c.k === 'off' ? 'MT5 OFFLINE' : 'WAITING';
     var me = accts().filter(function (x) { return x.k === KEY; })[0];
-    $('sub').textContent = (me && me.name ? me.name : S ? '#' + (S.login || '') : 'AXON-9') + (S ? (S.real ? ' · LIVE' : ' · DEMO') : '') + ' ▾';
+    $('sub').textContent = (S ? (S.real ? 'LIVE' : 'DEMO') : '') + ' ACCOUNT';
+    $('acctbtn').title = me && me.name ? me.name : '';
+    $('acctname').textContent = me && me.name ? me.name : (S ? '#' + (S.login || '') : '');
+    $('hav').textContent = U ? String(U.email || 'A').replace(/[^a-z]/gi, '').slice(0, 2).toUpperCase() : '';
     return c.k === 'ok';
   }
   function signInView() {
@@ -575,122 +662,110 @@ img.logo{object-fit:cover}
   }
   function usd(zar) { var v = Number(zar || 0) / (S && S.usdzar ? S.usdzar : 16.5); return '$' + v.toLocaleString('en-US', { maximumFractionDigits: v < 10000 ? 2 : 0 }); }
   //=====================================================================================
-  //--- v5.0 CHART READER: upload a screenshot -> AXON-9 reads it, checks it against live MT5 data,
-  //    and says if / where / how to enter. The verdict is always AXON-9's, never the picture's.
+  //--- v6.0 A9 ASSISTANT: live MT5 candles (from the bot) + AXON-9's levels + a plain entry plan.
+  //    No AI, no screenshots: everything comes from the bot's own live data.
   //=====================================================================================
-  function brainUrl() { var u = store.get('axbrain') || READ_URL; return /PASTE_/.test(u) ? '' : u.replace(/\/+$/, '').replace(/\/(read|chat|brief)$/, ''); }
-  var rd = { img: '', type: '', busy: false, res: null, err: '', note: '' }, reads = null;
   var askNoAuto = false, pendingTk = null;
-  function readerPost(path, body) {
-    var u = brainUrl();
-    if (!u) return Promise.reject('The chart reader address is missing (Settings → Account → Advanced).');
-    var ac = ('AbortController' in window) ? new AbortController() : null, tm = setTimeout(function () { if (ac) ac.abort(); }, 60000);
-    return token().then(function (t) { body.tok = t; body.key = KEY; return fetch(u + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ac ? ac.signal : undefined }); })
-      .then(function (r) { clearTimeout(tm); return r.json(); }, function (e) { clearTimeout(tm); throw (e && e.name === 'AbortError') ? 'The reader took longer than 60 s – try again.' : 'Could not reach the chart reader – check your internet.'; })
-      .then(function (d) { if (!d || d.error) throw (d && d.error) || 'Chart reader error'; return d; });
+  function vcls(v) { return v === 'BUY' ? 'buy' : v === 'SELL' ? 'sell' : v === 'WAIT' ? 'hold' : ''; }
+  var bars = null, barsT = 0, a9m = store.get('axa9m') || '', a9tf = 'm15';
+  function loadBars(force) {
+    if (!U || !KEY || !DB || (!force && Date.now() - barsT < 30000)) return;
+    barsT = Date.now();
+    fetch(DB + '/axon/' + KEY + '/bars.json', { cache: 'no-store' }).then(function (r) { return r.json(); })
+      .then(function (d) { bars = d || null; lastHtml = ''; render(); }).catch(function () {});
   }
-  function readChart() {
-    if (!rd.img) { toast('Add a chart screenshot first'); return; }
-    rd.busy = true; rd.err = ''; rd.res = null; render(true);
-    readerPost('/read', { img: rd.img.split(',')[1], type: rd.type, note: rd.note }).then(function (d) {
-      rd.busy = false; rd.res = d; reads = null; chime(d.final && /BUY|SELL/.test(d.final.verdict) ? 'signal' : 'close'); render(true);
-      setTimeout(function () { var el = $('verdict'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
-    }).catch(function (e) { rd.busy = false; rd.err = String(e); render(true); });
+  function barsOf(n, tf) { var x = bars && (bars.m || []).filter(function (b) { return b.n === n; })[0]; return x ? (x[tf] || []) : []; }
+  function num(x) { return parseFloat(String(x == null ? '' : x).replace(/[ ,]/g, '')); }
+  function digitsOf(m) { var s = String(m.bid || m.px || '').replace(/[ ,]/g, ''), i = s.indexOf('.'); return i < 0 ? 0 : s.length - i - 1; }
+  function fmtP(m, p) { return isFinite(p) ? Number(p).toLocaleString('en-US', { minimumFractionDigits: digitsOf(m), maximumFractionDigits: digitsOf(m) }).replace(/,/g, ' ') : '–'; }
+  var MCOL = { GER40: '#9AA8C0', Gold: '#E8B33A', NAS100: '#4FC3F7', US30: '#7F9CFF', BTC: '#F7931A', ETH: '#A8B8FF' };
+  var MICO = { GER40: '🇩🇪', Gold: '🥇', NAS100: '🇺🇸', US30: '🇺🇸', BTC: '₿', ETH: 'Ξ' };
+  function closedM(m) { return (m.pa || {}).tickAge > 600; }
+  function spark(m) {
+    var b = barsOf(m.n, 'm15').slice(-36);
+    if (b.length < 2) return '<span class="spk none"></span>';
+    var c = b.map(function (x) { return x[4]; }), lo = Math.min.apply(null, c), hi = Math.max.apply(null, c), r = hi - lo || 1;
+    var pts = c.map(function (v, i) { return (i * 120 / (c.length - 1)).toFixed(1) + ',' + (24 - (v - lo) / r * 20).toFixed(1); }).join(' ');
+    return '<svg class="spk" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="' + pts + '" fill="none" stroke="' + (closedM(m) ? '#6B7A94' : (MCOL[m.n] || '#4FC3F7')) + '" stroke-width="1.6" stroke-linejoin="round"/></svg>';
   }
-  function loadReads() {
-    reads = 'loading';
-    token().then(function (t) { return fetch(HOME_DB + '/users/' + U.uid + '/a9hist.json?auth=' + t + '&orderBy=%22$key%22&limitToLast=40'); })
-      .then(function (r) { return r.json(); }).then(function (d) { reads = d ? Object.keys(d).map(function (k) { return d[k]; }).filter(function (h) { return h.kind === 'read'; }).sort(function (a, b) { return b.t - a.t; }).slice(0, 8) : []; render(true); })
-      .catch(function () { reads = []; render(true); });
+  function levelsOf(m, v) {
+    var pa = m.pa || {}, L = [];
+    (pa.zones || []).forEach(function (z) { L.push({ p: num(z.p), t: (z.side === 'support' ? 'Support' : 'Resistance'), c: z.side === 'support' ? '#3DDC97' : '#FF5A6E', d: [6, 4] }); });
+    (pa.liq || []).forEach(function (l) { L.push({ p: num(l.p), t: l.n, c: '#E8B33A', d: [2, 4] }); });
+    var g = v && v.sig;
+    if (g && (v.v === 'BUY' || v.v === 'SELL')) L.push({ p: num(g.entry), t: 'Entry', c: '#FFFFFF', d: [] }, { p: num(g.sl), t: 'SL', c: '#FF5A6E', d: [] }, { p: num(g.tp1), t: 'TP1', c: '#3DDC97', d: [] }, { p: num(g.tp2), t: 'TP2', c: '#3DDC97', d: [] });
+    return L.filter(function (l) { return isFinite(l.p); });
   }
-  function ticketFor(m) {   // AXON-9 builds the ticket (entry, SL, TP, lots); YOU confirm; the bot re-checks; expires in 3 min
-    askNoAuto = true; send('/now ' + m, 'AXON-9 is building a ' + m + ' ticket…');
+  function drawChart() {
+    var cv = $('cv'); if (!cv || !S) return;
+    var m = curA9(); if (!m) return;
+    var b = barsOf(m.n, a9tf), W = cv.clientWidth, H = cv.clientHeight, dpr = window.devicePixelRatio || 1;
+    cv.width = W * dpr; cv.height = H * dpr; var g = cv.getContext('2d'); g.scale(dpr, dpr);
+    g.font = '11px "JetBrains Mono", monospace';
+    if (b.length < 2) { g.fillStyle = '#A9BFE2'; g.font = '13px "Space Grotesk", sans-serif'; g.fillText(bars ? 'No candles for ' + m.n + ' yet' : 'Loading live MT5 candles…', 14, H / 2); if (bars && !(bars.m || []).length) g.fillText('(needs AXON-9 bot 4.2 on the PC)', 14, H / 2 + 20); return; }
+    var lo = Infinity, hi = -Infinity; b.forEach(function (x) { lo = Math.min(lo, x[3]); hi = Math.max(hi, x[2]); });
+    var rg = hi - lo || 1, L = levelsOf(m, verdictOf(m)).filter(function (l) { return l.p > lo - rg * 0.35 && l.p < hi + rg * 0.35; });
+    L.forEach(function (l) { lo = Math.min(lo, l.p); hi = Math.max(hi, l.p); }); rg = hi - lo || 1; lo -= rg * 0.04; hi += rg * 0.04; rg = hi - lo;
+    var pr = 70, top = 8, bot = 22, ch = H - top - bot, cw = (W - pr - 6) / b.length;
+    var y = function (p) { return top + (hi - p) / rg * ch; };
+    g.strokeStyle = 'rgba(40,86,163,.35)'; g.lineWidth = 1; g.fillStyle = '#7F95BA';
+    for (var k = 0; k <= 4; k++) { var gp = lo + rg * k / 4, gy = y(gp); g.beginPath(); g.moveTo(0, gy); g.lineTo(W - pr, gy); g.stroke(); g.fillText(fmtP(m, gp), W - pr + 6, gy + 4); }
+    b.forEach(function (x, i) {
+      var cx = 3 + i * cw + cw / 2, up = x[4] >= x[1], col = up ? '#3DDC97' : '#FF5A6E';
+      g.strokeStyle = col; g.fillStyle = col; g.beginPath(); g.moveTo(cx, y(x[2])); g.lineTo(cx, y(x[3])); g.stroke();
+      var bt = y(Math.max(x[1], x[4])), bh = Math.max(1, Math.abs(y(x[1]) - y(x[4])));
+      g.fillRect(cx - Math.max(1, cw * 0.32), bt, Math.max(2, cw * 0.64), bh);
+    });
+    var used = [];
+    L.forEach(function (l) {
+      var ly = y(l.p), lx = 4; used.forEach(function (u) { if (Math.abs(u[0] - ly) < 13) lx = Math.max(lx, u[1] + 6); }); g.strokeStyle = l.c; g.lineWidth = /Entry|SL|TP/.test(l.t) ? 1.6 : 1.1; g.setLineDash(l.d);
+      g.beginPath(); g.moveTo(0, ly); g.lineTo(W - pr, ly); g.stroke(); g.setLineDash([]);
+      var lab = l.t; g.font = 'bold 10px "Space Grotesk", sans-serif'; var tw = g.measureText(lab).width;
+      g.fillStyle = 'rgba(0,21,46,.85)'; g.fillRect(lx, ly - 13, tw + 8, 13); g.fillStyle = l.c; g.fillText(lab, lx + 4, ly - 3); used.push([ly, lx + tw + 8]);
+      g.font = '11px "JetBrains Mono", monospace';
+    });
+    var last = b[b.length - 1][4], yl = y(last);
+    g.setLineDash([3, 3]); g.strokeStyle = '#FFFFFF'; g.beginPath(); g.moveTo(0, yl); g.lineTo(W - pr, yl); g.stroke(); g.setLineDash([]);
+    g.fillStyle = '#E31837'; g.fillRect(W - pr + 1, yl - 9, pr - 2, 18); g.fillStyle = '#FFFFFF'; g.fillText(fmtP(m, last), W - pr + 5, yl + 4);
+    g.fillStyle = '#7F95BA';
+    [0, Math.floor(b.length / 2), b.length - 1].forEach(function (i) { var t = new Date(b[i][0] * 1000), s = ('0' + t.getHours()).slice(-2) + ':' + ('0' + t.getMinutes()).slice(-2); g.fillText(s, Math.min(W - pr - 36, 3 + i * cw), H - 6); });
   }
-  function pickImage(f) {
-    if (!f) return;
-    var fr = new FileReader();
-    fr.onload = function () {
-      var im = new Image();
-      im.onload = function () {
-        if (Math.max(im.width, im.height) < 600) { rd.err = 'This picture is too small to read reliably. Send a full-size screenshot (at least 600 px).'; rd.img = ''; render(true); return; }
-        var k = Math.min(1, 1568 / Math.max(im.width, im.height)), c = document.createElement('canvas');
-        c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
-        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
-        rd.img = c.toDataURL('image/jpeg', 0.9); rd.type = 'image/jpeg'; rd.res = null; rd.err = ''; render(true);
-      };
-      im.src = fr.result;
-    };
-    fr.readAsDataURL(f);
-  }
-  function drawMarkup() {   // AXON-9 live levels drawn on your picture - only when the picture lines up with live data
-    var cv = $('mk'), r = rd.res; if (!cv || !r || !r.levels || !r.levels.length || !r.axis || r.axis.length < 2) return;
-    var im = new Image();
-    im.onload = function () {
-      cv.width = im.width; cv.height = im.height; var g = cv.getContext('2d'); g.drawImage(im, 0, 0);
-      var a = r.axis, p0 = +a[0].price, p1 = +a[1].price, y0 = +a[0].y * im.height, y1 = +a[1].y * im.height;
-      if (!(p0 - p1)) return;
-      r.levels.forEach(function (l) {
-        var p = parseFloat(String(l.p).replace(/,/g, '')); if (!isFinite(p)) return;
-        var y = y0 + (p - p0) * (y1 - y0) / (p1 - p0); if (y < 0 || y > im.height) return;
-        g.strokeStyle = l.c; g.lineWidth = Math.max(2, im.width / 500); g.setLineDash(/SL|TP|Entry/.test(l.t) ? [] : [10, 6]);
-        g.beginPath(); g.moveTo(0, y); g.lineTo(im.width, y); g.stroke();
-        g.font = 'bold ' + Math.round(im.width / 55) + 'px sans-serif'; var txt = l.t + ' ' + l.p, w = g.measureText(txt).width;
-        g.fillStyle = 'rgba(0,21,46,.85)'; g.fillRect(8, y - im.width / 45, w + 12, im.width / 40); g.fillStyle = l.c; g.fillText(txt, 14, y - 6);
-      });
-    };
-    im.src = rd.img;
-  }
-  function featRow(n, f) {
-    f = f || {}; var c = f.conf === 'high' ? 'up' : f.conf === 'low' ? 'down' : '';
-    return '<tr style="border-top:1px solid var(--line)"><td style="padding:6px 4px">' + n + '</td><td>' + esc(f.value || '–') + (f.note ? '<div class="why">' + esc(f.note) + '</div>' : '') + '</td><td><span class="tag" style="font-size:10px">' + esc(f.label || 'UNAVAILABLE') + '</span></td><td class="' + c + '">' + esc(f.conf || '–') + '</td></tr>';
-  }
-  function vcls(v) { return v === 'BUY' ? 'buy' : v === 'SELL' ? 'sell' : v === 'WAIT' ? 'hold' : v === 'PICTURE ONLY' ? 'scalp' : ''; }
-  function readerHtml() {
-    var mk = (S && S.markets || []).map(function (m) { return m.n; });
-    var out = '<div class="card">' +
-      '<label class="drop" for="rfile">' + (rd.img ? (rd.res && rd.res.levels && rd.res.levels.length ? '<canvas id="mk" style="width:100%;border-radius:10px"></canvas>' : '<img src="' + rd.img + '" alt="Your chart">') + '<span class="why">Tap to change the picture</span>' : '<span class="camico">📷</span><b>Tap to upload a chart</b><span class="why">Screenshot from MT5 or TradingView · symbol, timeframe and price axis visible</span>') + '</label><input type="file" id="rfile" accept="image/*" style="display:none">';
-    if (mk.length) out += '<div class="why" style="margin-top:12px">Which market? (helps the live check)</div><div class="chips" style="margin-top:6px">' + mk.map(function (n) { return '<button class="' + (rd.note.indexOf(n) === 0 ? 'on' : '') + '" data-rchip="' + esc(n) + '">' + esc(n) + '</button>'; }).join('') + '</div>';
-    out += '<div class="field" style="margin-top:8px"><label for="rnote">Note (optional)</label><input id="rnote" maxlength="200" placeholder="e.g. Gold 15m – thinking of buying" value="' + esc(rd.note) + '"></div>' +
-      '<button class="btn gold full lg" style="margin-top:12px" id="readgo"' + (rd.busy || !rd.img ? ' disabled' : '') + '>' + (rd.busy ? 'Reading the chart…' : '🔍 Analyse this chart') + '</button>';
-    if (rd.busy) out += '<div style="text-align:center;margin-top:12px"><div class="spin"></div><div class="why" style="margin-top:6px">Reading the picture, then checking it against live MT5 prices (up to 30 s)</div></div>';
-    if (rd.err) out += '<div class="banner" style="margin-top:10px">' + esc(rd.err) + '</div>';
-    out += '</div>';
-    var r = rd.res;
-    if (!r || !r.image) return out;
-    var im = r.image, ck = r.check || {}, fn = r.final || {}, F = im.features || {}, ep = im.entry_plan || {}, v = fn.verdict || 'NO TRADE';
-    //--- 1. the answer first
-    out += '<div class="card vcard ' + vcls(v) + '" id="verdict"><div class="row"><span class="label">AXON-9 verdict</span><span class="why">' + esc((ck.market || im.symbol_seen || '?') + ' · ' + (im.timeframe_seen || '?')) + '</span></div>' +
-      '<div class="vbig">' + esc(v) + (fn.grade ? ' <small>grade ' + esc(fn.grade) + '</small>' : '') + '</div><div class="vwhy">' + esc(fn.why || '') + '</div>' +
-      (fn.lv ? '<div class="lv"><div><span>Entry</span><b>' + esc(fn.lv.entry) + '</b></div><div><span>SL</span><b class="down">' + esc(fn.lv.sl) + '</b></div><div><span>TP1</span><b class="up">' + esc(fn.lv.tp1) + '</b></div><div><span>TP2</span><b class="up">' + esc(fn.lv.tp2) + '</b></div></div><div class="why">Live AXON-9 levels' + (fn.lv.setup ? ' · ' + esc(fn.lv.setup) : '') + (fn.lv.style ? ' · ' + esc(fn.lv.style) : '') + '</div>' : '') +
-      '<div class="why" style="margin-top:8px"><span class="tag ' + (ck.freshness === 'CURRENT' ? 'buy' : ck.freshness === 'OUTDATED' ? 'sell' : 'hold') + '" style="font-size:10px">' + esc(ck.freshness || 'UNVERIFIED') + '</span> ' + (r.snap ? 'live data ' + (r.snap.age > 60 ? '<b class="down">stale (' + r.snap.age + ' s)</b>' : r.snap.age + ' s old') : '') + '</div>';
-    if (v === 'BUY' || v === 'SELL') out += '<button class="btn gold full lg" style="margin-top:12px" data-tk="' + esc(ck.market) + '">Build ' + esc(ck.market) + ' ' + esc(v) + ' ticket ›</button><div class="why" style="margin-top:6px;text-align:center">You confirm it · the risk controller re-checks · MT5 confirms the fill</div>';
-    out += '</div>';
-    //--- 2. how to enter (read from the picture)
-    var bias = String(ep.bias || 'none').toLowerCase();
-    out += '<div class="card"><div class="row"><span class="label">How to trade this chart</span><span class="tag ' + (bias === 'buy' ? 'buy' : bias === 'sell' ? 'sell' : '') + '">' + (bias === 'buy' ? 'BUY idea' : bias === 'sell' ? 'SELL idea' : 'no clean idea') + '</span></div>' +
-      '<div class="plan">' + [['Where to enter', ep.where], ['Wait for', ep.trigger], ['Wrong if', ep.invalidation], ['Targets', ep.targets], ['Style', [ep.style, ep.horizon].filter(Boolean).join(' · ')], ['Nothing now? Wait for', ep.wait_for]].filter(function (x) { return x[1]; }).map(function (x) { return '<div><span>' + x[0] + '</span><p>' + esc(x[1]) + '</p></div>'; }).join('') + '</div>' +
-      (!ep.where && !ep.wait_for ? '<div class="why" style="margin-top:6px">' + esc(im.summary || 'No plan could be read from this picture.') + '</div>' : '') +
-      '<div class="why" style="margin-top:8px">This plan is read from your picture (a teaching guide). Trade only when the AXON-9 verdict above agrees.</div></div>';
-    //--- 3. the details
-    out += '<details class="card det"><summary>What the reader saw</summary>' +
-      (im.readable === false ? '<div class="banner" style="margin-top:8px">Not readable: ' + esc((im.issues || []).join(', ')) + '</div>' : '') +
-      '<div style="margin:8px 0">' + esc(im.summary || '') + '</div>' +
-      '<div style="overflow-x:auto"><table class="tbl"><tr><th>Feature</th><th>Read</th><th>Seen?</th><th>Conf.</th></tr>' +
-      featRow('Trend', F.trend) + featRow('Structure', F.structure) + featRow('Sweep', F.liquidity_sweep) + featRow('Order block', F.order_block) + featRow('FVG', F.fvg) + featRow('Candle', F.candle_pattern) + featRow('Zones', F.zones) + featRow('Trendline / Fib', F.trendline_fib) + featRow('Indicators', F.indicators) + featRow('Entry trigger', F.entry_confirmation) + '</table></div>' +
-      (im.drawings_by_someone_else ? '<div class="why" style="margin-top:6px">Someone else\'s drawings (not evidence): ' + esc(im.drawings_by_someone_else) + '</div>' : '') +
-      '<div class="label" style="margin-top:12px">Live check</div>' + (ck.notes || []).map(function (n) { return '<div class="why">• ' + esc(n) + '</div>'; }).join('') +
-      '<div class="why" style="margin-top:8px">Lines on the picture are AXON-9\'s live levels placed with the price axis the reader saw – approximate.</div></details>';
-    out += '<button class="btn ghost full" id="readnew">📷 Read another chart</button>';
-    return out;
-  }
-  function chartTab() {
-    var out = '';
-    if (!rd.img && !rd.res) out += '<div class="ptitle"><h2>Read a chart</h2><p>Upload a chart screenshot. AXON-9 reads it, checks it against live MT5 prices and tells you <b>if</b>, <b>where</b> and <b>how</b> to enter.</p></div>';
-    out += readerHtml();
-    if (!rd.busy && !rd.res) {
-      if (reads === null && U) loadReads();
-      if (reads && reads !== 'loading' && reads.length) out += '<div class="card"><div class="label">Recent reads</div>' + reads.map(function (h) { return '<div class="hrow"><div><b>' + esc(h.m || h.q || 'chart') + '</b><div class="why">' + esc(h.q || '') + (h.fresh ? ' · ' + esc(h.fresh) : '') + '</div></div><div style="text-align:right"><span class="vt ' + vcls(h.verdict) + '">' + esc(h.verdict || '–') + '</span><div class="why">' + ago(h.t) + '</div></div></div>'; }).join('') + '</div>';
+  function curA9() { var ms = S.markets || []; return ms.filter(function (m) { return m.n === a9m; })[0] || ms.filter(function (m) { return !m.off && !closedM(m); })[0] || ms[0]; }
+  function planRows(m, v) {
+    var pa = m.pa || {}, px = num(m.bid || m.px), Z = (pa.zones || []).map(function (z) { return num(z.p); }).filter(isFinite);
+    var sup = Z.filter(function (p) { return p < px; }).sort(function (a, b) { return b - a; }), res = Z.filter(function (p) { return p > px; }).sort(function (a, b) { return a - b; });
+    var sc = (pa.d1 || 0) + (pa.h4 || 0) + (pa.h1 || 0), F = function (p) { return fmtP(m, p); }, R = [];
+    var tf = 'D1 ' + (pa.d1 > 0 ? '▲' : pa.d1 < 0 ? '▼' : '–') + ' · H4 ' + (pa.h4 > 0 ? '▲' : pa.h4 < 0 ? '▼' : '–') + ' · H1 ' + (pa.h1 > 0 ? '▲' : pa.h1 < 0 ? '▼' : '–');
+    if (v.sig && (v.v === 'BUY' || v.v === 'SELL')) {
+      var g = v.sig;
+      R.push(['Trade', g.side + ' ' + m.n + ' – grade ' + g.g + ' ' + g.setup + ' (' + g.sc + '/100)'], ['Enter at', g.entry], ['Stop loss', g.sl], ['Take profit', g.tp1 + ' then ' + g.tp2], ['Style', g.style === 'HOLD' ? 'Swing – hours to 2 days' : 'Scalp – minutes to a few hours']);
+      return R;
     }
+    if (v.v === 'CLOSED') return [['Right now', 'Market closed – AXON-9 starts reading again when it opens.']];
+    if (v.v === 'OFF') return [['Right now', 'Switched off in Settings → Markets.']];
+    if (sc >= 2) R.push(['Bias', 'BUY side – buyers in control (' + tf + ')'], ['Where to enter', sup[0] ? 'On a pull-back into support ' + F(sup[0]) : 'On a pull-back to the last M15 swing low'], ['Wait for', 'A bullish rejection or engulfing M15 candle at that level'], ['Wrong if', sup[1] ? 'Price closes below ' + F(sup[1]) : 'Price closes below the support zone'], ['Targets', res[0] ? F(res[0]) + (res[1] ? ', then ' + F(res[1]) : '') : 'The previous high']);
+    else if (sc <= -2) R.push(['Bias', 'SELL side – sellers in control (' + tf + ')'], ['Where to enter', res[0] ? 'On a bounce into resistance ' + F(res[0]) : 'On a bounce to the last M15 swing high'], ['Wait for', 'A bearish rejection or engulfing M15 candle at that level'], ['Wrong if', res[1] ? 'Price closes above ' + F(res[1]) : 'Price closes above the resistance zone'], ['Targets', sup[0] ? F(sup[0]) + (sup[1] ? ', then ' + F(sup[1]) : '') : 'The previous low']);
+    else R.push(['Bias', 'No clear side (' + tf + ')'], ['Plan', 'Stay out until the 4-hour picks a direction' + (sup[0] && res[0] ? '. Range ' + F(sup[0]) + ' – ' + F(res[0]) + ': only a rejection at an edge is tradable' : '')]);
+    if (v.v === 'NO TRADE') R.unshift(['Right now', 'No trade – ' + v.why]);
+    return R;
+  }
+  function a9Tab() {
+    var ms = S.markets || [];
+    if (!ms.length) return '<div class="card empty">No markets from the bot yet.</div>';
+    var m = curA9(); a9m = m.n; loadBars();
+    var v = verdictOf(m), f = fresh(m), g = v.sig, out = '';
+    out += '<div class="ptitle"><h2>A9 Assistant</h2><p>Live MT5 charts read by AXON-9 – when to buy, when to sell, when to wait.</p></div>';
+    out += '<div class="mchips">' + ms.map(function (x) { var vx = verdictOf(x); return '<button class="' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '">' + esc(x.n) + (/BUY|SELL/.test(vx.v) ? ' <i class="' + vcls(vx.v) + '"></i>' : '') + '</button>'; }).join('') + '</div>';
+    out += '<div class="card chartcard"><div class="row"><div style="min-width:0"><b style="font-size:17px">' + (MICO[m.n] || '') + ' ' + esc(m.n) + '</b> <span class="mono">' + esc(m.px) + '</span>' + (m.chg != null ? ' <span class="chg ' + (m.chg >= 0 ? 'up' : 'down') + '">' + (m.chg >= 0 ? '+' : '') + Number(m.chg).toFixed(2) + '%</span>' : '') + '</div>' +
+      '<div class="tfs">' + [['m15', 'M15'], ['h1', 'H1']].map(function (t) { return '<button class="' + (a9tf === t[0] ? 'on' : '') + '" data-a9tf="' + t[0] + '">' + t[1] + '</button>'; }).join('') + '</div></div>' +
+      '<canvas id="cv" class="cv" aria-label="' + esc(m.n) + ' live chart"></canvas>' +
+      '<div class="legend"><span><i style="background:#3DDC97"></i>support</span><span><i style="background:#FF5A6E"></i>resistance</span><span><i style="background:#E8B33A"></i>liquidity</span><span><i style="background:#fff"></i>entry</span><span class="fr ' + f.c + '">' + f.t + '</span></div></div>';
+    out += '<div class="card vcard ' + vcls(v.v) + '"><div class="row"><span class="label">AXON-9 verdict</span>' + (v.g ? '<span class="tag">grade ' + esc(v.g) + '</span>' : '') + '</div><div class="vbig">' + v.v + '</div><div class="vwhy">' + esc(v.why) + '</div>' +
+      (g && /BUY|SELL/.test(v.v) ? '<div class="lv"><div><span>Entry</span><b>' + esc(g.entry) + '</b></div><div><span>SL</span><b class="down">' + esc(g.sl) + '</b></div><div><span>TP1</span><b class="up">' + esc(g.tp1) + '</b></div><div><span>TP2</span><b class="up">' + esc(g.tp2) + '</b></div></div><div class="why">Lot ' + (g.lots > 0 ? g.lots.toFixed(2) : '0.01') + ' · risk ' + esc(g.risk) + ' each · ' + (S.auto ? 'Auto is ON – AXON-9 places it by itself' : 'Auto is OFF – your call') + '</div>' +
+        (!g.done && (g.max || 0) >= 1 && !S.auto ? '<button class="btn gold full lg" style="margin-top:12px" data-sigtake="' + g.id + '">Take this trade ›</button>' : '') : '') + '</div>';
+    out += '<div class="card"><div class="label">How to enter</div><div class="plan">' + planRows(m, v).map(function (r) { return '<div><span>' + r[0] + '</span><p>' + esc(r[1]) + '</p></div>'; }).join('') + '</div>' +
+      '<div class="why" style="margin-top:10px">Built from AXON-9\'s live MT5 data. With Auto ON the bot enters by itself only on grade A/B setups, inside your risk limits.</div></div>';
+    out += '<button class="btn ghost full lg" data-cmd="/now ' + esc(m.n) + '" data-msg="AXON-9 is reading ' + esc(m.n) + '…">⚡ Check ' + esc(m.n) + ' for a signal now</button>';
     return out;
   }
   function ago(t) { var d = Math.max(0, Date.now() / 1000 - t); return d < 60 ? 'now' : d < 3600 ? Math.floor(d / 60) + 'm' : d < 86400 ? Math.floor(d / 3600) + 'h' : Math.floor(d / 86400) + 'd'; }
@@ -901,7 +976,7 @@ img.logo{object-fit:cover}
       '<div class="bs"><button class="btn sell lg" data-confirm="SELL ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' sell ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Selling…">SELL ' + nSel + ' × ' + lotSel.toFixed(2) + '</button>' +
       '<button class="btn buy lg" data-confirm="BUY ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' buy ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Buying…">BUY ' + nSel + ' × ' + lotSel.toFixed(2) + '</button></div>' +
       '<div class="why" style="margin-top:8px">Orders go straight into your MT5 account - you will see them in MT5 and on the Trades tab.</div></div>';
-    out += '<button class="btn ghost full lg" data-tab2="chart" data-rnote="' + esc(m.n) + '">📷 Read a ' + esc(m.n) + ' chart</button>';
+    out += '<button class="btn ghost full lg" data-tab2="a9" data-a9go="' + esc(m.n) + '">📈 Open ' + esc(m.n) + ' chart in A9</button>';
     out += (S.msg ? '<div class="card"><div class="last" style="border:0;margin:0;padding:0">Bot: ' + esc(S.msg) + '</div></div>' : '');
     return out;
   }
@@ -990,35 +1065,87 @@ img.logo{object-fit:cover}
   }
   function metric(l, v, sub) { return '<div class="metric"><span class="label">' + l + '</span><b>' + v + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; }
   function brokerName() { return String((S && S.broker) || 'MT5').replace(/ (Ltd|Limited|Incorporated|Inc\.?|LLC|\(SC\)).*$/i, ''); }
-  function connCard() {
-    var c = conn(), t = { ok: 'MT5 connected', stale: 'MT5 data is stale', off: 'MT5 disconnected', wait: 'Waiting for MT5' }[c.k];
-    return '<button class="conn" data-set="conn"><span class="dot ' + c.k + '"></span><div style="min-width:0"><b>' + t + '</b><div class="why">' + esc(brokerName()) + ' · ' + (S.real ? 'LIVE' : 'DEMO') + ' · updated ' + ageTxt(c.age) + '</div></div><span class="chev">›</span></button>';
+  var IC = {
+    wallet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v11a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14.5" r="1.2"/></svg>',
+    trend: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>',
+    case: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>',
+    plug: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></svg>',
+    sliders: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>',
+    bars: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+    bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16V11a6 6 0 0 0-12 0v5l-2 2h16z"/><path d="M10 21h4"/></svg>',
+    key: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></svg>',
+    wrench: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.8-.8-.8-2.8z"/></svg>',
+    bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/><path d="M12 0v1M3 4l1 1M21 4l-1 1"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>'
+  };
+  function hm(t) { var d = new Date(t * 1000); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+  function hms(t) { var d = new Date(t * 1000); return hm(t) + ':' + ('0' + d.getSeconds()).slice(-2); }
+  function insightTxt() {
+    var c = conn(), r = riskState(), ms = S.markets || [], best = null;
+    if (c.k === 'off') return 'MT5 is not reporting. Check the PC: MT5 open, AXON-9 on a chart, Algo Trading on.';
+    if (c.k === 'stale') return 'MT5 data is ' + c.age + ' s old – waiting for the next update.';
+    if (S.tgtDone) return 'Daily target reached. Account locked for today – profits protected.';
+    if (r.c === 'bad') return r.why + '.';
+    ms.forEach(function (m) { var v = verdictOf(m); if ((v.v === 'BUY' || v.v === 'SELL') && (!best || v.sig.sc > best.v.sig.sc)) best = { m: m, v: v }; });
+    if (best) { a9m = best.m.n; return best.m.n + ': grade ' + best.v.g + ' ' + best.v.v + ' setup (' + best.v.sig.setup + ').' + (S.auto ? ' Auto is handling it.' : ''); }
+    var nw = ms.filter(function (m) { return !m.off && (m.blk || m.s60); })[0];
+    if (nw) return nw.n + ': high-impact news ' + (nw.blk ? 'now' : 'within the hour') + (nw.news ? ' – ' + nw.news : '') + '.';
+    if (r.c === 'warn') return r.why + '.';
+    return 'No high-quality setups right now.\nRisk controls are active.';
   }
-  //--- v5.0 HOME: status, 4 numbers, MT5, the main action, one insight, market pulse
+  function regChip(m) {
+    if (closedM(m)) return '<span class="rc closed">CLOSED</span>';
+    var r = String((m.pa || {}).reg || m.reg || '').toUpperCase();
+    return '<span class="rc ' + ({ TREND: 'trend', RANGE: 'range', MIXED: 'mixed', CHOP: 'chop', NEWS: 'news' }[r] || 'mixed') + '">' + esc(r || '–') + '</span>';
+  }
+  //--- v6.0 HOME (as the design): greeting, 4 numbers, MetaTrader 5, market pulse + insight, one button
   function home() {
-    var s = S, r = riskState(), out = '';
-    if (s.kill) out += '<div class="alert bad"><div class="row"><b>🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9? Auto stays OFF until you switch it on." data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div><div class="why" style="margin-top:4px">' + (s.killflat ? 'Closing positions – retrying until the broker confirms.' : 'Everything is closed and Auto is locked.') + '</div></div>';
+    var s = S, r = riskState(), c = conn(), h = new Date().getHours(), out = '';
+    out += '<div class="greet"><h2>' + (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + '</h2><p>Your markets, clearly.</p><i></i></div>';
+    if (s.kill) out += '<div class="alert bad"><div class="row"><b>🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9? Auto stays OFF until you switch it on." data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div></div>';
     else if (s.emergency) out += '<div class="alert bad"><b>EMERGENCY:</b> a trade has no stop loss. Check Trades now.</div>';
-    out += '<div class="metrics">' + metric('Equity', '<span class="mono">' + esc(s.eq) + '</span>') +
-      metric('Today', '<span class="mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + '</span>') +
-      metric('Open trades', '<span class="mono">' + (s.open || 0) + '</span>') +
-      metric('Risk status', '<span class="rs ' + r.c + '">' + r.t + '</span>', r.c === 'ok' ? '' : esc(r.why)) + '</div>';
-    out += connCard();
-    if (s.tgt > 0) {
-      var tp = Math.max(0, Math.min(100, (s.tUsd || 0) / s.tgt * 100));
-      out += '<div class="tgt"><div class="row"><span class="label">' + esc(s.goal || 'Daily') + ' target</span><b class="mono ' + (s.tgtDone ? 'up' : '') + '">' + ((s.tUsd || 0) >= 0 ? '+$' : '-$') + Math.abs(s.tUsd || 0).toFixed(2) + ' / $' + Number(s.tgt).toFixed(0) + '</b></div><div class="meter"><i style="width:' + tp.toFixed(1) + '%"></i></div></div>';
-    }
+    var tg = s.tgt > 0 ? (s.tgtDone ? '✓ target hit – locked' : 'of $' + Number(s.tgt).toFixed(0) + ' target') : '';
+    out += '<div class="mbar">' +
+      '<div class="mi"><span class="ic">' + IC.wallet + '</span><div><span>Equity</span><b class="mono">' + esc(s.eq) + '</b></div></div>' +
+      '<div class="mi"><span class="ic up">' + IC.trend + '</span><div><span>Today</span><b class="mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + '</b>' + (tg ? '<small>' + tg + '</small>' : '') + '</div></div>' +
+      '<div class="mi"><span class="ic">' + IC.case + '</span><div><span>Open positions</span><b class="mono">' + (s.open || 0) + '</b></div></div>' +
+      '<div class="mi"><span class="ic ' + (r.c === 'ok' ? 'up' : 'down') + '">' + IC.shield + '</span><div><span>Risk status</span><b class="rst ' + r.c + '">' + r.t + '</b><small>Auto ' + (s.auto ? 'ON' : 'OFF') + '</small></div></div></div>';
+    out += '<div class="mt5c ' + c.k + '"><div class="mt5l"><span class="mt5i">' + IC.bars + '<b>5</b></span><div><b>MetaTrader 5</b><small>' + esc(brokerName().split(' ')[0]) + ' • ' + (s.real ? 'Live' : 'Demo') + '</small></div></div>' +
+      '<div class="mt5s"><span class="st ' + c.k + '"><i></i>' + c.t + '</span><small>Last sync: ' + (c.age < 10 ? 'Just now' : ageTxt(c.age)) + '</small></div>' +
+      '<button class="btn ghost mbtn" data-set="conn">' + IC.plug + '<span>Manage connection</span> →</button></div>';
     out += hotCard();
-    out += '<button class="hero" data-tab2="chart"><span class="hi">📷</span><span><b>Read a chart</b><small>Upload a screenshot – AXON-9 tells you if, where and how to enter</small></span><span class="chev">›</span></button>';
-    out += '<div class="acts"><button class="btn ghost lg" data-cmd="/now" data-msg="Reading the charts…">⚡ Signal now</button>' +
-      '<button class="autob" data-cmd="' + (s.auto ? '/signals' : '/auto') + '" data-confirm="' + (s.auto ? 'Switch to SIGNALS ONLY? AXON-9 will ask before every trade.' : 'Switch AUTO on? AXON-9 places trades by itself, inside your risk limits.') + '" data-msg="' + (s.auto ? 'Signals only' : 'Auto ON') + '"><span><b>Auto</b><small>' + (s.auto ? 'trading by itself' : 'asks you first') + '</small></span><i class="toggle ' + (s.auto ? 'on' : '') + '"><span></span></i></button></div>';
-    out += '<div class="insight"><span class="label">AXON-9 insight</span><p>' + esc(insight()) + '</p></div>';
-    out += '<div class="card pad0"><div class="row ph"><span class="label">Market pulse</span><button class="lnk" data-tab2="markets">All markets ›</button></div>' +
+    out += '<div class="hgrid"><div class="card pulse"><div class="row ph"><b class="ttl">' + IC.bars + ' Market pulse</b><span class="why">Live · ' + hms(s.t) + ' (SA)</span></div>' +
       (s.markets || []).map(function (m) {
-        var v = verdictOf(m), f = fresh(m);
-        return '<button class="prow" data-mkt="' + (m.i == null ? '' : m.i) + '"><b>' + esc(m.n) + '</b><span class="why">' + esc(((m.pa || {}).reg || m.reg || '').toLowerCase()) + '</span><span class="vt ' + vcls(v.v) + '">' + v.v + (v.g && /BUY|SELL/.test(v.v) ? ' ' + esc(v.g) : '') + '</span><span class="fr ' + f.c + '">' + f.t + '</span></button>';
-      }).join('') + '</div>';
-    out += '<div class="card"><div class="row"><span class="label">Latest activity</span><button class="lnk" data-tab2="signals">See all ›</button></div>' + feedHtml(3) + '</div>';
+        var v = verdictOf(m), cl = closedM(m), ta = (m.pa || {}).tickAge || 0;
+        return '<button class="prow2" data-mkt="' + (m.i == null ? '' : m.i) + '"><span class="mic">' + (MICO[m.n] || '•') + '</span><b>' + esc(m.n) + '</b>' + regChip(m) +
+          '<span class="pv ' + vcls(v.v) + '">' + (cl ? 'Last data ' + ageTxt(ta).replace(' ago', '') + ' ago' : v.v + (v.g && /BUY|SELL/.test(v.v) ? ' ' + esc(v.g) : '')) + '</span>' + spark(m) + '<span class="pt mono">' + hm(s.t - ta) + '</span></button>';
+      }).join('') + '</div>' +
+      '<div class="card ins"><div class="ttl"><span class="bulb">' + IC.bulb + '</span>AXON-9 insight</div><p>' + esc(insightTxt()).replace(/\n/g, '<br>') + '</p><button class="btn ghost full" data-tab2="a9">View analysis →</button></div></div>';
+    out += '<button class="askb" data-tab2="a9">' + IC.chat + 'Open A9 Assistant</button>';
+    return out;
+  }
+  //--- v6.0 SETTINGS (as the design): 6 cards with status, system status bar, emergency controls on their own page
+  var setSub = '', connT = null;
+  function onOff(on, cmd, label) { return '<button class="toggle ' + (on ? 'on' : '') + '" data-cmd="' + cmd + '" aria-label="' + label + '"><span></span></button>'; }
+  function settings() {
+    if (setSub) return setPage();
+    var s = S, c = conn(), r = riskState(), on = (s.markets || []).filter(function (m) { return !m.off; }).length, out = '';
+    out += '<div class="ptitle"><h2>Settings</h2><p>Control your trading environment.</p></div>';
+    var paused = r.c !== 'ok';
+    var T = [
+      ['conn', IC.plug, 'MT5 Connection', 'Link AXON-9 with your MT5 terminal.', c.k === 'ok' ? 'ok' : c.k === 'stale' ? 'warn' : 'bad', c.k === 'ok' ? 'CONNECTED' : c.k === 'stale' ? 'STALE DATA' : 'NOT CONNECTED', c.k === 'ok' ? 'Connection' : 'Connect MT5'],
+      ['risk', IC.shield, 'Risk & Protection', 'Set loss limits, risk per trade and safety rules.', paused ? (r.c === 'bad' ? 'bad' : 'warn') : 'ok', paused ? 'TRADING PAUSED' : 'PROTECTED', 'Risk controls'],
+      ['trading', IC.sliders, 'Trading Preferences', 'Auto trading, daily target and how picky AXON-9 is.', s.auto && !paused ? 'ok' : paused ? 'bad' : 'warn', paused ? 'TRADING PAUSED' : s.auto ? 'AUTO ON' : 'SIGNALS ONLY', 'Preferences'],
+      ['markets', IC.bars, 'Markets', 'Enable or disable markets.', on ? 'ok' : 'warn', on + ' OF ' + (s.markets || []).length + ' ON', 'Markets'],
+      ['alerts', IC.bell, 'Alerts & Reports', 'Set alerts, trading briefs and performance reports.', soundOn() ? 'ok' : 'warn', soundOn() ? 'CHIMES ON' : 'CHIMES OFF', 'Alerts'],
+      ['account', IC.key, 'Account & Security', 'Manage accounts and security settings.', 'ok', s.real ? 'LIVE ACCOUNT' : 'DEMO ACCOUNT', 'Account & Security']];
+    out += '<div class="sgrid">' + T.map(function (t) { return '<div class="scard ' + (t[4] !== 'ok' ? t[4] : '') + '"><div class="sh"><span class="sic">' + t[1] + '</span><b>' + t[2] + '</b></div><p>' + t[3] + '</p><span class="chip ' + t[4] + '"><i></i>' + t[5] + '</span><button class="btn ghost sbtn" data-set="' + t[0] + '">' + t[6] + ' ›</button></div>'; }).join('') + '</div>';
+    var bad = paused || c.k !== 'ok';
+    out += '<div class="sysbar ' + (bad ? 'bad' : '') + '"><div class="sysl">' + IC.wrench + '<b>SYSTEM STATUS</b></div><div class="sysm">' +
+      (bad ? '<b class="down2">' + (c.k !== 'ok' ? 'MT5 ' + c.t.toLowerCase() : 'New trades blocked') + '</b><small>' + esc(c.k !== 'ok' ? 'Last update ' + ageTxt(c.age) : r.why) + (s.ddpause || s.spause ? ' · Resume requires risk checks' : '') + '</small>' : '<b class="up">All systems normal</b><small>Auto ' + (s.auto ? 'ON' : 'OFF') + ' · ' + (s.tgt > 0 ? 'daily target $' + Number(s.tgt).toFixed(0) : 'no daily target') + '</small>') +
+      '</div><button class="btn sysbtn" data-set="emergency">Emergency controls ›</button></div>';
+    out += '<div class="why" style="text-align:center">App ' + APP_VER + ' · bot ' + esc(s.ver || '?') + '</div>';
     return out;
   }
   //--- v5.0 MARKETS: 6 market cards + all MT5 symbols; news & calendar inside
@@ -1089,34 +1216,19 @@ img.logo{object-fit:cover}
     }
     return out + proofCards() + '<button class="btn ghost full" data-tab2="growth">📈 Growth tracker</button>';
   }
-  //--- v5.0 SETTINGS: status on the main page, controls inside 6 sections, emergency controls kept apart
-  var setSub = '', connT = null;
-  function onOff(on, cmd, label) { return '<button class="toggle ' + (on ? 'on' : '') + '" data-cmd="' + cmd + '" aria-label="' + label + '"><span></span></button>'; }
-  function settings() {
-    if (setSub) return setPage();
-    var s = S, c = conn(), r = riskState(), me = accts().filter(function (x) { return x.k === KEY; })[0] || {}, out = '';
-    out += '<button class="conn" data-tab2="accts"><div class="av sm">' + esc(initials(me)) + '</div><div style="min-width:0"><b>' + esc(me.name || acctName()) + '</b> <span class="tag ' + (s.real ? 'sell' : '') + '">' + (s.real ? 'LIVE' : 'DEMO') + '</span><div class="why">' + esc(brokerName()) + ' · #' + esc(s.login || '?') + '</div></div><span class="lnk">Switch ›</span></button>';
-    if (r.c !== 'ok' || c.k !== 'ok') out += '<div class="alert ' + (r.c === 'bad' || c.k === 'off' ? 'bad' : 'warn') + '"><b>' + (c.k !== 'ok' ? 'MT5 ' + c.t : r.t) + '</b> – ' + esc(c.k !== 'ok' ? 'last update ' + ageTxt(c.age) : r.why) + '</div>';
-    var on = (s.markets || []).filter(function (m) { return !m.off; }).length;
-    var T = [['conn', '🔌', 'MT5 Connection', '<span class="dot ' + c.k + '"></span>' + c.t.toLowerCase()],
-      ['risk', '🛡️', 'Risk & Protection', '<span class="rs ' + r.c + '">' + r.t + '</span> · ' + s.risk + '%/trade'],
-      ['trading', '⚙️', 'Trading', (s.auto ? 'Auto' : 'Signals only') + ' · ' + String(s.mode || 'balanced').toLowerCase()],
-      ['markets', '📊', 'Markets', on + ' of ' + (s.markets || []).length + ' trading'],
-      ['alerts', '🔔', 'Alerts', (soundOn() ? 'chimes on' : 'chimes off') + ' · telegram ' + (s.tgmute ? 'off' : 'on')],
-      ['account', '👤', 'Account', esc((U.email || '').split('@')[0])]];
-    out += '<div class="tiles">' + T.map(function (t) { return '<button class="tile" data-set="' + t[0] + '"><span class="ti">' + t[1] + '</span><b>' + t[2] + '</b><small>' + t[3] + '</small></button>'; }).join('') + '</div>';
-    out += '<div class="card emerg"><div class="label">Emergency controls</div><div class="why" style="margin-top:4px">Only when something is wrong. These act on the MT5 account right away.</div><div class="grid2" style="margin-top:10px">' +
-      (s.kill ? '<button class="btn gold" data-confirm="Unlock AXON-9? Auto stays OFF until you switch it on." data-cmd="/unlock" data-msg="Unlocking…">Unlock</button>' : '<button class="btn danger" data-confirm="KILL SWITCH: close ALL trades and lock Auto?" data-cmd="/kill" data-msg="Kill switch…">🛑 Kill switch</button>') +
-      '<button class="btn danger" data-confirm="Close ALL trades on the account?" data-cmd="cb:closeall" data-msg="Closing everything…">Close all trades</button></div>' +
-      (s.ddpause || s.spause ? '<button class="btn ghost full" style="margin-top:8px" data-confirm="Resume after the pause? (loss limits still apply)" data-cmd="/resume" data-msg="Resuming…">Resume after pause</button>' : '') + '</div>';
-    out += '<div class="why" style="text-align:center">App ' + APP_VER + ' · bot ' + esc(s.ver || '?') + '</div>';
-    return out;
-  }
   function setPage() {
     var s = S, out = '<button class="btn ghost" data-setback="1" style="align-self:flex-start">‹ Settings</button>';
-    var title = { conn: 'MT5 Connection', risk: 'Risk & Protection', trading: 'Trading', markets: 'Markets', alerts: 'Alerts', account: 'Account' }[setSub];
+    var title = { emergency: 'Emergency controls', conn: 'MT5 Connection', risk: 'Risk & Protection', trading: 'Trading', markets: 'Markets', alerts: 'Alerts', account: 'Account' }[setSub];
     out += '<div class="ptitle"><h2>' + title + '</h2></div>';
-    if (setSub === 'conn') {
+    if (setSub === 'emergency') {
+      var re = riskState();
+      out += '<div class="alert ' + (re.c === 'ok' ? 'ok' : re.c) + '"><b>' + re.t + '</b> – ' + esc(re.why) + '</div>';
+      out += '<div class="card emerg"><div class="why" style="line-height:1.5">Only when something is wrong. These act on the MT5 account right away. Loss limits are never overridden – a blocked account stays blocked until its reset time.</div><div class="grid2" style="margin-top:12px">' +
+        (s.kill ? '<button class="btn gold lg" data-confirm="Unlock AXON-9? Auto stays OFF until you switch it on." data-cmd="/unlock" data-msg="Unlocking…">Unlock</button>' : '<button class="btn danger lg" data-confirm="KILL SWITCH: close ALL trades and lock Auto?" data-cmd="/kill" data-msg="Kill switch…">🛑 Kill switch</button>') +
+        '<button class="btn danger lg" data-confirm="Close ALL trades on the account?" data-cmd="cb:closeall" data-msg="Closing everything…">Close all trades</button></div>' +
+        (s.ddpause || s.spause ? '<button class="btn ghost full lg" style="margin-top:8px" data-confirm="Resume after the pause? (loss limits still apply)" data-cmd="/resume" data-msg="Resuming…">Resume after pause</button>' : '') +
+        '<button class="btn ghost full" style="margin-top:8px" data-cmd="/be" data-confirm="Move all trades to breakeven?" data-msg="Moving to breakeven…">All trades to breakeven</button></div>';
+    } else if (setSub === 'conn') {
       var c = conn(), moving = (s.markets || []).some(function (m) { return (m.pa || {}).tickAge <= 600; });
       var tr = connT ? (Date.now() - connT.t > 30000 ? 'fail' : (s.msg !== connT.msg && s.t * 1000 > connT.t) ? 'pass' : 'wait') : '';
       if (tr === 'pass' || tr === 'fail') connT.done = tr;
@@ -1156,7 +1268,7 @@ img.logo{object-fit:cover}
       out += '<div class="card"><div class="label">News & setup alerts per market</div><div class="chips" style="margin-top:8px">' + (s.markets || []).map(function (m) { return '<button class="' + (mute[m.n] ? '' : 'on') + '" data-mute="' + esc(m.n) + '">' + (mute[m.n] ? '🔕 ' : '🔔 ') + esc(m.n) + '</button>'; }).join('') + '</div></div>';
     } else if (setSub === 'account') {
       out += '<div class="card"><div class="kv"><span>Signed in</span><b>' + esc(U.email) + '</b><span>Accounts</span><b>' + accts().length + ' linked</b><span>App</span><b>' + APP_VER + '</b></div><button class="btn ghost full" style="margin-top:12px" data-tab2="accts">Manage accounts</button></div>';
-      out += '<details class="card det"><summary>Advanced</summary><div class="why" style="margin-top:8px">Chart reader address (leave empty for the built-in one)</div><div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:6px"><input id="brainin" class="inp" type="url" autocomplete="off" placeholder="' + esc(READ_URL) + '" value="' + esc(store.get('axbrain') || '') + '"><button class="btn gold" id="brainset">Save</button></div><div class="chips" style="margin-top:10px"><button data-cmd="/selftest">Self-test</button><button data-cmd="/safety">Safety report</button></div></details>';
+      out += '<div class="card"><div class="label">Tools</div><div class="chips" style="margin-top:8px"><button data-cmd="/selftest">Self-test</button><button data-cmd="/safety">Safety report</button></div></div>';
       out += '<button class="btn danger full" id="signout">Sign out</button>';
     }
     return out;
@@ -1174,20 +1286,20 @@ img.logo{object-fit:cover}
     if (!U) { $('sub').textContent = 'not signed in'; $('live').className = 'pill'; $('live').lastElementChild.textContent = 'SIGN IN'; lastHtml = ''; v.innerHTML = signInView(); return; }
     if (!KEY) { $('sub').textContent = U.email; lastHtml = ''; v.innerHTML = noAcctView(); return; }
     if (tab === 'accts') { liveState(); lastHtml = ''; v.innerHTML = accounts(); return; }
-    if (tab === 'read' || tab === 'a9') tab = 'chart';
+    if (tab === 'read' || tab === 'chart') tab = 'a9';
     setNav(); liveState();
-    if (!S && tab !== 'chart') { lastHtml = ''; v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure the PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="chart">📷 Read a chart meanwhile</button><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
+    if (!S) { lastHtml = ''; v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure the PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
     var rp = reply && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
-    if (S && (tab === 'mkt' || tab === 'trades' || tab === 'sym' || tab === 'chart')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
-    var body = tab === 'home' ? home() : tab === 'markets' ? marketsTab() : tab === 'chart' ? chartTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? '<button class="btn ghost" data-tab2="trades" style="align-self:flex-start">‹ Trades</button>' + signalsWrap() : tab === 'trades' ? tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
+    if (S && (tab === 'mkt' || tab === 'trades' || tab === 'sym')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
+    var body = tab === 'home' ? home() : tab === 'markets' ? marketsTab() : tab === 'a9' ? a9Tab() : tab === 'growth' ? growthTab() : tab === 'signals' ? '<button class="btn ghost" data-tab2="trades" style="align-self:flex-start">‹ Trades</button>' + signalsWrap() : tab === 'trades' ? tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
     var html = rp + body + askSheet();
     if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
     var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
     lastHtml = html; v.innerHTML = html;
     [].forEach.call(v.querySelectorAll('details summary'), function (x) { if (opened.indexOf(x.textContent) >= 0) x.parentNode.open = true; });
     window.scrollTo(0, keepY);
-    if (tab === 'chart') drawMarkup();
+    if (tab === 'a9') drawChart();
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('button');
@@ -1215,7 +1327,7 @@ img.logo{object-fit:cover}
     }
     if (b.id === 'signout') { if (confirm('Sign out of AXON-9 on this phone? (the bots keep running)')) signOut(); return; }
     if (b.id === 'addcode') { addByCode(); return; }
-    if (b.dataset.rnote) { rd.note = b.dataset.rnote + ' '; }
+    if (b.dataset.a9go) { a9m = b.dataset.a9go; store.set('axa9m', a9m); }
     if (b.dataset.tab2) { tab = b.dataset.tab2; if (tab === 'settings') setSub = ''; if (tab === 'accts') { menuOpen = -1; peekAll(); } setNav(); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.tab) { if (tab === b.dataset.tab) { setSub = ''; mSub = 'list'; } tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.pick !== undefined) { picking = Number(b.dataset.pick) || null; render(); return; }
@@ -1236,17 +1348,17 @@ img.logo{object-fit:cover}
     if (b.id === 'notif') { try { Notification.requestPermission().then(function () { render(); chime('signal'); }); } catch (e3) { toast('This phone does not allow it'); } return; }
     if (b.id === 'testchime') { chime('open'); return; }
     if (b.id === 'tgtset') { var tv = Number(String(($('tgtin') || {}).value || '').replace(',', '.')); if (tv >= 0) send('/daily ' + tv, 'Target set'); return; }
-    if (b.id === 'readgo') { rd.note = ($('rnote').value || '').trim(); readChart(); return; }
-    if (b.id === 'readnew') { rd = { img: '', type: '', busy: false, res: null, err: '', note: '' }; render(true); window.scrollTo(0, 0); return; }
     if (b.dataset.mute) { var mu = {}; try { mu = JSON.parse(store.get('axmute') || '{}'); } catch (e4) {} mu[b.dataset.mute] = !mu[b.dataset.mute]; store.set('axmute', JSON.stringify(mu)); render(true); return; }
-    if (b.dataset.tk) { ticketFor(b.dataset.tk); return; }
-    if (b.dataset.rchip) { rd.note = b.dataset.rchip + ' ' + rd.note.replace(/^\S+\s*/, (S.markets || []).some(function (m) { return rd.note.indexOf(m.n) === 0; }) ? '' : '$&'); render(true); return; }
+    if (b.dataset.a9m) { a9m = b.dataset.a9m; store.set('axa9m', a9m); render(true); return; }
+    if (b.dataset.a9tf) { a9tf = b.dataset.a9tf; lastHtml = ''; render(true); return; }
+    if (b.dataset.sigtake) { var sg = (S.sigs || []).filter(function (x) { return String(x.id) === b.dataset.sigtake; })[0]; if (sg) { ask = sg.id; askN = Math.max(1, Math.min(10, sg.max || 1)); askSL = false; askT0 = Date.now(); askNoAuto = true; render(true); } return; }
+    if (b.id === 'hset') { tab = 'settings'; setSub = ''; setNav(); render(true); window.scrollTo(0, 0); return; }
+    if (b.id === 'acctbtn' || b.id === 'hav') { if (U && KEY) { tab = tab === 'accts' ? 'home' : 'accts'; menuOpen = -1; if (tab === 'accts') peekAll(); setNav(); render(); window.scrollTo(0, 0); } return; }
     if (b.dataset.msub) { mSub = b.dataset.msub; render(true); window.scrollTo(0, 0); return; }
     if (b.dataset.tsub) { tSub = b.dataset.tsub; render(true); window.scrollTo(0, 0); return; }
     if (b.dataset.set) { tab = 'settings'; setSub = b.dataset.set; setNav(); render(true); window.scrollTo(0, 0); return; }
     if (b.dataset.setback) { setSub = ''; render(true); window.scrollTo(0, 0); return; }
     if (b.id === 'conntest') { connT = { t: Date.now(), msg: S ? S.msg : '' }; send('/status', 'Testing the connection…'); render(true); setTimeout(function () { render(true); }, 31000); return; }
-    if (b.id === 'brainset') { var bu = String(($('brainin') || {}).value || '').trim(); store.set('axbrain', bu); toast(bu ? 'Chart reader address saved' : 'Using the built-in chart reader'); render(true); return; }
     if (b.dataset.tkconfirm) pendingTk = { t: Date.now() / 1000 - 5 };
     if (b.dataset.n) { nSel = Number(b.dataset.n); render(); return; }
     var mn = e.target.closest('[data-menu]');
@@ -1265,11 +1377,9 @@ img.logo{object-fit:cover}
   document.addEventListener('click', function (e) { if (e.target.classList && e.target.classList.contains('sheetbg')) { ask = null; render(); } });
   document.addEventListener('click', function () { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) {} }, { once: true });
   document.addEventListener('change', function (e) {
-    if (e.target.id === 'rfile') pickImage(e.target.files && e.target.files[0]);
     if (e.target.id === 'lotin') { var v = Number(String(e.target.value).replace(',', '.')); if (v > 0) { lotSel = Math.round(v * 100) / 100; e.target.blur(); render(true); } }
   });
   document.addEventListener('input', function (e) {
-    if (e.target.id === 'rnote') { rd.note = e.target.value; return; }
     if (e.target.id === 'em') { store.set('axlastemail', e.target.value.trim()); return; }   // pairing code: auto-format ABCD-2345
     if (e.target.id === 'bq') { bq = e.target.value; var qq = bq.toLowerCase().trim(); document.querySelectorAll('[data-broker]').forEach(function (x) { x.style.display = !qq || x.dataset.broker === 'Other' || x.dataset.broker.toLowerCase().indexOf(qq) >= 0 ? '' : 'none'; }); return; }
     if (e.target.id === 'an') { wiz.name = e.target.value; return; }
@@ -1278,9 +1388,10 @@ img.logo{object-fit:cover}
     e.target.value = c.length > 4 ? c.slice(0, 4) + '-' + c.slice(4) : c; wiz.code = e.target.value;
   });
   document.addEventListener('keydown', function (e) { if (e.key !== 'Enter') return; var id = e.target.id; if (id === 'pw' || id === 'em') { e.target.blur(); $('auth').click(); } if (id === 'pc' || id === 'an') { e.preventDefault(); e.target.blur(); addByCode(); } if (id === 'bq' || id === 'lotin') e.target.blur(); });
-  document.querySelector('header .brand').style.cursor = 'pointer';
   setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 1300);
-  render(); load(); cloudLoad().then(function () { render(); load(); });
+  setInterval(function () { if (S && !document.hidden) loadBars(); }, 30000);
+  window.addEventListener('resize', function () { if (tab === 'a9') drawChart(); });
+  render(); load(); loadBars(true); cloudLoad().then(function () { render(); load(); });
   setInterval(load, 3000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
 })();
