@@ -79,7 +79,7 @@ button.mkt:active{background:var(--surface2)}
 .counts button{min-width:44px;height:44px;border-radius:10px;background:var(--surface2);color:var(--text);font-weight:700}
 .counts button:hover{background:var(--purple)}
 .empty{color:var(--muted);text-align:center;padding:24px 8px;font-size:14px}
-nav{position:fixed;left:0;right:0;bottom:0;background:#00112A;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);padding:8px 4px calc(10px + env(safe-area-inset-bottom));z-index:6}
+nav{position:fixed;left:0;right:0;bottom:0;background:#00112A;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 4px calc(10px + env(safe-area-inset-bottom));z-index:6}
 nav button{background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;padding:6px 0;min-height:48px}
 nav button.on{color:var(--gold)}
 nav svg{width:22px;height:22px}
@@ -154,8 +154,6 @@ body.bare{padding-bottom:24px} body.bare nav{display:none}
 .riskbar{margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--surface2);font-size:13px;color:var(--muted)}
 .riskbar.hot{background:#3A1E12;color:#FFC2A8}
 .riskbar b{color:var(--text)}
-.mt5{display:flex;align-items:center;justify-content:center;gap:10px;height:50px;border-radius:14px;background:#0A2C60;border:1px solid #2856A3;color:#8FD3FF;font-weight:700;font-size:15px;text-decoration:none}
-.mt5 svg{width:20px;height:20px}
 .bsearch{width:100%;height:48px;border-radius:14px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 14px;font-size:16px;margin-top:14px;font-family:inherit;outline:none}
 
 /* v3.4.3 chart reader */
@@ -202,19 +200,76 @@ img.logo{object-fit:cover}
 #splash img{width:86%;max-width:440px;border-radius:20px}
 #splash.out{opacity:0;pointer-events:none}
 
-/* v3.4.9 Telegram-style home */
-.strip{display:grid;grid-template-columns:1.4fr 1.2fr .6fr .9fr;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
-.strip div{display:flex;flex-direction:column;gap:2px;min-width:0}.strip b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chat{display:flex;flex-direction:column;gap:8px;background:linear-gradient(180deg,#031B3D,#00152E);border:1px solid var(--line);border-radius:18px;padding:12px;height:46vh;min-height:260px;overflow-y:auto}
-.bub{max-width:86%;padding:9px 12px 18px;border-radius:16px;font-size:14px;line-height:1.42;white-space:pre-line;position:relative;word-wrap:break-word}
-.bub.bot{align-self:flex-start;background:var(--surface2);border-bottom-left-radius:4px}
-.bub.me{align-self:flex-end;background:#2A4FD6;border-bottom-right-radius:4px}
-.bub time{position:absolute;right:10px;bottom:3px;font-size:10px;color:var(--muted)}
-.bub.me time{color:#C9D6FF}
-.kbd{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.kbd button{height:52px;border-radius:12px;background:var(--surface2);color:var(--text);font-weight:700;font-size:15px;border:1px solid var(--line)}
-.kbd button:first-child{background:var(--gold);border-color:var(--gold)}
-.kbd button:active{transform:scale(.98)}
+/* v5.0 facelift: calm cards, one accent, status colours only where they mean something */
+.pill.stale{color:var(--warn);background:#3A2E12}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.metrics.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.metric{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;min-width:0;display:flex;flex-direction:column;gap:3px}
+.metric b{font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.metric small{font-size:11px;color:var(--muted);line-height:1.3}
+.rs{font-size:13px;font-weight:800;letter-spacing:.05em;padding:2px 8px;border-radius:99px}
+.rs.ok{background:var(--buyBg);color:var(--buy)} .rs.warn{background:#3A2E12;color:var(--warn)} .rs.bad{background:#4A1A22;color:#FF8A8A}
+.conn{width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);color:inherit;font:inherit;text-align:left}
+.conn b{font-size:15px}
+.dot{width:12px;height:12px;border-radius:99px;background:var(--line2);display:inline-block;flex:none}
+.dot.big{width:16px;height:16px}
+.dot.ok{background:var(--buy);box-shadow:0 0 0 4px rgba(61,220,151,.15)} .dot.stale{background:var(--warn)} .dot.off{background:#FF5A5A}
+.av.sm{width:40px;height:40px;font-size:14px;border-radius:12px}
+.tgt{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.tgt .meter{margin:8px 0 2px;height:8px}
+.hero{width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px;border-radius:16px;background:var(--gold);color:#fff;font:inherit;text-align:left}
+.hero .hi{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:24px}
+.hero b{font-size:18px;display:block} .hero small{font-size:12px;opacity:.9;display:block;margin-top:2px;line-height:1.35}
+.hero .chev{color:#fff}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.autob{display:flex;align-items:center;justify-content:space-between;gap:8px;height:54px;padding:0 10px 0 14px;border-radius:14px;background:transparent;border:1px solid var(--line2);color:var(--text);font:inherit;text-align:left}
+.autob b{display:block;font-size:15px} .autob small{display:block;font-size:11px;color:var(--muted)}
+.autob .toggle{width:52px;height:32px;flex:none} .autob .toggle span{width:26px;height:26px}
+.insight{border-left:3px solid var(--gold);background:var(--surface);border-radius:4px 14px 14px 4px;padding:10px 14px}
+.insight p{margin:4px 0 0;font-size:14px;line-height:1.45}
+.card.pad0{padding:4px 0}
+.ph{padding:10px 14px 6px}
+.lnk{background:none;color:var(--gold2);font-weight:700;font-size:13px;padding:0}
+.prow{width:100%;display:grid;grid-template-columns:1fr auto auto 46px;gap:8px;align-items:center;padding:11px 14px;background:none;border:0;border-top:1px solid var(--line);color:inherit;font:inherit;text-align:left}
+.prow b{font-size:15px} .prow:active,.mcard:active,.tile:active,.conn:active{background:var(--surface2)}
+.vt{font-size:11px;font-weight:800;letter-spacing:.04em;padding:4px 8px;border-radius:8px;background:var(--surface2);color:var(--muted);white-space:nowrap}
+.vt.buy{background:var(--buyBg);color:var(--buy)} .vt.sell{background:var(--sellBg);color:var(--sell)} .vt.hold{background:#0E3A7A;color:#BFD4FF} .vt.scalp{background:#1B2A3A;color:#8FD3FF}
+.fr{font-size:11px;text-align:right;color:var(--muted)} .fr::before{content:'●';margin-right:4px;font-size:9px;vertical-align:1px}
+.fr.ok::before{color:var(--buy)} .fr.warn::before{color:var(--warn)} .fr.mute::before{color:var(--line2)}
+.mcard{width:100%;display:flex;flex-direction:column;gap:6px;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);color:inherit;font:inherit;text-align:left}
+.mcard .mn{font-size:17px}
+.mrow{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--muted);align-items:center}
+.alert{border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.45;border:1px solid}
+.alert.bad{background:#2E0F18;border-color:#7A2234;color:#FFC9D2} .alert.warn{background:#2A2210;border-color:#6A5520;color:#FFE3A0} .alert.ok{background:#0E2A1E;border-color:#1F6B47;color:#B7F2D5}
+.ptitle h2{margin:6px 0 4px;font-size:22px} .ptitle p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+.camico{font-size:40px}
+.vcard{border-width:1px;border-left-width:4px}
+.vcard.buy{border-left-color:var(--buy)} .vcard.sell{border-left-color:var(--sell)} .vcard.hold{border-left-color:#4D7FD6} .vcard.scalp{border-left-color:#8FD3FF}
+.vbig{font-family:'Orbitron',sans-serif;font-size:28px;font-weight:800;margin-top:6px;letter-spacing:.03em}
+.vbig small{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--muted);font-weight:500}
+.vcard.buy .vbig{color:var(--buy)} .vcard.sell .vbig{color:var(--sell)}
+.vwhy{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.4}
+.plan{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.plan div{border-left:2px solid var(--line2);padding-left:10px}
+.plan span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.plan p{margin:2px 0 0;font-size:14px;line-height:1.45}
+.det summary{cursor:pointer;font-weight:700;font-size:14px;list-style-position:inside}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}.tbl th{text-align:left;color:var(--muted);font-weight:500}
+.hrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px;min-height:108px;border-radius:16px;background:var(--surface);border:1px solid var(--line);color:inherit;font:inherit;text-align:left}
+.tile .ti{font-size:22px} .tile b{font-size:15px} .tile small{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tile small .dot{width:8px;height:8px} .tile .rs{font-size:10px;padding:1px 6px}
+.emerg{border-color:#5A2030}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;margin-top:12px;font-size:13px}
+.kv span{color:var(--muted)} .kv b{text-align:right;font-weight:600}
+.chkrow{display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.ck{width:24px;height:24px;border-radius:99px;display:grid;place-items:center;font-size:13px;font-weight:800;background:var(--surface2);color:var(--muted);flex:none}
+.ck.ok{background:var(--buyBg);color:var(--buy)} .ck.bad{background:#4A1A22;color:#FF8A8A}
+.steps{margin:8px 0 0;padding-left:20px;font-size:14px;line-height:1.7}
+.inp{height:46px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 12px;font-size:16px;min-width:0;width:100%}
+.reply{box-shadow:0 8px 20px rgba(0,0,0,.35)}
+@media (min-width:700px){main{max-width:720px}.tiles{grid-template-columns:repeat(3,1fr)}.metrics{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
@@ -227,9 +282,8 @@ img.logo{object-fit:cover}
 <nav>
   <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>Home</button>
   <button data-tab="markets" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Markets</button>
-  <button data-tab="a9" aria-label="A9 assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>A9</button>
+  <button data-tab="chart" aria-label="Read a chart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h2l2-2h6l2 2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="4"/></svg>Chart</button>
   <button data-tab="trades" aria-label="Trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Trades</button>
-  <button data-tab="news" aria-label="News"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h13v16H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v10a2 2 0 0 1-2 2"/><path d="M8 8h5M8 12h5M8 16h3"/></svg>News</button>
   <button data-tab="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>Settings</button>
 </nav>
 <div id="toast" class="toast"></div>
@@ -238,12 +292,12 @@ img.logo{object-fit:cover}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '4.1.1';
+  var APP_VER = '5.0.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
   var API_KEY = 'AIzaSyD_NBRMzDxqOFAOLjU33R8M0gT1Ey7ofBQ';
-  var READ_URL = 'PASTE_CHART_READER_URL';   // v3.4.3: Cloudflare Worker address (https://axon9-reader.<name>.workers.dev)
+  var READ_URL = 'https://a9-brain.zolahuna-zo.workers.dev';   // v5.0: chart reader (Cloudflare Worker) built in
   var HOME_DB = 'https://axon9-7309e-default-rtdb.europe-west1.firebasedatabase.app';
   var AUTH = 'https://identitytoolkit.googleapis.com/v1/accounts:';
   var U = null; try { U = JSON.parse(store.get('axuser') || 'null'); } catch (e) {}
@@ -303,7 +357,7 @@ img.logo{object-fit:cover}
     if (!silent) toast('Signed out');
     render();
   }
-  function pick(x) { chatMe = []; setTimeout(chatLoad, 0); KEY = x ? x.k : ''; DB = x ? (x.db || HOME_DB) : ''; store.set('axk', KEY); store.set('axdb', DB); S = null; }
+  function pick(x) { rd.res = null; reads = null; KEY = x ? x.k : ''; DB = x ? (x.db || HOME_DB) : ''; store.set('axk', KEY); store.set('axdb', DB); S = null; }
   var KEY = store.get('axk') || '', DB = (store.get('axdb') || '').replace(/\/$/, '');
   if (U && p.k) addAcct({ k: p.k, db: (p.db || HOME_DB).replace(/\/$/, ''), name: '' });
   if (U && !accts().some(function (y) { return y.k === KEY; })) pick(accts()[0]);
@@ -372,8 +426,8 @@ img.logo{object-fit:cover}
     if (nf.length && !(d.kill && !prevS.kill)) { chime('siren'); notify(nm + ': problem', nf[0].x, 'fail'); }
     if (pendingTk) {   // v4.1: what the BROKER said - a tap is not a fill
       var br = (d.feed || []).filter(function (e) { return e.t >= pendingTk.t && /OPEN |BLOCKED|FAILED|Skipped|expired/.test(e.x); })[0];
-      if (br) { pendingTk = null; var okF = /OPEN /.test(br.x); toast(okF ? 'Filled at the broker ✓' : 'Not placed'); a9Add({ me: false, x: (okF ? '✅ **Broker confirmed:** ' : '⛔ **Not placed:** ') + br.x }); }
-      else if (Date.now() / 1000 - pendingTk.t > 60) { pendingTk = null; a9Add({ me: false, x: '⚠️ No answer from the broker within 60 s – check Trades before trying again.' }); }
+      if (br) { pendingTk = null; var okF = /OPEN /.test(br.x); toast(okF ? 'Filled at the broker ✓' : 'Not placed'); reply = (okF ? '✅ Broker confirmed: ' : '⛔ Not placed: ') + br.x; replyT = Date.now(); }
+      else if (Date.now() / 1000 - pendingTk.t > 60) { pendingTk = null; reply = '⚠️ No answer from the broker within 60 s – check Trades before trying again.'; replyT = Date.now(); }
     }
     prevS = d; prevKey = KEY;
   }
@@ -446,14 +500,12 @@ img.logo{object-fit:cover}
       .catch(function () { busy = false; render(); });
   }
   function liveState() {
-    var pill = $('live');
-    if (!S) { pill.className = 'pill'; pill.lastElementChild.textContent = 'WAITING'; return false; }
-    var age = Date.now() / 1000 - S.t, live = age < 20;
-    pill.className = 'pill ' + (live ? 'live' : 'off');
-    pill.lastElementChild.textContent = live ? 'LIVE' : 'OFFLINE';
+    var pill = $('live'), c = conn();
+    pill.className = 'pill ' + (c.k === 'ok' ? 'live' : c.k === 'stale' ? 'stale' : c.k === 'off' ? 'off' : '');
+    pill.lastElementChild.textContent = c.k === 'ok' ? 'MT5 LIVE' : c.k === 'stale' ? 'MT5 STALE' : c.k === 'off' ? 'MT5 OFFLINE' : 'WAITING';
     var me = accts().filter(function (x) { return x.k === KEY; })[0];
-    $('sub').textContent = (me && me.name ? me.name : '#' + (S.login || '')) + (S.real ? ' · REAL' : ' · demo') + ' · ' + (S.auto ? 'AUTO' : 'ASK ME') + ' ▾';
-    return live;
+    $('sub').textContent = (me && me.name ? me.name : S ? '#' + (S.login || '') : 'AXON-9') + (S ? (S.real ? ' · LIVE' : ' · DEMO') : '') + ' ▾';
+    return c.k === 'ok';
   }
   function signInView() {
     var c = authMode === 'up';
@@ -522,68 +574,37 @@ img.logo{object-fit:cover}
     }).catch(function () { toast('No internet - try again'); });
   }
   function usd(zar) { var v = Number(zar || 0) / (S && S.usdzar ? S.usdzar : 16.5); return '$' + v.toLocaleString('en-US', { maximumFractionDigits: v < 10000 ? 2 : 0 }); }
-  //--- v3.4.3 READ MY CHART: screenshot in, verdict out (scalp / hold / wait, how long, levels)
   //=====================================================================================
-  //--- v4.1 A9 MARKET ASSISTANT: chat (Analysis / Teaching / Trade) + chart reader + brief + decision history
-  //    The AI explains. AXON-9 decides. You confirm. The risk controller re-checks. MT5 confirms the fill.
+  //--- v5.0 CHART READER: upload a screenshot -> AXON-9 reads it, checks it against live MT5 data,
+  //    and says if / where / how to enter. The verdict is always AXON-9's, never the picture's.
   //=====================================================================================
   function brainUrl() { var u = store.get('axbrain') || READ_URL; return /PASTE_/.test(u) ? '' : u.replace(/\/+$/, '').replace(/\/(read|chat|brief)$/, ''); }
-  var a9 = { mode: 'analysis', busy: false, err: '', sub: 'chat', hist: null, brief: null, briefBusy: false };
-  var rd = { img: '', type: '', busy: false, res: null, err: '', note: '' };
+  var rd = { img: '', type: '', busy: false, res: null, err: '', note: '' }, reads = null;
   var askNoAuto = false, pendingTk = null;
-  function a9Chat() { try { return JSON.parse(store.get('a9chat_' + KEY) || '[]'); } catch (e) { return []; } }
-  function a9Save(a) { store.set('a9chat_' + KEY, JSON.stringify(a.slice(-40))); }
-  function a9Add(o) { var a = a9Chat(); o.t = Date.now() / 1000; a.push(o); a9Save(a); }
-  function md(x) {   // tiny safe markdown: escape first, then **bold**, _italic_, bullets, line breaks, links
-    var h = esc(String(x || ''));
-    h = h.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(^|\s)_([^_]+)_(?=\s|$|[.,])/g, '$1<i>$2</i>');
-    h = h.replace(/^\s*[-•] (.*)$/gm, '<span style="display:block;padding-left:12px">• $1</span>');
-    h = h.replace(/⟨unverified⟩/g, '<span class="tag sell" style="font-size:11px">unverified</span>');
-    return h.replace(/\n/g, '<br>');
-  }
-  function vBadge(v) {
-    if (!v) return '';
-    var c = v.verdict === 'BUY' ? 'buy' : v.verdict === 'SELL' ? 'sell' : v.verdict === 'WAIT' ? 'hold' : '';
-    return '<div class="row" style="margin-top:8px;gap:8px;justify-content:flex-start"><span class="tag ' + c + '" style="font-size:13px;padding:5px 10px">AXON-9: ' + esc(v.m) + ' ' + esc(v.verdict) + (v.grade ? ' · ' + esc(v.grade) : '') + '</span><span class="why">' + esc(v.why || '') + '</span></div>';
-  }
-  function snapTxt(s) { return s ? '<div class="why" style="font-size:11px;margin-top:6px">AXON-9 data ' + (s.age > 60 ? '<b class="down">STALE · ' + s.age + ' s old</b>' : s.age + ' s old') + ' · v' + esc(s.ver || '?') + ' · #' + (s.seq || 0) + '</div>' : ''; }
-  function a9Post(path, body) {
+  function readerPost(path, body) {
     var u = brainUrl();
-    if (!u) return Promise.reject('A9 brain is not switched on yet - paste its link in Settings (setup step).');
+    if (!u) return Promise.reject('The chart reader address is missing (Settings → Account → Advanced).');
     var ac = ('AbortController' in window) ? new AbortController() : null, tm = setTimeout(function () { if (ac) ac.abort(); }, 60000);
     return token().then(function (t) { body.tok = t; body.key = KEY; return fetch(u + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ac ? ac.signal : undefined }); })
-      .then(function (r) { clearTimeout(tm); return r.json(); }, function (e) { clearTimeout(tm); throw (e && e.name === 'AbortError') ? 'A9 took longer than 60 s - try again (open the brain link + /diag to check it).' : 'Could not reach the A9 brain - check the link in Settings.'; }).then(function (d) { if (!d || d.error) throw (d && d.error) || 'A9 brain error'; return d; });
+      .then(function (r) { clearTimeout(tm); return r.json(); }, function (e) { clearTimeout(tm); throw (e && e.name === 'AbortError') ? 'The reader took longer than 60 s – try again.' : 'Could not reach the chart reader – check your internet.'; })
+      .then(function (d) { if (!d || d.error) throw (d && d.error) || 'Chart reader error'; return d; });
   }
-  function a9Ask(q) {
-    q = String(q || '').trim(); if (!q || a9.busy) return;
-    var hist = a9Chat().slice(-6).map(function (m) { return { me: m.me, x: m.x }; });
-    a9Add({ me: true, x: q, mode: a9.mode }); a9.busy = true; a9.err = ''; render(true); a9Scroll();
-    a9Post('/chat', { q: q, mode: a9.mode, hist: hist }).then(function (d) {
-      a9.busy = false; a9Add({ me: false, x: d.answer, v: d.verdict, src: d.sources || [], tk: d.ticket, snap: d.snap, budget: d.budget, flags: d.flags });
-      chime(d.ticket ? 'signal' : 'close'); render(true); a9Scroll();
-    }).catch(function (e) { a9.busy = false; a9.err = String(e); render(true); });
+  function readChart() {
+    if (!rd.img) { toast('Add a chart screenshot first'); return; }
+    rd.busy = true; rd.err = ''; rd.res = null; render(true);
+    readerPost('/read', { img: rd.img.split(',')[1], type: rd.type, note: rd.note }).then(function (d) {
+      rd.busy = false; rd.res = d; reads = null; chime(d.final && /BUY|SELL/.test(d.final.verdict) ? 'signal' : 'close'); render(true);
+      setTimeout(function () { var el = $('verdict'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
+    }).catch(function (e) { rd.busy = false; rd.err = String(e); render(true); });
   }
-  function a9Scroll() { setTimeout(function () { window.scrollTo(0, document.body.scrollHeight); }, 60); }
-  function a9Ticket(m) {   // AXON-9 builds the ticket (entry, SL, TP, lots); YOU confirm; the bot re-checks; expires in 3 min
+  function loadReads() {
+    reads = 'loading';
+    token().then(function (t) { return fetch(HOME_DB + '/users/' + U.uid + '/a9hist.json?auth=' + t + '&orderBy=%22$key%22&limitToLast=40'); })
+      .then(function (r) { return r.json(); }).then(function (d) { reads = d ? Object.keys(d).map(function (k) { return d[k]; }).filter(function (h) { return h.kind === 'read'; }).sort(function (a, b) { return b.t - a.t; }).slice(0, 8) : []; render(true); })
+      .catch(function () { reads = []; render(true); });
+  }
+  function ticketFor(m) {   // AXON-9 builds the ticket (entry, SL, TP, lots); YOU confirm; the bot re-checks; expires in 3 min
     askNoAuto = true; send('/now ' + m, 'AXON-9 is building a ' + m + ' ticket…');
-    a9Add({ me: false, x: 'Building a **' + m + '** ticket from live MT5 data. Check it, then tap **Confirm** within 3 minutes. The risk controller re-checks everything when you confirm.' }); render(true);
-  }
-  function a9Brief(force) {
-    if (a9.briefBusy) return; a9.briefBusy = true; render(true);
-    a9Post('/brief', { force: !!force }).then(function (d) { a9.briefBusy = false; a9.brief = d; store.set('a9brief_' + KEY, JSON.stringify(d)); render(true); })
-      .catch(function (e) { a9.briefBusy = false; a9.err = String(e); render(true); });
-  }
-  function a9History() {
-    a9.hist = 'loading'; render(true);
-    token().then(function (t) { return fetch(HOME_DB + '/users/' + U.uid + '/a9hist.json?auth=' + t + '&orderBy=%22$key%22&limitToLast=50'); })
-      .then(function (r) { return r.json(); }).then(function (d) { a9.hist = d ? Object.keys(d).map(function (k) { return d[k]; }).sort(function (a, b) { return b.t - a.t; }) : []; render(true); })
-      .catch(function () { a9.hist = []; render(true); });
-  }
-  function a9HistCsv() {
-    var rows = [['time', 'kind', 'mode', 'market', 'axon9_verdict', 'freshness', 'question', 'answer', 'snapshot', 'cost_usd']];
-    (a9.hist || []).forEach(function (h) { rows.push([new Date(h.t * 1000).toISOString(), h.kind, h.mode || '', h.m, h.verdict, h.fresh || '', h.q, h.ans, h.seq, h.cost]); });
-    var csv = rows.map(function (r) { return r.map(function (v) { v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(','); }).join('\n');
-    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'A9_decision_history.csv'; document.body.appendChild(a); a.click(); setTimeout(function () { a.remove(); }, 500);
   }
   function pickImage(f) {
     if (!f) return;
@@ -600,13 +621,6 @@ img.logo{object-fit:cover}
       im.src = fr.result;
     };
     fr.readAsDataURL(f);
-  }
-  function readChart() {
-    if (!rd.img) { toast('Add a chart screenshot first'); return; }
-    rd.busy = true; rd.err = ''; rd.res = null; render(true);
-    a9Post('/read', { img: rd.img.split(',')[1], type: rd.type, note: rd.note }).then(function (d) {
-      rd.busy = false; rd.res = d; chime(d.final && /BUY|SELL/.test(d.final.verdict) ? 'signal' : 'close'); render(true); a9Scroll();
-    }).catch(function (e) { rd.busy = false; rd.err = String(e); render(true); });
   }
   function drawMarkup() {   // AXON-9 live levels drawn on your picture - only when the picture lines up with live data
     var cv = $('mk'), r = rd.res; if (!cv || !r || !r.levels || !r.levels.length || !r.axis || r.axis.length < 2) return;
@@ -630,67 +644,53 @@ img.logo{object-fit:cover}
     f = f || {}; var c = f.conf === 'high' ? 'up' : f.conf === 'low' ? 'down' : '';
     return '<tr style="border-top:1px solid var(--line)"><td style="padding:6px 4px">' + n + '</td><td>' + esc(f.value || '–') + (f.note ? '<div class="why">' + esc(f.note) + '</div>' : '') + '</td><td><span class="tag" style="font-size:10px">' + esc(f.label || 'UNAVAILABLE') + '</span></td><td class="' + c + '">' + esc(f.conf || '–') + '</td></tr>';
   }
+  function vcls(v) { return v === 'BUY' ? 'buy' : v === 'SELL' ? 'sell' : v === 'WAIT' ? 'hold' : v === 'PICTURE ONLY' ? 'scalp' : ''; }
   function readerHtml() {
-    var out = '<div class="card"><div class="label">📷 Chart reader</div><div class="why" style="margin-top:4px">Show the symbol, timeframe and price axis. The picture is read, checked against live MT5 data, and the verdict is AXON-9\'s – never the picture\'s.</div>' +
-      '<label class="drop" for="rfile" style="margin-top:10px">' + (rd.img ? (rd.res && rd.res.levels && rd.res.levels.length ? '<canvas id="mk" style="width:100%;border-radius:10px"></canvas>' : '<img src="' + rd.img + '" alt="Your chart">') : '<span style="font-size:30px">📷</span><b>Tap to add a screenshot</b>') + '</label><input type="file" id="rfile" accept="image/*" style="display:none">' +
-      '<div class="field" style="margin-top:8px"><label for="rnote">Note (optional)</label><input id="rnote" maxlength="200" placeholder="e.g. Gold 15m from TradingView" value="' + esc(rd.note) + '"></div>' +
-      '<button class="btn gold full" id="readgo"' + (rd.busy || !rd.img ? ' disabled' : '') + '>' + (rd.busy ? 'Reading…' : '🔍 Read this chart') + '</button>';
-    if (rd.busy) out += '<div style="text-align:center;margin-top:10px"><div class="spin"></div></div>';
-    if (rd.err) out += '<div class="banner" style="margin-top:8px">' + esc(rd.err) + '</div>';
-    var r = rd.res;
-    if (r && r.image) {
-      var im = r.image, ck = r.check || {}, fn = r.final || {}, F = im.features || {};
-      out += '<div class="label" style="margin-top:14px">1 · Image read</div>' + (im.readable === false ? '<div class="banner">Not readable: ' + esc((im.issues || []).join(', ')) + '</div>' : '') +
-        '<div class="why">' + esc(im.symbol_seen || '?') + ' · ' + esc(im.timeframe_seen || '?') + ' · ' + esc(im.platform || '') + '</div><div style="margin:6px 0">' + esc(im.summary || '') + '</div>' +
-        '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="color:var(--muted);text-align:left"><th>Feature</th><th>Read</th><th>Seen?</th><th>Conf.</th></tr>' +
-        featRow('Trend', F.trend) + featRow('Structure', F.structure) + featRow('Sweep', F.liquidity_sweep) + featRow('Order block', F.order_block) + featRow('FVG', F.fvg) + featRow('Candle', F.candle_pattern) + featRow('Zones', F.zones) + featRow('Trendline / Fib', F.trendline_fib) + featRow('Indicators', F.indicators) + featRow('Entry trigger', F.entry_confirmation) + '</table></div>' +
-        (im.drawings_by_someone_else ? '<div class="why" style="margin-top:6px">Someone else\'s drawings (not evidence): ' + esc(im.drawings_by_someone_else) + '</div>' : '');
-      out += '<div class="label" style="margin-top:14px">2 · Live check</div><div><span class="tag ' + (ck.freshness === 'CURRENT' ? 'buy' : ck.freshness === 'OUTDATED' ? 'sell' : 'hold') + '">' + esc(ck.freshness || 'UNVERIFIED') + '</span> ' + esc(ck.market || '') + '</div>' +
-        (ck.notes || []).map(function (n) { return '<div class="why">• ' + esc(n) + '</div>'; }).join('');
-      out += '<div class="label" style="margin-top:14px">3 · Final verdict (AXON-9)</div>' + vBadge({ m: ck.market || '', verdict: fn.verdict, why: fn.why, grade: fn.grade }) + snapTxt(r.snap);
-      if (fn.verdict === 'BUY' || fn.verdict === 'SELL') out += '<button class="btn gold full" style="margin-top:10px" data-a9tk="' + esc(ck.market) + '">Build ' + esc(ck.market) + ' ticket ›</button>';
-      out += '<div class="why" style="margin-top:8px">Lines on the picture are AXON-9\'s live prices, placed using the price axis the reader saw – approximate positions.</div><button class="btn ghost full" id="readnew" style="margin-top:8px">Read another chart</button>';
-    }
-    return out + '</div>';
-  }
-  function a9View() {
-    var out = '<div class="seg">' + [['chat', '💬 Chat'], ['read', '📷 Chart'], ['brief', '📰 Brief'], ['hist', '🗂 History']].map(function (x) { return '<button class="' + (a9.sub === x[0] ? 'on' : '') + '" data-a9sub="' + x[0] + '">' + x[1] + '</button>'; }).join('') + '</div>';
-    if (!brainUrl()) out += '<div class="banner">The A9 brain is not switched on yet. After the setup, paste its link in <b>Settings → A9 brain link</b>.</div>';
-    if (a9.err) out += '<div class="banner">' + esc(a9.err) + '</div>';
-    if (a9.sub === 'read') return out + readerHtml();
-    if (a9.sub === 'brief') {
-      var b = a9.brief || (function () { try { return JSON.parse(store.get('a9brief_' + KEY) || 'null'); } catch (e) { return null; } })();
-      out += '<div class="card"><div class="row"><div class="label">Market brief</div><button class="btn ghost" style="height:34px" id="a9brief">' + (a9.briefBusy ? 'Writing…' : '↻ New brief') + '</button></div>' +
-        (b && b.text ? '<div class="why" style="margin:4px 0 8px">' + new Date(b.t * 1000).toLocaleString('en-ZA', { weekday: 'short', hour: '2-digit', minute: '2-digit' }) + (b.cached ? ' · saved' : '') + '</div><div style="font-size:14px;line-height:1.55">' + md(b.text) + '</div>' +
-          ((b.sources || []).length ? '<div class="why" style="margin-top:10px">Web sources (unverified):<br>' + b.sources.map(function (s) { return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener" style="color:var(--text)">' + esc(s.title) + '</a>'; }).join('<br>') + '</div>' : '')
-          : '<div class="why" style="margin-top:8px">' + (a9.briefBusy ? '<div class="spin"></div>' : 'Tap “New brief” for what happened, AXON-9\'s view per market, trade ideas (A/B grades only), the calendar in SA time and the risks.') + '</div>') + '</div>';
-      return out;
-    }
-    if (a9.sub === 'hist') {
-      if (a9.hist === null) a9History();
-      out += '<div class="card"><div class="row"><div class="label">Decision history</div><button class="btn ghost" style="height:34px" id="a9csv">⬇ CSV</button></div>';
-      if (a9.hist === 'loading') out += '<div class="spin"></div>';
-      else if (!a9.hist || !a9.hist.length) out += '<div class="why" style="margin-top:8px">Nothing yet. Every A9 answer and chart read is saved here with AXON-9\'s verdict and the data snapshot it used.</div>';
-      else out += a9.hist.map(function (h) { return '<div style="padding:8px 0;border-top:1px solid var(--line)"><div class="row"><b>' + esc((h.kind === 'read' ? '📷 ' : '💬 ') + (h.m || 'general')) + '</b><span class="why">' + ago(h.t) + '</span></div><div class="why">' + esc(h.q || '') + '</div><div style="font-size:13px">AXON-9: <b>' + esc(h.verdict || '–') + '</b>' + (h.fresh ? ' · ' + esc(h.fresh) : '') + '</div></div>'; }).join('');
-      return out + '</div>';
-    }
-    //--- chat
-    out += '<div class="seg" style="margin-top:8px">' + [['analysis', 'Analysis'], ['teaching', 'Teaching'], ['trade', 'Trade assistant']].map(function (x) { return '<button class="' + (a9.mode === x[0] ? 'on' : '') + '" data-a9mode="' + x[0] + '">' + x[1] + '</button>'; }).join('') + '</div>';
-    var msgs = a9Chat();
-    out += '<div class="chat" id="a9chat" style="max-height:none">';
-    if (!msgs.length) out += '<div class="bub bot">I\'m A9. Ask me anything about your markets: trend, zones, liquidity, news, sessions, or "explain this sweep". I explain what AXON-9 sees – AXON-9 decides, you confirm.</div>';
-    msgs.forEach(function (m) {
-      var tm = new Date(m.t * 1000).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' });
-      out += '<div class="bub ' + (m.me ? 'me' : 'bot') + '" style="white-space:normal">' + (m.me ? esc(m.x) : md(m.x)) + (m.v ? vBadge(m.v) : '') +
-        ((m.src || []).length ? '<div class="why" style="margin-top:6px;font-size:11px">Web news (unverified): ' + m.src.map(function (s) { return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener" style="color:inherit">' + esc(s.title).slice(0, 60) + '</a>'; }).join(' · ') + '</div>' : '') +
-        (m.tk ? '<button class="btn gold full" style="margin-top:8px" data-a9tk="' + esc(m.tk.m) + '">Build ' + esc(m.tk.m) + ' ' + esc(m.tk.side) + ' ticket ›</button>' : '') + (!m.me ? snapTxt(m.snap) : '') + '<time>' + tm + '</time></div>';
-    });
-    if (a9.busy) out += '<div class="bub bot"><div class="spin"></div></div>';
+    var mk = (S && S.markets || []).map(function (m) { return m.n; });
+    var out = '<div class="card">' +
+      '<label class="drop" for="rfile">' + (rd.img ? (rd.res && rd.res.levels && rd.res.levels.length ? '<canvas id="mk" style="width:100%;border-radius:10px"></canvas>' : '<img src="' + rd.img + '" alt="Your chart">') + '<span class="why">Tap to change the picture</span>' : '<span class="camico">📷</span><b>Tap to upload a chart</b><span class="why">Screenshot from MT5 or TradingView · symbol, timeframe and price axis visible</span>') + '</label><input type="file" id="rfile" accept="image/*" style="display:none">';
+    if (mk.length) out += '<div class="why" style="margin-top:12px">Which market? (helps the live check)</div><div class="chips" style="margin-top:6px">' + mk.map(function (n) { return '<button class="' + (rd.note.indexOf(n) === 0 ? 'on' : '') + '" data-rchip="' + esc(n) + '">' + esc(n) + '</button>'; }).join('') + '</div>';
+    out += '<div class="field" style="margin-top:8px"><label for="rnote">Note (optional)</label><input id="rnote" maxlength="200" placeholder="e.g. Gold 15m – thinking of buying" value="' + esc(rd.note) + '"></div>' +
+      '<button class="btn gold full lg" style="margin-top:12px" id="readgo"' + (rd.busy || !rd.img ? ' disabled' : '') + '>' + (rd.busy ? 'Reading the chart…' : '🔍 Analyse this chart') + '</button>';
+    if (rd.busy) out += '<div style="text-align:center;margin-top:12px"><div class="spin"></div><div class="why" style="margin-top:6px">Reading the picture, then checking it against live MT5 prices (up to 30 s)</div></div>';
+    if (rd.err) out += '<div class="banner" style="margin-top:10px">' + esc(rd.err) + '</div>';
     out += '</div>';
-    out += '<div class="chips" style="margin-top:8px">' + ['Which market has the strongest setup now?', 'What is Gold doing?', 'Explain the last liquidity sweep', 'What news is coming today?', 'Why is NAS100 not a buy?'].map(function (q) { return '<button data-a9q="' + esc(q) + '">' + esc(q) + '</button>'; }).join('') + '</div>';
-    out += '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px"><input id="a9in" type="text" autocomplete="off" placeholder="Ask A9…" style="height:48px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 12px;font-size:16px">' +
-      '<button class="btn gold" id="a9send" style="height:48px"' + (a9.busy ? ' disabled' : '') + '>Send</button></div>' +
-      '<div class="row" style="margin-top:6px"><span class="why" style="font-size:11px">A9 explains AXON-9\'s analysis. It never places trades by itself.</span><button class="btn ghost" style="height:30px;font-size:12px" id="a9clear">Clear chat</button></div>';
+    var r = rd.res;
+    if (!r || !r.image) return out;
+    var im = r.image, ck = r.check || {}, fn = r.final || {}, F = im.features || {}, ep = im.entry_plan || {}, v = fn.verdict || 'NO TRADE';
+    //--- 1. the answer first
+    out += '<div class="card vcard ' + vcls(v) + '" id="verdict"><div class="row"><span class="label">AXON-9 verdict</span><span class="why">' + esc((ck.market || im.symbol_seen || '?') + ' · ' + (im.timeframe_seen || '?')) + '</span></div>' +
+      '<div class="vbig">' + esc(v) + (fn.grade ? ' <small>grade ' + esc(fn.grade) + '</small>' : '') + '</div><div class="vwhy">' + esc(fn.why || '') + '</div>' +
+      (fn.lv ? '<div class="lv"><div><span>Entry</span><b>' + esc(fn.lv.entry) + '</b></div><div><span>SL</span><b class="down">' + esc(fn.lv.sl) + '</b></div><div><span>TP1</span><b class="up">' + esc(fn.lv.tp1) + '</b></div><div><span>TP2</span><b class="up">' + esc(fn.lv.tp2) + '</b></div></div><div class="why">Live AXON-9 levels' + (fn.lv.setup ? ' · ' + esc(fn.lv.setup) : '') + (fn.lv.style ? ' · ' + esc(fn.lv.style) : '') + '</div>' : '') +
+      '<div class="why" style="margin-top:8px"><span class="tag ' + (ck.freshness === 'CURRENT' ? 'buy' : ck.freshness === 'OUTDATED' ? 'sell' : 'hold') + '" style="font-size:10px">' + esc(ck.freshness || 'UNVERIFIED') + '</span> ' + (r.snap ? 'live data ' + (r.snap.age > 60 ? '<b class="down">stale (' + r.snap.age + ' s)</b>' : r.snap.age + ' s old') : '') + '</div>';
+    if (v === 'BUY' || v === 'SELL') out += '<button class="btn gold full lg" style="margin-top:12px" data-tk="' + esc(ck.market) + '">Build ' + esc(ck.market) + ' ' + esc(v) + ' ticket ›</button><div class="why" style="margin-top:6px;text-align:center">You confirm it · the risk controller re-checks · MT5 confirms the fill</div>';
+    out += '</div>';
+    //--- 2. how to enter (read from the picture)
+    var bias = String(ep.bias || 'none').toLowerCase();
+    out += '<div class="card"><div class="row"><span class="label">How to trade this chart</span><span class="tag ' + (bias === 'buy' ? 'buy' : bias === 'sell' ? 'sell' : '') + '">' + (bias === 'buy' ? 'BUY idea' : bias === 'sell' ? 'SELL idea' : 'no clean idea') + '</span></div>' +
+      '<div class="plan">' + [['Where to enter', ep.where], ['Wait for', ep.trigger], ['Wrong if', ep.invalidation], ['Targets', ep.targets], ['Style', [ep.style, ep.horizon].filter(Boolean).join(' · ')], ['Nothing now? Wait for', ep.wait_for]].filter(function (x) { return x[1]; }).map(function (x) { return '<div><span>' + x[0] + '</span><p>' + esc(x[1]) + '</p></div>'; }).join('') + '</div>' +
+      (!ep.where && !ep.wait_for ? '<div class="why" style="margin-top:6px">' + esc(im.summary || 'No plan could be read from this picture.') + '</div>' : '') +
+      '<div class="why" style="margin-top:8px">This plan is read from your picture (a teaching guide). Trade only when the AXON-9 verdict above agrees.</div></div>';
+    //--- 3. the details
+    out += '<details class="card det"><summary>What the reader saw</summary>' +
+      (im.readable === false ? '<div class="banner" style="margin-top:8px">Not readable: ' + esc((im.issues || []).join(', ')) + '</div>' : '') +
+      '<div style="margin:8px 0">' + esc(im.summary || '') + '</div>' +
+      '<div style="overflow-x:auto"><table class="tbl"><tr><th>Feature</th><th>Read</th><th>Seen?</th><th>Conf.</th></tr>' +
+      featRow('Trend', F.trend) + featRow('Structure', F.structure) + featRow('Sweep', F.liquidity_sweep) + featRow('Order block', F.order_block) + featRow('FVG', F.fvg) + featRow('Candle', F.candle_pattern) + featRow('Zones', F.zones) + featRow('Trendline / Fib', F.trendline_fib) + featRow('Indicators', F.indicators) + featRow('Entry trigger', F.entry_confirmation) + '</table></div>' +
+      (im.drawings_by_someone_else ? '<div class="why" style="margin-top:6px">Someone else\'s drawings (not evidence): ' + esc(im.drawings_by_someone_else) + '</div>' : '') +
+      '<div class="label" style="margin-top:12px">Live check</div>' + (ck.notes || []).map(function (n) { return '<div class="why">• ' + esc(n) + '</div>'; }).join('') +
+      '<div class="why" style="margin-top:8px">Lines on the picture are AXON-9\'s live levels placed with the price axis the reader saw – approximate.</div></details>';
+    out += '<button class="btn ghost full" id="readnew">📷 Read another chart</button>';
+    return out;
+  }
+  function chartTab() {
+    var out = '';
+    if (!rd.img && !rd.res) out += '<div class="ptitle"><h2>Read a chart</h2><p>Upload a chart screenshot. AXON-9 reads it, checks it against live MT5 prices and tells you <b>if</b>, <b>where</b> and <b>how</b> to enter.</p></div>';
+    out += readerHtml();
+    if (!rd.busy && !rd.res) {
+      if (reads === null && U) loadReads();
+      if (reads && reads !== 'loading' && reads.length) out += '<div class="card"><div class="label">Recent reads</div>' + reads.map(function (h) { return '<div class="hrow"><div><b>' + esc(h.m || h.q || 'chart') + '</b><div class="why">' + esc(h.q || '') + (h.fresh ? ' · ' + esc(h.fresh) : '') + '</div></div><div style="text-align:right"><span class="vt ' + vcls(h.verdict) + '">' + esc(h.verdict || '–') + '</span><div class="why">' + ago(h.t) + '</div></div></div>'; }).join('') + '</div>';
+    }
     return out;
   }
   function ago(t) { var d = Math.max(0, Date.now() / 1000 - t); return d < 60 ? 'now' : d < 3600 ? Math.floor(d / 60) + 'm' : d < 86400 ? Math.floor(d / 3600) + 'h' : Math.floor(d / 86400) + 'd'; }
@@ -744,53 +744,12 @@ img.logo{object-fit:cover}
       '<div class="riskbar">AXON-9 puts the stop 1 × the hourly range away (1.2 × on crypto/gold) and takes profit at 1R and 2R. The 10% account limit still protects you.</div>' +
       '<div class="bs"><button class="btn sell lg" data-confirm="SELL ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(x.s) + '?" data-cmd="' + esc(cmd('sell')) + '" data-msg="Selling in MT5…">SELL ' + nSel + ' × ' + lotSel.toFixed(2) + '</button>' +
       '<button class="btn buy lg" data-confirm="BUY ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(x.s) + '?" data-cmd="' + esc(cmd('buy')) + '" data-msg="Buying in MT5…">BUY ' + nSel + ' × ' + lotSel.toFixed(2) + '</button></div></div>';
-    out += '<a class="mt5" href="' + mt5Link() + '" target="_blank" rel="noopener">Open ' + esc(x.s) + ' in MetaTrader 5</a>';
     out += (S.msg ? '<div class="card"><div class="last" style="border:0;margin:0;padding:0">Bot: ' + esc(S.msg) + '</div></div>' : '');
-    return out;
-  }
-  //--- v3.4.8 HOME = like the Telegram bot: account strip, chat with AXON-9, the same 8 buttons
-  var chatMe = [];
-  function chatLoad() { try { chatMe = JSON.parse(store.get('axchat_' + KEY) || '[]'); } catch (e) { chatMe = []; } }
-  function chatSay(x) { chatMe.push({ t: Date.now() / 1000, x: x }); chatMe = chatMe.slice(-30); store.set('axchat_' + KEY, JSON.stringify(chatMe)); }
-  function chatHtml() {
-    var items = (S.feed || []).map(function (e) { return { t: e.t, x: e.x, me: false }; })
-      .concat(chatMe.map(function (e) { return { t: e.t, x: e.x, me: true }; }))
-      .sort(function (a, b) { return a.t - b.t; }).slice(-25);
-    if (!items.length) return '<div class="bub bot">Hi ' + esc((U.email || '').split('@')[0]) + ' 👋 Tap <b>Signal now</b> and I\'ll read the markets for you.</div>';
-    return items.map(function (e) {
-      var tm = new Date(e.t * 1000).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' });
-      return '<div class="bub ' + (e.me ? 'me' : 'bot') + '">' + esc(e.x) + '<time>' + tm + (e.me ? ' ✓✓' : '') + '</time></div>';
-    }).join('');
-  }
-  function home(live) {
-    var s = S, out = '';
-    if (!live) out += '<div class="banner"><b>OFFLINE:</b> the PC with MT5 is not reporting. Trades keep their SL at the broker.</div>';
-    if (s.emergency) out += '<div class="banner"><b>EMERGENCY:</b> a trade has no stop loss. Check MT5 now.</div>';
-    if (s.kill) out += '<div class="card" style="border:2px solid var(--gold)"><div class="row"><b style="color:var(--gold)">🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9? Auto stays OFF until you tap Auto ON." data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div><div class="why" style="margin-top:6px">' + (s.killflat ? 'Closing positions – retrying until the broker confirms.' : 'Everything is closed and Auto is locked.') + '</div></div>';
-    else if (s.safe) out += '<div class="card" style="border:1px solid var(--line2)"><div class="row"><b>⏸ No new trades</b>' + (s.ddpause || s.spause ? '<button class="btn ghost" style="height:38px" data-confirm="Resume trading now?" data-cmd="/resume" data-msg="Resuming…">Resume</button>' : '') + '</div><div class="why" style="margin-top:6px">' + esc(s.safe) + '</div></div>';
-    if (s.mode === 'ACTIVE') out += '<div class="banner"><b>ACTIVE mode:</b> grade C setups can trade – more trades, more stop-loss hits.</div>';
-    out += '<div class="strip"><div><span class="label">Equity</span><b class="mono">' + esc(s.eq) + '</b></div>' +
-      '<div><span class="label">Today</span><b class="mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + '</b></div>' +
-      '<div><span class="label">Open</span><b class="mono">' + (s.open || 0) + '</b></div>' +
-      '<div><span class="label">Mode</span><b class="' + (s.auto ? 'up' : '') + '">' + (s.auto ? 'AUTO' : 'ASK ME') + '</b></div></div>';
-    if (s.tgt > 0) {
-      var tp = Math.max(0, Math.min(100, (s.tUsd || 0) / s.tgt * 100));
-      out += '<div class="card" style="padding:12px 14px"><div class="row"><span class="label">' + esc(s.goal || 'Daily') + ' target today</span><b class="mono ' + (s.tgtDone ? 'up' : '') + '">' + ((s.tUsd || 0) >= 0 ? '+$' : '-$') + Math.abs(s.tUsd || 0).toFixed(2) + ' / $' + Number(s.tgt).toFixed(0) + '</b></div>' +
-        '<div class="meter"><i style="width:' + tp.toFixed(1) + '%"></i></div><div class="why">' + (s.tgtDone ? '✅ Target reached – trades closed, AXON-9 rests until tomorrow.' : s.rentPause ? '🏠 Rent week – no trading until the 1st.' : 'AXON-9 trades until the target is reached, then closes everything.') + '</div></div>';
-    }
-    out += hotCard();
-    out += '<div class="chat" id="chat">' + chatHtml() + '</div>';
-    var K = [['⚡ Signal now', 'cmd', '/now'], ['📊 Status', 'cmd', '/status'], ['📈 Trades', 'tab', 'trades'], ['📋 Report', 'cmd', '/report'],
-             [(s.auto ? '✅ ' : '') + 'Auto ON', 'cmd', '/auto'], [(!s.auto ? '✅ ' : '') + 'Signals only', 'cmd', '/signals'], ['🛑 Kill switch', 'kill', '/kill'], ['🤖 Ask A9', 'tab', 'a9']];
-    out += '<div class="kbd">' + K.map(function (k) {
-      if (k[1] === 'tab') return '<button data-tab2="' + k[2] + '" data-say="' + k[0] + '">' + k[0] + '</button>';
-      return '<button data-cmd="' + k[2] + '" data-say="' + k[0].replace(/^✅ /, '') + '"' + (k[1] === 'kill' ? ' data-confirm="KILL SWITCH: close ALL trades and lock Auto?"' : '') + ' data-msg="Sent">' + k[0] + '</button>';
-    }).join('') + '</div>';
     return out;
   }
   //--- NEWS tab
   function newsTab() {
-    var out = '<div class="wh" style="margin:4px 2px 0">News</div><div class="why" style="margin:0 2px">High-impact events for your markets. AXON-9 does not open trades in a news blackout.</div>';
+    var out = '<div class="why" style="margin:0 2px">High-impact events for your markets. AXON-9 does not open trades in a news blackout.</div>';
     //--- v4.1 alerts by severity (rules, not AI) - mute per market in the list below
     var mute = {}; try { mute = JSON.parse(store.get('axmute') || '{}'); } catch (e) {}
     var A = [], now = Date.now() / 1000;
@@ -805,12 +764,11 @@ img.logo{object-fit:cover}
     var col = { CRITICAL: 'sell', HIGH: 'hold', MEDIUM: '', INFO: 'buy' };
     var rank = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, INFO: 3 }; A.sort(function (x, y) { return rank[x[0]] - rank[y[0]]; });
     out += '<div class="card"><div class="label">Alerts</div>' + (A.length ? A.map(function (a) { return '<div class="row" style="padding:7px 0;border-top:1px solid var(--line);justify-content:flex-start;gap:8px"><span class="tag ' + col[a[0]] + '" style="font-size:10px">' + a[0] + '</span><span style="font-size:14px">' + esc(a[1]) + '</span></div>'; }).join('') : '<div class="why" style="margin-top:6px">All quiet.</div>') +
-      '<div class="chips" style="margin-top:8px">' + (S.markets || []).map(function (m) { return '<button class="' + (mute[m.n] ? '' : 'on') + '" data-mute="' + esc(m.n) + '">' + (mute[m.n] ? '🔕 ' : '🔔 ') + esc(m.n) + '</button>'; }).join('') + '</div></div>';
+      '<div class="why" style="margin-top:8px">Mute a market: Settings → Alerts.</div></div>';
     //--- v4.1 economic calendar in SA time (MT5 calendar = verified)
     var cal = (S.cal || []).slice().sort(function (a, b) { return a.t - b.t; });
     out += '<div class="card"><div class="label">Calendar (SA time · next 24 h · MT5 verified)</div>' + (cal.length ? '<div style="overflow-x:auto;margin-top:6px"><table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="text-align:left;color:var(--muted)"><th>Time</th><th>Event</th><th>Fcst</th><th>Prev</th><th>Actual</th></tr>' +
       cal.map(function (c) { return '<tr style="border-top:1px solid var(--line)' + (c.t < now ? ';opacity:.6' : '') + '"><td class="mono">' + esc(c.sa) + '</td><td>' + (c.imp === 'HIGH' ? '🔴 ' : '🟠 ') + esc(c.cur + ' ' + c.name) + '</td><td class="mono">' + esc(c.fc || '–') + '</td><td class="mono">' + esc(c.prev || '–') + '</td><td class="mono"><b>' + esc(c.act || '–') + '</b></td></tr>'; }).join('') + '</table></div>' : '<div class="why" style="margin-top:6px">No calendar from the broker yet (it fills in after the bot runs a few minutes, weekdays).</div>') + '</div>';
-    out += '<button class="btn ghost full" data-tab2="a9" data-a9go="brief">📰 Open the A9 market brief</button>';
     (S.markets || []).forEach(function (m) {
       out += '<div class="card"><div class="row"><b style="font-size:16px">' + esc(m.n) + '</b>' + (m.blk ? '<span class="tag sell">BLACKOUT NOW</span>' : m.s60 ? '<span class="tag hold">NEWS WITHIN 1H</span>' : '<span class="tag">clear</span>') + '</div>' +
         '<div class="why" style="margin-top:6px">Next: ' + (m.news ? '<b style="color:var(--text)">' + esc(m.news) + '</b>' : 'no high-impact event in the next 6 hours') + '</div>' +
@@ -818,38 +776,6 @@ img.logo{object-fit:cover}
     });
     var nf = (S.feed || []).filter(function (e) { return /NEWS/i.test(e.x); }).slice(0, 10);
     if (nf.length) out += '<div class="card"><div class="label">News alerts</div>' + nf.map(function (e) { return '<div class="fi"><span class="ic block">!</span><span>' + esc(e.x) + '</span><time>' + ago(e.t) + '</time></div>'; }).join('') + '</div>';
-    return out;
-  }
-  function marketsTab(live) {
-    var s = S, out = '';
-    if (s.state) {
-      var st = s.state, cls = (st === 'EMERGENCY_LOCK' || st === 'SHUTDOWN') ? 'bad' : (st === 'READY' || st === 'POSITION_MANAGEMENT') ? '' : 'warn';
-      var pct = Math.max(0, Math.min(100, s.msPct || 0));
-      out += '<div class="card"><div class="row"><div class="label">Growth engine</div><span class="state ' + cls + '">' + esc(st.replace(/_/g, ' ')) + '</span></div>' +
-        '<div class="row" style="margin-top:10px"><div class="mono">' + usd(s.eqZar) + '</div><div class="why">target ' + usd(s.msTarget) + '</div></div>' +
-        '<div class="meter"><i style="width:' + pct.toFixed(1) + '%"></i></div>' +
-        '<div class="row why"><span>Milestone ' + ((s.msN || 0) + 1) + ' · ' + pct.toFixed(0) + '%</span><span>Drawdown ' + (s.dd || 0).toFixed(1) + '% · risk ×' + (s.ddf || 1).toFixed(2) + '</span></div>' +
-        (s.riskWhy ? '<div class="why" style="margin-top:8px">Last sizing: ' + esc(s.riskWhy) + '</div>' : '') +
-        '<div class="seg" style="margin-top:10px"><button data-cmd="/growth">Growth details</button><button data-cmd="/status">Status</button></div></div>';
-    }
-    out += '<button class="btn ghost full lg" data-tab2="read">📷 Read my chart (upload a screenshot)</button>';
-    out += '<div class="card"><div class="row"><div class="label">Markets</div><div class="why">zones · 4H · 1H</div></div>';
-    (s.markets || []).forEach(function (m) {
-      out += '<button class="mkt" data-mkt="' + (m.i == null ? '' : m.i) + '" aria-label="Open ' + esc(m.n) + '"><div><b>' + esc(m.n) + '</b>' + (m.off ? ' <span class="tag">OFF</span>' : '') + ' <span class="mono why">' + esc(m.px) + '</span>' +
-        (m.np ? ' <span class="tag ' + (m.plUp ? 'trend' : '') + '">' + m.np + ' open ' + esc(m.pl) + '</span>' : '') + '</div>' +
-        '<span><span class="tag ' + (m.reg === 'TREND' ? 'trend' : '') + '">' + esc(m.reg) + '</span><span class="chev">›</span></span>' +
-        '<div class="why">4H ' + esc(m.h4) + ' · 1H ' + esc(m.h1) + (m.chg != null ? ' · ' + (m.chg >= 0 ? '+' : '') + m.chg + '% today' : '') + '</div><div class="why" style="text-align:right">' + esc(m.why).slice(0, 28) + '</div></button>';
-    });
-    out += '</div>';
-    out += watchHtml();
-    if (s.score) {
-      out += '<div class="card"><div class="row"><div class="label">Scoreboard · every signal, paper-traded after costs</div></div>';
-      s.score.forEach(function (g) {
-        out += '<div class="mkt"><div><b>Grade ' + esc(g.g) + '</b> <span class="why">' + g.n + ' results' + (g.n < 30 ? ' · too few to judge' : '') + '</span></div>' +
-          '<span class="mono ' + (g.avgR >= 0 ? 'up' : 'down') + '">' + (g.n ? g.win + '% · ' + (g.avgR >= 0 ? '+' : '') + g.avgR.toFixed(2) + 'R' : '—') + '</span></div>';
-      });
-      out += '<div class="seg" style="margin-top:10px"><button data-cmd="/score">Full scoreboard</button><button data-cmd="/selftest">Self-test</button></div></div>';
-    }
     return out;
   }
   var sigN = {};   // chosen number of positions per signal
@@ -894,22 +820,6 @@ img.logo{object-fit:cover}
     return out;
   }
   function signalsWrap() { var o = signals(); return o.indexOf('Everything AXON-9 did') >= 0 ? o : o + '<div class="card"><div class="label">Everything AXON-9 did · newest first</div>' + feedHtml(40) + '</div>'; }
-  function trades() {
-    var list = S.trades || [], out = '';
-    if (!list.length) return '<div class="card empty">No open trades.</div>' + proofCards();
-    list.forEach(function (t) {
-      out += '<div class="card"><div class="row"><div style="display:flex;gap:8px;align-items:center"><span class="tag ' + (t.side === 'BUY' ? 'buy' : 'sell') + '">' + t.side + '</span><b>' + esc(t.sym) + '</b><span class="why">' + t.vol.toFixed(2) + ' lot</span>' + tradeTag(t) + '</div>' +
-        '<b class="mono ' + (t.up ? 'up' : 'down') + '">' + esc(t.pl) + '</b></div>' +
-        '<div class="why" style="margin-top:6px">Open ' + esc(t.open) + ' · SL ' + esc(t.sl) + ' · TP ' + esc(t.tp) + (t.hold ? ' · HOLD' : '') + '</div>' +
-        (t.sl === 'NONE' ? '<div class="banner" style="margin-top:8px">No stop loss on this trade.</div>' : '') +
-        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">' +
-        '<button class="btn ghost" data-cmd="cb:sl:' + t.tk + '" data-msg="Setting SL…">Set SL</button>' +
-        '<button class="btn ghost" data-cmd="cb:be:' + t.tk + '" data-msg="Breakeven…">Breakeven</button>' +
-        '<button class="btn danger" data-confirm="Close this trade?" data-cmd="cb:close:' + t.tk + '" data-msg="Closing…">Close</button></div></div>';
-    });
-    out += '<button class="btn danger full" data-confirm="Close ALL trades on the account?" data-cmd="cb:closeall" data-msg="Closing everything…">Close all trades</button>';
-    return out + proofCards();
-  }
   //--- v4.0 PROOF: report card per setup + execution report + CSV export
   function proofCards() {
     var c = S.card || [], e = S.exe || [], out = '';
@@ -938,13 +848,6 @@ img.logo{object-fit:cover}
     var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'AXON9_report_' + acctName().replace(/\W+/g, '_') + '.csv'; document.body.appendChild(a); a.click(); setTimeout(function () { a.remove(); }, 500);
   }
   document.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('#csvx'); if (b) { e.preventDefault(); if (S) csvExport(); } });
-  //--- v3.4 one market: live prices, what the bot sees, your positions on it, signal + buy/sell from the phone
-  function mt5Link() {
-    var ua = navigator.userAgent || '';
-    if (/Android/i.test(ua)) return 'intent://#Intent;package=net.metaquotes.metatrader5;S.browser_fallback_url=' + encodeURIComponent('https://play.google.com/store/apps/details?id=net.metaquotes.metatrader5') + ';end';
-    if (/iPhone|iPad|iPod/i.test(ua)) return 'https://apps.apple.com/app/metatrader-5/id413251709';
-    return 'https://web.metatrader.app/terminal';
-  }
   function lotStep(x, d) {   // 0.01 to 0.10, 0.05 to 0.50, 0.10 to 2, 0.50 to 10, then 1.00
     var lim = [[0.1, 0.01], [0.5, 0.05], [2, 0.1], [10, 0.5], [1e9, 1]], st = 1;
     for (var i = 0; i < lim.length; i++) { if (d > 0 ? x < lim[i][0] - 1e-9 : x <= lim[i][0] + 1e-9) { st = lim[i][1]; break; } }
@@ -968,6 +871,10 @@ img.logo{object-fit:cover}
       '<div class="why" style="margin-top:10px">' + (m.chg >= 0 ? '+' : '') + m.chg + '% today · 4H ' + esc(m.h4) + ' · 1H ' + esc(m.h1) + ' · ADX ' + m.adx + ' · ATR ' + esc(m.atr) + '</div>' +
       '<div class="why">' + esc(m.why) + (m.news ? ' · next news: ' + esc(m.news) : '') + '</div>' +
       '<div class="why">Bot leans: <b>' + (m.lean > 0 ? 'UP' : m.lean < 0 ? 'DOWN' : 'no side') + '</b></div></div>';
+    var vv = verdictOf(m), pa = m.pa || {};
+    out += '<div class="card vcard ' + vcls(vv.v) + '"><div class="row"><span class="label">AXON-9 verdict</span><span class="fr ' + fresh(m).c + '">' + fresh(m).t + '</span></div><div class="vbig">' + vv.v + (vv.g ? ' <small>grade ' + esc(vv.g) + '</small>' : '') + '</div><div class="vwhy">' + esc(vv.why) + '</div>' +
+      '<div class="mrow" style="margin-top:8px"><span>D1 ' + arr(pa.d1) + '</span><span>H4 ' + arr(pa.h4) + '</span><span>H1 ' + arr(pa.h1) + '</span>' + (pa.half ? '<span>' + esc(pa.half) + '</span>' : '') + '</div></div>';
+    if ((pa.zones || []).length || (pa.liq || []).length) out += '<details class="card det"><summary>Key levels (zones & liquidity)</summary><div class="kv">' + (pa.zones || []).map(function (z) { return '<span>' + (z.side === 'support' ? '🟢 Support' : '🔴 Resistance') + (z.flip ? ' (flip)' : '') + ' · ' + z.tests + ' tests</span><b class="mono">' + esc(z.p) + '</b>'; }).join('') + (pa.liq || []).map(function (l) { return '<span>💧 ' + esc(l.n) + '</span><b class="mono">' + esc(l.p) + '</b>'; }).join('') + '</div></details>';
     out += '<button class="btn gold full" data-cmd="/now ' + esc(m.n) + '" data-msg="Reading ' + esc(m.n) + '…">⚡ Signal now for ' + esc(m.n) + '</button>';
     // your positions on this market (bot + manual)
     var mine = (S.trades || []).filter(function (t) { return t.sym === m.sym; });
@@ -994,8 +901,7 @@ img.logo{object-fit:cover}
       '<div class="bs"><button class="btn sell lg" data-confirm="SELL ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' sell ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Selling…">SELL ' + nSel + ' × ' + lotSel.toFixed(2) + '</button>' +
       '<button class="btn buy lg" data-confirm="BUY ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' buy ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Buying…">BUY ' + nSel + ' × ' + lotSel.toFixed(2) + '</button></div>' +
       '<div class="why" style="margin-top:8px">Orders go straight into your MT5 account - you will see them in MT5 and on the Trades tab.</div></div>';
-    out += '<button class="btn ghost full lg" data-tab2="read">📷 Read a ' + esc(m.n) + ' screenshot</button>';
-    out += '<a class="mt5" href="' + mt5Link() + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Open ' + esc(m.sym || m.n) + ' in MetaTrader 5</a>';
+    out += '<button class="btn ghost full lg" data-tab2="chart" data-rnote="' + esc(m.n) + '">📷 Read a ' + esc(m.n) + ' chart</button>';
     out += (S.msg ? '<div class="card"><div class="last" style="border:0;margin:0;padding:0">Bot: ' + esc(S.msg) + '</div></div>' : '');
     return out;
   }
@@ -1023,61 +929,243 @@ img.logo{object-fit:cover}
     out += '<button class="link" id="signout">Sign out</button>';
     return out;
   }
-  function settings() {
-    var s = S, out = '';
-    var risks = ['0.25', '0.5', '1', 'auto'], caps = ['1', '2', '3', '0'];
-    var md = s.mode || 'BALANCED';
-    out += '<div class="card"><div class="label">How picky (now ' + md + ')</div><div style="height:8px"></div><div class="chips">' +
-      ['STRICT', 'BALANCED', 'ACTIVE'].map(function (m) { return '<button class="' + (m === md ? 'on' : '') + '" data-cmd="/mode ' + m.toLowerCase() + '">' + m + '</button>'; }).join('') +
-      '</div><div class="why" style="margin-top:8px">Strict = fewest trades, grade A only. Balanced = A+B, trend + range. Active = most trades, more SL hits.</div>' + (md === 'ACTIVE' ? '<div class="banner" style="margin-top:8px">⚠️ ACTIVE lets grade C setups trade. Use it on demo first.</div>' : '') + '</div>';
-    out += '<div class="card"><div class="label">Safety (risk controller)</div>' +
-      '<div class="why" style="margin-top:6px;line-height:1.6">Status: <b style="color:var(--text)">' + (s.safe ? esc(s.safe) : 'clear – trading allowed') + '</b><br>' +
-      'Daily loss limit ' + (s.dloss || 4) + '% · weekly 8% · max ' + (s.maxo || 4) + ' trades open<br>' +
-      'Max risk per trade ' + (s.rcap || 1) + '% · all open trades ' + (s.ocap || 4) + '%<br>' +
-      'Below peak ' + Number(s.dd || 0).toFixed(1) + '% (pause 12% · kill switch 15%)<br>' +
-      'Losses in a row: ' + (s.streak || 0) + ' (pause at 3 · stop at 5) · risk can grow: ' + (s.grow ? 'yes' : 'not yet (' + (s.ntr || 0) + '/20 trades)') + '</div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">' +
-      (s.kill ? '<button class="btn gold" data-confirm="Unlock AXON-9?" data-cmd="/unlock" data-msg="Unlocking…">Unlock</button>' : '<button class="btn danger" data-confirm="KILL SWITCH: close ALL trades and lock Auto?" data-cmd="/kill" data-msg="Kill switch…">🛑 Kill switch</button>') +
-      '<button class="btn ghost" data-cmd="/resume" data-msg="Pauses cleared">Resume</button></div></div>';
-    out += '<div class="card"><div class="label">Risk per trade (now ' + s.risk + '%)</div><div style="height:8px"></div><div class="chips">' +
-      risks.map(function (r) { return '<button data-cmd="/risk ' + r + '">' + (r === 'auto' ? 'auto' : r + '%') + '</button>'; }).join('') + '</div></div>';
-    out += '<div class="card"><div class="label">Risk cap per signal (now ' + (s.cap > 0 ? s.cap + '%' : 'off') + ')</div><div style="height:8px"></div><div class="chips">' +
-      caps.map(function (c) { return '<button class="' + (Number(c) === s.cap ? 'on' : '') + '" data-cmd="/cap ' + c + '">' + (c === '0' ? 'off' : c + '%') + '</button>'; }).join('') + '</div></div>';
-    out += '<div class="card setup"><div class="label">Daily target for this account' + (s.goal ? ' (' + esc(s.goal) + ')' : '') + '</div>' +
-      '<div class="why" style="margin-top:6px">Now: ' + (s.tgt > 0 ? '<b style="color:var(--text)">$' + Number(s.tgt).toFixed(0) + ' a day</b> – when reached, all trades close until tomorrow' : 'off') + '</div>' +
-      '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px"><input id="tgtin" type="text" inputmode="decimal" placeholder="e.g. 190" style="height:46px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 12px;font-size:16px">' +
-      '<button class="btn gold" id="tgtset">Set</button></div>' +
-      '<div class="chips" style="margin-top:8px">' + [['House', 190], ['Swift', 71], ['Mazda', 58], ['Business', 115], ['Rent', 36], ['Salary', 97], ['Off', 0]].map(function (x) { return '<button data-cmd="/daily ' + x[1] + '" data-msg="Target set">' + x[0] + (x[1] ? ' $' + x[1] : '') + '</button>'; }).join('') + '</div>' +
-      '<div class="row" style="margin-top:12px"><div><div class="label">Rent rule – week 4 off</div><div class="why">' + (s.pauseDay > 0 ? 'No trading from the ' + s.pauseDay + 'th to month-end' : 'Off') + '</div></div>' +
-      '<button class="toggle ' + (s.pauseDay > 0 ? 'on' : '') + '" data-cmd="/rentweek ' + (s.pauseDay > 0 ? 'off' : '22') + '" aria-label="Rent rule"><span></span></button></div></div>';
-    out += '<div class="card"><div class="row"><div><div class="label">Scalper (opt-in)</div><div class="why">' + (s.scalp ? 'On – M1/M5 scalps, but real money only on markets that passed 100 paper scalps' : 'Off – it still paper-trades every scalp setup to build its record') + '</div></div>' +
-      '<button class="toggle ' + (s.scalp ? 'on' : '') + '" data-cmd="/scalp ' + (s.scalp ? 'off' : 'on') + '" aria-label="Scalper on or off"><span></span></button></div></div>';
-    out += '<div class="card setup"><div class="label">A9 brain link</div><div class="why" style="margin-top:4px">' + (brainUrl() ? 'Connected: ' + esc(brainUrl()) : 'Not set – paste the Cloudflare link from the setup (https://….workers.dev)') + '</div>' +
-      '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px"><input id="brainin" type="url" autocomplete="off" placeholder="https://a9-brain.yourname.workers.dev" value="' + esc(store.get('axbrain') || '') + '" style="height:46px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);color:var(--text);padding:0 12px;font-size:15px"><button class="btn gold" id="brainset">Save</button></div></div>';
-    var np = ('Notification' in window) ? Notification.permission : 'unsupported';
-    out += '<div class="card"><div class="row"><div><div class="label">Chimes</div><div class="why">Sound + vibration for new trades to approve, trades opened, trades closed and emergencies</div></div>' +
-      '<button class="toggle ' + (soundOn() ? 'on' : '') + '" id="sound" aria-label="Chimes on or off"><span></span></button></div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px"><button class="btn ghost" id="testchime">▶ Test chime</button>' +
-      (np === 'granted' ? '<button class="btn ghost" disabled>Notifications on ✓</button>' : np === 'unsupported' ? '<button class="btn ghost" disabled>No notifications here</button>' : '<button class="btn gold" id="notif">Allow notifications</button>') + '</div>' +
-      '<div class="why" style="margin-top:8px">Chimes work while the app is open (also in the background). When the phone is locked or the app is closed, keep Telegram ON - it rings like a normal message.</div></div>';
-    out += '<div class="card"><div class="row"><div><div class="label">Telegram messages</div><div class="why">' + (s.tgmute ? 'Off – signals and alerts come to this app only (emergencies still go to Telegram)' : 'On – everything is also sent to Telegram') + '</div></div>' +
-      '<button class="toggle ' + (!s.tgmute ? 'on' : '') + '" data-cmd="' + (s.tgmute ? '/tgon' : '/tgoff') + '" aria-label="Telegram messages on or off"><span></span></button></div></div>';
-    out += '<div class="card"><div class="label">Markets</div>';
-    (s.markets || []).forEach(function (m) {
-      out += '<div class="row" style="padding:10px 0;border-bottom:1px solid var(--line)"><b>' + esc(m.n) + '</b><button class="toggle ' + (!m.off ? 'on' : '') + '" data-cmd="/market ' + m.n + ' ' + (m.off ? 'on' : 'off') + '" aria-label="Switch ' + esc(m.n) + '"><span></span></button></div>';
+  //=====================================================================================
+  //--- v5.0 STATUS: MT5 connection, risk status, AXON-9 verdict per market (same rules as the brain)
+  //=====================================================================================
+  function conn() {
+    if (!S) return { k: 'wait', t: 'WAITING', age: 0 };
+    var age = Math.max(0, Math.round(Date.now() / 1000 - S.t));
+    return age <= 20 ? { k: 'ok', t: 'CONNECTED', age: age } : age <= 90 ? { k: 'stale', t: 'STALE', age: age } : { k: 'off', t: 'DISCONNECTED', age: age };
+  }
+  function ageTxt(a) { return a < 60 ? a + ' s ago' : a < 3600 ? Math.floor(a / 60) + ' min ago' : a < 86400 ? Math.floor(a / 3600) + ' h ago' : Math.floor(a / 86400) + ' days ago'; }
+  function riskState() {
+    var s = S || {};
+    if (s.kill) return { t: 'LOCKED', c: 'bad', why: 'Kill switch is on – no trading until you unlock' };
+    if (s.emergency) return { t: 'CHECK MT5', c: 'bad', why: 'A trade has no stop loss' };
+    if (s.wstop) return { t: 'BLOCKED', c: 'bad', why: 'Weekly loss limit reached – new trades blocked until Monday' };
+    if (s.dstop) return { t: 'BLOCKED', c: 'bad', why: 'Daily loss limit reached – new trades blocked until tomorrow' };
+    if (s.ddpause) return { t: 'PAUSED', c: 'bad', why: 'Account far below its peak – tap Resume when ready' };
+    if (s.safe) return { t: 'PAUSED', c: 'warn', why: s.safe };
+    if (s.tgtDone) return { t: 'DONE', c: 'ok', why: 'Daily target reached – resting until tomorrow' };
+    if (s.rentPause) return { t: 'RESTING', c: 'warn', why: 'Rent week – no trading until the 1st' };
+    return { t: 'SAFE', c: 'ok', why: 'Trading allowed' };
+  }
+  function verdictOf(m) {
+    var now = Date.now() / 1000, pa = m.pa || {}, reg = pa.reg || m.reg || '', v = { v: 'WAIT', why: '', g: '', sig: null };
+    var sig = (S.sigs || []).filter(function (g) { return g.m === m.n && !g.done && now - (g.t || 0) < 1800; }).sort(function (a, b) { return b.t - a.t; })[0];
+    if (now - (S.t || 0) > 60) { v.v = 'NO TRADE'; v.why = 'live data is stale – MT5 or the PC may be offline'; }
+    else if (m.off) { v.v = 'OFF'; v.why = 'switched off in Settings → Markets'; }
+    else if (pa.tickAge > 600) { v.v = 'CLOSED'; v.why = 'market closed – no fresh prices'; }
+    else if (S.safe) { v.v = 'NO TRADE'; v.why = 'risk controller: ' + S.safe; }
+    else if (m.blk) { v.v = 'NO TRADE'; v.why = 'high-impact news blackout' + (m.news ? ' – ' + m.news : ''); }
+    else if (sig) {
+      v.sig = sig; v.g = sig.g;
+      if (/WAIT_TF_CONFLICT/.test(sig.miss || '')) { v.why = 'daily and 4H disagree – waiting'; }
+      else if (sig.g === 'C') { v.v = 'NO TRADE'; v.why = 'grade C setup – too weak'; }
+      else if (sig.g === 'A+' || sig.g === 'A' || (sig.g === 'B' && S.mode !== 'STRICT')) { v.v = sig.side; v.why = 'grade ' + sig.g + ' ' + sig.setup + ' (' + sig.sc + '/100)'; }
+      else v.why = 'grade ' + sig.g + ' – watchlist in ' + (S.mode || 'this') + ' mode';
+    }
+    else if (/CHOP|NEWS/.test(reg)) { v.v = 'NO TRADE'; v.why = reg.toLowerCase() + ' market – AXON-9 stands aside'; }
+    else v.why = 'no setup yet' + (m.lean ? ' · leaning ' + (m.lean > 0 ? 'up' : 'down') : '');
+    return v;
+  }
+  function fresh(m) {
+    if (conn().k !== 'ok') return { t: 'stale', c: 'warn' };
+    var ta = (m.pa || {}).tickAge;
+    return ta == null || ta <= 120 ? { t: 'live', c: 'ok' } : ta <= 600 ? { t: 'slow', c: 'warn' } : { t: 'closed', c: 'mute' };
+  }
+  function arr(d) { return d > 0 ? '<b class="up">▲</b>' : d < 0 ? '<b class="down">▼</b>' : '<b class="why">–</b>'; }
+  function insight() {
+    var c = conn(), r = riskState(), ms = S.markets || [], best = null;
+    if (c.k === 'off') return '🔴 MT5 is not reporting. Check the PC: MT5 open, AXON-9 on a chart, Algo Trading on.';
+    if (c.k === 'stale') return '🟠 MT5 data is ' + c.age + ' s old – waiting for the next update.';
+    if (r.c === 'bad') return '⛔ ' + r.why + '.';
+    ms.forEach(function (m) { var v = verdictOf(m); if ((v.v === 'BUY' || v.v === 'SELL') && (!best || v.sig.sc > best.v.sig.sc)) best = { m: m, v: v }; });
+    if (best) return '⚡ ' + best.m.n + ': grade ' + best.v.g + ' ' + best.v.v + ' setup (' + best.v.sig.setup + ').';
+    var nw = ms.filter(function (m) { return !m.off && (m.blk || m.s60); })[0];
+    if (nw) return '📰 ' + nw.n + ': high-impact news ' + (nw.blk ? 'now' : 'within the hour') + (nw.news ? ' – ' + nw.news : '') + '.';
+    if (r.c === 'warn') return '⏸ ' + r.why + '.';
+    var open = ms.filter(function (m) { return !m.off && (m.pa || {}).tickAge <= 600; }).length;
+    return open ? 'No qualifying setups right now. AXON-9 is watching ' + open + ' open market' + (open > 1 ? 's' : '') + '.' : 'Markets are closed. AXON-9 will start reading again when they open.';
+  }
+  function metric(l, v, sub) { return '<div class="metric"><span class="label">' + l + '</span><b>' + v + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; }
+  function brokerName() { return String((S && S.broker) || 'MT5').replace(/ (Ltd|Limited|Incorporated|Inc\.?|LLC|\(SC\)).*$/i, ''); }
+  function connCard() {
+    var c = conn(), t = { ok: 'MT5 connected', stale: 'MT5 data is stale', off: 'MT5 disconnected', wait: 'Waiting for MT5' }[c.k];
+    return '<button class="conn" data-set="conn"><span class="dot ' + c.k + '"></span><div style="min-width:0"><b>' + t + '</b><div class="why">' + esc(brokerName()) + ' · ' + (S.real ? 'LIVE' : 'DEMO') + ' · updated ' + ageTxt(c.age) + '</div></div><span class="chev">›</span></button>';
+  }
+  //--- v5.0 HOME: status, 4 numbers, MT5, the main action, one insight, market pulse
+  function home() {
+    var s = S, r = riskState(), out = '';
+    if (s.kill) out += '<div class="alert bad"><div class="row"><b>🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9? Auto stays OFF until you switch it on." data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div><div class="why" style="margin-top:4px">' + (s.killflat ? 'Closing positions – retrying until the broker confirms.' : 'Everything is closed and Auto is locked.') + '</div></div>';
+    else if (s.emergency) out += '<div class="alert bad"><b>EMERGENCY:</b> a trade has no stop loss. Check Trades now.</div>';
+    out += '<div class="metrics">' + metric('Equity', '<span class="mono">' + esc(s.eq) + '</span>') +
+      metric('Today', '<span class="mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + '</span>') +
+      metric('Open trades', '<span class="mono">' + (s.open || 0) + '</span>') +
+      metric('Risk status', '<span class="rs ' + r.c + '">' + r.t + '</span>', r.c === 'ok' ? '' : esc(r.why)) + '</div>';
+    out += connCard();
+    if (s.tgt > 0) {
+      var tp = Math.max(0, Math.min(100, (s.tUsd || 0) / s.tgt * 100));
+      out += '<div class="tgt"><div class="row"><span class="label">' + esc(s.goal || 'Daily') + ' target</span><b class="mono ' + (s.tgtDone ? 'up' : '') + '">' + ((s.tUsd || 0) >= 0 ? '+$' : '-$') + Math.abs(s.tUsd || 0).toFixed(2) + ' / $' + Number(s.tgt).toFixed(0) + '</b></div><div class="meter"><i style="width:' + tp.toFixed(1) + '%"></i></div></div>';
+    }
+    out += hotCard();
+    out += '<button class="hero" data-tab2="chart"><span class="hi">📷</span><span><b>Read a chart</b><small>Upload a screenshot – AXON-9 tells you if, where and how to enter</small></span><span class="chev">›</span></button>';
+    out += '<div class="acts"><button class="btn ghost lg" data-cmd="/now" data-msg="Reading the charts…">⚡ Signal now</button>' +
+      '<button class="autob" data-cmd="' + (s.auto ? '/signals' : '/auto') + '" data-confirm="' + (s.auto ? 'Switch to SIGNALS ONLY? AXON-9 will ask before every trade.' : 'Switch AUTO on? AXON-9 places trades by itself, inside your risk limits.') + '" data-msg="' + (s.auto ? 'Signals only' : 'Auto ON') + '"><span><b>Auto</b><small>' + (s.auto ? 'trading by itself' : 'asks you first') + '</small></span><i class="toggle ' + (s.auto ? 'on' : '') + '"><span></span></i></button></div>';
+    out += '<div class="insight"><span class="label">AXON-9 insight</span><p>' + esc(insight()) + '</p></div>';
+    out += '<div class="card pad0"><div class="row ph"><span class="label">Market pulse</span><button class="lnk" data-tab2="markets">All markets ›</button></div>' +
+      (s.markets || []).map(function (m) {
+        var v = verdictOf(m), f = fresh(m);
+        return '<button class="prow" data-mkt="' + (m.i == null ? '' : m.i) + '"><b>' + esc(m.n) + '</b><span class="why">' + esc(((m.pa || {}).reg || m.reg || '').toLowerCase()) + '</span><span class="vt ' + vcls(v.v) + '">' + v.v + (v.g && /BUY|SELL/.test(v.v) ? ' ' + esc(v.g) : '') + '</span><span class="fr ' + f.c + '">' + f.t + '</span></button>';
+      }).join('') + '</div>';
+    out += '<div class="card"><div class="row"><span class="label">Latest activity</span><button class="lnk" data-tab2="signals">See all ›</button></div>' + feedHtml(3) + '</div>';
+    return out;
+  }
+  //--- v5.0 MARKETS: 6 market cards + all MT5 symbols; news & calendar inside
+  var mSub = 'list';
+  function marketsTab() {
+    var out = '<div class="seg">' + [['list', 'Markets'], ['news', 'News & calendar']].map(function (x) { return '<button class="' + (mSub === x[0] ? 'on' : '') + '" data-msub="' + x[0] + '">' + x[1] + '</button>'; }).join('') + '</div>';
+    if (mSub === 'news') return out + newsTab();
+    var c = conn();
+    if (c.k !== 'ok') out += '<div class="alert warn">Data ' + (c.k === 'off' ? 'not updating – MT5 disconnected' : 'is ' + c.age + ' s old') + '. Verdicts show NO TRADE until fresh data arrives.</div>';
+    (S.markets || []).forEach(function (m) {
+      var v = verdictOf(m), pa = m.pa || {}, f = fresh(m);
+      out += '<button class="mcard" data-mkt="' + (m.i == null ? '' : m.i) + '"><div class="row"><div style="min-width:0"><b class="mn">' + esc(m.n) + '</b> <span class="mono">' + esc(m.px) + '</span>' + (m.chg != null ? ' <span class="chg ' + (m.chg >= 0 ? 'up' : 'down') + '">' + (m.chg >= 0 ? '+' : '') + Number(m.chg).toFixed(2) + '%</span>' : '') + '</div><span class="vt ' + vcls(v.v) + '">' + v.v + '</span></div>' +
+        '<div class="mrow"><span>D1 ' + arr(pa.d1) + '</span><span>H4 ' + arr(pa.h4) + '</span><span>H1 ' + arr(pa.h1) + '</span><span>' + esc((pa.reg || m.reg || '').toLowerCase()) + '</span><span>grade ' + esc(v.g || '–') + '</span><span class="fr ' + f.c + '">' + f.t + '</span></div>' +
+        '<div class="why">' + esc(v.why) + (m.np ? ' · <b class="' + (m.plUp ? 'up' : 'down') + '">' + m.np + ' open ' + esc(m.pl) + '</b>' : '') + '</div></button>';
     });
-    out += '</div><div class="card"><div class="label">Tools</div><div style="height:8px"></div><div class="chips"><button data-cmd="/be" data-msg="Moving to breakeven…">All to breakeven</button><button data-cmd="/report">Report → Telegram</button><button data-cmd="/resume">Clear pauses</button></div></div>';
-    out += '<div class="card"><div class="row"><div><div class="label">Signed in</div><div class="why">' + esc(U.email) + ' · ' + accts().length + ' account(s)</div></div>' +
-      '<button class="btn ghost" style="height:38px" data-tab2="accts">Accounts</button></div></div>';
-    out += '<button class="btn ghost full" id="signout">Sign out</button>';
-    out += '<div class="why" style="text-align:center;margin-top:10px">App version ' + APP_VER + '</div>';
+    out += watchHtml();
+    out += '<button class="btn ghost full" data-tab2="growth">📈 Growth tracker</button>';
+    return out;
+  }
+  function growthTab() {
+    var s = S, out = '<button class="btn ghost" data-tab2="markets" style="align-self:flex-start">‹ Markets</button>';
+    var st = s.state || 'READY', cls = (st === 'EMERGENCY_LOCK' || st === 'SHUTDOWN') ? 'bad' : (st === 'READY' || st === 'POSITION_MANAGEMENT') ? '' : 'warn';
+    var pct = Math.max(0, Math.min(100, s.msPct || 0));
+    out += '<div class="card"><div class="row"><div class="label">Growth tracker</div><span class="state ' + cls + '">' + esc(st.replace(/_/g, ' ')) + '</span></div>' +
+      '<div class="row" style="margin-top:10px"><div class="big mono">' + usd(s.eqZar) + '</div><div class="why">milestone ' + usd(s.msTarget) + '</div></div>' +
+      '<div class="meter"><i style="width:' + pct.toFixed(1) + '%"></i></div>' +
+      '<div class="row why"><span>Milestone ' + ((s.msN || 0) + 1) + ' · ' + pct.toFixed(0) + '%</span><span>Below peak ' + (s.dd || 0).toFixed(1) + '% · risk ×' + (s.ddf || 1).toFixed(2) + '</span></div>' +
+      (s.riskWhy ? '<div class="why" style="margin-top:8px">Last sizing: ' + esc(s.riskWhy) + '</div>' : '') +
+      '<div class="why" style="margin-top:8px">A milestone is a target, not a forecast.</div>' +
+      '<div class="seg" style="margin-top:10px"><button data-cmd="/growth">Growth details</button><button data-cmd="/status">Status</button></div></div>';
+    return out;
+  }
+  //--- v5.0 TRADES: Positions | Performance
+  var tSub = 'pos';
+  function tradesTab() {
+    var out = '<div class="seg">' + [['pos', 'Positions'], ['perf', 'Performance']].map(function (x) { return '<button class="' + (tSub === x[0] ? 'on' : '') + '" data-tsub="' + x[0] + '">' + x[1] + '</button>'; }).join('') + '</div>';
+    if (tSub === 'perf') return out + perfHtml();
+    var list = S.trades || [], r = riskState();
+    out += '<div class="metrics three">' + metric('Open', '<span class="mono">' + list.length + '</span>') + metric('Today', '<span class="mono ' + (S.todayPct >= 0 ? 'up' : 'down') + '">' + esc(S.today) + '</span>') + metric('Status', '<span class="rs ' + r.c + '">' + r.t + '</span>') + '</div>';
+    if (!list.length) out += '<div class="card empty"><b style="color:var(--text)">No open positions</b><br>AXON-9 is not holding any trades right now.</div>';
+    list.forEach(function (t) {
+      out += '<div class="card"><div class="row"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="tag ' + (t.side === 'BUY' ? 'buy' : 'sell') + '">' + t.side + '</span><b>' + esc(t.sym) + '</b><span class="why">' + t.vol.toFixed(2) + ' lot</span>' + tradeTag(t) + '</div>' +
+        '<b class="mono ' + (t.up ? 'up' : 'down') + '">' + esc(t.pl) + '</b></div>' +
+        '<div class="why" style="margin-top:6px">Entry ' + esc(t.open) + ' · SL ' + esc(t.sl) + ' · TP ' + esc(t.tp) + (t.hold ? ' · HOLD' : '') + '</div>' +
+        (t.sl === 'NONE' ? '<div class="banner" style="margin-top:8px">No stop loss on this trade.</div>' : '') +
+        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">' +
+        '<button class="btn ghost" data-cmd="cb:sl:' + t.tk + '" data-msg="Setting SL…">Set SL</button>' +
+        '<button class="btn ghost" data-cmd="cb:be:' + t.tk + '" data-msg="Breakeven…">Breakeven</button>' +
+        '<button class="btn danger" data-confirm="Close this trade?" data-cmd="cb:close:' + t.tk + '" data-msg="Closing…">Close</button></div></div>';
+    });
+    if (list.length > 1) out += '<button class="btn danger full" data-confirm="Close ALL trades on the account?" data-cmd="cb:closeall" data-msg="Closing everything…">Close all trades</button>';
+    out += '<button class="btn ghost full" data-tab2="signals">Signals & activity log ›</button>';
+    return out;
+  }
+  function perfHtml() {
+    var c = S.card || [], n = 0, w = 0, rs = 0, out = '';
+    c.forEach(function (x) { n += x.n || 0; w += (x.w || 0) * (x.n || 0) / 100; rs += (x.avg || 0) * (x.n || 0); });
+    var few = n < 30;
+    out += '<div class="metrics three">' + metric('Closed', '<span class="mono">' + n + '</span>') + metric('Win rate', n ? '<span class="mono">' + Math.round(w / n * 100) + '%</span>' : '–') + metric('Avg R', n ? '<span class="mono ' + (rs >= 0 ? 'up' : 'down') + '">' + (rs >= 0 ? '+' : '') + (rs / n).toFixed(2) + '</span>' : '–') + '</div>';
+    if (few) out += '<div class="why" style="text-align:center">' + (n ? 'Not enough data yet – 30+ closed trades before these numbers mean much.' : 'Not enough data yet – results appear after the first closed bot trades.') + '</div>';
+    if (S.score) {
+      out += '<div class="card"><div class="label">Every signal, paper-traded after costs</div>';
+      S.score.forEach(function (g) {
+        out += '<div class="mkt"><div><b>Grade ' + esc(g.g) + '</b> <span class="why">' + g.n + ' results' + (g.n < 30 ? ' · too few to judge' : '') + '</span></div>' +
+          '<span class="mono ' + (g.avgR >= 0 ? 'up' : 'down') + '">' + (g.n ? g.win + '% · ' + (g.avgR >= 0 ? '+' : '') + g.avgR.toFixed(2) + 'R' : '—') + '</span></div>';
+      });
+      out += '<div class="seg" style="margin-top:10px"><button data-cmd="/score">Full scoreboard</button><button data-cmd="/selftest">Self-test</button></div></div>';
+    }
+    return out + proofCards() + '<button class="btn ghost full" data-tab2="growth">📈 Growth tracker</button>';
+  }
+  //--- v5.0 SETTINGS: status on the main page, controls inside 6 sections, emergency controls kept apart
+  var setSub = '', connT = null;
+  function onOff(on, cmd, label) { return '<button class="toggle ' + (on ? 'on' : '') + '" data-cmd="' + cmd + '" aria-label="' + label + '"><span></span></button>'; }
+  function settings() {
+    if (setSub) return setPage();
+    var s = S, c = conn(), r = riskState(), me = accts().filter(function (x) { return x.k === KEY; })[0] || {}, out = '';
+    out += '<button class="conn" data-tab2="accts"><div class="av sm">' + esc(initials(me)) + '</div><div style="min-width:0"><b>' + esc(me.name || acctName()) + '</b> <span class="tag ' + (s.real ? 'sell' : '') + '">' + (s.real ? 'LIVE' : 'DEMO') + '</span><div class="why">' + esc(brokerName()) + ' · #' + esc(s.login || '?') + '</div></div><span class="lnk">Switch ›</span></button>';
+    if (r.c !== 'ok' || c.k !== 'ok') out += '<div class="alert ' + (r.c === 'bad' || c.k === 'off' ? 'bad' : 'warn') + '"><b>' + (c.k !== 'ok' ? 'MT5 ' + c.t : r.t) + '</b> – ' + esc(c.k !== 'ok' ? 'last update ' + ageTxt(c.age) : r.why) + '</div>';
+    var on = (s.markets || []).filter(function (m) { return !m.off; }).length;
+    var T = [['conn', '🔌', 'MT5 Connection', '<span class="dot ' + c.k + '"></span>' + c.t.toLowerCase()],
+      ['risk', '🛡️', 'Risk & Protection', '<span class="rs ' + r.c + '">' + r.t + '</span> · ' + s.risk + '%/trade'],
+      ['trading', '⚙️', 'Trading', (s.auto ? 'Auto' : 'Signals only') + ' · ' + String(s.mode || 'balanced').toLowerCase()],
+      ['markets', '📊', 'Markets', on + ' of ' + (s.markets || []).length + ' trading'],
+      ['alerts', '🔔', 'Alerts', (soundOn() ? 'chimes on' : 'chimes off') + ' · telegram ' + (s.tgmute ? 'off' : 'on')],
+      ['account', '👤', 'Account', esc((U.email || '').split('@')[0])]];
+    out += '<div class="tiles">' + T.map(function (t) { return '<button class="tile" data-set="' + t[0] + '"><span class="ti">' + t[1] + '</span><b>' + t[2] + '</b><small>' + t[3] + '</small></button>'; }).join('') + '</div>';
+    out += '<div class="card emerg"><div class="label">Emergency controls</div><div class="why" style="margin-top:4px">Only when something is wrong. These act on the MT5 account right away.</div><div class="grid2" style="margin-top:10px">' +
+      (s.kill ? '<button class="btn gold" data-confirm="Unlock AXON-9? Auto stays OFF until you switch it on." data-cmd="/unlock" data-msg="Unlocking…">Unlock</button>' : '<button class="btn danger" data-confirm="KILL SWITCH: close ALL trades and lock Auto?" data-cmd="/kill" data-msg="Kill switch…">🛑 Kill switch</button>') +
+      '<button class="btn danger" data-confirm="Close ALL trades on the account?" data-cmd="cb:closeall" data-msg="Closing everything…">Close all trades</button></div>' +
+      (s.ddpause || s.spause ? '<button class="btn ghost full" style="margin-top:8px" data-confirm="Resume after the pause? (loss limits still apply)" data-cmd="/resume" data-msg="Resuming…">Resume after pause</button>' : '') + '</div>';
+    out += '<div class="why" style="text-align:center">App ' + APP_VER + ' · bot ' + esc(s.ver || '?') + '</div>';
+    return out;
+  }
+  function setPage() {
+    var s = S, out = '<button class="btn ghost" data-setback="1" style="align-self:flex-start">‹ Settings</button>';
+    var title = { conn: 'MT5 Connection', risk: 'Risk & Protection', trading: 'Trading', markets: 'Markets', alerts: 'Alerts', account: 'Account' }[setSub];
+    out += '<div class="ptitle"><h2>' + title + '</h2></div>';
+    if (setSub === 'conn') {
+      var c = conn(), moving = (s.markets || []).some(function (m) { return (m.pa || {}).tickAge <= 600; });
+      var tr = connT ? (Date.now() - connT.t > 30000 ? 'fail' : (s.msg !== connT.msg && s.t * 1000 > connT.t) ? 'pass' : 'wait') : '';
+      if (tr === 'pass' || tr === 'fail') connT.done = tr;
+      var ck = [['AXON-9 is reporting from MT5', c.age < 90], ['Data is fresh (under 20 s)', c.k === 'ok'], ['Account details received', !!s.login], ['Market prices are moving', moving, 'closed at weekends'], ['Commands reach the bot', tr === 'pass' ? true : tr === 'fail' ? false : null, tr === 'wait' ? 'testing…' : 'tap Test connection']];
+      out += '<div class="card"><div class="row"><div style="display:flex;gap:10px;align-items:center"><span class="dot big ' + c.k + '"></span><b style="font-size:18px">' + c.t + '</b></div><span class="why">' + ageTxt(c.age) + '</span></div>' +
+        '<div class="kv"><span>Broker</span><b>' + esc(brokerName()) + '</b><span>Account</span><b>#' + esc(s.login || '?') + ' · ' + (s.real ? 'LIVE' : 'DEMO') + '</b><span>Bot version</span><b>' + esc(s.ver || '?') + '</b><span>Update no.</span><b class="mono">' + (s.seq || 0) + '</b></div></div>';
+      out += '<div class="card"><div class="label">Checks</div>' + ck.map(function (x) { return '<div class="chkrow"><span class="ck ' + (x[1] === true ? 'ok' : x[1] === false ? 'bad' : '') + '">' + (x[1] === true ? '✓' : x[1] === false ? '✕' : '…') + '</span><span>' + x[0] + (x[1] !== true && x[2] ? ' <small class="why">(' + x[2] + ')</small>' : '') + '</span></div>'; }).join('') +
+        '<button class="btn gold full" style="margin-top:12px" id="conntest"' + (tr === 'wait' ? ' disabled' : '') + '>' + (tr === 'wait' ? 'Testing…' : 'Test connection') + '</button></div>';
+      if (c.k !== 'ok') out += '<div class="card"><div class="label">Fix it on the PC</div><ol class="steps"><li>PC switched on and not asleep</li><li>MT5 open and logged in to the broker</li><li>AXON-9 attached to a chart (top-right shows the AXON9 name)</li><li><b>Algo Trading</b> button in MT5 is green</li><li>Internet working on the PC</li></ol></div>';
+      out += '<div class="card"><div class="why" style="line-height:1.5">AXON-9 connects through the bot running inside MT5 on your PC – the phone talks to that bot, not to the MT5 phone app. Open trades always keep their stop loss at the broker, even if the PC goes offline.</div></div>';
+      out += '<button class="btn ghost full" data-wizstart="1">+ Connect another MT5 account</button>';
+    } else if (setSub === 'risk') {
+      var r = riskState();
+      out += '<div class="alert ' + (r.c === 'ok' ? 'ok' : r.c) + '"><b>' + r.t + '</b> – ' + esc(r.why) + '</div>';
+      out += '<div class="card"><div class="label">Active limits (enforced by the bot)</div><div class="kv">' +
+        '<span>Daily loss limit</span><b>' + (s.dloss || 4) + '%</b><span>Weekly loss limit</span><b>8% · resets Monday</b><span>Max risk per trade</span><b>' + (s.rcap || 1) + '%</b><span>All open trades</span><b>' + (s.ocap || 4) + '%</b><span>Max open trades</span><b>' + (s.maxo || 4) + '</b>' +
+        '<span>Below peak</span><b>' + Number(s.dd || 0).toFixed(1) + '% (pause 12 · kill 15)</b><span>Losses in a row</span><b>' + (s.streak || 0) + ' (pause 3 · stop 5)</b><span>Risk can grow</span><b>' + (s.grow ? 'yes' : 'after ' + (s.ntr || 0) + '/20 trades') + '</b></div></div>';
+      out += '<div class="card"><div class="label">Risk per trade · now ' + s.risk + '%</div><div class="chips" style="margin-top:8px">' + ['0.25', '0.5', '1', 'auto'].map(function (x) { return '<button class="' + (String(s.risk) === x ? 'on' : '') + '" data-cmd="/risk ' + x + '" data-confirm="Set risk per trade to ' + (x === 'auto' ? 'auto' : x + '%') + '?">' + (x === 'auto' ? 'auto' : x + '%') + '</button>'; }).join('') + '</div><div class="why" style="margin-top:8px">Never above the max risk per trade (' + (s.rcap || 1) + '%) – the bot caps it.</div></div>';
+      out += '<div class="card"><div class="label">Signals you take yourself · cap ' + (s.cap > 0 ? s.cap + '%' : 'off') + '</div><div class="chips" style="margin-top:8px">' + ['1', '2', '3', '0'].map(function (x) { return '<button class="' + (Number(x) === s.cap ? 'on' : '') + '" data-cmd="/cap ' + x + '" data-confirm="Set the cap for signals you take to ' + (x === '0' ? 'off' : x + '%') + '?">' + (x === '0' ? 'off' : x + '%') + '</button>'; }).join('') + '</div><div class="why" style="margin-top:8px">Total risk of all positions you open from one signal. The loss limits above still block trading when hit.</div></div>';
+      out += '<div class="card"><div class="row"><div><div class="label">Rent rule – week 4 off</div><div class="why">' + (s.pauseDay > 0 ? 'No trading from the ' + s.pauseDay + 'th to month-end' : 'Off') + '</div></div>' + onOff(s.pauseDay > 0, '/rentweek ' + (s.pauseDay > 0 ? 'off' : '22'), 'Rent rule') + '</div></div>';
+    } else if (setSub === 'trading') {
+      var md = s.mode || 'BALANCED';
+      out += '<div class="card"><div class="row"><div><div class="label">Auto trading</div><div class="why">' + (s.auto ? 'On – AXON-9 places trades by itself' : 'Off – signals only, you decide') + '</div></div>' + onOff(s.auto, s.auto ? '/signals' : '/auto', 'Auto trading') + '</div></div>';
+      out += '<div class="card"><div class="label">How picky · now ' + md + '</div><div class="chips" style="margin-top:8px">' + ['STRICT', 'BALANCED', 'ACTIVE'].map(function (m) { return '<button class="' + (m === md ? 'on' : '') + '" data-cmd="/mode ' + m.toLowerCase() + '">' + m + '</button>'; }).join('') + '</div><div class="why" style="margin-top:8px">Strict = grade A only. Balanced = A + B. Active = also C – more trades, more stop-loss hits.</div></div>';
+      out += '<div class="card"><div class="row"><div><div class="label">Scalper (opt-in)</div><div class="why">' + (s.scalp ? 'On – real money only on markets that passed 100 paper scalps' : 'Off – still paper-trades scalps to build its record') + '</div></div>' + onOff(s.scalp, '/scalp ' + (s.scalp ? 'off' : 'on'), 'Scalper') + '</div></div>';
+      out += '<div class="card"><div class="label">Daily target' + (s.goal ? ' (' + esc(s.goal) + ')' : '') + '</div><div class="why" style="margin-top:4px">Now: ' + (s.tgt > 0 ? '<b style="color:var(--text)">$' + Number(s.tgt).toFixed(0) + ' a day</b> – when reached, trades close until tomorrow' : 'off') + '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px"><input id="tgtin" class="inp" type="text" inputmode="decimal" placeholder="e.g. 190"><button class="btn gold" id="tgtset">Set</button></div>' +
+        '<div class="chips" style="margin-top:8px">' + [['House', 190], ['Swift', 71], ['Mazda', 58], ['Business', 115], ['Rent', 36], ['Salary', 97], ['Off', 0]].map(function (x) { return '<button data-cmd="/daily ' + x[1] + '" data-msg="Target set">' + x[0] + (x[1] ? ' $' + x[1] : '') + '</button>'; }).join('') + '</div></div>';
+      out += '<div class="card"><div class="label">Tools</div><div class="chips" style="margin-top:8px"><button data-cmd="/be" data-msg="Moving to breakeven…">All to breakeven</button><button data-cmd="/report">Report → Telegram</button><button data-cmd="/status">Status</button></div></div>';
+    } else if (setSub === 'markets') {
+      out += '<div class="card">' + (s.markets || []).map(function (m) { return '<div class="row" style="padding:10px 0;border-bottom:1px solid var(--line)"><div><b>' + esc(m.n) + '</b><div class="why">' + (m.off ? 'not trading · still shown' : 'analysed and traded') + '</div></div>' + onOff(!m.off, '/market ' + m.n + ' ' + (m.off ? 'on' : 'off'), 'Switch ' + esc(m.n)) + '</div>'; }).join('') + '</div>';
+    } else if (setSub === 'alerts') {
+      var np = ('Notification' in window) ? Notification.permission : 'unsupported', mute = {}; try { mute = JSON.parse(store.get('axmute') || '{}'); } catch (e) {}
+      out += '<div class="card"><div class="row"><div><div class="label">Chimes</div><div class="why">Sound + vibration for signals, opens, closes and emergencies</div></div><button class="toggle ' + (soundOn() ? 'on' : '') + '" id="sound" aria-label="Chimes"><span></span></button></div>' +
+        '<div class="grid2" style="margin-top:12px"><button class="btn ghost" id="testchime">▶ Test chime</button>' + (np === 'granted' ? '<button class="btn ghost" disabled>Notifications on ✓</button>' : np === 'unsupported' ? '<button class="btn ghost" disabled>No notifications here</button>' : '<button class="btn gold" id="notif">Allow notifications</button>') + '</div></div>';
+      out += '<div class="card"><div class="row"><div><div class="label">Telegram</div><div class="why">' + (s.tgmute ? 'Off – emergencies only' : 'On – everything is also sent to Telegram') + '</div></div>' + onOff(!s.tgmute, s.tgmute ? '/tgon' : '/tgoff', 'Telegram') + '</div><div class="why" style="margin-top:8px">When the phone is locked or the app is closed, Telegram is what rings.</div></div>';
+      out += '<div class="card"><div class="label">News & setup alerts per market</div><div class="chips" style="margin-top:8px">' + (s.markets || []).map(function (m) { return '<button class="' + (mute[m.n] ? '' : 'on') + '" data-mute="' + esc(m.n) + '">' + (mute[m.n] ? '🔕 ' : '🔔 ') + esc(m.n) + '</button>'; }).join('') + '</div></div>';
+    } else if (setSub === 'account') {
+      out += '<div class="card"><div class="kv"><span>Signed in</span><b>' + esc(U.email) + '</b><span>Accounts</span><b>' + accts().length + ' linked</b><span>App</span><b>' + APP_VER + '</b></div><button class="btn ghost full" style="margin-top:12px" data-tab2="accts">Manage accounts</button></div>';
+      out += '<details class="card det"><summary>Advanced</summary><div class="why" style="margin-top:8px">Chart reader address (leave empty for the built-in one)</div><div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:6px"><input id="brainin" class="inp" type="url" autocomplete="off" placeholder="' + esc(READ_URL) + '" value="' + esc(store.get('axbrain') || '') + '"><button class="btn gold" id="brainset">Save</button></div><div class="chips" style="margin-top:10px"><button data-cmd="/selftest">Self-test</button><button data-cmd="/safety">Safety report</button></div></details>';
+      out += '<button class="btn danger full" id="signout">Sign out</button>';
+    }
     return out;
   }
   var pendingRender = false, lastHtml = '';
   function typing() { var a = document.activeElement; return a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA') && a.type !== 'file' && $('view').contains(a); }
   document.addEventListener('focusout', function () { setTimeout(function () { if (pendingRender && !typing()) { pendingRender = false; render(); } }, 150); });
   function render(force) {
-    if (!force && typing()) { pendingRender = true; return; }   // v3.4.3: keep the keyboard open - redraw after typing
+    if (!force && typing()) { pendingRender = true; return; }   // keep the keyboard open - redraw after typing
     var v = $('view');
     document.body.classList.toggle('bare', !U || !KEY || tab === 'wiz');
     document.querySelector('header').style.display = !U || (!KEY && tab !== 'wiz') ? 'none' : '';
@@ -1086,20 +1174,20 @@ img.logo{object-fit:cover}
     if (!U) { $('sub').textContent = 'not signed in'; $('live').className = 'pill'; $('live').lastElementChild.textContent = 'SIGN IN'; lastHtml = ''; v.innerHTML = signInView(); return; }
     if (!KEY) { $('sub').textContent = U.email; lastHtml = ''; v.innerHTML = noAcctView(); return; }
     if (tab === 'accts') { liveState(); lastHtml = ''; v.innerHTML = accounts(); return; }
-    if (tab === 'read') { tab = 'a9'; a9.sub = 'read'; }
-    if (tab === 'a9') { setNav(); liveState(); lastHtml = ''; v.innerHTML = a9View() + askSheet(); drawMarkup(); return; }
-    setNav();
-    var live = liveState();
-    if (!S) { lastHtml = ''; v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure that PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
-    var rp = reply && tab !== 'home' && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
+    if (tab === 'read' || tab === 'a9') tab = 'chart';
+    setNav(); liveState();
+    if (!S && tab !== 'chart') { lastHtml = ''; v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure the PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="chart">📷 Read a chart meanwhile</button><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
+    var rp = reply && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
-    if (tab === 'mkt' || tab === 'trades' || tab === 'settings' || tab === 'sym') rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
-    var html = rp + (tab === 'home' ? home(live) : tab === 'markets' ? marketsTab(live) : tab === 'news' ? newsTab() : tab === 'signals' ? signalsWrap() : tab === 'trades' ? trades() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings()) + askSheet();
-    if (html === lastHtml) return;          // v3.5.0: nothing changed - leave the screen alone (no flicker)
-    var chOld = $('chat'), atBottom = !chOld || chOld.scrollHeight - chOld.scrollTop - chOld.clientHeight < 40, oldTop = chOld ? chOld.scrollTop : 0, keepY = window.scrollY;
+    if (S && (tab === 'mkt' || tab === 'trades' || tab === 'sym' || tab === 'chart')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
+    var body = tab === 'home' ? home() : tab === 'markets' ? marketsTab() : tab === 'chart' ? chartTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? '<button class="btn ghost" data-tab2="trades" style="align-self:flex-start">‹ Trades</button>' + signalsWrap() : tab === 'trades' ? tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
+    var html = rp + body + askSheet();
+    if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
+    var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
     lastHtml = html; v.innerHTML = html;
+    [].forEach.call(v.querySelectorAll('details summary'), function (x) { if (opened.indexOf(x.textContent) >= 0) x.parentNode.open = true; });
     window.scrollTo(0, keepY);
-    var ch = $('chat'); if (ch && atBottom) ch.scrollTop = ch.scrollHeight; else if (ch) ch.scrollTop = oldTop;
+    if (tab === 'chart') drawMarkup();
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('button');
@@ -1127,9 +1215,9 @@ img.logo{object-fit:cover}
     }
     if (b.id === 'signout') { if (confirm('Sign out of AXON-9 on this phone? (the bots keep running)')) signOut(); return; }
     if (b.id === 'addcode') { addByCode(); return; }
-    if (b.dataset.a9go) a9.sub = b.dataset.a9go;
-    if (b.dataset.tab2) { if (b.dataset.say) chatSay(b.dataset.say); tab = b.dataset.tab2; if (tab === 'accts') { menuOpen = -1; peekAll(); } setNav(); render(); window.scrollTo(0, 0); return; }
-    if (b.dataset.tab) { tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.rnote) { rd.note = b.dataset.rnote + ' '; }
+    if (b.dataset.tab2) { tab = b.dataset.tab2; if (tab === 'settings') setSub = ''; if (tab === 'accts') { menuOpen = -1; peekAll(); } setNav(); render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.tab) { if (tab === b.dataset.tab) { setSub = ''; mSub = 'list'; } tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.pick !== undefined) { picking = Number(b.dataset.pick) || null; render(); return; }
     if (b.dataset.replyx) { reply = ''; render(); return; }
     if (b.dataset.sign) { var sp = b.dataset.sign.split(':'); sigN[sp[0]] = Number(sp[1]); render(); return; }
@@ -1151,15 +1239,14 @@ img.logo{object-fit:cover}
     if (b.id === 'readgo') { rd.note = ($('rnote').value || '').trim(); readChart(); return; }
     if (b.id === 'readnew') { rd = { img: '', type: '', busy: false, res: null, err: '', note: '' }; render(true); window.scrollTo(0, 0); return; }
     if (b.dataset.mute) { var mu = {}; try { mu = JSON.parse(store.get('axmute') || '{}'); } catch (e4) {} mu[b.dataset.mute] = !mu[b.dataset.mute]; store.set('axmute', JSON.stringify(mu)); render(true); return; }
-    if (b.dataset.a9sub) { a9.sub = b.dataset.a9sub; a9.err = ''; if (a9.sub === 'hist') a9.hist = null; if (a9.sub === 'brief' && !a9.brief && brainUrl()) a9Brief(false); render(true); return; }
-    if (b.dataset.a9mode) { a9.mode = b.dataset.a9mode; render(true); return; }
-    if (b.dataset.a9q) { a9Ask(b.dataset.a9q); return; }
-    if (b.id === 'a9send') { var qi = $('a9in'); var qv = qi ? qi.value : ''; if (qi) { qi.value = ''; qi.blur(); } a9Ask(qv); return; }
-    if (b.id === 'a9clear') { if (confirm('Clear this chat? (decision history is kept)')) { a9Save([]); render(true); } return; }
-    if (b.dataset.a9tk) { a9Ticket(b.dataset.a9tk); return; }
-    if (b.id === 'a9brief') { a9Brief(true); return; }
-    if (b.id === 'a9csv') { a9HistCsv(); return; }
-    if (b.id === 'brainset') { var bu = String(($('brainin') || {}).value || '').trim(); store.set('axbrain', bu); toast(bu ? 'A9 brain link saved' : 'A9 brain link removed'); render(true); return; }
+    if (b.dataset.tk) { ticketFor(b.dataset.tk); return; }
+    if (b.dataset.rchip) { rd.note = b.dataset.rchip + ' ' + rd.note.replace(/^\S+\s*/, (S.markets || []).some(function (m) { return rd.note.indexOf(m.n) === 0; }) ? '' : '$&'); render(true); return; }
+    if (b.dataset.msub) { mSub = b.dataset.msub; render(true); window.scrollTo(0, 0); return; }
+    if (b.dataset.tsub) { tSub = b.dataset.tsub; render(true); window.scrollTo(0, 0); return; }
+    if (b.dataset.set) { tab = 'settings'; setSub = b.dataset.set; setNav(); render(true); window.scrollTo(0, 0); return; }
+    if (b.dataset.setback) { setSub = ''; render(true); window.scrollTo(0, 0); return; }
+    if (b.id === 'conntest') { connT = { t: Date.now(), msg: S ? S.msg : '' }; send('/status', 'Testing the connection…'); render(true); setTimeout(function () { render(true); }, 31000); return; }
+    if (b.id === 'brainset') { var bu = String(($('brainin') || {}).value || '').trim(); store.set('axbrain', bu); toast(bu ? 'Chart reader address saved' : 'Using the built-in chart reader'); render(true); return; }
     if (b.dataset.tkconfirm) pendingTk = { t: Date.now() / 1000 - 5 };
     if (b.dataset.n) { nSel = Number(b.dataset.n); render(); return; }
     var mn = e.target.closest('[data-menu]');
@@ -1169,12 +1256,11 @@ img.logo{object-fit:cover}
     if (b.dataset.delacct !== undefined) { var ab = accts(), z = ab[Number(b.dataset.delacct)]; if (z && confirm('Remove ' + (z.name || 'this account') + ' from this phone? (the bot keeps running)')) { ab.splice(Number(b.dataset.delacct), 1); saveAccts(ab); if (z.k === KEY) { pick(ab[0]); load(); } tab = KEY ? 'accts' : 'home'; render(); } return; }
     if (b.dataset.cmd) {
       if (b.dataset.confirm && !confirm(b.dataset.confirm)) return;
-      if (b.dataset.say) chatSay(b.dataset.say);
       picking = null;
       send(b.dataset.cmd, b.dataset.msg);
     }
   });
-  function setNav() { document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n.dataset.tab === tab); }); }
+  function setNav() { var t = { mkt: 'markets', sym: 'markets', growth: 'markets', signals: 'trades', accts: 'settings' }[tab] || tab; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n.dataset.tab === t); }); }
   document.querySelector('header .brand').addEventListener('click', function () { if (U && KEY) { tab = tab === 'accts' ? 'home' : 'accts'; menuOpen = -1; if (tab === 'accts') peekAll(); setNav(); render(); window.scrollTo(0, 0); } });
   document.addEventListener('click', function (e) { if (e.target.classList && e.target.classList.contains('sheetbg')) { ask = null; render(); } });
   document.addEventListener('click', function () { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) {} }, { once: true });
@@ -1191,10 +1277,9 @@ img.logo{object-fit:cover}
     var c = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
     e.target.value = c.length > 4 ? c.slice(0, 4) + '-' + c.slice(4) : c; wiz.code = e.target.value;
   });
-  document.addEventListener('keydown', function (e) { if (e.key !== 'Enter') return; var id = e.target.id; if (id === 'pw' || id === 'em') { e.target.blur(); $('auth').click(); } if (id === 'pc' || id === 'an') { e.preventDefault(); e.target.blur(); addByCode(); } if (id === 'bq' || id === 'lotin') e.target.blur(); if (id === 'a9in') { e.preventDefault(); var qv = e.target.value; e.target.value = ''; e.target.blur(); a9Ask(qv); } });
+  document.addEventListener('keydown', function (e) { if (e.key !== 'Enter') return; var id = e.target.id; if (id === 'pw' || id === 'em') { e.target.blur(); $('auth').click(); } if (id === 'pc' || id === 'an') { e.preventDefault(); e.target.blur(); addByCode(); } if (id === 'bq' || id === 'lotin') e.target.blur(); });
   document.querySelector('header .brand').style.cursor = 'pointer';
   setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 1300);
-  chatLoad();
   render(); load(); cloudLoad().then(function () { render(); load(); });
   setInterval(load, 3000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
