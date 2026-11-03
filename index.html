@@ -79,7 +79,7 @@ button.mkt:active{background:var(--surface2)}
 .counts button{min-width:44px;height:44px;border-radius:10px;background:var(--surface2);color:var(--text);font-weight:700}
 .counts button:hover{background:var(--purple)}
 .empty{color:var(--muted);text-align:center;padding:24px 8px;font-size:14px}
-nav{position:fixed;left:0;right:0;bottom:0;background:#00112A;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 4px calc(10px + env(safe-area-inset-bottom));z-index:6}
+nav{position:fixed;left:0;right:0;bottom:0;background:#00112A;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);padding:8px 4px calc(10px + env(safe-area-inset-bottom));z-index:6}
 nav button{background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;padding:6px 0;min-height:48px}
 nav button.on{color:var(--gold)}
 nav svg{width:22px;height:22px}
@@ -354,13 +354,84 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
  nav{top:0;bottom:0;right:auto;width:200px;display:flex;flex-direction:column;gap:4px;padding:90px 12px 12px;border-top:0;border-right:1px solid rgba(40,86,163,.45)}
  nav button{flex-direction:row;justify-content:flex-start;gap:14px;font-size:15px;padding:10px 14px;min-height:44px;border-radius:10px}nav button.on{background:rgba(227,24,55,.08)}nav button.on::after{left:auto;right:-12px;top:6px;bottom:6px;width:3px;height:auto}
  header{padding-left:16px}}
+
+/* ===== v7.0 operations dashboard (Design 2) ===== */
+.pill{flex-direction:row;flex-wrap:wrap;column-gap:6px;row-gap:0;align-items:center;max-width:210px;padding:7px 12px;border:1px solid rgba(61,220,151,.35);border-radius:10px;background:rgba(16,40,28,.35)}
+.pill.off{border-color:rgba(255,90,90,.4);background:rgba(60,10,20,.35)} .pill.stale{border-color:rgba(255,211,107,.4)}
+.pill small{flex-basis:100%;padding-left:14px;font-size:10px;font-weight:500;color:var(--muted);letter-spacing:0}
+.sbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid rgba(40,86,163,.6);border-radius:14px;background:rgba(5,34,77,.55)}
+.sbar>div{padding:11px 13px;min-width:0;border-bottom:1px solid rgba(40,86,163,.4)}
+.sbar>div:nth-child(odd){border-right:1px solid rgba(40,86,163,.4)}
+.sbar span{display:block;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.sbar b{display:block;font-size:17px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sbar b small{font-size:11px}
+.rbar{height:5px;border-radius:99px;background:rgba(40,86,163,.45);margin-top:6px;overflow:hidden}.rbar i{display:block;height:100%;background:#4F8CFF;border-radius:99px}.rbar i.warn{background:var(--warn)}.rbar i.bad{background:#FF5A6E}
+.ts{display:flex!important;align-items:center;gap:7px;font-size:15px!important}.ts i{width:9px;height:9px;border-radius:99px;background:currentColor}.ts.ok{color:var(--buy)}.ts.warn{color:var(--warn)}.ts.bad{color:#FF5A6E}
+.pnl{padding:14px}
+.vbtn{height:30px;font-size:12px;padding:0 10px;border-radius:8px;flex:none}
+.mpanel{padding:6px 0 4px}.mpanel .ph{padding:10px 14px}
+.mrow2{display:grid;grid-template-columns:28px 1fr auto auto;grid-template-areas:"ic nm pr st" "ic sp tr gr";gap:4px 10px;align-items:center;padding:10px 14px;border-top:1px solid rgba(40,86,163,.4)}
+.mic2{grid-area:ic;font-size:20px;text-align:center}.mn2{grid-area:nm;background:none;border:0;color:inherit;font:inherit;text-align:left;padding:0;min-width:0}.mn2 b{font-size:15px;display:block}.mn2 small{display:block;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp{grid-area:pr;text-align:right}.mp b{display:block;font-size:13.5px}.mp small{font-size:11px}
+.msp{grid-area:sp;min-width:0}.msp .spk{height:22px}
+.mt{grid-area:tr;text-align:right;line-height:1.1}.mt small,.mg small{display:block;font-size:9.5px;color:var(--muted);letter-spacing:.05em}.mt b{font-size:12px}
+.mg{grid-area:gr;text-align:center;line-height:1.1}.mg b{font-size:16px}
+.ga{color:var(--buy)}.gb{color:#E8B33A}.gc{color:#FF8A5B}.gn{color:var(--muted)}
+.stp{grid-area:st;font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:5px 10px;border-radius:7px;text-align:center;white-space:nowrap}
+.stp.buy{background:rgba(61,220,151,.15);color:var(--buy);border:1px solid rgba(61,220,151,.4)}.stp.sell{background:rgba(255,138,91,.15);color:var(--sell);border:1px solid rgba(255,138,91,.4)}
+.stp.warn{background:rgba(232,179,58,.15);color:#E8B33A;border:1px solid rgba(232,179,58,.4)}.stp.bad{background:rgba(227,24,55,.15);color:#FF5A6E;border:1px solid rgba(227,24,55,.4)}.stp.mute{background:rgba(107,122,148,.2);color:#A9B4C8}
+.mrow2 .vbtn{display:none}
+.dgrid{display:flex;flex-direction:column;gap:14px}.rcol{display:flex;flex-direction:column;gap:14px}
+.bimg{width:30px;height:30px;border-radius:8px}
+.run{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700}.run i{width:8px;height:8px;border-radius:99px;background:currentColor}.run.ok{color:var(--buy)}.run.bad{color:#FF6B6B}
+.atc{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin-top:12px;padding:14px;border-radius:12px;border:1.5px solid rgba(61,220,151,.6);background:rgba(16,60,40,.35)}
+.atc.bad{border-color:rgba(227,24,55,.6);background:rgba(60,10,25,.4)}.atc.warn{border-color:rgba(232,179,58,.55);background:rgba(60,45,10,.3)}
+.atc b{display:block;font-size:15px;letter-spacing:.03em}.atc.ok b{color:var(--buy)}.atc.bad b{color:#FF6B6B}.atc.warn b{color:#E8B33A}.atc small{font-size:12px;color:var(--muted)}
+.ati{width:38px;height:38px;border-radius:10px;background:rgba(61,220,151,.15);color:var(--buy);display:grid;place-items:center}.atc.bad .ati{background:rgba(227,24,55,.15);color:#FF6B6B}.ati svg{width:22px;height:22px}
+.tiles2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.tiles2>div{display:flex;gap:8px;padding:10px;border-radius:10px;border:1px solid rgba(40,86,163,.5);background:rgba(0,21,46,.4);min-width:0}
+.ti2{font-size:18px}.tiles2 small{display:block;font-size:10.5px;color:var(--muted)}.tiles2 b{display:block;font-size:13px}.tiles2 em{display:block;font-style:normal;font-size:11px;color:var(--buy)}
+.chips2{display:flex;flex-wrap:wrap;gap:6px}.chips2 span{font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;background:#1E5BB8}.chips2 .g{background:rgba(61,220,151,.15);color:var(--buy);border:1px solid rgba(61,220,151,.4)}
+.bgrid{display:flex;flex-direction:column;gap:14px}
+.lrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(40,86,163,.35);font-size:13px}.lrow:first-of-type{margin-top:8px}
+.lrow .grow{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#C9D6EE}.lrow small{color:var(--muted);font-size:12px}
+.gb2{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:11px;font-weight:800;background:rgba(40,86,163,.4)}
+.gb2.ga{background:rgba(61,220,151,.18)}.gb2.gb{background:rgba(232,179,58,.18)}.gb2.gc{background:rgba(255,138,91,.18)}
+.imp{font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px}.imp.bad{background:rgba(227,24,55,.2);color:#FF5A6E}.imp.warn{background:rgba(232,179,58,.2);color:#E8B33A}.imp.low{background:rgba(79,140,255,.2);color:#8FB4FF}
+.empty2{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 8px;margin-top:10px;border:1px dashed rgba(40,86,163,.6);border-radius:12px;text-align:center}.empty2 div{font-size:24px}.empty2 small{color:var(--muted);font-size:12px}.empty2 .btn{height:36px;margin-top:8px;font-size:13px}
+.navkill{display:none!important}
+@media (max-width:620px){#livesub{display:none}.pill{max-width:none;padding:6px 8px;flex-wrap:nowrap}.mpanel .ph .vbtn{display:none}.mpanel .ph .tfs button{padding:0 8px}.mrow2{grid-template-columns:24px minmax(0,1fr) auto auto;grid-template-areas:"ic nm pr st" "ic sp tr gr"}}
+.atc.ok .toggle.on{background:var(--buy)}
+@media (min-width:700px){.sbar{grid-template-columns:repeat(6,minmax(0,1fr))}.sbar>div{border-bottom:0!important;border-right:1px solid rgba(40,86,163,.4)}.sbar>div:last-child{border-right:0}
+ .mrow2{grid-template-columns:30px 150px 110px 1fr 80px 54px 96px 64px;grid-template-areas:"ic nm pr sp tr gr st vb"}.mrow2 .vbtn{display:block}.mp{text-align:left}
+ .bgrid{display:grid;grid-template-columns:repeat(3,1fr)}}
+@media (min-width:1100px){main{max-width:1320px}.dgrid{display:grid;grid-template-columns:1.75fr 1fr}
+ .navkill{display:flex!important;margin-top:auto;flex-direction:row!important;gap:10px;align-items:center;color:#FF6B6B!important;border:1px solid rgba(227,24,55,.6)!important;background:rgba(60,10,25,.4)!important;font-weight:700;text-align:left;line-height:1.2}
+ .navkill svg{flex:none}}
+
+/* ===== v8.0 A9 terminal ===== */
+.term{display:flex;flex-direction:column;gap:14px}.tl,.tc,.tr,.tc2{display:flex;flex-direction:column;gap:14px;min-width:0}
+.tc{order:-1}
+.term,.term .card{min-width:0;max-width:100%}.tblw{max-width:100%}html,body{overflow-x:hidden}
+.cv.big{height:420px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;text-align:center}.ba small{display:block;font-size:10.5px;color:var(--muted);letter-spacing:.08em}.ba b{font-size:17px}
+.seg .sellon{background:#C60C30!important}
+.bigbuy{margin-top:12px;background:linear-gradient(135deg,#3D7BFF,#2450C8);color:#fff}.bigsell{margin-top:8px;background:linear-gradient(135deg,#FF4D8D,#E31837);color:#fff}
+.eqbig{font-size:26px;font-weight:700;color:#C3A6FF;margin-top:12px}
+.irows{display:flex;flex-direction:column;gap:9px;margin-top:10px}.irows div{display:flex;flex-direction:column;border-left:2px solid var(--line2);padding-left:10px}.irows span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}.irows b{font-size:14px;font-weight:600}
+.vline{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:13px;background:rgba(40,86,163,.25)}.vline.buy{background:rgba(61,220,151,.12)}.vline.sell{background:rgba(255,138,91,.12)}.vline.hold{background:rgba(232,179,58,.12)}
+.seg3{grid-template-columns:auto auto;flex:none}.seg3 button{height:34px;padding:0 12px;font-size:12.5px}
+.tblw{overflow-x:auto;margin-top:10px}.ptbl{width:100%;border-collapse:collapse;font-size:12.5px;white-space:nowrap}.ptbl th{text-align:left;color:var(--muted);font-weight:500;font-size:11px;padding:6px}.ptbl td{padding:8px 6px;border-top:1px solid rgba(40,86,163,.4)}
+.mw{padding:12px}.mwr{width:100%;display:flex;flex-direction:column;gap:2px;padding:9px 10px;margin-top:6px;border-radius:10px;background:none;border:1px solid transparent;color:inherit;font:inherit;text-align:left}.mwr.on{border-color:var(--line2);background:rgba(40,86,163,.3)}.mwr b{font-size:13.5px}.mwr small{font-size:11px;color:var(--muted)}.mwr small.up{color:var(--buy)}.mwr small.down{color:var(--sell)}.mwr span{font-size:12px}
+.chks{display:flex;flex-direction:column;gap:2px;margin-top:8px}.chks div{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:center;padding:6px 0;border-top:1px solid rgba(40,86,163,.35);font-size:13px}.chks small{color:var(--muted);font-size:11.5px;text-align:right;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (min-width:700px){.tc2{display:grid;grid-template-columns:1fr 1fr}}
+@media (min-width:1100px){.phm{display:none!important}.term{display:grid;grid-template-columns:270px minmax(0,1fr) 270px;align-items:start}.tc{order:0}.cv.big{height:470px}}
 </style>
 </head>
 <body>
 <header>
   <div class="brand"><img class="badge" src="icon.png" alt="AXON-9"><div><h1>AXON-9</h1><small>Multi-Market Trading Assistant</small></div></div>
   <button id="acctbtn" class="acctpill" aria-label="Switch account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span><b id="sub">ACCOUNT</b><small id="acctname"></small></span><svg class="cv2" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button>
-  <div class="hright"><div id="live" class="pill"><i></i><span>…</span></div><span class="hsep"></span><button id="hset" class="hicon" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button><button id="hav" class="hav" aria-label="Accounts"></button></div>
+  <div class="hright"><div id="live" class="pill"><i></i><span>…</span><small id="livesub"></small></div><span class="hsep"></span><button id="hset" class="hicon" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button><button id="hav" class="hav" aria-label="Accounts"></button></div>
 </header>
 <div id="splash"><img src="logo.jpg" alt="AXON-9"></div>
 <main id="view"></main>
@@ -369,7 +440,9 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
   <button data-tab="markets" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Markets</button>
   <button data-tab="a9" aria-label="A9 Assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>A9 Assistant</button>
   <button data-tab="trades" aria-label="Trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></svg>Trades</button>
+  <button data-tab="news" aria-label="News"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h13v16H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v10a2 2 0 0 1-2 2"/><path d="M8 8h5M8 12h5M8 16h3"/></svg>News</button>
   <button data-tab="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>Settings</button>
+  <button class="navkill" data-confirm="KILL SWITCH: close ALL trades and lock Auto?" data-cmd="/kill" data-msg="Kill switch…"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6"/><circle cx="12" cy="16.5" r=".6"/></svg><span>Emergency<br>Kill Switch</span></button>
 </nav>
 <div id="toast" class="toast"></div>
 <script>
@@ -377,7 +450,7 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '6.0.0';
+  var APP_VER = '8.0.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -586,11 +659,12 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
   function liveState() {
     var pill = $('live'), c = conn();
     pill.className = 'pill ' + (c.k === 'ok' ? 'live' : c.k === 'stale' ? 'stale' : c.k === 'off' ? 'off' : '');
-    pill.lastElementChild.textContent = c.k === 'ok' ? 'MT5 CONNECTED' : c.k === 'stale' ? 'MT5 STALE' : c.k === 'off' ? 'MT5 OFFLINE' : 'WAITING';
+    $('livesub').textContent = S ? brokerName().split(' ')[0] + ' • ' + (S.real ? 'Live' : 'Demo') + (S.ping ? ' • ' + S.ping + ' ms' : '') : '';
+    pill.children[1].textContent = c.k === 'ok' ? 'MT5 CONNECTED' : c.k === 'stale' ? 'MT5 STALE' : c.k === 'off' ? 'MT5 OFFLINE' : 'WAITING';
     var me = accts().filter(function (x) { return x.k === KEY; })[0];
     $('sub').textContent = (S ? (S.real ? 'LIVE' : 'DEMO') : '') + ' ACCOUNT';
     $('acctbtn').title = me && me.name ? me.name : '';
-    $('acctname').textContent = me && me.name ? me.name : (S ? '#' + (S.login || '') : '');
+    $('acctname').textContent = S && S.login ? '#' + S.login : (me && me.name ? me.name : '');
     $('hav').textContent = U ? String(U.email || 'A').replace(/[^a-z]/gi, '').slice(0, 2).toUpperCase() : '';
     return c.k === 'ok';
   }
@@ -696,77 +770,153 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
     if (g && (v.v === 'BUY' || v.v === 'SELL')) L.push({ p: num(g.entry), t: 'Entry', c: '#FFFFFF', d: [] }, { p: num(g.sl), t: 'SL', c: '#FF5A6E', d: [] }, { p: num(g.tp1), t: 'TP1', c: '#3DDC97', d: [] }, { p: num(g.tp2), t: 'TP2', c: '#3DDC97', d: [] });
     return L.filter(function (l) { return isFinite(l.p); });
   }
+  //=====================================================================================
+  //--- v8.0 A9 TERMINAL: big chart (M1-D1, SMA20, RSI, MACD) + AXON-9 Intelligence + Trade Planner
+  //    + Execution Controller + trade ticket + market watch + positions. The EA stays the source of truth.
+  //=====================================================================================
+  var barsX = {}, barsXT = {}, a9tf2 = store.get('axa9tf') || 'm15', a9side = 'buy', posTab = 'open';
+  function loadBarsX(n, force) {
+    if (!U || !KEY || !DB || !n || (!force && Date.now() - (barsXT[n] || 0) < 12000)) return;
+    barsXT[n] = Date.now();
+    fetch(DB + '/axon/' + KEY + '/barsx/' + encodeURIComponent(n) + '.json', { cache: 'no-store' }).then(function (r) { return r.json(); })
+      .then(function (d) { if (d) { barsX[n] = d; if (tab === 'a9') drawChart(); } }).catch(function () {});
+  }
+  function tfBars(n, tf) { var x = barsX[n]; if (x && x[tf] && x[tf].length) return x[tf]; return tf === 'm15' || tf === 'h1' ? barsOf(n, tf) : []; }
+  function smaArr(c, p) { var o = [], s = 0; for (var i = 0; i < c.length; i++) { s += c[i]; if (i >= p) s -= c[i - p]; o.push(i >= p - 1 ? s / p : null); } return o; }
+  function emaArr(c, p) { var o = [], k = 2 / (p + 1), e = null; for (var i = 0; i < c.length; i++) { e = e === null ? c[i] : c[i] * k + e * (1 - k); o.push(e); } return o; }
+  function rsiArr(c, p) {
+    var o = [], g = 0, l = 0;
+    for (var i = 0; i < c.length; i++) {
+      if (i === 0) { o.push(null); continue; }
+      var d = c[i] - c[i - 1], up = Math.max(0, d), dn = Math.max(0, -d);
+      if (i <= p) { g += up; l += dn; o.push(i === p ? 100 - 100 / (1 + (l ? g / l : 99)) : null); if (i === p) { g /= p; l /= p; } continue; }
+      g = (g * (p - 1) + up) / p; l = (l * (p - 1) + dn) / p; o.push(100 - 100 / (1 + (l ? g / l : 99)));
+    }
+    return o;
+  }
+  function htfBias(m) { var pa = m.pa || {}, s = (pa.d1 || 0) + (pa.h4 || 0); return s >= 1 && pa.d1 >= 0 && pa.h4 >= 0 ? 1 : s <= -1 && pa.d1 <= 0 && pa.h4 <= 0 ? -1 : 0; }
+  function ltfMove(m) { var pa = m.pa || {}, b = tfBars(m.n, 'm15'); var m15 = b.length > 12 ? (b[b.length - 1][4] > b[b.length - 13][4] ? 1 : -1) : 0; return pa.h1 || m15; }
+  function arrw(d) { return d > 0 ? '▲' : d < 0 ? '▼' : '→'; }
   function drawChart() {
     var cv = $('cv'); if (!cv || !S) return;
     var m = curA9(); if (!m) return;
-    var b = barsOf(m.n, a9tf), W = cv.clientWidth, H = cv.clientHeight, dpr = window.devicePixelRatio || 1;
+    var b = tfBars(m.n, a9tf2).slice(-80), W = cv.clientWidth, H = cv.clientHeight, dpr = window.devicePixelRatio || 1;
     cv.width = W * dpr; cv.height = H * dpr; var g = cv.getContext('2d'); g.scale(dpr, dpr);
     g.font = '11px "JetBrains Mono", monospace';
-    if (b.length < 2) { g.fillStyle = '#A9BFE2'; g.font = '13px "Space Grotesk", sans-serif'; g.fillText(bars ? 'No candles for ' + m.n + ' yet' : 'Loading live MT5 candles…', 14, H / 2); if (bars && !(bars.m || []).length) g.fillText('(needs AXON-9 bot 4.2 on the PC)', 14, H / 2 + 20); return; }
+    if (b.length < 5) { g.fillStyle = '#A9BFE2'; g.font = '13px "Space Grotesk", sans-serif'; g.fillText(barsX[m.n] ? 'No ' + a9tf2.toUpperCase() + ' candles yet' : 'Loading live MT5 candles…', 14, H / 2); if (!barsX[m.n] && /m1|m5|h4|d1/.test(a9tf2)) g.fillText('(M1/M5/H4/D1 need AXON-9 bot 4.4 on the PC)', 14, H / 2 + 20); return; }
+    var c = b.map(function (x) { return x[4]; }), sma = smaArr(c, 20), rsi = rsiArr(c, 14);
+    var ef = emaArr(c, 12), es = emaArr(c, 26), macd = c.map(function (_, i) { return ef[i] - es[i]; }), sig = emaArr(macd, 9);
+    var pr = 74, topH = H * 0.64, rsiT = topH + 8, rsiH = H * 0.15, macT = rsiT + rsiH + 10, macH = H - macT - 18;
     var lo = Infinity, hi = -Infinity; b.forEach(function (x) { lo = Math.min(lo, x[3]); hi = Math.max(hi, x[2]); });
-    var rg = hi - lo || 1, L = levelsOf(m, verdictOf(m)).filter(function (l) { return l.p > lo - rg * 0.35 && l.p < hi + rg * 0.35; });
+    var rg = hi - lo || 1, L = levelsOf(m, verdictOf(m)).filter(function (l) { return l.p > lo - rg * 0.3 && l.p < hi + rg * 0.3; });
     L.forEach(function (l) { lo = Math.min(lo, l.p); hi = Math.max(hi, l.p); }); rg = hi - lo || 1; lo -= rg * 0.04; hi += rg * 0.04; rg = hi - lo;
-    var pr = 70, top = 8, bot = 22, ch = H - top - bot, cw = (W - pr - 6) / b.length;
-    var y = function (p) { return top + (hi - p) / rg * ch; };
-    g.strokeStyle = 'rgba(40,86,163,.35)'; g.lineWidth = 1; g.fillStyle = '#7F95BA';
-    for (var k = 0; k <= 4; k++) { var gp = lo + rg * k / 4, gy = y(gp); g.beginPath(); g.moveTo(0, gy); g.lineTo(W - pr, gy); g.stroke(); g.fillText(fmtP(m, gp), W - pr + 6, gy + 4); }
+    var cw = (W - pr - 6) / b.length, y = function (p) { return 6 + (hi - p) / rg * (topH - 12); }, X = function (i) { return 3 + i * cw + cw / 2; };
+    g.strokeStyle = 'rgba(40,86,163,.3)'; g.lineWidth = 1; g.fillStyle = '#7F95BA';
+    for (var k = 0; k <= 5; k++) { var gp = lo + rg * k / 5, gy = y(gp); g.beginPath(); g.moveTo(0, gy); g.lineTo(W - pr, gy); g.stroke(); g.fillText(fmtP(m, gp), W - pr + 6, gy + 4); }
     b.forEach(function (x, i) {
-      var cx = 3 + i * cw + cw / 2, up = x[4] >= x[1], col = up ? '#3DDC97' : '#FF5A6E';
+      var up = x[4] >= x[1], col = up ? '#3DDC97' : '#FF5A6E', cx = X(i);
       g.strokeStyle = col; g.fillStyle = col; g.beginPath(); g.moveTo(cx, y(x[2])); g.lineTo(cx, y(x[3])); g.stroke();
-      var bt = y(Math.max(x[1], x[4])), bh = Math.max(1, Math.abs(y(x[1]) - y(x[4])));
-      g.fillRect(cx - Math.max(1, cw * 0.32), bt, Math.max(2, cw * 0.64), bh);
+      g.fillRect(cx - Math.max(1, cw * 0.32), y(Math.max(x[1], x[4])), Math.max(2, cw * 0.64), Math.max(1, Math.abs(y(x[1]) - y(x[4]))));
     });
+    g.strokeStyle = '#4FC3F7'; g.lineWidth = 1.4; g.beginPath(); var st = false;
+    sma.forEach(function (v, i) { if (v === null) return; if (!st) { g.moveTo(X(i), y(v)); st = true; } else g.lineTo(X(i), y(v)); }); g.stroke();
     var used = [];
     L.forEach(function (l) {
-      var ly = y(l.p), lx = 4; used.forEach(function (u) { if (Math.abs(u[0] - ly) < 13) lx = Math.max(lx, u[1] + 6); }); g.strokeStyle = l.c; g.lineWidth = /Entry|SL|TP/.test(l.t) ? 1.6 : 1.1; g.setLineDash(l.d);
-      g.beginPath(); g.moveTo(0, ly); g.lineTo(W - pr, ly); g.stroke(); g.setLineDash([]);
-      var lab = l.t; g.font = 'bold 10px "Space Grotesk", sans-serif'; var tw = g.measureText(lab).width;
-      g.fillStyle = 'rgba(0,21,46,.85)'; g.fillRect(lx, ly - 13, tw + 8, 13); g.fillStyle = l.c; g.fillText(lab, lx + 4, ly - 3); used.push([ly, lx + tw + 8]);
+      var ly = y(l.p), lx = 4; used.forEach(function (u) { if (Math.abs(u[0] - ly) < 13) lx = Math.max(lx, u[1] + 6); });
+      g.strokeStyle = l.c; g.lineWidth = /Entry|SL|TP/.test(l.t) ? 1.6 : 1.1; g.setLineDash(l.d); g.beginPath(); g.moveTo(0, ly); g.lineTo(W - pr, ly); g.stroke(); g.setLineDash([]);
+      g.font = 'bold 10px "Space Grotesk", sans-serif'; var tw = g.measureText(l.t).width;
+      g.fillStyle = 'rgba(0,21,46,.85)'; g.fillRect(lx, ly - 13, tw + 8, 13); g.fillStyle = l.c; g.fillText(l.t, lx + 4, ly - 3); used.push([ly, lx + tw + 8]);
       g.font = '11px "JetBrains Mono", monospace';
     });
-    var last = b[b.length - 1][4], yl = y(last);
+    var last = c[c.length - 1], yl = y(last), bid = num(m.bid || m.px), ask = num(m.ask || m.px);
     g.setLineDash([3, 3]); g.strokeStyle = '#FFFFFF'; g.beginPath(); g.moveTo(0, yl); g.lineTo(W - pr, yl); g.stroke(); g.setLineDash([]);
-    g.fillStyle = '#E31837'; g.fillRect(W - pr + 1, yl - 9, pr - 2, 18); g.fillStyle = '#FFFFFF'; g.fillText(fmtP(m, last), W - pr + 5, yl + 4);
-    g.fillStyle = '#7F95BA';
-    [0, Math.floor(b.length / 2), b.length - 1].forEach(function (i) { var t = new Date(b[i][0] * 1000), s = ('0' + t.getHours()).slice(-2) + ':' + ('0' + t.getMinutes()).slice(-2); g.fillText(s, Math.min(W - pr - 36, 3 + i * cw), H - 6); });
+    var tag = function (p, txt, bg) { var ty = y(p); if (ty < 0 || ty > topH) return; g.fillStyle = bg; g.fillRect(W - pr + 1, ty - 8, pr - 2, 16); g.fillStyle = '#fff'; g.fillText(txt, W - pr + 4, ty + 4); };
+    if (isFinite(ask)) tag(ask, fmtP(m, ask), '#1E88E5'); if (isFinite(bid)) tag(bid, fmtP(m, bid), '#E31837');
+    g.fillStyle = '#4FC3F7'; g.font = '10px "Space Grotesk", sans-serif'; g.fillText('SMA(20)', 6, 14); g.font = '11px "JetBrains Mono", monospace';
+    //--- RSI pane
+    var ry = function (v) { return rsiT + (100 - v) / 100 * rsiH; };
+    g.strokeStyle = 'rgba(40,86,163,.45)'; g.strokeRect(0.5, rsiT, W - pr, rsiH);
+    [70, 30].forEach(function (lv) { g.setLineDash([3, 3]); g.strokeStyle = lv === 70 ? 'rgba(255,90,110,.6)' : 'rgba(61,220,151,.6)'; g.beginPath(); g.moveTo(0, ry(lv)); g.lineTo(W - pr, ry(lv)); g.stroke(); g.setLineDash([]); });
+    g.strokeStyle = '#E8B33A'; g.lineWidth = 1.3; g.beginPath(); st = false; rsi.forEach(function (v, i) { if (v === null) return; if (!st) { g.moveTo(X(i), ry(v)); st = true; } else g.lineTo(X(i), ry(v)); }); g.stroke();
+    var rl = rsi[rsi.length - 1]; g.fillStyle = '#7F95BA'; g.fillText('RSI(14) ' + (rl ? rl.toFixed(1) : ''), 6, rsiT + 12);
+    //--- MACD pane
+    var mx = 1e-12; macd.forEach(function (v, i) { mx = Math.max(mx, Math.abs(v), Math.abs(sig[i])); });
+    var my = function (v) { return macT + macH / 2 - v / mx * (macH / 2 - 2); };
+    g.strokeStyle = 'rgba(40,86,163,.45)'; g.strokeRect(0.5, macT, W - pr, macH);
+    macd.forEach(function (v, i) { var h = v - sig[i]; g.fillStyle = h >= 0 ? 'rgba(61,220,151,.7)' : 'rgba(255,90,110,.7)'; var a = my(0), bb = my(h); g.fillRect(X(i) - Math.max(1, cw * 0.3), Math.min(a, bb), Math.max(2, cw * 0.6), Math.abs(bb - a)); });
+    [[macd, '#4FC3F7'], [sig, '#FF8A5B']].forEach(function (q) { g.strokeStyle = q[1]; g.lineWidth = 1.2; g.beginPath(); q[0].forEach(function (v, i) { if (!i) g.moveTo(X(i), my(v)); else g.lineTo(X(i), my(v)); }); g.stroke(); });
+    g.fillStyle = '#7F95BA'; g.fillText('MACD(12,26,9)', 6, macT + 12);
+    //--- time axis
+    [0, Math.floor(b.length / 3), Math.floor(2 * b.length / 3), b.length - 1].forEach(function (i) { var t = new Date(b[i][0] * 1000), lab = /d1|h4/.test(a9tf2) ? t.getDate() + '/' + (t.getMonth() + 1) : ('0' + t.getHours()).slice(-2) + ':' + ('0' + t.getMinutes()).slice(-2); g.fillText(lab, Math.min(W - pr - 40, X(i) - 14), H - 4); });
   }
   function curA9() { var ms = S.markets || []; return ms.filter(function (m) { return m.n === a9m; })[0] || ms.filter(function (m) { return !m.off && !closedM(m); })[0] || ms[0]; }
-  function planRows(m, v) {
+  function planRows(m, v) {   // trade planner: the EA's own levels when it has a signal, otherwise where it would want to enter
     var pa = m.pa || {}, px = num(m.bid || m.px), Z = (pa.zones || []).map(function (z) { return num(z.p); }).filter(isFinite);
     var sup = Z.filter(function (p) { return p < px; }).sort(function (a, b) { return b - a; }), res = Z.filter(function (p) { return p > px; }).sort(function (a, b) { return a - b; });
-    var sc = (pa.d1 || 0) + (pa.h4 || 0) + (pa.h1 || 0), F = function (p) { return fmtP(m, p); }, R = [];
-    var tf = 'D1 ' + (pa.d1 > 0 ? '▲' : pa.d1 < 0 ? '▼' : '–') + ' · H4 ' + (pa.h4 > 0 ? '▲' : pa.h4 < 0 ? '▼' : '–') + ' · H1 ' + (pa.h1 > 0 ? '▲' : pa.h1 < 0 ? '▼' : '–');
+    var hb = htfBias(m), F = function (p) { return fmtP(m, p); }, R = [];
     if (v.sig && (v.v === 'BUY' || v.v === 'SELL')) {
-      var g = v.sig;
-      R.push(['Trade', g.side + ' ' + m.n + ' – grade ' + g.g + ' ' + g.setup + ' (' + g.sc + '/100)'], ['Enter at', g.entry], ['Stop loss', g.sl], ['Take profit', g.tp1 + ' then ' + g.tp2], ['Style', g.style === 'HOLD' ? 'Swing – hours to 2 days' : 'Scalp – minutes to a few hours']);
-      return R;
+      var g = v.sig, e = num(g.entry), sl = num(g.sl), t2 = num(g.tp2), rr = Math.abs(e - sl) > 0 ? Math.abs(t2 - e) / Math.abs(e - sl) : 0;
+      return [['Trade', g.side + ' ' + m.n + ' – grade ' + g.g + ' ' + g.setup], ['Entry', g.entry], ['Stop loss', g.sl], ['Take profit', g.tp1 + ' then ' + g.tp2], ['Lot / risk', (g.lots > 0 ? g.lots.toFixed(2) : '0.01') + ' lot · ' + g.risk + ' each'], ['Risk : reward', rr ? '1 : ' + rr.toFixed(1) : '–']];
     }
-    if (v.v === 'CLOSED') return [['Right now', 'Market closed – AXON-9 starts reading again when it opens.']];
-    if (v.v === 'OFF') return [['Right now', 'Switched off in Settings → Markets.']];
-    if (sc >= 2) R.push(['Bias', 'BUY side – buyers in control (' + tf + ')'], ['Where to enter', sup[0] ? 'On a pull-back into support ' + F(sup[0]) : 'On a pull-back to the last M15 swing low'], ['Wait for', 'A bullish rejection or engulfing M15 candle at that level'], ['Wrong if', sup[1] ? 'Price closes below ' + F(sup[1]) : 'Price closes below the support zone'], ['Targets', res[0] ? F(res[0]) + (res[1] ? ', then ' + F(res[1]) : '') : 'The previous high']);
-    else if (sc <= -2) R.push(['Bias', 'SELL side – sellers in control (' + tf + ')'], ['Where to enter', res[0] ? 'On a bounce into resistance ' + F(res[0]) : 'On a bounce to the last M15 swing high'], ['Wait for', 'A bearish rejection or engulfing M15 candle at that level'], ['Wrong if', res[1] ? 'Price closes above ' + F(res[1]) : 'Price closes above the resistance zone'], ['Targets', sup[0] ? F(sup[0]) + (sup[1] ? ', then ' + F(sup[1]) : '') : 'The previous low']);
-    else R.push(['Bias', 'No clear side (' + tf + ')'], ['Plan', 'Stay out until the 4-hour picks a direction' + (sup[0] && res[0] ? '. Range ' + F(sup[0]) + ' – ' + F(res[0]) + ': only a rejection at an edge is tradable' : '')]);
-    if (v.v === 'NO TRADE') R.unshift(['Right now', 'No trade – ' + v.why]);
+    if (v.v === 'CLOSED') return [['Plan', 'Market closed – nothing to plan until it opens.']];
+    if (hb > 0) R.push(['Plan', 'BUY on a pull-back – no entry yet'], ['Entry zone', sup[0] ? 'Support ' + F(sup[0]) : 'Last M15 swing low'], ['Confirmation', 'Bullish M5/M15 rejection candle at that zone'], ['Stop loss', sup[1] ? 'Below ' + F(sup[1]) : 'Below the zone'], ['Targets', res[0] ? F(res[0]) + (res[1] ? ', then ' + F(res[1]) : '') : 'Previous high']);
+    else if (hb < 0) R.push(['Plan', 'SELL on a bounce – no entry yet'], ['Entry zone', res[0] ? 'Resistance ' + F(res[0]) : 'Last M15 swing high'], ['Confirmation', 'Bearish M5/M15 rejection candle at that zone'], ['Stop loss', res[1] ? 'Above ' + F(res[1]) : 'Above the zone'], ['Targets', sup[0] ? F(sup[0]) + (sup[1] ? ', then ' + F(sup[1]) : '') : 'Previous low']);
+    else R.push(['Plan', 'Stand aside – D1 and H4 disagree'], ['Range', sup[0] && res[0] ? F(sup[0]) + ' – ' + F(res[0]) : '–'], ['Confirmation', 'Wait for H4 to pick a side']);
     return R;
+  }
+  function intelRows(m, v) {
+    var pa = m.pa || {}, hb = htfBias(m), lm = ltfMove(m), retr = hb && lm && hb !== lm;
+    var conf = v.sig && /BUY|SELL/.test(v.v) ? 'CONFIRMED – grade ' + v.sig.g + ' ' + v.sig.setup + ' (' + v.sig.sc + '/100)' : v.sig ? 'Setup seen (grade ' + v.sig.g + ') – not strong enough yet' : 'Not yet – no entry trigger';
+    return [
+      ['Higher-timeframe bias', (hb > 0 ? 'BUY' : hb < 0 ? 'SELL' : 'NEUTRAL') + '  (D1 ' + arrw(pa.d1) + ' · H4 ' + arrw(pa.h4) + ')', hb > 0 ? 'up' : hb < 0 ? 'down' : ''],
+      ['Current movement', (lm > 0 ? 'Rising' : lm < 0 ? 'Falling' : 'Flat') + '  (H1 ' + arrw(pa.h1) + ')' + (retr ? ' – a pull-back against the bias' : ''), lm > 0 ? 'up' : lm < 0 ? 'down' : ''],
+      ['Market structure', String(pa.reg || m.reg || '–') + (pa.bos ? ' · break of structure ' + arrw(pa.bos) : '') + (pa.half && pa.half !== 'unknown' ? ' · price in ' + pa.half : ''), ''],
+      ['Entry confirmation', conf, v.sig && /BUY|SELL/.test(v.v) ? 'up' : '']];
   }
   function a9Tab() {
     var ms = S.markets || [];
     if (!ms.length) return '<div class="card empty">No markets from the bot yet.</div>';
-    var m = curA9(); a9m = m.n; loadBars();
-    var v = verdictOf(m), f = fresh(m), g = v.sig, out = '';
-    out += '<div class="ptitle"><h2>A9 Assistant</h2><p>Live MT5 charts read by AXON-9 – when to buy, when to sell, when to wait.</p></div>';
-    out += '<div class="mchips">' + ms.map(function (x) { var vx = verdictOf(x); return '<button class="' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '">' + esc(x.n) + (/BUY|SELL/.test(vx.v) ? ' <i class="' + vcls(vx.v) + '"></i>' : '') + '</button>'; }).join('') + '</div>';
-    out += '<div class="card chartcard"><div class="row"><div style="min-width:0"><b style="font-size:17px">' + (MICO[m.n] || '') + ' ' + esc(m.n) + '</b> <span class="mono">' + esc(m.px) + '</span>' + (m.chg != null ? ' <span class="chg ' + (m.chg >= 0 ? 'up' : 'down') + '">' + (m.chg >= 0 ? '+' : '') + Number(m.chg).toFixed(2) + '%</span>' : '') + '</div>' +
-      '<div class="tfs">' + [['m15', 'M15'], ['h1', 'H1']].map(function (t) { return '<button class="' + (a9tf === t[0] ? 'on' : '') + '" data-a9tf="' + t[0] + '">' + t[1] + '</button>'; }).join('') + '</div></div>' +
-      '<canvas id="cv" class="cv" aria-label="' + esc(m.n) + ' live chart"></canvas>' +
-      '<div class="legend"><span><i style="background:#3DDC97"></i>support</span><span><i style="background:#FF5A6E"></i>resistance</span><span><i style="background:#E8B33A"></i>liquidity</span><span><i style="background:#fff"></i>entry</span><span class="fr ' + f.c + '">' + f.t + '</span></div></div>';
-    out += '<div class="card vcard ' + vcls(v.v) + '"><div class="row"><span class="label">AXON-9 verdict</span>' + (v.g ? '<span class="tag">grade ' + esc(v.g) + '</span>' : '') + '</div><div class="vbig">' + v.v + '</div><div class="vwhy">' + esc(v.why) + '</div>' +
-      (g && /BUY|SELL/.test(v.v) ? '<div class="lv"><div><span>Entry</span><b>' + esc(g.entry) + '</b></div><div><span>SL</span><b class="down">' + esc(g.sl) + '</b></div><div><span>TP1</span><b class="up">' + esc(g.tp1) + '</b></div><div><span>TP2</span><b class="up">' + esc(g.tp2) + '</b></div></div><div class="why">Lot ' + (g.lots > 0 ? g.lots.toFixed(2) : '0.01') + ' · risk ' + esc(g.risk) + ' each · ' + (S.auto ? 'Auto is ON – AXON-9 places it by itself' : 'Auto is OFF – your call') + '</div>' +
-        (!g.done && (g.max || 0) >= 1 && !S.auto ? '<button class="btn gold full lg" style="margin-top:12px" data-sigtake="' + g.id + '">Take this trade ›</button>' : '') : '') + '</div>';
-    out += '<div class="card"><div class="label">How to enter</div><div class="plan">' + planRows(m, v).map(function (r) { return '<div><span>' + r[0] + '</span><p>' + esc(r[1]) + '</p></div>'; }).join('') + '</div>' +
-      '<div class="why" style="margin-top:10px">Built from AXON-9\'s live MT5 data. With Auto ON the bot enters by itself only on grade A/B setups, inside your risk limits.</div></div>';
-    out += '<button class="btn ghost full lg" data-cmd="/now ' + esc(m.n) + '" data-msg="AXON-9 is reading ' + esc(m.n) + '…">⚡ Check ' + esc(m.n) + ' for a signal now</button>';
-    return out;
+    var m = curA9(); a9m = m.n; mkSel = m.i; loadBars(); loadBarsX(m.n);
+    var v = verdictOf(m), st = mStatus(m), r = riskState(), c = conn(), s = S, maxLot = m.maxLot || 100;
+    lotSel = Math.min(Math.max(0.01, lotSel), maxLot);
+    //--- left: trade ticket + account
+    var tick = '<div class="card pnl tk"><div class="row"><b class="ttl" style="font-size:17px">' + (MICO[m.n] || '') + ' ' + esc(m.n) + '</b><span class="ts ' + (s.auto ? 'ok' : 'warn') + '" style="font-size:12px!important"><i></i>AUTO ' + (s.auto ? 'ON' : 'OFF') + '</span></div>' +
+      '<div class="ba"><div><small>BID</small><b class="down mono">' + esc(m.bid || m.px) + '</b></div><div><small>ASK</small><b class="up mono">' + esc(m.ask || m.px) + '</b></div></div>' +
+      '<div class="seg" style="margin-top:10px"><button class="' + (a9side === 'buy' ? 'on' : '') + '" data-a9side="buy">BUY</button><button class="' + (a9side === 'sell' ? 'on sellon' : '') + '" data-a9side="sell">SELL</button></div>' +
+      '<div class="why" style="margin-top:10px">Lot per position</div><div class="stepper"><button data-lotstep="-1" aria-label="Smaller lot">−</button><div>' + lotSel.toFixed(2) + '</div><button data-lotstep="1" aria-label="Bigger lot">+</button></div>' +
+      '<div class="why" style="margin-top:10px">Positions</div><div class="chips" style="margin-top:6px">' + [1, 2, 3, 5].map(function (n) { return '<button class="' + (n === nSel ? 'on' : '') + '" data-n="' + n + '">' + n + '</button>'; }).join('') + '</div>' +
+      '<div class="why" style="margin-top:10px">AXON-9 sets the stop (1 × hourly range, ' + esc(m.slDist) + ') and TPs at 1R / 2R. Risk ≈ <b style="color:var(--text)">' + ((m.r001 || 0) * Math.round(lotSel * 100) * nSel).toFixed(1) + '%</b> of the account.</div>' +
+      '<button class="btn lg full bigbuy" data-confirm="BUY ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' buy ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Buying…">BUY</button>' +
+      '<button class="btn lg full bigsell" data-confirm="SELL ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + esc(m.n) + '?" data-cmd="/trade ' + esc(m.n) + ' sell ' + lotSel.toFixed(2) + ' ' + nSel + '" data-msg="Selling…">SELL</button></div>';
+    var acc = '<div class="card pnl"><div class="row"><b class="ttl">Account</b><span class="run ' + (c.k === 'ok' ? 'ok' : 'bad') + '"><i></i>' + (c.k === 'ok' ? 'Connected' : c.t) + '</span></div><div class="kv">' +
+      '<span>Account</span><b>#' + esc(s.login || '?') + '</b><span>Broker</span><b>' + esc(brokerName()) + '</b><span>Type</span><b class="' + (s.real ? 'down' : 'up') + '">' + (s.real ? 'Live' : 'Demo') + '</b></div>' +
+      '<div class="eqbig mono">' + esc(s.eq) + '</div><div class="kv" style="margin-top:6px"><span>Today</span><b class="' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + ' (' + (s.todayPct >= 0 ? '+' : '') + Number(s.todayPct || 0).toFixed(2) + '%)</b><span>Open risk</span><b>' + Number(s.riskUsed || 0).toFixed(2) + '%</b><span>Ping</span><b>' + (s.ping ? s.ping + ' ms' : '–') + '</b></div></div>';
+    //--- center: chart + intelligence + planner + positions
+    var chart = '<div class="card chartcard"><div class="row" style="flex-wrap:wrap;gap:8px"><div style="min-width:0"><b style="font-size:17px">' + esc(m.n) + '</b> <span class="mono">' + esc(m.px) + '</span>' + (m.chg != null ? ' <span class="chg ' + (m.chg >= 0 ? 'up' : 'down') + '">' + (m.chg >= 0 ? '+' : '') + Number(m.chg).toFixed(2) + '%</span>' : '') + ' <span class="stp ' + st.c + '" style="margin-left:6px">' + st.t + '</span></div>' +
+      '<div class="tfs">' + ['m1', 'm5', 'm15', 'h1', 'h4', 'd1'].map(function (t) { return '<button class="' + (a9tf2 === t ? 'on' : '') + '" data-a9tf="' + t + '">' + t.toUpperCase() + '</button>'; }).join('') + '</div></div>' +
+      '<canvas id="cv" class="cv big" aria-label="' + esc(m.n) + ' live chart"></canvas>' +
+      '<div class="legend"><span><i style="background:#4FC3F7"></i>SMA 20</span><span><i style="background:#3DDC97"></i>support</span><span><i style="background:#FF5A6E"></i>resistance</span><span><i style="background:#E8B33A"></i>liquidity</span><span><i style="background:#fff"></i>entry</span><span class="fr ' + fresh(m).c + '">' + fresh(m).t + '</span></div></div>';
+    var intel = '<div class="card pnl"><b class="ttl">🧠 AXON-9 Intelligence</b><div class="irows">' + intelRows(m, v).map(function (x) { return '<div><span>' + x[0] + '</span><b class="' + x[2] + '">' + esc(x[1]) + '</b></div>'; }).join('') + '</div>' +
+      '<div class="vline ' + vcls(v.v) + '"><b>Verdict: ' + v.v + '</b> – ' + esc(v.why) + '</div></div>';
+    var plan = '<div class="card pnl"><b class="ttl">🎯 Trade Planner</b><div class="plan">' + planRows(m, v).map(function (x) { return '<div><span>' + x[0] + '</span><p>' + esc(x[1]) + '</p></div>'; }).join('') + '</div>' +
+      (v.sig && /BUY|SELL/.test(v.v) && !v.sig.done && (v.sig.max || 0) >= 1 && !s.auto ? '<button class="btn gold full lg" style="margin-top:12px" data-sigtake="' + v.sig.id + '">Take this trade ›</button>' : '') +
+      '<button class="btn ghost full" style="margin-top:10px" data-cmd="/now ' + esc(m.n) + '" data-msg="AXON-9 is reading ' + esc(m.n) + '…">⚡ Check ' + esc(m.n) + ' for a signal now</button></div>';
+    var tr = s.trades || [], ex = s.exe || [];
+    var pos = '<div class="card pnl"><div class="row" style="flex-wrap:wrap;gap:8px"><div class="seg seg3">' + [['open', 'Open (' + tr.length + ')'], ['hist', 'Fills (' + ex.length + ')']].map(function (x) { return '<button class="' + (posTab === x[0] ? 'on' : '') + '" data-postab="' + x[0] + '">' + x[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="row" style="gap:6px"><button class="btn ghost vbtn" data-closewin="1">Close wins</button><button class="btn ghost vbtn" data-closeloss="1">Close losses</button><button class="btn danger vbtn" data-confirm="Close ALL trades?" data-cmd="cb:closeall" data-msg="Closing everything…">Close all</button></div></div>';
+    if (posTab === 'open') pos += tr.length ? '<div class="tblw"><table class="ptbl"><tr><th>Symbol</th><th>Type</th><th>Lot</th><th>Price</th><th>SL</th><th>TP</th><th>Profit</th><th></th></tr>' + tr.map(function (t) { return '<tr><td><b>' + esc(t.sym) + '</b> ' + tradeTag(t) + '</td><td><span class="tag ' + (t.side === 'BUY' ? 'buy' : 'sell') + '">' + t.side + '</span></td><td class="mono">' + t.vol.toFixed(2) + '</td><td class="mono">' + esc(t.open) + '</td><td class="mono">' + esc(t.sl) + '</td><td class="mono">' + esc(t.tp) + '</td><td class="mono ' + (t.up ? 'up' : 'down') + '">' + esc(t.pl) + '</td><td><button class="btn danger vbtn" data-confirm="Close this trade?" data-cmd="cb:close:' + t.tk + '" data-msg="Closing…">Close</button></td></tr>'; }).join('') + '</table></div>' : '<div class="why" style="padding:14px 0">No open positions.</div>';
+    else pos += ex.length ? '<div class="tblw"><table class="ptbl"><tr><th>Time</th><th>Market</th><th>Kind</th><th>Side</th><th>Fill</th><th>Slip</th><th>ms</th></tr>' + ex.map(function (x) { return '<tr><td>' + hm(x.t) + '</td><td>' + esc(x.m) + '</td><td>' + esc(x.k) + '</td><td>' + esc(x.side) + '</td><td class="mono">' + esc(x.fill) + '</td><td class="mono ' + (x.slip > 0 ? 'down' : 'up') + '">' + Number(x.slip).toFixed(1) + '</td><td class="mono">' + x.ms + '</td></tr>'; }).join('') + '</table></div>' : '<div class="why" style="padding:14px 0">No fills since the bot started.</div>';
+    pos += '</div>';
+    //--- right: market watch + risk + execution controller
+    var mw = '<div class="card pnl mw"><b class="ttl">Market Watch</b>' + ms.map(function (x) { var hx = tfBars(x.n, 'd1'), dh = hx.length ? hx[hx.length - 1] : null; return '<button class="mwr ' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '"><div class="row"><b>' + (MICO[x.n] || '') + ' ' + esc(x.n) + '</b><span class="' + (x.chg >= 0 ? 'up' : 'down') + '">' + (x.chg >= 0 ? '+' : '') + Number(x.chg || 0).toFixed(2) + '%</span></div><div class="row mono"><small class="down">' + esc(x.bid || x.px) + '</small><small class="up">' + esc(x.ask || x.px) + '</small></div>' + (dh ? '<div class="row"><small>H: ' + fmtP(x, dh[2]) + '</small><small>L: ' + fmtP(x, dh[3]) + '</small></div>' : '') + '</button>'; }).join('') + '</div>';
+    var dUsed = Math.max(0, -(s.todayPct || 0));
+    var rk = '<div class="card pnl"><b class="ttl">🛡️ Risk Management</b><div class="kv"><span>Max daily loss</span><b>' + (s.dloss || 4) + '% (' + dUsed.toFixed(1) + '% used)</b><span>Weekly limit</span><b>8% (' + Math.max(0, -(s.wkPct || 0)).toFixed(1) + '% used)</b><span>Below peak</span><b>' + Number(s.dd || 0).toFixed(1) + '%</b><span>Daily target lock</span><b>' + (s.tgt > 0 ? '$' + Number(s.tgt).toFixed(0) + (s.tgtDone ? ' ✓ hit' : '') : 'off') + '</b><span>Day profit lock</span><b>' + (s.dpk > 0 ? 'peak ' + Number(s.dpk).toFixed(0) + ' · keeps 50%' : 'waiting') + '</b></div>' + riskBar(dUsed, s.dloss || 4) + '</div>';
+    var e0 = (s.exe || [])[0];
+    var exc = '<div class="card pnl"><b class="ttl">⚙️ Execution Controller</b><div class="chks">' +
+      [['Auto Trade', !!s.auto, s.auto ? 'ON' : 'OFF'], ['Algo Trading in MT5', s.algo !== false, s.algo === false ? 'OFF – press it in MT5' : 'allowed'], ['MT5 data', c.k === 'ok', c.k === 'ok' ? 'live' : c.t.toLowerCase()], ['Risk approval', !s.safe && r.c !== 'bad', s.safe || r.why]].map(function (x) { return '<div><span class="ck ' + (x[1] ? 'ok' : 'bad') + '">' + (x[1] ? '✓' : '✕') + '</span><span>' + x[0] + '</span><small>' + esc(x[2]) + '</small></div>'; }).join('') + '</div>' +
+      '<div class="why" style="margin-top:8px">Last execution: ' + (e0 ? esc(e0.side + ' ' + e0.m + ' filled ' + e0.fill + ' · ' + ago(e0.t) + ' ago') : 'none yet') + '</div>' +
+      (s.lastBlk ? '<div class="why">Last skipped: ' + esc(s.lastBlk) + '</div>' : '') + '</div>';
+    return '<div class="term"><div class="tl">' + tick + acc + '</div><div class="tc"><div class="mchips phm">' + ms.map(function (x) { var vx = verdictOf(x); return '<button class="' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '">' + esc(x.n) + (/BUY|SELL/.test(vx.v) ? ' <i class="' + vcls(vx.v) + '"></i>' : '') + '</button>'; }).join('') + '</div>' + chart + '<div class="tc2">' + intel + plan + '</div>' + pos + '</div><div class="tr">' + mw + rk + exc + '</div></div>';
   }
   function ago(t) { var d = Math.max(0, Date.now() / 1000 - t); return d < 60 ? 'now' : d < 3600 ? Math.floor(d / 60) + 'm' : d < 86400 ? Math.floor(d / 3600) + 'h' : Math.floor(d / 86400) + 'd'; }
   function feedKind(x) { x = String(x).toUpperCase(); return /OPEN|ENTRIES|APP TRADE/.test(x) ? ['open', '▲'] : /CLOSED|BANKED|TP|PROFIT/.test(x) ? ['close', '✓'] : /BLOCK|SKIP|EMERGENCY|STOP|PAUSE/.test(x) ? ['block', '!'] : /SIGNAL|BUY|SELL/.test(x) ? ['sig', '⚡'] : ['', '•']; }
@@ -1041,7 +1191,7 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
       else v.why = 'grade ' + sig.g + ' – watchlist in ' + (S.mode || 'this') + ' mode';
     }
     else if (/CHOP|NEWS/.test(reg)) { v.v = 'NO TRADE'; v.why = reg.toLowerCase() + ' market – AXON-9 stands aside'; }
-    else v.why = 'no setup yet' + (m.lean ? ' · leaning ' + (m.lean > 0 ? 'up' : 'down') : '');
+    else v.why = 'no entry confirmation yet';
     return v;
   }
   function fresh(m) {
@@ -1099,30 +1249,109 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
     var r = String((m.pa || {}).reg || m.reg || '').toUpperCase();
     return '<span class="rc ' + ({ TREND: 'trend', RANGE: 'range', MIXED: 'mixed', CHOP: 'chop', NEWS: 'news' }[r] || 'mixed') + '">' + esc(r || '–') + '</span>';
   }
-  //--- v6.0 HOME (as the design): greeting, 4 numbers, MetaTrader 5, market pulse + insight, one button
+  //=====================================================================================
+  //--- v7.0 HOME = trading operations dashboard (Design 2)
+  //=====================================================================================
+  var homeTf = store.get('axhtf') || 'h1';
+  function lastSunday(y, m) { var d = new Date(Date.UTC(y, m + 1, 0)); d.setUTCDate(d.getUTCDate() - d.getUTCDay()); return d; }
+  function nthSunday(y, m, n) { var d = new Date(Date.UTC(y, m, 1)); d.setUTCDate(1 + (7 - d.getUTCDay()) % 7 + (n - 1) * 7); return d; }
+  function sessTimes() {   // SA minutes: Frankfurt cash open 09:00 CET/CEST, New York 09:30 ET
+    var now = new Date(), y = now.getUTCFullYear();
+    var euDst = now >= lastSunday(y, 2) && now < lastSunday(y, 9), usDst = now >= nthSunday(y, 2, 2) && now < nthSunday(y, 10, 1);
+    return { eu: euDst ? 540 : 600, us: usDst ? 930 : 990 };
+  }
+  function mm(m) { m = ((m % 1440) + 1440) % 1440; return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + m % 60).slice(-2); }
+  function nextSession() {
+    var st = sessTimes(), d = new Date(), n = d.getHours() * 60 + d.getMinutes(), dow = d.getDay();
+    if (dow === 0 || dow === 6) return ['Crypto only', 'Weekend – BTC & ETH trading'];
+    if (n < st.eu) return ['European Session', 'Opens ' + mm(st.eu) + ' (SA)'];
+    if (n < st.us) return ['European Session', 'Active now'];
+    if (n < st.us + 390) return ['New York Session', 'Active now'];
+    return ['Asian / Crypto', 'Europe opens ' + mm(st.eu) + ' (SA)'];
+  }
+  function newsRisk() {
+    var now = Date.now() / 1000, c = (S.cal || []).filter(function (x) { return x.imp === 'HIGH' && x.t > now - 900; }).sort(function (a, b) { return a.t - b.t; })[0];
+    if (!c) return ['No high impact', 'Next 24 h clear', 'ok'];
+    var mins = Math.round((c.t - now) / 60);
+    return [mins <= 60 ? 'High impact ' + (mins <= 0 ? 'now' : 'in ' + mins + ' min') : 'High impact later', 'Next: ' + esc(c.sa) + ' (SA) · ' + esc(c.cur), mins <= 60 ? 'bad' : 'warn'];
+  }
+  function mStatus(m) {   // what the market is doing and WHY (no bare "NO TRADE")
+    var v = verdictOf(m);
+    if (conn().k !== 'ok') return { t: 'NO DATA', c: 'mute', why: 'MT5 data not live' };
+    if (v.v === 'CLOSED') return { t: 'CLOSED', c: 'mute', why: 'market closed' };
+    if (v.v === 'OFF') return { t: 'OFF', c: 'mute', why: 'switched off' };
+    if (S.safe) return { t: 'BLOCKED', c: 'bad', why: S.safe };
+    if (m.blk) return { t: 'NEWS', c: 'bad', why: v.why };
+    if (v.v === 'BUY' || v.v === 'SELL') return { t: v.v, c: v.v === 'BUY' ? 'buy' : 'sell', why: v.why };
+    if (v.v === 'NO TRADE') return { t: 'NO TRADE', c: 'bad', why: v.why };
+    return { t: 'WAIT', c: 'warn', why: v.why };
+  }
+  function tfDir(m) {
+    var pa = m.pa || {};
+    if (homeTf === 'd1') return pa.d1; if (homeTf === 'h4') return pa.h4; if (homeTf === 'h1') return pa.h1;
+    var b = barsOf(m.n, 'm15'); return b.length > 20 ? (b[b.length - 1][4] > b[b.length - 21][4] ? 1 : b[b.length - 1][4] < b[b.length - 21][4] ? -1 : 0) : 0;
+  }
+  function gradeOf(m) { var now = Date.now() / 1000, g = (S.sigs || []).filter(function (x) { return x.m === m.n && now - (x.t || 0) < 21600; }).sort(function (a, b) { return b.t - a.t; })[0]; return g ? g.g : '–'; }
+  function gcls(g) { return g === 'A+' || g === 'A' ? 'ga' : g === 'B' ? 'gb' : g === 'C' ? 'gc' : 'gn'; }
+  function riskBar(used, cap) { var p = cap > 0 ? Math.max(0, Math.min(100, used / cap * 100)) : 0; return '<div class="rbar"><i class="' + (p >= 100 ? 'bad' : p >= 60 ? 'warn' : '') + '" style="width:' + p.toFixed(0) + '%"></i></div>'; }
   function home() {
-    var s = S, r = riskState(), c = conn(), h = new Date().getHours(), out = '';
-    out += '<div class="greet"><h2>' + (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + '</h2><p>Your markets, clearly.</p><i></i></div>';
-    if (s.kill) out += '<div class="alert bad"><div class="row"><b>🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9? Auto stays OFF until you switch it on." data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div></div>';
+    var s = S, r = riskState(), c = conn(), out = '';
+    if (s.kill) out += '<div class="alert bad"><div class="row"><b>🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9?" data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div></div>';
     else if (s.emergency) out += '<div class="alert bad"><b>EMERGENCY:</b> a trade has no stop loss. Check Trades now.</div>';
-    var tg = s.tgt > 0 ? (s.tgtDone ? '✓ target hit – locked' : 'of $' + Number(s.tgt).toFixed(0) + ' target') : '';
-    out += '<div class="mbar">' +
-      '<div class="mi"><span class="ic">' + IC.wallet + '</span><div><span>Equity</span><b class="mono">' + esc(s.eq) + '</b></div></div>' +
-      '<div class="mi"><span class="ic up">' + IC.trend + '</span><div><span>Today</span><b class="mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + '</b>' + (tg ? '<small>' + tg + '</small>' : '') + '</div></div>' +
-      '<div class="mi"><span class="ic">' + IC.case + '</span><div><span>Open positions</span><b class="mono">' + (s.open || 0) + '</b></div></div>' +
-      '<div class="mi"><span class="ic ' + (r.c === 'ok' ? 'up' : 'down') + '">' + IC.shield + '</span><div><span>Risk status</span><b class="rst ' + r.c + '">' + r.t + '</b><small>Auto ' + (s.auto ? 'ON' : 'OFF') + '</small></div></div></div>';
-    out += '<div class="mt5c ' + c.k + '"><div class="mt5l"><span class="mt5i">' + IC.bars + '<b>5</b></span><div><b>MetaTrader 5</b><small>' + esc(brokerName().split(' ')[0]) + ' • ' + (s.real ? 'Live' : 'Demo') + '</small></div></div>' +
-      '<div class="mt5s"><span class="st ' + c.k + '"><i></i>' + c.t + '</span><small>Last sync: ' + (c.age < 10 ? 'Just now' : ageTxt(c.age)) + '</small></div>' +
-      '<button class="btn ghost mbtn" data-set="conn">' + IC.plug + '<span>Manage connection</span> →</button></div>';
+    var dUsed = Math.max(0, -(s.todayPct || 0)), wUsed = Math.max(0, -(s.wkPct || 0)), dCap = s.dloss || 4, wCap = 8;
+    var ts = !s.auto ? ['SIGNALS ONLY', 'warn'] : r.c === 'bad' || s.safe ? ['AUTO BLOCKED', 'bad'] : s.algo === false ? ['ALGO OFF', 'bad'] : ['AUTO ON', 'ok'];
+    out += '<div class="sbar">' +
+      '<div><span>Equity</span><b class="mono">' + esc(s.eq) + '</b></div>' +
+      '<div><span>Today P/L</span><b class="mono ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + ' <small>(' + (s.todayPct >= 0 ? '+' : '') + Number(s.todayPct || 0).toFixed(2) + '%)</small></b></div>' +
+      '<div><span>Open trades</span><b class="mono">' + (s.open || 0) + '</b></div>' +
+      '<div><span>Daily risk</span><b class="mono">' + dUsed.toFixed(1) + '% / ' + dCap + '%</b>' + riskBar(dUsed, dCap) + '</div>' +
+      '<div><span>Weekly risk</span><b class="mono">' + wUsed.toFixed(1) + '% / ' + wCap + '%</b>' + riskBar(wUsed, wCap) + '</div>' +
+      '<div><span>Trading status</span><b class="ts ' + ts[1] + '"><i></i>' + ts[0] + '</b></div></div>';
     out += hotCard();
-    out += '<div class="hgrid"><div class="card pulse"><div class="row ph"><b class="ttl">' + IC.bars + ' Market pulse</b><span class="why">Live · ' + hms(s.t) + ' (SA)</span></div>' +
-      (s.markets || []).map(function (m) {
-        var v = verdictOf(m), cl = closedM(m), ta = (m.pa || {}).tickAge || 0;
-        return '<button class="prow2" data-mkt="' + (m.i == null ? '' : m.i) + '"><span class="mic">' + (MICO[m.n] || '•') + '</span><b>' + esc(m.n) + '</b>' + regChip(m) +
-          '<span class="pv ' + vcls(v.v) + '">' + (cl ? 'Last data ' + ageTxt(ta).replace(' ago', '') + ' ago' : v.v + (v.g && /BUY|SELL/.test(v.v) ? ' ' + esc(v.g) : '')) + '</span>' + spark(m) + '<span class="pt mono">' + hm(s.t - ta) + '</span></button>';
-      }).join('') + '</div>' +
-      '<div class="card ins"><div class="ttl"><span class="bulb">' + IC.bulb + '</span>AXON-9 insight</div><p>' + esc(insightTxt()).replace(/\n/g, '<br>') + '</p><button class="btn ghost full" data-tab2="a9">View analysis →</button></div></div>';
-    out += '<button class="askb" data-tab2="a9">' + IC.chat + 'Open A9 Assistant</button>';
+    //--- markets panel
+    var mk = '<div class="card pnl mpanel"><div class="row ph"><b class="ttl">' + IC.bars + ' Markets</b><div class="row" style="gap:8px"><div class="tfs">' +
+      [['d1', 'D1'], ['h4', 'H4'], ['h1', 'H1'], ['m15', 'M15']].map(function (t) { return '<button class="' + (homeTf === t[0] ? 'on' : '') + '" data-htf="' + t[0] + '">' + t[1] + '</button>'; }).join('') +
+      '</div><button class="btn ghost vbtn" data-tab2="markets">View all ›</button></div></div>';
+    (s.markets || []).forEach(function (m) {
+      var st = mStatus(m), d = tfDir(m), g = gradeOf(m), reg = closedM(m) ? 'CLOSED' : String((m.pa || {}).reg || m.reg || '–').toUpperCase();
+      mk += '<div class="mrow2" title="' + esc(st.why) + '"><span class="mic2">' + (MICO[m.n] || '•') + '</span><button class="mn2" data-mkt="' + (m.i == null ? '' : m.i) + '"><b>' + esc(m.n) + '</b><small class="why">' + esc(st.why).slice(0, 34) + '</small></button>' +
+        '<div class="mp"><b class="mono">' + esc(m.px) + '</b><small class="' + (m.chg >= 0 ? 'up' : 'down') + '">' + (m.chg >= 0 ? '+' : '') + Number(m.chg || 0).toFixed(2) + '%</small></div>' +
+        '<div class="msp">' + spark(m) + '</div>' +
+        '<div class="mt"><small>' + esc(reg) + '</small><b class="' + (d > 0 ? 'up' : d < 0 ? 'down' : '') + '">' + (d > 0 ? 'UP' : d < 0 ? 'DOWN' : 'MIXED') + '</b></div>' +
+        '<div class="mg"><small>GRADE</small><b class="' + gcls(g) + '">' + esc(g) + '</b></div>' +
+        '<span class="stp ' + st.c + '">' + st.t + '</span>' +
+        '<button class="btn ghost vbtn" data-mkt="' + (m.i == null ? '' : m.i) + '">View ›</button></div>';
+    });
+    mk += '</div>';
+    //--- bot + insight
+    var ns = nextSession(), nr = newsRisk(), scanN = (s.markets || []).filter(function (m) { return !m.off && !closedM(m); }).length;
+    var running = c.k === 'ok' && s.auto && !(r.c === 'bad' || s.safe) && s.algo !== false;
+    var bot = '<div class="card pnl"><div class="row"><div class="row" style="gap:10px"><img src="icon.png" alt="" class="bimg"><b class="ttl">AXON-9 Trading Bot</b></div><span class="run ' + (running ? 'ok' : 'bad') + '"><i></i>' + (running ? 'Running 24/7' : c.k !== 'ok' ? 'Offline' : 'Not trading') + '</span></div>' +
+      '<div class="atc ' + (running ? 'ok' : s.auto ? 'bad' : 'warn') + '"><span class="ati">' + IC.shield + '</span><div><b>' + (running ? 'AUTO TRADING ACTIVE' : s.auto ? 'AUTO ON – BLOCKED' : 'AUTO TRADING OFF') + '</b><small>' +
+      esc(running ? 'Scanning ' + scanN + ' market' + (scanN === 1 ? '' : 's') + ' for setups…' : s.auto ? (s.algo === false ? 'Algo Trading is off in MT5 – switch it on' : (s.safe || r.why)) : 'Signals only – you decide every trade') + '</small></div>' +
+      '<button class="toggle ' + (s.auto ? 'on' : '') + '" data-cmd="' + (s.auto ? '/signals' : '/auto') + '" data-confirm="' + (s.auto ? 'Switch to SIGNALS ONLY?' : 'Switch AUTO on? AXON-9 trades by itself inside your risk limits.') + '" aria-label="Auto trading"><span></span></button></div>' +
+      '<div class="tiles2"><div><span class="ti2">🕘</span><div><small>Next session focus</small><b>' + ns[0] + '</b><em>' + ns[1] + '</em></div></div>' +
+      '<div><span class="ti2">📅</span><div><small>News risk</small><b class="' + (nr[2] === 'bad' ? 'down' : '') + '">' + nr[0] + '</b><em>' + nr[1] + '</em></div></div></div></div>';
+    var best = null; (s.markets || []).forEach(function (m) { var v = verdictOf(m); if (/BUY|SELL/.test(v.v) && (!best || v.sig.sc > best.v.sig.sc)) best = { m: m, v: v }; });
+    var ins = '<div class="card pnl ins"><div class="row"><div class="ttl"><span class="bulb">' + IC.bulb + '</span>AXON-9 Insight</div><button class="btn ghost vbtn" data-tab2="a9">View full analysis ›</button></div>' +
+      '<p>' + esc(insightTxt()).replace(/\n/g, '<br>') + '</p>' +
+      (best ? '<div class="chips2"><span>' + esc(best.m.n) + '</span><span class="g">GRADE ' + esc(best.v.g) + '</span><span class="g">' + best.v.v + ' SETUP</span></div>' : '') +
+      (s.lastBlk ? '<div class="why" style="margin-top:6px">Last skipped: ' + esc(s.lastBlk) + '</div>' : '') + '</div>';
+    out += '<div class="dgrid">' + mk + '<div class="rcol">' + bot + ins + '</div></div>';
+    //--- bottom row
+    var tr = s.trades || [];
+    var ot = '<div class="card pnl"><div class="row"><b class="ttl">💼 Open Trades (' + tr.length + ')</b><button class="btn ghost vbtn" data-tab2="trades">View all ›</button></div>' +
+      (tr.length ? tr.slice(0, 4).map(function (t) { return '<div class="lrow"><span class="tag ' + (t.side === 'BUY' ? 'buy' : 'sell') + '">' + t.side + '</span><b>' + esc(t.sym) + '</b><small>' + t.vol.toFixed(2) + '</small><b class="mono ' + (t.up ? 'up' : 'down') + '">' + esc(t.pl) + '</b></div>'; }).join('')
+        : '<div class="empty2"><div>📦</div><b>No open trades</b><small>AXON-9 is currently not holding any positions.</small><button class="btn ghost" data-tab2="trades" data-tsub="perf">View past trades →</button></div>') + '</div>';
+    var sg = (s.sigs || []).slice().sort(function (a, b) { return (b.t || 0) - (a.t || 0); }).slice(0, 5);
+    var ls = '<div class="card pnl"><div class="row"><b class="ttl">⚡ Latest Signals</b><button class="btn ghost vbtn" data-tab2="signals">View all ›</button></div>' +
+      (sg.length ? sg.map(function (g) { return '<div class="lrow"><b>' + esc(g.m) + '</b><span class="gb2 ' + gcls(g.g) + '">' + esc(g.g) + '</span><small class="grow">' + esc(g.side + ' ' + g.setup) + (g.done ? ' · handled' : '') + '</small><small>' + ago(g.t || 0) + '</small></div>'; }).join('')
+        : '<div class="why" style="padding:14px 0">No signals yet today. They appear here the moment AXON-9 finds one.</div>') + '</div>';
+    var cal = (s.cal || []).filter(function (x) { return x.t > Date.now() / 1000 - 1800; }).sort(function (a, b) { return a.t - b.t; }).slice(0, 5);
+    var un = '<div class="card pnl"><div class="row"><b class="ttl">📅 Upcoming News (SA Time)</b><button class="btn ghost vbtn" data-tab2="news">View all ›</button></div>' +
+      (cal.length ? cal.map(function (x) { return '<div class="lrow"><b class="mono">' + esc(x.sa) + '</b><small>' + esc(x.cur) + '</small><small class="grow">' + esc(x.name) + '</small><span class="imp ' + (x.imp === 'HIGH' ? 'bad' : x.imp === 'MEDIUM' || x.imp === 'MED' ? 'warn' : 'low') + '">' + (x.imp === 'HIGH' ? 'HIGH' : x.imp === 'MEDIUM' ? 'MED' : esc(x.imp || 'LOW')) + '</span></div>'; }).join('')
+        : '<div class="why" style="padding:14px 0">No events from the broker calendar yet.</div>') + '</div>';
+    out += '<div class="bgrid">' + ot + ls + un + '</div>';
     return out;
   }
   //--- v6.0 SETTINGS (as the design): 6 cards with status, system status bar, emergency controls on their own page
@@ -1232,7 +1461,7 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
       var c = conn(), moving = (s.markets || []).some(function (m) { return (m.pa || {}).tickAge <= 600; });
       var tr = connT ? (Date.now() - connT.t > 30000 ? 'fail' : (s.msg !== connT.msg && s.t * 1000 > connT.t) ? 'pass' : 'wait') : '';
       if (tr === 'pass' || tr === 'fail') connT.done = tr;
-      var ck = [['AXON-9 is reporting from MT5', c.age < 90], ['Data is fresh (under 20 s)', c.k === 'ok'], ['Account details received', !!s.login], ['Market prices are moving', moving, 'closed at weekends'], ['Commands reach the bot', tr === 'pass' ? true : tr === 'fail' ? false : null, tr === 'wait' ? 'testing…' : 'tap Test connection']];
+      var ck = [['Terminal connected to the broker', s.conn !== false && c.age < 90], ['Algo Trading allowed in MT5', s.algo === undefined ? null : !!s.algo, 'press Algo Trading in MT5'], ['Auto Trade switched on', !!s.auto, 'Settings → Trading'], ['Risk controller approves new trades', !s.safe, s.safe || ''], ['AXON-9 is reporting from MT5', c.age < 90], ['Data is fresh (under 20 s)', c.k === 'ok'], ['Account details received', !!s.login], ['Market prices are moving', moving, 'closed at weekends'], ['Commands reach the bot', tr === 'pass' ? true : tr === 'fail' ? false : null, tr === 'wait' ? 'testing…' : 'tap Test connection']];
       out += '<div class="card"><div class="row"><div style="display:flex;gap:10px;align-items:center"><span class="dot big ' + c.k + '"></span><b style="font-size:18px">' + c.t + '</b></div><span class="why">' + ageTxt(c.age) + '</span></div>' +
         '<div class="kv"><span>Broker</span><b>' + esc(brokerName()) + '</b><span>Account</span><b>#' + esc(s.login || '?') + ' · ' + (s.real ? 'LIVE' : 'DEMO') + '</b><span>Bot version</span><b>' + esc(s.ver || '?') + '</b><span>Update no.</span><b class="mono">' + (s.seq || 0) + '</b></div></div>';
       out += '<div class="card"><div class="label">Checks</div>' + ck.map(function (x) { return '<div class="chkrow"><span class="ck ' + (x[1] === true ? 'ok' : x[1] === false ? 'bad' : '') + '">' + (x[1] === true ? '✓' : x[1] === false ? '✕' : '…') + '</span><span>' + x[0] + (x[1] !== true && x[2] ? ' <small class="why">(' + x[2] + ')</small>' : '') + '</span></div>'; }).join('') +
@@ -1283,7 +1512,7 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
     document.querySelector('header').style.display = !U || (!KEY && tab !== 'wiz') ? 'none' : '';
     $('live').style.visibility = U && KEY ? '' : 'hidden';
     if (U && tab === 'wiz') { $('sub').textContent = U.email; lastHtml = ''; v.innerHTML = wizard(); return; }
-    if (!U) { $('sub').textContent = 'not signed in'; $('live').className = 'pill'; $('live').lastElementChild.textContent = 'SIGN IN'; lastHtml = ''; v.innerHTML = signInView(); return; }
+    if (!U) { $('sub').textContent = 'not signed in'; $('live').className = 'pill'; $('live').children[1].textContent = 'SIGN IN'; lastHtml = ''; v.innerHTML = signInView(); return; }
     if (!KEY) { $('sub').textContent = U.email; lastHtml = ''; v.innerHTML = noAcctView(); return; }
     if (tab === 'accts') { liveState(); lastHtml = ''; v.innerHTML = accounts(); return; }
     if (tab === 'read' || tab === 'chart') tab = 'a9';
@@ -1292,7 +1521,7 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
     var rp = reply && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
     if (S && (tab === 'mkt' || tab === 'trades' || tab === 'sym')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
-    var body = tab === 'home' ? home() : tab === 'markets' ? marketsTab() : tab === 'a9' ? a9Tab() : tab === 'growth' ? growthTab() : tab === 'signals' ? '<button class="btn ghost" data-tab2="trades" style="align-self:flex-start">‹ Trades</button>' + signalsWrap() : tab === 'trades' ? tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
+    var body = tab === 'home' ? home() : tab === 'markets' ? marketsTab() : tab === 'a9' ? a9Tab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? '<button class="btn ghost" data-tab2="trades" style="align-self:flex-start">‹ Trades</button>' + signalsWrap() : tab === 'trades' ? tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
     var html = rp + body + askSheet();
     if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
     var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
@@ -1328,7 +1557,7 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
     if (b.id === 'signout') { if (confirm('Sign out of AXON-9 on this phone? (the bots keep running)')) signOut(); return; }
     if (b.id === 'addcode') { addByCode(); return; }
     if (b.dataset.a9go) { a9m = b.dataset.a9go; store.set('axa9m', a9m); }
-    if (b.dataset.tab2) { tab = b.dataset.tab2; if (tab === 'settings') setSub = ''; if (tab === 'accts') { menuOpen = -1; peekAll(); } setNav(); render(); window.scrollTo(0, 0); return; }
+    if (b.dataset.tab2) { if (b.dataset.tsub) tSub = b.dataset.tsub; tab = b.dataset.tab2; if (tab === 'settings') setSub = ''; if (tab === 'accts') { menuOpen = -1; peekAll(); } setNav(); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.tab) { if (tab === b.dataset.tab) { setSub = ''; mSub = 'list'; } tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.pick !== undefined) { picking = Number(b.dataset.pick) || null; render(); return; }
     if (b.dataset.replyx) { reply = ''; render(); return; }
@@ -1349,8 +1578,15 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
     if (b.id === 'testchime') { chime('open'); return; }
     if (b.id === 'tgtset') { var tv = Number(String(($('tgtin') || {}).value || '').replace(',', '.')); if (tv >= 0) send('/daily ' + tv, 'Target set'); return; }
     if (b.dataset.mute) { var mu = {}; try { mu = JSON.parse(store.get('axmute') || '{}'); } catch (e4) {} mu[b.dataset.mute] = !mu[b.dataset.mute]; store.set('axmute', JSON.stringify(mu)); render(true); return; }
-    if (b.dataset.a9m) { a9m = b.dataset.a9m; store.set('axa9m', a9m); render(true); return; }
-    if (b.dataset.a9tf) { a9tf = b.dataset.a9tf; lastHtml = ''; render(true); return; }
+    if (b.dataset.htf) { homeTf = b.dataset.htf; store.set('axhtf', homeTf); render(true); return; }
+    if (b.dataset.a9m) { a9m = b.dataset.a9m; store.set('axa9m', a9m); loadBarsX(a9m, true); lastHtml = ''; render(true); return; }
+    if (b.dataset.a9tf) { a9tf2 = b.dataset.a9tf; store.set('axa9tf', a9tf2); lastHtml = ''; render(true); return; }
+    if (b.dataset.a9side) { a9side = b.dataset.a9side; render(true); return; }
+    if (b.dataset.postab) { posTab = b.dataset.postab; render(true); return; }
+    if (b.dataset.closewin || b.dataset.closeloss) { var wantUp = !!b.dataset.closewin, sel = (S.trades || []).filter(function (t) { return !!t.up === wantUp; });
+      if (!sel.length) { toast(wantUp ? 'No winning trades open' : 'No losing trades open'); return; }
+      if (!confirm('Close ' + sel.length + (wantUp ? ' winning' : ' losing') + ' trade(s)?')) return;
+      sel.forEach(function (t, i) { setTimeout(function () { send('cb:close:' + t.tk, 'Closing ' + t.sym + '…'); }, i * 700); }); return; }
     if (b.dataset.sigtake) { var sg = (S.sigs || []).filter(function (x) { return String(x.id) === b.dataset.sigtake; })[0]; if (sg) { ask = sg.id; askN = Math.max(1, Math.min(10, sg.max || 1)); askSL = false; askT0 = Date.now(); askNoAuto = true; render(true); } return; }
     if (b.id === 'hset') { tab = 'settings'; setSub = ''; setNav(); render(true); window.scrollTo(0, 0); return; }
     if (b.id === 'acctbtn' || b.id === 'hav') { if (U && KEY) { tab = tab === 'accts' ? 'home' : 'accts'; menuOpen = -1; if (tab === 'accts') peekAll(); setNav(); render(); window.scrollTo(0, 0); } return; }
@@ -1390,6 +1626,7 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
   document.addEventListener('keydown', function (e) { if (e.key !== 'Enter') return; var id = e.target.id; if (id === 'pw' || id === 'em') { e.target.blur(); $('auth').click(); } if (id === 'pc' || id === 'an') { e.preventDefault(); e.target.blur(); addByCode(); } if (id === 'bq' || id === 'lotin') e.target.blur(); });
   setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 1300);
   setInterval(function () { if (S && !document.hidden) loadBars(); }, 30000);
+  setInterval(function () { if (S && !document.hidden && tab === 'a9') loadBarsX(a9m); }, 12000);
   window.addEventListener('resize', function () { if (tab === 'a9') drawChart(); });
   render(); load(); loadBars(true); cloudLoad().then(function () { render(); load(); });
   setInterval(load, 3000);
