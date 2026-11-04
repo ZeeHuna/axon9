@@ -439,6 +439,31 @@ nav button.on{position:relative}nav button.on::after{content:'';position:absolut
 nav button{font-size:10.5px}
 @media (min-width:700px){.engs{grid-template-columns:repeat(4,1fr)}}
 @media (min-width:1000px){nav button{font-size:15px}}
+
+/* ===== v9.0 signals desk ===== */
+.kst{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kst>div{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;border:1.5px solid}
+.kst .ki{font-size:26px}.kst small{display:block;font-size:12px;color:#C9D6EE}.kst b{display:block;font-size:24px;line-height:1.1}.kst em{font-style:normal;font-size:11.5px;color:var(--muted)}
+.k1{border-color:rgba(61,220,151,.6)!important;background:rgba(16,60,40,.3)}.k2{border-color:rgba(79,140,255,.6)!important;background:rgba(20,40,90,.35)}.k3{border-color:rgba(61,220,151,.6)!important;background:rgba(16,60,40,.3)}.k4{border-color:rgba(160,100,255,.6)!important;background:rgba(60,30,100,.35)}
+.sgrid2{display:flex;flex-direction:column;gap:14px}.sgrid3{display:flex;flex-direction:column;gap:14px}
+.stbl{width:100%;border-collapse:collapse;font-size:12.5px;white-space:nowrap}.stbl th{text-align:left;color:var(--muted);font-weight:500;font-size:11px;padding:8px 6px}.stbl td{padding:9px 6px;border-top:1px solid rgba(40,86,163,.4);vertical-align:middle}
+.stbl tr.sel td{background:rgba(61,220,151,.08)}.stbl tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--buy)}
+.stbl td,.stbl th{padding-left:5px!important;padding-right:5px!important}.stbl .why{max-width:140px;overflow:hidden;text-overflow:ellipsis}
+.trb{background:rgba(61,220,151,.15);color:var(--buy);border:1px solid rgba(61,220,151,.6)}
+.tblw .stbl{display:table}.sigtbl .tblw{display:none}.scards{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.scard2{padding:10px 12px;border-radius:12px;border:1px solid rgba(40,86,163,.5);background:rgba(0,21,46,.35)}.scard2.sel{border-color:var(--buy)}
+.tkt{border-color:rgba(61,220,151,.5)}
+.rec{margin:12px 0 8px}.rec small{display:block;font-size:11px;letter-spacing:.08em;color:var(--muted)}.rec b{font-size:44px;font-style:italic;font-weight:800;line-height:1}
+.cbar{height:9px;border-radius:99px;background:rgba(40,86,163,.45);overflow:hidden;margin-top:6px}.cbar i{display:block;height:100%;background:linear-gradient(90deg,#3D7BFF,#4FC3F7);border-radius:99px}
+.lv4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.lv4 div{padding:9px 10px;border-radius:10px;border:1px solid rgba(40,86,163,.5);background:rgba(0,21,46,.45)}.lv4 span{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.lv4 b{font-family:'JetBrains Mono',monospace;font-size:14px}
+.cnf{margin-top:12px;background:linear-gradient(135deg,#2EBD6B,#1F9A55);color:#fff}
+.note{margin-top:12px;padding:12px;border-radius:12px;background:rgba(0,21,46,.5);border:1px solid rgba(40,86,163,.4)}.note p{margin:6px 0 0;font-size:13px;line-height:1.5;color:#C9D6EE;font-style:italic}
+.dotf{width:9px;height:9px;border-radius:99px;background:#4F8CFF;flex:none}.dotf.open{background:var(--buy)}.dotf.block{background:#FF5A6E}.dotf.close{background:#E8B33A}
+.qc{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.qon{background:rgba(61,220,151,.18);color:var(--buy);border:1px solid rgba(61,220,151,.6)}.qoff{background:rgba(227,24,55,.18);color:#FF5A6E;border:1px solid rgba(227,24,55,.6)}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-radius:14px;border:1px solid rgba(40,86,163,.6);background:rgba(5,34,77,.55)}
+.flow>div{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:90px}.flow>div span{font-size:20px}.flow b{font-size:12.5px}.flow small{font-size:10.5px;color:var(--muted)}.flow i{color:var(--buy);font-style:normal}
+.b247{font-weight:800;color:var(--buy);border:2px solid var(--buy);border-radius:99px;padding:8px 10px}.bw{margin-left:auto;font-weight:800;color:var(--buy);border:1.5px solid var(--buy);border-radius:12px;padding:8px 12px}
+@media (min-width:700px){.kst{grid-template-columns:repeat(4,1fr)}.sgrid3{display:grid;grid-template-columns:1fr 1fr 1fr}}
+@media (min-width:1100px){.sgrid2{display:grid;grid-template-columns:minmax(0,1fr) 320px;align-items:start}.sigtbl .tblw{display:block}.scards{display:none}}
 </style>
 </head>
 <body>
@@ -465,7 +490,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '8.1.0';
+  var APP_VER = '9.0.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1052,29 +1077,90 @@ nav button{font-size:10.5px}
     var g = (S.sigs || []).filter(function (x) { return !x.done && x.age <= 30 && (!onlyMkt || x.m === onlyMkt); })[0];
     return g ? sigCard(g, true) : '';
   }
-  //--- v8.1 SIGNALS = live radar of every engine: DETECTED / FORMING / QUALIFIED / REJECTED (why) / EXECUTED
-  var radF = 'ALL';
+  //=====================================================================================
+  //--- v9.0 SIGNALS DESK: every signal from every engine, tradeable from the app (your lot, your number of positions)
+  //=====================================================================================
+  var radF = 'ALL', selSig = null, sgLot = 0.01, sgN = 1;
   var STC = { DETECTED: 'det', FORMING: 'warn', QUALIFIED: 'buy', REJECTED: 'bad', EXECUTED: 'exe' };
+  var STL = { DETECTED: 'Ready', FORMING: 'Pending', QUALIFIED: 'Ready', REJECTED: 'Rejected', EXECUTED: 'Executed' };
+  var ENGN = { MAIN: 'Main Signal', SCALPER: 'Scalper', ZONE: 'Zone', REVERSAL: 'Reversal' };
+  function radKey(r) { return r.t + '|' + r.m + '|' + r.e + '|' + r.st; }
+  function tradeable(r) { return r.sl && r.t1 && (r.s === 'BUY' || r.s === 'SELL'); }
   function engHtml() {
     var E = S.eng || [], now = Date.now() / 1000;
-    if (!E.length) return '<div class="alert warn">Engine status needs AXON-9 bot 4.6 on the PC.</div>';
-    return '<div class="engs">' + E.map(function (e) { var age = e.last ? now - e.last : 1e9, st = !e.on ? ['OFF', 'mute'] : !S.auto ? ['AUTO OFF', 'warn'] : age < 600 ? ['RUNNING', 'ok'] : ['IDLE', 'warn'];
-      return '<div class="eng ' + st[1] + '"><b>' + esc(e.n) + '</b><span><i></i>' + st[0] + '</span><small>' + (e.last ? 'last scan ' + ago(e.last) + ' ago' : 'not started') + '</small></div>'; }).join('') + '</div>';
+    if (!E.length) return '<div class="alert warn">Engine status needs AXON-9 bot 4.6+ on the PC.</div>';
+    return '<div class="engs">' + E.map(function (e) { var age = e.last ? now - e.last : 1e9, st = !e.on ? ['Off', 'mute'] : !S.auto ? ['Auto off', 'warn'] : age < 600 ? ['Active', 'ok'] : ['Idle', 'warn'];
+      return '<div class="eng ' + st[1] + '"><b>' + esc(e.n) + '</b><span><i></i>' + st[0] + '</span><small>' + (e.last ? 'scan ' + ago(e.last) + ' ago' : 'not started') + '</small></div>'; }).join('') + '</div>';
   }
-  function radRow(r) {
-    return '<div class="rrow"><div class="rtop"><b>' + esc(r.m) + '</b><span class="tag ' + (r.s === 'BUY' ? 'buy' : r.s === 'SELL' ? 'sell' : '') + '">' + esc(r.s) + '</span><small class="eng2">' + esc(r.e) + '</small><span class="rst2 ' + (STC[r.st] || '') + '">' + esc(r.st) + '</span><small class="rt">' + hm(r.t) + '</small></div>' +
-      '<div class="rwhy"><b>' + esc(r.u) + '</b> – ' + esc(r.w || '') + (r.p ? ' <span class="mono">@ ' + esc(r.p) + '</span>' : '') + '</div></div>';
+  function sigStats() {
+    var R = S.rad || [], ms = S.markets || [], day = new Date(); day.setHours(0, 0, 0, 0); var d0 = day.getTime() / 1000;
+    var scan = ms.filter(function (m) { return !m.off && !closedM(m); }).length;
+    var sigT = R.filter(function (r) { return r.t >= d0 && r.st !== 'FORMING'; }).length;
+    var exT = (S.exe || []).filter(function (x) { return x.t >= d0; }).length;
+    var c = S.card || [], n = 0, w = 0; c.forEach(function (x) { n += x.n || 0; w += (x.w || 0) * (x.n || 0) / 100; });
+    return '<div class="kst"><div class="k1"><span class="ki">📡</span><div><small>Markets scanning</small><b>' + scan + '/' + ms.length + '</b><em class="up">' + (S.auto ? 'Active' : 'Auto off') + '</em></div></div>' +
+      '<div class="k2"><span class="ki">📶</span><div><small>Signals today</small><b>' + sigT + '</b><em>' + R.filter(function (r) { return r.st === 'FORMING'; }).length + ' forming</em></div></div>' +
+      '<div class="k3"><span class="ki">✅</span><div><small>Trades today</small><b>' + exT + '</b><em>' + (S.trades || []).length + ' open</em></div></div>' +
+      '<div class="k4"><span class="ki">🏆</span><div><small>Win rate</small><b>' + (n ? Math.round(w / n * 100) + '%' : '–') + '</b><em>' + (n ? n + ' closed trades' : 'not enough data') + '</em></div></div></div>';
+  }
+  function analysisNote(r, m) {
+    if (!m) return r.w || '';
+    var pa = m.pa || {}, hb = htfBias(m), dirTxt = r.s === 'BUY' ? 'buyers' : 'sellers';
+    return esc(m.n) + ' shows a ' + (hb > 0 ? 'bullish' : hb < 0 ? 'bearish' : 'mixed') + ' higher-timeframe structure (D1 ' + arrw(pa.d1) + ' · H4 ' + arrw(pa.h4) + ' · H1 ' + arrw(pa.h1) + ') in a ' + String(pa.reg || m.reg || '').toLowerCase() + ' market. ' +
+      'The ' + (ENGN[r.e] || r.e) + ' engine found: ' + esc(r.u) + ' – ' + esc(r.w || '') + '. ' + (hb === (r.s === 'BUY' ? 1 : -1) ? 'The trade goes with the bigger trend, ' + dirTxt + ' are in control.' : hb === 0 ? 'The bigger trend is undecided – take smaller size.' : 'This trade goes against the bigger trend – a counter-move, keep it short.');
+  }
+  function ticketHtml() {
+    var R = S.rad || [], r = selSig ? R.filter(function (x) { return radKey(x) === selSig; })[0] : null;
+    if (!r) r = R.filter(tradeable)[0];
+    if (!r) return '<div class="card pnl tkt"><b class="ttl">⚡ Trade Signal</b><div class="why" style="padding:18px 0">Tap <b>Trade</b> or <b>View</b> on any signal to load it here.</div></div>';
+    var m = (S.markets || []).filter(function (x) { return x.n === r.m; })[0] || {}, buy = r.s === 'BUY', c = r.c || 0, can = tradeable(r);
+    var e = num(buy ? m.ask || m.px : m.bid || m.px), sl = num(r.sl), t1 = num(r.t1), t2 = num(r.t2), rr = can && Math.abs(e - sl) > 0 ? Math.abs(t2 - e) / Math.abs(e - sl) : 0;
+    var maxLot = m.maxLot || 100; sgLot = Math.min(Math.max(0.01, sgLot), maxLot);
+    var riskPct = (m.r001 || 0) * Math.round(sgLot * 100) * sgN * (m.slDist && can ? Math.abs(e - sl) / num(m.slDist) : 1);
+    var hb = htfBias(m), trend = hb > 0 ? 'Bullish' : hb < 0 ? 'Bearish' : 'Mixed';
+    return '<div class="card pnl tkt"><div class="row"><b class="ttl">⚡ Trade Signal</b><small class="why">' + hm(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + '</small></div>' +
+      '<div class="row" style="margin-top:10px"><div class="row" style="gap:10px"><span style="font-size:22px">' + (MICO[r.m] || '') + '</span><b style="font-size:22px">' + esc(r.m) + '</b></div><span class="tag ' + (buy ? 'buy' : 'sell') + '" style="font-size:14px;padding:5px 12px">' + esc(r.s) + '</span></div>' +
+      '<div class="rec ' + (buy ? 'up' : 'down') + '"><small>RECOMMENDED ACTION</small><b>' + esc(r.s) + '</b></div>' +
+      '<div class="row"><b style="font-size:13px">AI CONFIDENCE</b><b style="font-size:20px">' + (c ? c + '%' : '–') + '</b></div><div class="cbar"><i style="width:' + c + '%"></i></div>' +
+      '<div class="why" style="margin-top:4px">Current trend: <b style="color:var(--text)">' + trend + '</b>' + (r.g ? ' · Grade <b class="' + gcls(r.g) + '">' + esc(r.g) + '</b>' : '') + '</div>' +
+      (can ? '<div class="lv4"><div><span>Entry (now)</span><b>' + fmtP(m, e) + '</b></div><div><span>Stop loss</span><b class="down">' + esc(r.sl) + '</b></div><div><span>Take profit 1</span><b class="up">' + esc(r.t1) + '</b></div><div><span>Take profit 2</span><b class="up">' + esc(r.t2) + '</b></div><div><span>Risk : reward</span><b>1 : ' + rr.toFixed(2) + '</b></div><div><span>Status</span><b>' + esc(STL[r.st] || r.st) + '</b></div></div>' +
+        '<div class="why" style="margin-top:10px">Lot per position</div><div class="stepper"><button data-sglot="-1">−</button><div>' + sgLot.toFixed(2) + '</div><button data-sglot="1">+</button></div>' +
+        '<div class="why" style="margin-top:10px">How many positions</div><div class="chips" style="margin-top:6px">' + [1, 2, 3, 4, 5, 6, 8, 10].map(function (n) { return '<button class="' + (n === sgN ? 'on' : '') + '" data-sgn="' + n + '">' + n + '</button>'; }).join('') + '</div>' +
+        '<div class="riskbar ' + (riskPct > 5 ? 'hot' : '') + '">' + sgN + ' × ' + sgLot.toFixed(2) + ' lot · if the stop is hit ≈ <b>' + riskPct.toFixed(1) + '%</b> of the account</div>' +
+        '<button class="btn full lg cnf" data-sigconfirm="1" data-confirm="' + esc(r.s + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + r.m + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ Confirm Trade</button>'
+        : '<div class="alert warn" style="margin-top:10px">This one is still forming – no entry levels yet. It becomes tradeable when the confirmation candle closes.</div>') +
+      '<button class="btn ghost full" style="margin-top:8px" data-sigcancel="1">Cancel</button>' +
+      '<div class="note"><b>AI Analysis Notes</b><p>' + analysisNote(r, m) + '</p></div></div>';
   }
   function signals() {
-    var R = S.rad || [], out = '<div class="ptitle"><h2>Signals</h2><p>Every opportunity AXON-9 sees on all 6 markets – live, with the reason for every decision.</p></div>';
-    out += engHtml();
-    var cnt = { ALL: R.length }; R.forEach(function (r) { cnt[r.st] = (cnt[r.st] || 0) + 1; });
-    out += '<div class="chips rch">' + ['ALL', 'DETECTED', 'FORMING', 'QUALIFIED', 'REJECTED', 'EXECUTED'].map(function (k) { return '<button class="' + (radF === k ? 'on' : '') + '" data-radf="' + k + '">' + k + ' ' + (cnt[k] || 0) + '</button>'; }).join('') + '</div>';
-    var L = R.filter(function (r) { return radF === 'ALL' || r.st === radF; });
-    out += '<div class="card pnl">' + (L.length ? L.map(radRow).join('') : '<div class="why" style="padding:12px 0">' + (S.rad ? 'Nothing in this list yet. The radar fills as the engines scan each new candle (scalper every minute, zone and reversal every 5 minutes).' : 'The signal radar needs AXON-9 bot 4.6 on the PC.') + '</div>') + '</div>';
-    var list = (S.sigs || []).filter(function (g) { return !g.done && g.age <= 30; });
-    if (list.length) { out += '<div class="label" style="margin:4px 2px">Open trade tickets</div>'; list.forEach(function (g) { out += sigCard(g); }); }
-    out += '<div class="card"><div class="label">Everything AXON-9 did · newest first</div>' + feedHtml(40) + '</div>';
+    var R = S.rad || [];
+    var cnt = { ALL: R.length, BUY: 0, SELL: 0, PENDING: 0, EXECUTED: 0, REJECTED: 0 };
+    R.forEach(function (r) { if (r.s === 'BUY') cnt.BUY++; if (r.s === 'SELL') cnt.SELL++; if (/FORMING|DETECTED|QUALIFIED/.test(r.st)) cnt.PENDING++; if (r.st === 'EXECUTED') cnt.EXECUTED++; if (r.st === 'REJECTED') cnt.REJECTED++; });
+    var L = R.filter(function (r) { return radF === 'ALL' || (radF === 'BUY' && r.s === 'BUY') || (radF === 'SELL' && r.s === 'SELL') || (radF === 'PENDING' && /FORMING|DETECTED|QUALIFIED/.test(r.st)) || r.st === radF; });
+    var out = sigStats();
+    var tbl = '<div class="card pnl sigtbl"><div class="row"><b class="ttl" style="font-size:20px">〰 Signals</b><small class="why">Tap Trade on any signal to take it yourself</small><button class="btn gold vbtn" data-cmd="/now" data-msg="AXON-9 is scanning all markets…">⚡ Scan now</button></div>' +
+      '<div class="chips rch" style="margin-top:10px">' + [['ALL', 'All'], ['BUY', '▲ BUY'], ['SELL', '▼ SELL'], ['PENDING', '◷ Pending'], ['EXECUTED', '✓ Executed'], ['REJECTED', '✕ Rejected']].map(function (k) { return '<button class="' + (radF === k[0] ? 'on' : '') + '" data-radf="' + k[0] + '">' + k[1] + ' (' + (cnt[k[0]] || 0) + ')</button>'; }).join('') + '</div>';
+    if (!L.length) tbl += '<div class="why" style="padding:16px 0">' + (S.rad ? 'Nothing here yet – the engines add signals as each new candle closes (scalper every minute, zone and reversal every 5 minutes).' : 'Signals need AXON-9 bot 4.6+ on the PC.') + '</div>';
+    else tbl += '<div class="tblw"><table class="stbl"><tr><th>Time</th><th>Instrument</th><th>Direction</th><th>Strategy</th><th>Grade</th><th>Entry</th><th>SL</th><th>TP1 / TP2</th><th>Status</th><th>Action</th></tr>' +
+      L.map(function (r) { var k = radKey(r), can = tradeable(r);
+        return '<tr class="' + (selSig === k ? 'sel' : '') + '"><td class="mono">' + hm(r.t) + '</td><td><b>' + (MICO[r.m] || '') + ' ' + esc(r.m) + '</b></td><td><span class="tag ' + (r.s === 'BUY' ? 'buy' : r.s === 'SELL' ? 'sell' : '') + '">' + esc(r.s) + '</span></td>' +
+          '<td>' + esc(ENGN[r.e] || r.e) + '<div class="why">' + esc(r.u).slice(0, 34) + '</div></td><td>' + (r.g ? '<span class="gb2 ' + gcls(r.g) + '">' + esc(r.g) + '</span>' : '–') + '</td>' +
+          '<td class="mono">' + esc(r.p || '–') + '</td><td class="mono down">' + esc(r.sl || '–') + '</td><td class="mono up">' + (r.t1 ? esc(r.t1) + ' / ' + esc(r.t2) : '–') + '</td>' +
+          '<td><span class="rst2 ' + (STC[r.st] || '') + '" title="' + esc(r.w || '') + '">' + esc(STL[r.st] || r.st) + '</span></td>' +
+          '<td>' + (can && r.st !== 'EXECUTED' ? '<button class="btn vbtn trb" data-sigsel="' + esc(k) + '">⚡ Trade</button>' : '<button class="btn ghost vbtn" data-sigsel="' + esc(k) + '">View</button>') + '</td></tr>'; }).join('') + '</table></div>' +
+      '<div class="scards">' + L.map(function (r) { var k = radKey(r), can = tradeable(r);
+        return '<div class="scard2 ' + (selSig === k ? 'sel' : '') + '"><div class="row"><b>' + (MICO[r.m] || '') + ' ' + esc(r.m) + ' <span class="tag ' + (r.s === 'BUY' ? 'buy' : r.s === 'SELL' ? 'sell' : '') + '">' + esc(r.s) + '</span></b><span class="rst2 ' + (STC[r.st] || '') + '">' + esc(STL[r.st] || r.st) + '</span></div>' +
+          '<div class="why">' + hm(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + (r.g ? ' · grade ' + esc(r.g) : '') + (r.c ? ' · ' + r.c + '%' : '') + '</div><div class="rwhy">' + esc(r.u) + ' – ' + esc(r.w || '') + '</div>' +
+          (r.sl ? '<div class="why mono">SL ' + esc(r.sl) + ' · TP ' + esc(r.t1) + ' / ' + esc(r.t2) + '</div>' : '') +
+          '<button class="btn ' + (can && r.st !== 'EXECUTED' ? 'trb' : 'ghost') + ' vbtn" style="margin-top:8px" data-sigsel="' + esc(k) + '">' + (can && r.st !== 'EXECUTED' ? '⚡ Trade' : 'View') + '</button></div>'; }).join('') + '</div>';
+    tbl += '</div>';
+    out += '<div class="sgrid2">' + tbl + '<div id="tkt">' + ticketHtml() + '</div></div>';
+    var fe = (S.feed || []).slice(0, 6);
+    out += '<div class="sgrid3"><div class="card pnl"><div class="row"><b class="ttl">⚙ Engine Status</b><span class="run ' + (S.auto ? 'ok' : 'bad') + '"><i></i>' + (S.auto ? 'All engines active' : 'Auto is off') + '</span></div>' + engHtml() + '</div>' +
+      '<div class="card pnl"><b class="ttl">📈 Live Activity Log</b>' + (fe.length ? fe.map(function (x) { var k = feedKind(x.x); return '<div class="lrow"><span class="dotf ' + k[0] + '"></span><small class="mono">' + hm(x.t) + '</small><small class="grow">' + esc(x.x) + '</small></div>'; }).join('') : '<div class="why" style="padding:12px 0">Nothing yet today.</div>') + '</div>' +
+      '<div class="card pnl"><b class="ttl">Quick Controls</b><div class="qc"><button class="btn qon" data-cmd="/auto" data-msg="Auto ON">▶ Auto ON</button><button class="btn qoff" data-cmd="/signals" data-msg="Auto OFF">■ Auto OFF</button>' +
+      '<button class="btn ghost" data-confirm="Close ALL trades?" data-cmd="cb:closeall" data-msg="Closing everything…">✕ Close All</button><button class="btn ghost" data-set="risk">🛡 Risk Settings</button></div></div></div>';
+    out += '<div class="flow"><span class="b247">24/7</span>' + [['🔍', 'Scan markets', '(6 instruments)'], ['📊', 'Find opportunities', '(4 engines)'], ['🛡', 'Validate & score', '(grade + confidence)'], ['⚡', 'Execute automatically', '(with risk control)'], ['✅', 'Manage trades', '(SL / TP / trailing)']].map(function (f) { return '<div><span>' + f[0] + '</span><b>' + f[1] + '</b><small>' + f[2] + '</small></div>'; }).join('<i>→</i>') + '<span class="bw">AXON-9 works 24/7</span></div>';
     return out;
   }
   function signalsWrap() { return signals(); }
@@ -1612,6 +1698,17 @@ nav button{font-size:10.5px}
     if (b.id === 'tgtset') { var tv = Number(String(($('tgtin') || {}).value || '').replace(',', '.')); if (tv >= 0) send('/daily ' + tv, 'Target set'); return; }
     if (b.dataset.mute) { var mu = {}; try { mu = JSON.parse(store.get('axmute') || '{}'); } catch (e4) {} mu[b.dataset.mute] = !mu[b.dataset.mute]; store.set('axmute', JSON.stringify(mu)); render(true); return; }
     if (b.dataset.radf) { radF = b.dataset.radf; render(true); return; }
+    if (b.dataset.sigsel) { selSig = b.dataset.sigsel; var rr0 = (S.rad || []).filter(function (x) { return radKey(x) === selSig; })[0]; var mm0 = rr0 && (S.markets || []).filter(function (x) { return x.n === rr0.m; })[0]; sgLot = 0.01; render(true); setTimeout(function () { var t = $('tkt'); if (t && window.innerWidth < 1100) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60); return; }
+    if (b.dataset.sigcancel) { selSig = null; render(true); return; }
+    if (b.dataset.sgn) { sgN = Number(b.dataset.sgn); render(true); return; }
+    if (b.dataset.sglot) { sgLot = Math.max(0.01, lotStep(sgLot, Number(b.dataset.sglot))); render(true); return; }
+    if (b.dataset.sigconfirm) {
+      var R0 = S.rad || [], r0 = (selSig ? R0.filter(function (x) { return radKey(x) === selSig; })[0] : null) || R0.filter(tradeable)[0];
+      if (!r0 || !tradeable(r0)) { toast('Pick a signal with entry levels first'); return; }
+      if (!confirm(b.dataset.confirm)) return;
+      var cl = function (v) { return String(v || '').replace(/[ ,]/g, ''); };
+      send('/ptrade ' + r0.m + ' ' + r0.s.toLowerCase() + ' ' + sgLot.toFixed(2) + ' ' + sgN + ' ' + cl(r0.sl) + ' ' + cl(r0.t1) + ' ' + cl(r0.t2), 'Placing ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + r0.m + '…');
+      pendingTk = { t: Date.now() / 1000 - 5 }; return; }
     if (b.dataset.htf) { homeTf = b.dataset.htf; store.set('axhtf', homeTf); render(true); return; }
     if (b.dataset.a9m) { a9m = b.dataset.a9m; store.set('axa9m', a9m); loadBarsX(a9m, true); lastHtml = ''; render(true); return; }
     if (b.dataset.a9tf) { a9tf2 = b.dataset.a9tf; store.set('axa9tf', a9tf2); lastHtml = ''; render(true); return; }
