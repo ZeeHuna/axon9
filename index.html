@@ -631,7 +631,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '9.8.3';
+  var APP_VER = '9.8.4';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1641,7 +1641,7 @@ nav button{font-size:10.5px}
         : '<div class="gunl">◎ Execute unlocks when AXON-9 confirms a setup on ' + esc(m.n) + '</div>') + '</div>';
     var hist = (S.rad || []).filter(function (x) { return x.m === m.n; }).slice(0, 8);
     var center2 = '<div class="gpan"><b class="gt">Signal history · ' + esc(m.n) + '</b>' + (hist.length ? hist.map(function (x) { return '<div class="lrow"><small class="mono">' + hm(x.t) + '</small><span class="tag ' + (x.s === 'BUY' ? 'buy' : x.s === 'SELL' ? 'sell' : '') + '">' + esc(x.s) + '</span><small class="grow">' + esc(ENGN[x.e] || x.e) + ' – ' + esc(x.u) + '</small><span class="rst2 ' + (STC[x.st] || '') + '">' + esc(rejected[radKey(x)] ? 'Rejected' : STL[x.st] || x.st) + '</span></div>'; }).join('') : '<div class="why" style="padding:12px 0">No signals on ' + esc(m.n) + ' yet today.</div>') + '</div>';
-    var right = '<div class="gpan"><div class="row"><b class="gt">AI Trade Signal</b><small class="gh">● ' + (r ? 'Live ' + ago(r.t) : 'Scanning') + '</small></div>' +
+    var right = '<div class="gpan"><div class="row"><b class="gt">AI Trade Signal</b><small class="gh">● ' + (r ? (r.ai ? 'Live price' : 'Signal found ' + (ago(r.t) === 'now' ? 'just now' : ago(r.t) + ' ago')) : 'Scanning') + '</small></div>' +
       '<div class="gsig ' + (dir === 'BUY' ? 'b' : dir === 'SELL' ? 's' : 'w') + '"><small>SIGNAL</small><b>' + esc(dir) + '</b></div>' +
       (r ? (true ? '<button class="gex ' + (dir === 'SELL' ? 's' : '') + '" style="width:100%;margin-top:10px" data-sigconfirm="1" data-confirm="' + esc(dir + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ ' + esc(dir) + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' NOW</button>' : '<button class="gex offl" style="width:100%;margin-top:10px" disabled>⛔ MT5 OFFLINE – no trading</button>') : '') +
       '<div class="gbox"><div class="row"><span>Signal Confidence</span><b class="gcf">' + (conf ? conf + '%' : '–') + '</b></div><div class="gbar"><i style="width:' + conf + '%"></i></div></div>' +
