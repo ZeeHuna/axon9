@@ -630,7 +630,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '9.6.0';
+  var APP_VER = '9.6.1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -832,6 +832,11 @@ nav button{font-size:10.5px}
           if (shownMsg !== null && d.msg && d.msg !== shownMsg && Date.now() - lastSent < 90000 && !/^AXON-9 (SCALP|HOLD)/.test(d.msg)) { reply = d.msg; replyT = Date.now(); tradeWait = 0; }   // v3.4.5: the bot's answer shows here, not on Telegram
           shownMsg = d.msg || '';
           if (!d.tgmute && store.get('axtg345') !== '1') { store.set('axtg345', '1'); send('/tgoff', 'Signals & trades now come to this app (Telegram only for emergencies)'); }
+          var RMV = /^(GER\d|DE[34]0|DAX|ETH)/i;   // v9.6.1: GER40 + ETH are not AXON-9 markets any more - never shown
+          if (d.watch) d.watch = d.watch.filter(function (w) { return !RMV.test(w.s); });
+          if (d.markets) d.markets = d.markets.filter(function (m) { return !RMV.test(m.n) && !RMV.test(m.sym || ''); });
+          if (d.rad) d.rad = d.rad.filter(function (r) { return !RMV.test(r.m); });
+          if (d.sigs) d.sigs = d.sigs.filter(function (g) { return !RMV.test(g.m || ''); });
           S = d; lastOk = Date.now();
           var a = accts(), ch = false;
           a.forEach(function (x) { if (x.k === KEY) ['login', 'broker', 'real'].forEach(function (f) { if (d[f] != null && x[f] !== d[f]) { x[f] = d[f]; ch = true; } }); });
