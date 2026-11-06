@@ -630,7 +630,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '9.6.1';
+  var APP_VER = '9.6.2';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1613,6 +1613,7 @@ nav button{font-size:10.5px}
         '<div class="gunl">◎ If the stop is hit ≈ <b>' + risk.toFixed(1) + '%</b> of the account</div>' +
         '<div class="why" style="margin-top:8px">🎯 ' + Math.ceil(sgN / 3) + ' bank at the <b style="color:var(--text)">middle</b> target · ' + (sgN - Math.ceil(sgN / 3)) + ' <b style="color:var(--text)">HOLD</b> for the high target (min 3R, stop trails behind)</div>' +
         '<div class="why" style="margin-top:10px;text-align:left"><b style="color:var(--text)">Reason:</b> ' + esc(r.u) + ' – ' + esc(r.w || '') + '</div>' +
+        (reply && Date.now() - replyT < 90000 ? '<div class="alert ' + (/opened|Placed|confirmed|✅/.test(reply) && !/ 0 of /.test(reply) ? 'ok' : 'warn') + '" style="margin-top:12px;text-align:left"><b>AXON-9:</b> ' + esc(reply) + '</div>' : '') +
         '<div class="gact">' + (true ? '<button class="gex ' + (dir === 'SELL' ? 's' : '') + '" data-sigconfirm="1" data-confirm="' + esc(dir + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ Execute ' + esc(dir) + '</button>' : '<button class="gex offl" disabled>⛔ MT5 OFFLINE</button>') + '<button class="grj" data-sgreject="' + esc(radKey(r)) + '">✕ Reject</button></div>'
         : '<div class="gunl">◎ Execute unlocks when AXON-9 confirms a setup on ' + esc(m.n) + '</div>') + '</div>';
     var hist = (S.rad || []).filter(function (x) { return x.m === m.n; }).slice(0, 8);
