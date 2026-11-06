@@ -630,7 +630,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '9.5.0';
+  var APP_VER = '9.5.2';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -706,7 +706,7 @@ nav button{font-size:10.5px}
   var lastSent = 0, wantSig = 0, shownMsg = null, reply = '', replyT = 0;
   function send(c, msg) {
     if (!U || !KEY || !DB) return;
-    if (/^\/(ptrade|trade|buy|sell)\b/i.test(c) && S && conn().k !== 'ok') { toast('MT5 OFFLINE – trade NOT sent. Check the PC.'); return; }   // v9.2: never trade on dead data
+    if (/^\/(ptrade|trade|buy|sell)\b/i.test(c) && S && conn().k !== 'ok') toast('Sent – MT5 data is ' + ageTxt(conn().age) + ': the trade is placed the moment AXON-9 reads it');   // v9.5.2: warn, never block
     lastSent = Date.now(); if (/^\/now/.test(c)) wantSig = Date.now(); if (c === '/now') askNoAuto = false;
     fetch(DB + '/axon/' + KEY + '/cmd.json', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ c: c, t: Date.now() }) })
       .then(function () { toast(msg || 'Sent'); setTimeout(load, 3500); }).catch(function () { toast('Not sent - check internet'); });
@@ -1238,7 +1238,7 @@ nav button{font-size:10.5px}
         '<div class="why" style="margin-top:10px">Lot per position</div><div class="stepper"><button data-sglot="-1">−</button><div>' + sgLot.toFixed(2) + '</div><button data-sglot="1">+</button></div>' +
         '<div class="why" style="margin-top:10px">How many positions</div><div class="chips" style="margin-top:6px">' + [1, 2, 3, 4, 5, 6, 8, 10].map(function (n) { return '<button class="' + (n === sgN ? 'on' : '') + '" data-sgn="' + n + '">' + n + '</button>'; }).join('') + '</div>' +
         '<div class="riskbar ' + (riskPct > 5 ? 'hot' : '') + '">' + sgN + ' × ' + sgLot.toFixed(2) + ' lot · if the stop is hit ≈ <b>' + riskPct.toFixed(1) + '%</b> of the account</div>' +
-        (conn().k !== 'ok' ? '<button class="btn full lg offl" disabled>⛔ MT5 OFFLINE – trading disabled</button>' : '<button class="btn full lg cnf" data-sigconfirm="1" data-confirm="' + esc(r.s + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + r.m + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ Confirm Trade</button>')
+        (false ? '<button class="btn full lg offl" disabled>⛔ MT5 OFFLINE – trading disabled</button>' : '<button class="btn full lg cnf" data-sigconfirm="1" data-confirm="' + esc(r.s + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + r.m + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ Confirm Trade</button>')
         : '<div class="alert warn" style="margin-top:10px">This one is still forming – no entry levels yet. It becomes tradeable when the confirmation candle closes.</div>') +
       '<button class="btn ghost full" style="margin-top:8px" data-sigcancel="1">Cancel</button>' +
       '<div class="note"><b>AI Analysis Notes</b><p>' + analysisNote(r, m) + '</p></div></div>';
@@ -1512,7 +1512,7 @@ nav button{font-size:10.5px}
       '<div class="row" style="margin-top:8px"><b style="font-size:20px">' + (MICO[r.m] || '') + ' ' + esc(r.m) + '</b><span class="bv ' + (buy ? 'up' : 'down') + '">' + esc(r.s) + '</span></div>' +
       '<div class="why">' + (r.g ? 'Grade <b class="' + gcls(r.g) + '">' + esc(r.g) + '</b> · ' : '') + (r.c ? r.c + '% confidence · ' : '') + esc(r.u || '') + '</div>' +
       '<div class="lv3"><div><span>Stop loss</span><b class="mono down">' + esc(r.sl) + '</b></div><div><span>Take profit 1</span><b class="mono up">' + esc(r.t1) + '</b></div><div><span>Take profit 2</span><b class="mono up">' + esc(r.t2) + '</b></div></div>' +
-      (c.k === 'ok' ? '<button class="btn full lg cnf" style="margin-top:12px" data-tab2="signals" data-sel="' + esc(radKey(r)) + '">⚡ Trade this signal</button>' : '<button class="btn full lg offl" style="margin-top:12px" disabled>⛔ MT5 OFFLINE – trading disabled</button>') + '</div>';
+      (true ? '<button class="btn full lg cnf" style="margin-top:12px" data-tab2="signals" data-sel="' + esc(radKey(r)) + '">⚡ Trade this signal</button>' : '<button class="btn full lg offl" style="margin-top:12px" disabled>⛔ MT5 OFFLINE – trading disabled</button>') + '</div>';
   }
   //--- v9.2 PERFORMANCE: 30 days from the MT5 history (bot 5.2+)
   function money(v) { v = Number(v || 0); return (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
@@ -1537,7 +1537,7 @@ nav button{font-size:10.5px}
   function sumSwap() { var w = 0; (S.trades || []).forEach(function (t) { w += Number(t.sw || 0); }); return w; }
   function sumPL() { var w = 0; (S.trades || []).forEach(function (t) { w += t.pv != null ? Number(t.pv) : plNum(t.pl); }); return w; }
   function bigPx(p) { p = String(p || '–'); var t = p.replace(/\s/g, ''), i = t.indexOf('.'); if (i < 0 || t.length - i < 3) return '<b class="bp">' + esc(p) + '</b>'; return '<b class="bp">' + esc(t.slice(0, -3)) + '<big>' + esc(t.slice(-3, -1)) + '</big><sup>' + esc(t.slice(-1)) + '</sup></b>'; }
-  function canTrade() { return conn().k === 'ok'; }
+  function canTrade() { return true; }   // v9.5.2: never blocks - send() warns when MT5 data is old
   function chartTfs(cls) { return '<div class="tfs ' + (cls || '') + '">' + [['m1', '1m'], ['m5', '5m'], ['m15', '15m'], ['h1', '1H'], ['h4', '4H'], ['d1', '1D']].map(function (t) { return '<button class="' + (a9tf2 === t[0] ? 'on' : '') + '" data-a9tf="' + t[0] + '">' + t[1] + '</button>'; }).join('') + '</div>'; }
   function posRows(withComm) {
     var tr = S.trades || [];
@@ -1603,12 +1603,13 @@ nav button{font-size:10.5px}
         '<div class="gsub">LOT PER POSITION</div><div class="ocl gl"><button data-sglot="-1">−</button><b>' + sgLot.toFixed(2) + '</b><button data-sglot="1">+</button></div>' +
         '<div class="gunl">◎ If the stop is hit ≈ <b>' + risk.toFixed(1) + '%</b> of the account</div>' +
         '<div class="why" style="margin-top:10px;text-align:left"><b style="color:var(--text)">Reason:</b> ' + esc(r.u) + ' – ' + esc(r.w || '') + '</div>' +
-        '<div class="gact">' + (c.k === 'ok' ? '<button class="gex ' + (dir === 'SELL' ? 's' : '') + '" data-sigconfirm="1" data-confirm="' + esc(dir + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ Execute ' + esc(dir) + '</button>' : '<button class="gex offl" disabled>⛔ MT5 OFFLINE</button>') + '<button class="grj" data-sgreject="' + esc(radKey(r)) + '">✕ Reject</button></div>'
+        '<div class="gact">' + (true ? '<button class="gex ' + (dir === 'SELL' ? 's' : '') + '" data-sigconfirm="1" data-confirm="' + esc(dir + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ Execute ' + esc(dir) + '</button>' : '<button class="gex offl" disabled>⛔ MT5 OFFLINE</button>') + '<button class="grj" data-sgreject="' + esc(radKey(r)) + '">✕ Reject</button></div>'
         : '<div class="gunl">◎ Execute unlocks when AXON-9 confirms a setup on ' + esc(m.n) + '</div>') + '</div>';
     var hist = (S.rad || []).filter(function (x) { return x.m === m.n; }).slice(0, 8);
     var center2 = '<div class="gpan"><b class="gt">Signal history · ' + esc(m.n) + '</b>' + (hist.length ? hist.map(function (x) { return '<div class="lrow"><small class="mono">' + hm(x.t) + '</small><span class="tag ' + (x.s === 'BUY' ? 'buy' : x.s === 'SELL' ? 'sell' : '') + '">' + esc(x.s) + '</span><small class="grow">' + esc(ENGN[x.e] || x.e) + ' – ' + esc(x.u) + '</small><span class="rst2 ' + (STC[x.st] || '') + '">' + esc(rejected[radKey(x)] ? 'Rejected' : STL[x.st] || x.st) + '</span></div>'; }).join('') : '<div class="why" style="padding:12px 0">No signals on ' + esc(m.n) + ' yet today.</div>') + '</div>';
     var right = '<div class="gpan"><div class="row"><b class="gt">AI Trade Signal</b><small class="gh">● ' + (r ? 'Live ' + ago(r.t) : 'Scanning') + '</small></div>' +
       '<div class="gsig ' + (dir === 'BUY' ? 'b' : dir === 'SELL' ? 's' : 'w') + '"><small>SIGNAL</small><b>' + esc(dir) + '</b></div>' +
+      (r ? (true ? '<button class="gex ' + (dir === 'SELL' ? 's' : '') + '" style="width:100%;margin-top:10px" data-sigconfirm="1" data-confirm="' + esc(dir + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ ' + esc(dir) + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' NOW</button>' : '<button class="gex offl" style="width:100%;margin-top:10px" disabled>⛔ MT5 OFFLINE – no trading</button>') : '') +
       '<div class="gbox"><div class="row"><span>Signal Confidence</span><b class="gcf">' + (conf ? conf + '%' : '–') + '</b></div><div class="gbar"><i style="width:' + conf + '%"></i></div></div>' +
       '<div class="gbox"><div class="row"><span>Volatility Index</span><b class="gvo">' + (t ? t.vol.toFixed(2) + '%' : '–') + '</b></div></div>' +
       '<button class="ggen" data-cmd="/now ' + esc(m.n) + '" data-msg="AXON-9 is reading ' + esc(m.n) + '…">Generate New Signal</button>' +
@@ -1663,7 +1664,7 @@ nav button{font-size:10.5px}
       '<div class="eqt"><button class="on">Market</button><button disabled title="AXON-9 places market orders only">Limit</button><button disabled title="AXON-9 places market orders only">Stop</button></div>' +
       '<label class="eql">Volume</label><div class="eqv"><input id="tvol" inputmode="decimal" value="' + esc(tVol) + '"><span>Lots</span></div>' +
       '<div class="eq2"><div><label class="eql">Take Profit</label><input id="ttp" inputmode="decimal" placeholder="Auto" value="' + esc(tTP) + '"></div><div><label class="eql">Stop Loss</label><input id="tsl" inputmode="decimal" placeholder="Auto" value="' + esc(tSL) + '"></div></div>' +
-      (c.k === 'ok' ? '<button class="eqgo ' + (buy ? 'b' : 's') + '" data-tplace="1">' + (buy ? 'BUY' : 'SELL') + '<small>' + esc(tVol) + ' Lots ' + esc(m.n) + ' @ Market</small></button>' : '<button class="eqgo offl" disabled>⛔ MT5 OFFLINE<small>trading disabled</small></button>') +
+      (true ? '<button class="eqgo ' + (buy ? 'b' : 's') + '" data-tplace="1">' + (buy ? 'BUY' : 'SELL') + '<small>' + esc(tVol) + ' Lots ' + esc(m.n) + ' @ Market</small></button>' : '<button class="eqgo offl" disabled>⛔ MT5 OFFLINE<small>trading disabled</small></button>') +
       '<div class="why" style="margin-top:6px;font-size:11.5px">Empty TP / SL = AXON-9 sets them.</div></div>';
     var chart = '<div class="xpan eqc2"><div class="row"><b>' + esc(m.n) + ' <span class="mono">' + esc(m.px) + '</span></b>' + chartTfs('xtf') + '</div><canvas id="cv" class="cv simp eqcv" aria-label="' + esc(m.n) + ' chart"></canvas></div>';
     var sumb = '<div class="eqs">' + [['Balance', acc.b], ['Equity', acc.e], ['Credit', acc.c], ['Margin', acc.m], ['Swap', sumSwap()], ['Margin Free', acc.f], ['Margin Level', acc.l != null ? Number(acc.l).toFixed(2) + '%' : null], ['Profit & Loss', pl]].map(function (k, i) { return '<div><small>' + k[0] + '</small><b class="' + (i === 7 ? (pl >= 0 ? 'blu' : 'down') : '') + '">' + (k[1] == null ? '–' : typeof k[1] === 'string' ? k[1] : money(k[1])) + '</b></div>'; }).join('') + '</div>';
@@ -1754,7 +1755,7 @@ nav button{font-size:10.5px}
       '<div class="lab"><span>Positions</span></div><div class="chips" style="margin-top:6px">' + [1, 2, 3, 5, 10].map(function (n) { return '<button class="' + (n === nSel ? 'on' : '') + '" data-n="' + n + '">' + n + '</button>'; }).join('') + '</div>' +
       '<div class="lab"><span style="color:#FF5A6E">Stop loss</span><span style="color:#3DDC97">Take profit</span></div><div class="sltp"><input id="hsl" inputmode="decimal" placeholder="Auto SL" value="' + esc(hSL) + '"><input id="htp" inputmode="decimal" placeholder="Auto TP" value="' + esc(hTP) + '"></div>' +
       '<div class="est"><div><span>Risk if SL hit</span><b>≈ ' + r1.toFixed(2) + '%</b></div><div><span>Auto SL distance</span><b>' + esc(m.slDist || '–') + '</b></div><div><span>Spread</span><b>' + esc(m.spr != null ? m.spr : '–') + '</b></div><div><span>Net position</span><b class="' + (netL > 0 ? 'up' : netL < 0 ? 'down' : '') + '">' + (netL ? (netL > 0 ? '+' : '') + netL.toFixed(2) + ' lots' : 'flat') + '</b></div></div>' +
-      (c.k === 'ok' ? '<button class="hcf ' + (buy ? '' : 'sell') + '" data-hconfirm="1">CONFIRM ' + (buy ? 'BUY' : 'SELL') + ' ' + (nSel > 1 ? nSel + ' × ' : '') + lotSel.toFixed(2) + ' LOTS</button>' : '<button class="hcf offl" disabled>⛔ MT5 OFFLINE – TRADING DISABLED</button>') +
+      (true ? '<button class="hcf ' + (buy ? '' : 'sell') + '" data-hconfirm="1">CONFIRM ' + (buy ? 'BUY' : 'SELL') + ' ' + (nSel > 1 ? nSel + ' × ' : '') + lotSel.toFixed(2) + ' LOTS</button>' : '<button class="hcf offl" disabled>⛔ MT5 OFFLINE – TRADING DISABLED</button>') +
       '<div class="why" style="margin-top:8px;font-size:11.5px">Leave SL/TP empty and AXON-9 sets them (stop from the hourly range, TP 1R / 2R).</div></div>';
     //--- positions
     var tr = s.trades || [], ex = s.exe || [], tot = 0, vol = 0; tr.forEach(function (t) { tot += plNum(t.pl); vol += t.vol || 0; });
