@@ -539,7 +539,7 @@ nav button{font-size:10.5px}
 .xt th,.xt td{font-size:11.5px;white-space:nowrap}.xbtn{width:26px;height:26px;border-radius:6px;background:rgba(91,156,255,.12);color:#5B9CFF}
 .xbar{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:10px;padding:8px 12px;background:#0A0F1A;border:1px solid #1E2738;border-radius:10px;font-size:11.5px;color:#8D99AE}.xbar b{color:var(--text);font-family:"JetBrains Mono",monospace}.xbar .lu{margin-left:auto;color:#3DDC97}.xbar .lu i{display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:6px}.xbar .lu.off,.xbar .lu.stale{color:#FF6B6B}
 /* signals */
-.g3{display:grid;gap:12px}@media (min-width:1100px){.g3{grid-template-columns:300px minmax(0,1fr) 300px}}
+.g3{display:grid;gap:12px}@media (max-width:1099px){.g3>.gcol:nth-child(2){order:-2}.g3>.gcol:nth-child(3){order:-1}.ring{width:140px;height:140px;margin:12px auto 10px}.ring span{font-size:34px}.gname{font-size:24px}}@media (min-width:1100px){.g3{grid-template-columns:300px minmax(0,1fr) 300px}}
 .gcol{display:grid;gap:12px;align-content:start;min-width:0}
 .gpan{background:linear-gradient(180deg,#121A2E,#0D1323);border:1px solid #232D45;border-radius:16px;padding:16px;min-width:0}
 .gt{font-size:15px;border-left:3px solid #7C5CFF;padding-left:8px}.gh{color:#4FC3F7;font-size:11px}
@@ -630,7 +630,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '9.6.2';
+  var APP_VER = '9.7.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1604,13 +1604,15 @@ nav button{font-size:10.5px}
     var e = r ? num(dir === 'BUY' ? m.ask || m.px : m.bid || m.px) : 0, sl = r ? num(r.sl) : 0, t2 = r ? num(r.t2) : 0, rr = r && Math.abs(e - sl) > 0 ? Math.abs(t2 - e) / Math.abs(e - sl) : 0;
     sgLot = Math.min(Math.max(0.01, sgLot), m.maxLot || 100);
     var risk = (m.r001 || 0) * Math.round(sgLot * 100) * sgN * (m.slDist && r ? Math.abs(e - sl) / num(m.slDist) : 1);
-    var center = '<div class="gpan gc"><div class="gname">' + esc(m.n) + '</div><div class="why">' + esc(MNAME[m.n] || '') + '</div>' +
+    var chipsM = '<div class="mchips phm" style="margin-bottom:12px">' + ms.map(function (x) { var rx = sigFor(x); return '<button class="' + (x.n === m.n ? 'on' : '') + '" data-sgm="' + esc(x.n) + '">' + esc(x.n) + (rx ? ' <b class="' + (rx.s === 'BUY' ? 'up' : 'down') + '">' + (rx.c || '') + '%</b>' : '') + '</button>'; }).join('') + '</div>';
+    var center = '<div class="gpan gc">' + chipsM + '<div class="gname">' + esc(m.n) + '</div><div class="why">' + esc(MNAME[m.n] || '') + '</div>' +
       '<div class="ring ' + (dir === 'BUY' ? 'b' : dir === 'SELL' ? 's' : 'w') + '"><span>' + esc(dir) + '</span></div>' +
       '<div class="why">' + (r ? 'Signal generated • ' + hms(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + (r.g ? ' · grade ' + esc(r.g) : '') : esc(v.why || 'No clean setup right now – AXON-9 is waiting.')) + '</div>' +
       (r ? '<div class="glv"><div><span>Entry (now)</span><b>' + fmtP(m, e) + '</b></div><div><span>Stop loss</span><b class="down">' + esc(r.sl) + '</b></div><div><span>Take profit 1</span><b class="up">' + esc(r.t1) + '</b></div><div><span>Take profit 2</span><b class="up">' + esc(r.t2) + '</b></div><div><span>Risk : reward</span><b>1 : ' + rr.toFixed(2) + '</b></div><div><span>Strategy</span><b>' + esc(ENGN[r.e] || r.e) + '</b></div></div>' +
         '<div class="gsub">PICK POSITIONS</div><div class="gpos">' + [1, 3, 5, 10, 15, 20, 25].map(function (n) { return '<button class="' + (n === sgN ? 'on' : '') + '" data-sgn="' + n + '">' + n + (n === 1 ? ' POS' : ' POS') + '</button>'; }).join('') + '</div>' +
         '<div class="gsub">LOT PER POSITION</div><div class="ocl gl"><button data-sglot="-1">−</button><b>' + sgLot.toFixed(2) + '</b><button data-sglot="1">+</button></div>' +
-        '<div class="gunl">◎ If the stop is hit ≈ <b>' + risk.toFixed(1) + '%</b> of the account</div>' +
+        '<div class="gunl" style="' + (risk > 5 ? 'border-color:#FF5A6E;color:#FF8A98' : '') + '">◎ If the stop is hit ≈ <b>' + risk.toFixed(1) + '%</b> of the account</div>' +
+        (risk > 5 ? '<div class="alert bad" style="margin-top:10px;text-align:left">⚠️ ' + risk.toFixed(1) + '% is a big hit for one idea. For about 2% use <b>' + Math.max(1, Math.floor(2 / (risk / sgN))) + ' positions</b> at ' + sgLot.toFixed(2) + ' lot – or ' + sgN + ' positions at <b>' + Math.max(0.01, Math.floor(sgLot * 2 / risk * 100) / 100).toFixed(2) + ' lot</b>. Your call – Execute still works.</div>' : '') +
         '<div class="why" style="margin-top:8px">🎯 ' + Math.ceil(sgN / 3) + ' bank at the <b style="color:var(--text)">middle</b> target · ' + (sgN - Math.ceil(sgN / 3)) + ' <b style="color:var(--text)">HOLD</b> for the high target (min 3R, stop trails behind)</div>' +
         '<div class="why" style="margin-top:10px;text-align:left"><b style="color:var(--text)">Reason:</b> ' + esc(r.u) + ' – ' + esc(r.w || '') + '</div>' +
         (reply && Date.now() - replyT < 90000 ? '<div class="alert ' + (/opened|Placed|confirmed|✅/.test(reply) && !/ 0 of /.test(reply) ? 'ok' : 'warn') + '" style="margin-top:12px;text-align:left"><b>AXON-9:</b> ' + esc(reply) + '</div>' : '') +
