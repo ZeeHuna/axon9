@@ -490,7 +490,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '9.0.1';
+  var APP_VER = '9.1.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -792,8 +792,8 @@ nav button{font-size:10.5px}
   function num(x) { return parseFloat(String(x == null ? '' : x).replace(/[ ,]/g, '')); }
   function digitsOf(m) { var s = String(m.bid || m.px || '').replace(/[ ,]/g, ''), i = s.indexOf('.'); return i < 0 ? 0 : s.length - i - 1; }
   function fmtP(m, p) { return isFinite(p) ? Number(p).toLocaleString('en-US', { minimumFractionDigits: digitsOf(m), maximumFractionDigits: digitsOf(m) }).replace(/,/g, ' ') : '–'; }
-  var MCOL = { GER40: '#9AA8C0', Gold: '#E8B33A', NAS100: '#4FC3F7', US30: '#7F9CFF', BTC: '#F7931A', ETH: '#A8B8FF' };
-  var MICO = { GER40: '🇩🇪', Gold: '🥇', NAS100: '🇺🇸', US30: '🇺🇸', BTC: '₿', ETH: 'Ξ' };
+  var MCOL = { GER40: '#9AA8C0', Gold: '#E8B33A', NAS100: '#4FC3F7', US30: '#7F9CFF', BTC: '#F7931A', ETH: '#A8B8FF', USDJPY: '#FF6B6B', GBPJPY: '#C77DFF', EURJPY: '#5EE6A8' };
+  var MICO = { GER40: '🇩🇪', Gold: '🥇', NAS100: '🇺🇸', US30: '🇺🇸', BTC: '₿', ETH: 'Ξ', USDJPY: '💴', GBPJPY: '💷', EURJPY: '💶' };
   function closedM(m) { return (m.pa || {}).tickAge > 600; }
   function spark(m) {
     var b = barsOf(m.n, 'm15').slice(-36);
@@ -1382,7 +1382,7 @@ nav button{font-size:10.5px}
   function mm(m) { m = ((m % 1440) + 1440) % 1440; return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + m % 60).slice(-2); }
   function nextSession() {
     var st = sessTimes(), d = new Date(), n = d.getHours() * 60 + d.getMinutes(), dow = d.getDay();
-    if (dow === 0 || dow === 6) return ['Crypto only', 'Weekend – BTC & ETH trading'];
+    if (dow === 0 || dow === 6) return ['Crypto only', 'Weekend – BTC trading'];
     if (n < st.eu) return ['European Session', 'Opens ' + mm(st.eu) + ' (SA)'];
     if (n < st.us) return ['European Session', 'Active now'];
     if (n < st.us + 390) return ['New York Session', 'Active now'];
