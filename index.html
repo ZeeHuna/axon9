@@ -490,7 +490,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '9.0.0';
+  var APP_VER = '9.0.1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1446,8 +1446,8 @@ nav button{font-size:10.5px}
     var ns = nextSession(), nr = newsRisk(), scanN = (s.markets || []).filter(function (m) { return !m.off && !closedM(m); }).length;
     var running = c.k === 'ok' && s.auto && !(r.c === 'bad' || s.safe) && s.algo !== false;
     var bot = '<div class="card pnl"><div class="row"><div class="row" style="gap:10px"><img src="icon.png" alt="" class="bimg"><b class="ttl">AXON-9 Trading Bot</b></div><span class="run ' + (running ? 'ok' : 'bad') + '"><i></i>' + (running ? 'Running 24/7' : c.k !== 'ok' ? 'Offline' : 'Not trading') + '</span></div>' +
-      '<div class="atc ' + (running ? 'ok' : s.auto ? 'bad' : 'warn') + '"><span class="ati">' + IC.shield + '</span><div><b>' + (running ? 'AUTO TRADING ACTIVE' : s.auto ? 'AUTO ON – BLOCKED' : 'AUTO TRADING OFF') + '</b><small>' +
-      esc(running ? 'Scanning ' + scanN + ' market' + (scanN === 1 ? '' : 's') + ' for setups…' : s.auto ? (s.algo === false ? 'Algo Trading is off in MT5 – switch it on' : (s.safe || r.why)) : 'Signals only – you decide every trade') + '</small></div>' +
+      '<div class="atc ' + (running ? 'ok' : c.k !== 'ok' ? 'bad' : s.auto ? 'bad' : 'warn') + '"><span class="ati">' + IC.shield + '</span><div><b>' + (running ? 'AUTO TRADING ACTIVE' : c.k !== 'ok' ? 'MT5 NOT REPORTING' : s.auto ? 'AUTO ON – BLOCKED' : 'AUTO TRADING OFF') + '</b><small>' +
+      esc(running ? 'Scanning ' + scanN + ' market' + (scanN === 1 ? '' : 's') + ' for setups…' : c.k !== 'ok' ? 'Last update ' + ageTxt(c.age) + ' – check the PC: awake, MT5 open, AXON-9 on the chart' : s.auto ? (s.algo === false ? 'Algo Trading is off in MT5 – switch it on' : (s.safe || r.why)) : 'Signals only – you decide every trade') + '</small></div>' +
       '<button class="toggle ' + (s.auto ? 'on' : '') + '" data-cmd="' + (s.auto ? '/signals' : '/auto') + '" data-confirm="' + (s.auto ? 'Switch to SIGNALS ONLY?' : 'Switch AUTO on? AXON-9 trades by itself inside your risk limits.') + '" aria-label="Auto trading"><span></span></button></div>' +
       '<div class="tiles2"><div><span class="ti2">🕘</span><div><small>Next session focus</small><b>' + ns[0] + '</b><em>' + ns[1] + '</em></div></div>' +
       '<div><span class="ti2">📅</span><div><small>News risk</small><b class="' + (nr[2] === 'bad' ? 'down' : '') + '">' + nr[0] + '</b><em>' + nr[1] + '</em></div></div></div></div>';
