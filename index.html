@@ -555,7 +555,7 @@ nav button{font-size:10.5px}
 .ring span{font-size:40px;font-weight:800;color:#7CF5B8;letter-spacing:.04em}.ring.s{border-color:#FF5A6E;box-shadow:0 0 40px rgba(255,90,110,.35),inset 0 0 40px rgba(255,90,110,.18);background:radial-gradient(circle,#3A1420,#0D1323 70%)}.ring.s span{color:#FF8A98}.ring.w{border-color:#5B6B8C;box-shadow:none;background:radial-gradient(circle,#1A2238,#0D1323 70%)}.ring.w span{color:#AAB4C8;font-size:32px}
 .glv{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px;text-align:left}@media (min-width:700px){.glv{grid-template-columns:repeat(3,1fr)}}.glv div{background:#141C30;border:1px solid #232D45;border-radius:10px;padding:8px 10px}.glv span{display:block;font-size:10.5px;color:#8D99AE}.glv b{font-family:"JetBrains Mono",monospace;font-size:13.5px}
 .gsub{margin-top:16px;font-size:11px;letter-spacing:.14em;color:#8D99AE;font-weight:700}
-.gpos{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}.gpos button{height:40px;border-radius:20px;background:#141C30;border:1px solid #232D45;color:#C9D3E3;font-size:11px;font-weight:700}.gpos button.on{background:linear-gradient(90deg,#4FC3F7,#7C5CFF);color:#fff;border-color:transparent}
+.gpos{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px}.gpos button{height:40px;border-radius:20px;background:#141C30;border:1px solid #232D45;color:#C9D3E3;font-size:11px;font-weight:700}.gpos button.on{background:linear-gradient(90deg,#4FC3F7,#7C5CFF);color:#fff;border-color:transparent}
 .ocl.gl{width:180px;margin:8px auto 0;height:40px;border-radius:20px}.ocl.gl button{width:44px}.ocl.gl b{flex:1;font-size:15px}
 .gunl{display:inline-block;margin-top:14px;padding:8px 16px;border-radius:20px;border:1px solid #2E6B5A;color:#9FE8C8;font-size:12px}
 .gact{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:14px}.gex{height:50px;border-radius:12px;font-weight:800;font-size:15px;color:#04150D;background:linear-gradient(90deg,#1DE9B6,#3DDC97)}.gex.s{color:#fff;background:linear-gradient(90deg,#FF5A6E,#E31837)}.grj{height:50px;border-radius:12px;background:#1C2438;color:#FF8A98;font-weight:700;border:1px solid #3A2533}
@@ -630,7 +630,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '9.5.2';
+  var APP_VER = '9.6.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -703,10 +703,14 @@ nav button{font-size:10.5px}
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function toast(t) { var e = $('toast'); e.textContent = t; e.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { e.classList.remove('show'); }, 2200); }
-  var lastSent = 0, wantSig = 0, shownMsg = null, reply = '', replyT = 0;
+  var lastSent = 0, wantSig = 0, shownMsg = null, reply = '', replyT = 0, tradeWait = 0;
   function send(c, msg) {
     if (!U || !KEY || !DB) return;
-    if (/^\/(ptrade|trade|buy|sell)\b/i.test(c) && S && conn().k !== 'ok') toast('Sent – MT5 data is ' + ageTxt(conn().age) + ': the trade is placed the moment AXON-9 reads it');   // v9.5.2: warn, never block
+    if (/^\/(ptrade|trade|buy|sell)\b/i.test(c)) {   // v9.5.3: every order gets an answer on screen
+      tradeWait = Date.now();
+      reply = conn().k === 'ok' ? '⏳ Order sent – waiting for AXON-9 to confirm from MT5…' : '⚠️ Order sent, but MT5 has not reported for ' + ageTxt(conn().age) + '. If the bot does not pick it up within 3 min it is cancelled (never placed late at a different price).'; replyT = Date.now();
+      setTimeout(function () { if (tradeWait && Date.now() - tradeWait >= 59000) { tradeWait = 0; reply = '⛔ No answer from AXON-9 in 60 s – the bot on the PC is not reading orders. Check MT5: AXON9 on the chart (blue hat), Algo Trading green, then send me the Experts tab.'; replyT = Date.now(); render(true); } }, 60000);
+    }
     lastSent = Date.now(); if (/^\/now/.test(c)) wantSig = Date.now(); if (c === '/now') askNoAuto = false;
     fetch(DB + '/axon/' + KEY + '/cmd.json', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ c: c, t: Date.now() }) })
       .then(function () { toast(msg || 'Sent'); setTimeout(load, 3500); }).catch(function () { toast('Not sent - check internet'); });
@@ -825,7 +829,7 @@ nav button{font-size:10.5px}
         busy = false;
         if (d) {
           detect(d);
-          if (shownMsg !== null && d.msg && d.msg !== shownMsg && Date.now() - lastSent < 90000 && !/^AXON-9 (SCALP|HOLD)/.test(d.msg)) { reply = d.msg; replyT = Date.now(); }   // v3.4.5: the bot's answer shows here, not on Telegram
+          if (shownMsg !== null && d.msg && d.msg !== shownMsg && Date.now() - lastSent < 90000 && !/^AXON-9 (SCALP|HOLD)/.test(d.msg)) { reply = d.msg; replyT = Date.now(); tradeWait = 0; }   // v3.4.5: the bot's answer shows here, not on Telegram
           shownMsg = d.msg || '';
           if (!d.tgmute && store.get('axtg345') !== '1') { store.set('axtg345', '1'); send('/tgoff', 'Signals & trades now come to this app (Telegram only for emergencies)'); }
           S = d; lastOk = Date.now();
@@ -1236,7 +1240,7 @@ nav button{font-size:10.5px}
       '<div class="why" style="margin-top:4px">Current trend: <b style="color:var(--text)">' + trend + '</b>' + (r.g ? ' · Grade <b class="' + gcls(r.g) + '">' + esc(r.g) + '</b>' : '') + '</div>' +
       (can ? '<div class="lv4"><div><span>Entry (now)</span><b>' + fmtP(m, e) + '</b></div><div><span>Stop loss</span><b class="down">' + esc(r.sl) + '</b></div><div><span>Take profit 1</span><b class="up">' + esc(r.t1) + '</b></div><div><span>Take profit 2</span><b class="up">' + esc(r.t2) + '</b></div><div><span>Risk : reward</span><b>1 : ' + rr.toFixed(2) + '</b></div><div><span>Status</span><b>' + esc(STL[r.st] || r.st) + '</b></div></div>' +
         '<div class="why" style="margin-top:10px">Lot per position</div><div class="stepper"><button data-sglot="-1">−</button><div>' + sgLot.toFixed(2) + '</div><button data-sglot="1">+</button></div>' +
-        '<div class="why" style="margin-top:10px">How many positions</div><div class="chips" style="margin-top:6px">' + [1, 2, 3, 4, 5, 6, 8, 10].map(function (n) { return '<button class="' + (n === sgN ? 'on' : '') + '" data-sgn="' + n + '">' + n + '</button>'; }).join('') + '</div>' +
+        '<div class="why" style="margin-top:10px">How many positions</div><div class="chips" style="margin-top:6px">' + [1, 3, 5, 10, 15, 20, 25].map(function (n) { return '<button class="' + (n === sgN ? 'on' : '') + '" data-sgn="' + n + '">' + n + '</button>'; }).join('') + '</div>' +
         '<div class="riskbar ' + (riskPct > 5 ? 'hot' : '') + '">' + sgN + ' × ' + sgLot.toFixed(2) + ' lot · if the stop is hit ≈ <b>' + riskPct.toFixed(1) + '%</b> of the account</div>' +
         (false ? '<button class="btn full lg offl" disabled>⛔ MT5 OFFLINE – trading disabled</button>' : '<button class="btn full lg cnf" data-sigconfirm="1" data-confirm="' + esc(r.s + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + r.m + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ Confirm Trade</button>')
         : '<div class="alert warn" style="margin-top:10px">This one is still forming – no entry levels yet. It becomes tradeable when the confirmation candle closes.</div>') +
@@ -1599,9 +1603,10 @@ nav button{font-size:10.5px}
       '<div class="ring ' + (dir === 'BUY' ? 'b' : dir === 'SELL' ? 's' : 'w') + '"><span>' + esc(dir) + '</span></div>' +
       '<div class="why">' + (r ? 'Signal generated • ' + hms(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + (r.g ? ' · grade ' + esc(r.g) : '') : esc(v.why || 'No clean setup right now – AXON-9 is waiting.')) + '</div>' +
       (r ? '<div class="glv"><div><span>Entry (now)</span><b>' + fmtP(m, e) + '</b></div><div><span>Stop loss</span><b class="down">' + esc(r.sl) + '</b></div><div><span>Take profit 1</span><b class="up">' + esc(r.t1) + '</b></div><div><span>Take profit 2</span><b class="up">' + esc(r.t2) + '</b></div><div><span>Risk : reward</span><b>1 : ' + rr.toFixed(2) + '</b></div><div><span>Strategy</span><b>' + esc(ENGN[r.e] || r.e) + '</b></div></div>' +
-        '<div class="gsub">PICK POSITIONS</div><div class="gpos">' + [1, 2, 3, 5, 10].map(function (n) { return '<button class="' + (n === sgN ? 'on' : '') + '" data-sgn="' + n + '">' + n + (n === 1 ? ' POSITION' : ' POS') + '</button>'; }).join('') + '</div>' +
+        '<div class="gsub">PICK POSITIONS</div><div class="gpos">' + [1, 3, 5, 10, 15, 20, 25].map(function (n) { return '<button class="' + (n === sgN ? 'on' : '') + '" data-sgn="' + n + '">' + n + (n === 1 ? ' POS' : ' POS') + '</button>'; }).join('') + '</div>' +
         '<div class="gsub">LOT PER POSITION</div><div class="ocl gl"><button data-sglot="-1">−</button><b>' + sgLot.toFixed(2) + '</b><button data-sglot="1">+</button></div>' +
         '<div class="gunl">◎ If the stop is hit ≈ <b>' + risk.toFixed(1) + '%</b> of the account</div>' +
+        '<div class="why" style="margin-top:8px">🎯 ' + Math.ceil(sgN / 3) + ' bank at the <b style="color:var(--text)">middle</b> target · ' + (sgN - Math.ceil(sgN / 3)) + ' <b style="color:var(--text)">HOLD</b> for the high target (min 3R, stop trails behind)</div>' +
         '<div class="why" style="margin-top:10px;text-align:left"><b style="color:var(--text)">Reason:</b> ' + esc(r.u) + ' – ' + esc(r.w || '') + '</div>' +
         '<div class="gact">' + (true ? '<button class="gex ' + (dir === 'SELL' ? 's' : '') + '" data-sigconfirm="1" data-confirm="' + esc(dir + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">✓ Execute ' + esc(dir) + '</button>' : '<button class="gex offl" disabled>⛔ MT5 OFFLINE</button>') + '<button class="grj" data-sgreject="' + esc(radKey(r)) + '">✕ Reject</button></div>'
         : '<div class="gunl">◎ Execute unlocks when AXON-9 confirms a setup on ' + esc(m.n) + '</div>') + '</div>';
@@ -1752,7 +1757,7 @@ nav button{font-size:10.5px}
     var tk = '<div class="hpan ha-tick htk"><div class="row"><div class="hh">Order · ' + esc(m.n) + '</div><span class="ts ' + (s.auto ? 'ok' : 'warn') + '" style="font-size:11px!important"><i></i>AUTO ' + (s.auto ? 'ON' : 'OFF') + '</span></div>' +
       '<div class="side"><button class="b ' + (buy ? 'on' : '') + '" data-a9side="buy">BUY<br><small class="mono">' + esc(m.ask || m.px) + '</small></button><button class="s ' + (!buy ? 'on' : '') + '" data-a9side="sell">SELL<br><small class="mono">' + esc(m.bid || m.px) + '</small></button></div>' +
       '<div class="lab"><span>Lot size</span><em>' + (lotSel >= 1 ? 'STANDARD LOT' : lotSel >= 0.1 ? 'MINI LOT' : 'MICRO LOT') + '</em></div><div class="lot"><button data-lotstep="-1" aria-label="Smaller lot">−</button><div>' + lotSel.toFixed(2) + '</div><button data-lotstep="1" aria-label="Bigger lot">+</button></div>' +
-      '<div class="lab"><span>Positions</span></div><div class="chips" style="margin-top:6px">' + [1, 2, 3, 5, 10].map(function (n) { return '<button class="' + (n === nSel ? 'on' : '') + '" data-n="' + n + '">' + n + '</button>'; }).join('') + '</div>' +
+      '<div class="lab"><span>Positions</span></div><div class="chips" style="margin-top:6px">' + [1, 3, 5, 10, 15, 20, 25].map(function (n) { return '<button class="' + (n === nSel ? 'on' : '') + '" data-n="' + n + '">' + n + '</button>'; }).join('') + '</div>' +
       '<div class="lab"><span style="color:#FF5A6E">Stop loss</span><span style="color:#3DDC97">Take profit</span></div><div class="sltp"><input id="hsl" inputmode="decimal" placeholder="Auto SL" value="' + esc(hSL) + '"><input id="htp" inputmode="decimal" placeholder="Auto TP" value="' + esc(hTP) + '"></div>' +
       '<div class="est"><div><span>Risk if SL hit</span><b>≈ ' + r1.toFixed(2) + '%</b></div><div><span>Auto SL distance</span><b>' + esc(m.slDist || '–') + '</b></div><div><span>Spread</span><b>' + esc(m.spr != null ? m.spr : '–') + '</b></div><div><span>Net position</span><b class="' + (netL > 0 ? 'up' : netL < 0 ? 'down' : '') + '">' + (netL ? (netL > 0 ? '+' : '') + netL.toFixed(2) + ' lots' : 'flat') + '</b></div></div>' +
       (true ? '<button class="hcf ' + (buy ? '' : 'sell') + '" data-hconfirm="1">CONFIRM ' + (buy ? 'BUY' : 'SELL') + ' ' + (nSel > 1 ? nSel + ' × ' : '') + lotSel.toFixed(2) + ' LOTS</button>' : '<button class="hcf offl" disabled>⛔ MT5 OFFLINE – TRADING DISABLED</button>') +
@@ -1954,7 +1959,7 @@ nav button{font-size:10.5px}
     if (tab === 'read' || tab === 'chart') tab = 'a9';
     setNav(); liveState();
     if (!S) { lastHtml = ''; v.innerHTML = '<div class="card empty">Waiting for AXON-9…<br>Make sure the PC is on and the bot is running in MT5.</div><button class="btn ghost full" data-tab2="accts">My accounts</button>'; return; }
-    var rp = reply && Date.now() - replyT < 20000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
+    var rp = reply && Date.now() - replyT < 90000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
     if (S && (tab === 'mkt' || tab === 'sym')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
     var body = tab === 'home' ? home() : tab === 'markets' ? marketsTab() : tab === 'a9' ? a9Tab() : tab === 'perf' ? perfTab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? signalsWrap() : tab === 'trades' ? tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
