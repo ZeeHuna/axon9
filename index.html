@@ -890,6 +890,7 @@ nav button{font-size:10.5px}
         '<div class="field"><label for="sv">Server</label><input id="sv" maxlength="40" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="e.g. Exness-MT5Trial10" value="' + esc(wiz.server || '') + '"></div>' +
         '<div class="field"><label for="an">Name this account</label><input id="an" maxlength="20" autocapitalize="words" autocorrect="off" spellcheck="false" value="' + esc(wiz.name || '') + '" placeholder="My ' + esc(wiz.broker && wiz.broker !== 'Other' ? wiz.broker.split(' ')[0] : '') + ' demo"></div>' +
         (wiz.wait ? '<div class="hint"><span>⏳</span><span><b>Waiting for MT5 #' + esc(wiz.login) + '…</b><br>Now in MT5: <b>File → Login to Trade Account</b> with the same login, password and server. AXON-9 links it here by itself.</span></div>' +
+          (wiz.slow ? '<div class="field" style="margin-top:12px"><label for="pc">Taking long? Type the code from the MT5 chart</label><input id="pc" class="code" maxlength="9" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="XXXX-XXXX" value="' + esc(wiz.code || '') + '"></div><button class="btn gold full lg" id="addcode" style="margin-top:10px">Connect with code</button>' : '') +
           '<button class="btn ghost full" id="lgstop" style="margin-top:12px">Cancel</button>'
           : '<button class="btn gold full lg" id="lgo" style="margin-top:16px">Log in</button>') +
         '<details class="card det" style="margin-top:16px"><summary>First time on this computer? Install AXON-9</summary><ol class="chk">' +
@@ -916,6 +917,7 @@ nav button{font-size:10.5px}
       '<button class="link" id="signout">Sign out</button>';
   }
   function addByCode() {
+    stopLogin();
     var c = ($('pc').value || '').toUpperCase().replace(/[^A-Z0-9]/g, ''), nmIn = (($('an') && $('an').value) || '').trim();
     if (c.length !== 8) { toast('The code has 8 letters/numbers'); return; }
     toast('Checking code…');
@@ -939,22 +941,28 @@ nav button{font-size:10.5px}
     pick({ k: d.k, db: HOME_DB }); tab = 'home'; setNav(); render(); load();
     toast('Connected · ' + nm + ' #' + d.login);
   }
-  function stopLogin() { clearInterval(lgTimer); lgTimer = null; wiz.wait = false; }
+  function stopLogin() { clearInterval(lgTimer); lgTimer = null; wiz.wait = false; wiz.slow = false; }
   function loginLink() {
     var lg = (($('lg') && $('lg').value) || wiz.login || '').replace(/\D/g, ''), sv = (($('sv') && $('sv').value) || '').trim(), nmIn = (($('an') && $('an').value) || '').trim();
     if (lg.length < 4) { toast('Type your MT5 login number'); return; }
     wiz.login = lg; wiz.server = sv; wiz.name = nmIn; wiz.wait = true; render();
     var t0 = Date.now();
+    function done(c, d) { stopLogin(); if (c) fetch(HOME_DB + '/pair/' + c + '.json', { method: 'DELETE' }).catch(function () {}); linkFound(d, nmIn); }
+    function ok(d) { return d && d.k && String(d.login) === lg && (!d.exp || d.exp * 1000 > Date.now()); }
     function look() {
+      if (!wiz.wait) return;
       if (Date.now() - t0 > 5 * 60000) { stopLogin(); render(); toast('MT5 not seen yet – log in to #' + lg + ' in MT5, then tap Log in again'); return; }
-      fetch(HOME_DB + '/pair.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (all) {
-        if (!wiz.wait || !all) return;
-        var hit = null;
-        Object.keys(all).forEach(function (c) { var d = all[c]; if (d && d.k && String(d.login) === lg && (!d.exp || d.exp * 1000 > Date.now())) { if (!hit || (d.exp || 0) > (hit.d.exp || 0)) hit = { c: c, d: d }; } });
-        if (!hit) return;
-        stopLogin();
-        fetch(HOME_DB + '/pair/' + hit.c + '.json', { method: 'DELETE' }).catch(function () {});
-        linkFound(hit.d, nmIn);
+      if (Date.now() - t0 > 15000 && !wiz.slow) { wiz.slow = true; render(); }
+      // 1) AXON-9 posts its code under the login number: /pair/L<login>
+      fetch(HOME_DB + '/pair/L' + lg + '.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+        if (wiz.wait && ok(d)) { done('L' + lg, d); return; }
+        // 2) fallback: scan the code list (works only if the database allows it)
+        return fetch(HOME_DB + '/pair.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (all) {
+          if (!wiz.wait || !all || all.error) return;
+          var hit = null;
+          Object.keys(all).forEach(function (c) { var x = all[c]; if (ok(x) && (!hit || (x.exp || 0) > (hit.d.exp || 0))) hit = { c: c, d: x }; });
+          if (hit) done(hit.c, hit.d);
+        });
       }).catch(function () {});
     }
     clearInterval(lgTimer); lgTimer = setInterval(look, 3000); look();
