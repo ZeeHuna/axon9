@@ -882,18 +882,23 @@ nav button{font-size:10.5px}
       out += '<div class="step">Step 1 of 3</div><div class="wh">Which broker?</div><div class="why">AXON-9 works with every broker that offers MetaTrader 5 – demo or real.</div>' +
         '<input class="bsearch" id="bq" type="search" placeholder="Search brokers…" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="search" value="' + esc(bq) + '">' +
         '<div class="brokers">' + BROKERS.map(function (b) { return '<button class="' + (wiz.broker === b[0] ? 'on' : '') + '" data-broker="' + b[0] + '">' + b[0] + '<small>' + b[1] + '</small></button>'; }).join('') + '</div>' +
-        '<div class="hint"><span>💡</span><span>Already have AXON-9 running in that MT5? <button class="copy" data-wizgo="3">Skip to the code ›</button></span></div>';
+        '<div class="hint"><span>💡</span><span>Have a pairing code instead? <button class="copy" data-wizgo="3">Enter code ›</button></span></div>';
     } else if (st === 2) {
-      out += '<div class="step">Step 2 of 3 · on the computer</div><div class="wh">Put AXON-9 in ' + esc(br) + ' MT5</div>' +
-        '<ol class="chk">' +
-        '<li><span>Install <b>' + esc(br) + ' MetaTrader 5</b> from their website and log in to the account (demo or real).</span></li>' +
-        '<li><span>In MT5: <b>File → Open Data Folder → MQL5 → Experts</b>. Put <b>AXON9.ex5</b> there. Then right-click <b>Expert Advisors → Refresh</b> in the Navigator.</span></li>' +
+      out += '<div class="step">Step 2 of 3 · log in</div><div class="wh">Log in to your ' + esc(br) + ' account</div>' +
+        '<div class="why">Same details as MT5 – demo or real.</div>' +
+        '<div class="field"><label for="lg">Login</label><input id="lg" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="e.g. 486128678" value="' + esc(wiz.login || '') + '"></div>' +
+        '<div class="field"><label for="sv">Server</label><input id="sv" maxlength="40" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="e.g. Exness-MT5Trial10" value="' + esc(wiz.server || '') + '"></div>' +
+        '<div class="field"><label for="an">Name this account</label><input id="an" maxlength="20" autocapitalize="words" autocorrect="off" spellcheck="false" value="' + esc(wiz.name || '') + '" placeholder="My ' + esc(wiz.broker && wiz.broker !== 'Other' ? wiz.broker.split(' ')[0] : '') + ' demo"></div>' +
+        (wiz.wait ? '<div class="hint"><span>⏳</span><span><b>Waiting for MT5 #' + esc(wiz.login) + '…</b><br>Now in MT5: <b>File → Login to Trade Account</b> with the same login, password and server. AXON-9 links it here by itself.</span></div>' +
+          '<button class="btn ghost full" id="lgstop" style="margin-top:12px">Cancel</button>'
+          : '<button class="btn gold full lg" id="lgo" style="margin-top:16px">Log in</button>') +
+        '<details class="card det" style="margin-top:16px"><summary>First time on this computer? Install AXON-9</summary><ol class="chk">' +
+        '<li><span>Install <b>' + esc(br) + ' MetaTrader 5</b>.</span></li>' +
+        '<li><span>In MT5: <b>File → Open Data Folder → MQL5 → Experts</b>. Put <b>AXON9.ex5</b> there, then right-click <b>Expert Advisors → Refresh</b>.</span></li>' +
         '<li><span><b>Tools → Options → Expert Advisors</b>: tick <b>Allow WebRequest</b> and add<br><code>' + esc(HOME_DB) + '</code><button class="copy" data-copy="' + esc(HOME_DB) + '">Copy</button></span></li>' +
-        '<li><span>Drag <b>AXON9</b> onto any chart → <b>Load</b> the <b>axon9_app.set</b> file → OK. Turn <b>Algo Trading</b> on (green).</span></li>' +
-        '</ol>' +
-        '<div class="dl"><a href="AXON9.ex5" download>⬇ AXON9.ex5</a><a href="axon9_app.set" download>⬇ axon9_app.set</a></div>' +
-        '<div class="why" style="margin-top:10px">Market names differ per broker (GER40 / DE40 / GER30…) – AXON-9 finds them by itself. Telegram is optional.</div>' +
-        '<button class="btn gold full lg" data-wizgo="3" style="margin-top:16px">Done – it shows a code ›</button>';
+        '<li><span>Drag <b>AXON9</b> onto any chart → <b>Load</b> <b>axon9_app.set</b> → OK. Turn <b>Algo Trading</b> on.</span></li>' +
+        '</ol><div class="dl"><a href="AXON9.ex5" download>⬇ AXON9.ex5</a><a href="axon9_app.set" download>⬇ axon9_app.set</a></div>' +
+        '<div class="why" style="margin-top:8px">Done once per computer. After that, switching accounts is just a login.</div></details>';
     } else {
       out += '<div class="step">Step 3 of 3</div><div class="wh">Type the pairing code</div>' +
         '<div class="why">It is at the top-left of the MT5 chart: <b style="color:var(--text)">APP PAIRING CODE</b>.</div>' +
@@ -924,6 +929,35 @@ nav button{font-size:10.5px}
       pick({ k: d.k, db: HOME_DB }); tab = 'home'; setNav(); render(); load();
       toast('Connected · ' + nm + ' #' + d.login);
     }).catch(function () { toast('No internet - try again'); });
+  }
+  //--- MT5-style login: watch AXON-9's fresh pairing posts for this login number, link automatically
+  var lgTimer = null;
+  function linkFound(d, nmIn) {
+    var nm = (nmIn || (wiz.broker && wiz.broker !== 'Other' ? wiz.broker : (d.broker || 'MT5').split(' ')[0]) + (d.real ? ' real' : ' demo')).slice(0, 20);
+    addAcct({ k: d.k, db: HOME_DB, name: nm, login: d.login, broker: d.broker, real: d.real });
+    wiz = { step: 1, broker: '', code: '', name: '' };
+    pick({ k: d.k, db: HOME_DB }); tab = 'home'; setNav(); render(); load();
+    toast('Connected · ' + nm + ' #' + d.login);
+  }
+  function stopLogin() { clearInterval(lgTimer); lgTimer = null; wiz.wait = false; }
+  function loginLink() {
+    var lg = (($('lg') && $('lg').value) || wiz.login || '').replace(/\D/g, ''), sv = (($('sv') && $('sv').value) || '').trim(), nmIn = (($('an') && $('an').value) || '').trim();
+    if (lg.length < 4) { toast('Type your MT5 login number'); return; }
+    wiz.login = lg; wiz.server = sv; wiz.name = nmIn; wiz.wait = true; render();
+    var t0 = Date.now();
+    function look() {
+      if (Date.now() - t0 > 5 * 60000) { stopLogin(); render(); toast('MT5 not seen yet – log in to #' + lg + ' in MT5, then tap Log in again'); return; }
+      fetch(HOME_DB + '/pair.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (all) {
+        if (!wiz.wait || !all) return;
+        var hit = null;
+        Object.keys(all).forEach(function (c) { var d = all[c]; if (d && d.k && String(d.login) === lg && (!d.exp || d.exp * 1000 > Date.now())) { if (!hit || (d.exp || 0) > (hit.d.exp || 0)) hit = { c: c, d: d }; } });
+        if (!hit) return;
+        stopLogin();
+        fetch(HOME_DB + '/pair/' + hit.c + '.json', { method: 'DELETE' }).catch(function () {});
+        linkFound(hit.d, nmIn);
+      }).catch(function () {});
+    }
+    clearInterval(lgTimer); lgTimer = setInterval(look, 3000); look();
   }
   function usd(zar) { var v = Number(zar || 0) / (S && S.usdzar ? S.usdzar : 16.5); return '$' + v.toLocaleString('en-US', { maximumFractionDigits: v < 10000 ? 2 : 0 }); }
   //=====================================================================================
@@ -2017,7 +2051,7 @@ nav button{font-size:10.5px}
     if (b.dataset.wizstart) { wiz = { step: 1, broker: '', code: '', name: '' }; tab = 'wiz'; render(); window.scrollTo(0, 0); return; }
     if (b.dataset.broker) { wiz.broker = b.dataset.broker; wiz.step = 2; render(); window.scrollTo(0, 0); return; }
     if (b.dataset.wizgo) { wiz.step = Number(b.dataset.wizgo); render(); window.scrollTo(0, 0); if (wiz.step === 3) setTimeout(function () { var c = $('pc'); if (c) c.focus(); }, 50); return; }
-    if (b.dataset.wizback) { if (wiz.step > 1) wiz.step = wiz.step === 3 && !wiz.broker ? 1 : wiz.step - 1; else tab = KEY ? 'accts' : 'home'; render(); return; }
+    if (b.dataset.wizback) { stopLogin(); if (wiz.step > 1) wiz.step = wiz.step === 3 && !wiz.broker ? 1 : wiz.step - 1; else tab = KEY ? 'accts' : 'home'; render(); return; }
     if (b.dataset.copy) { try { navigator.clipboard.writeText(b.dataset.copy); toast('Copied'); } catch (e2) { toast(b.dataset.copy); } return; }
     if (b.id === 'forgot') {
       var fe = ($('em').value || '').trim(); if (!fe) { toast('Type your email first'); return; }
@@ -2027,6 +2061,8 @@ nav button{font-size:10.5px}
     }
     if (b.id === 'signout') { if (confirm('Sign out of AXON-9 on this phone? (the bots keep running)')) signOut(); return; }
     if (b.id === 'addcode') { addByCode(); return; }
+    if (b.id === 'lgo') { loginLink(); return; }
+    if (b.id === 'lgstop') { stopLogin(); render(); return; }
     if (b.dataset.a9go) { a9m = b.dataset.a9go; store.set('axa9m', a9m); }
     if (b.dataset.tab2) { if (b.dataset.tsub) tSub = b.dataset.tsub; if (b.dataset.sel) { selSig = b.dataset.sel; sgLot = 0.01; } tab = b.dataset.tab2; if (tab === 'settings') setSub = ''; if (tab === 'accts') { menuOpen = -1; peekAll(); } setNav(); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.tab) { if (tab === b.dataset.tab) { setSub = ''; mSub = 'list'; } tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
@@ -2139,6 +2175,8 @@ nav button{font-size:10.5px}
     if (e.target.id === 'em') { store.set('axlastemail', e.target.value.trim()); return; }   // pairing code: auto-format ABCD-2345
     if (e.target.id === 'bq') { bq = e.target.value; var qq = bq.toLowerCase().trim(); document.querySelectorAll('[data-broker]').forEach(function (x) { x.style.display = !qq || x.dataset.broker === 'Other' || x.dataset.broker.toLowerCase().indexOf(qq) >= 0 ? '' : 'none'; }); return; }
     if (e.target.id === 'an') { wiz.name = e.target.value; return; }
+    if (e.target.id === 'lg') { wiz.login = e.target.value; return; }
+    if (e.target.id === 'sv') { wiz.server = e.target.value; return; }
     if (e.target.id !== 'pc') return;
     var c = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
     e.target.value = c.length > 4 ? c.slice(0, 4) + '-' + c.slice(4) : c; wiz.code = e.target.value;
