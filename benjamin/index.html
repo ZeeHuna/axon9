@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F1F17">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Benjamin Pro</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0F1F17;--card:#16291F;--line:#24392D;--green:#1F3B2D;--cream:#EDE6D3;--mute:#9DB0A4;--copper:#C98A4B;--blue:#4A86E8;--red:#E26D5A;--up:#7FD1A1}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--cream);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+  .wrap{max-width:520px;margin:0 auto;padding:18px 20px 40px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{width:36px;height:36px;border-radius:50%}
+  .brand b{font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:.08em}
+  .brand b span{color:var(--copper)}
+  .live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mute)}
+  .dot{width:8px;height:8px;border-radius:50%;background:#55655B}
+  .dot.on{background:var(--up);box-shadow:0 0 0 4px rgba(127,209,161,.15)}
+  .hero{text-align:center;padding:34px 0 22px}
+  .status{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:700;line-height:1}
+  .sub{margin-top:10px;font-size:13px;color:var(--mute);letter-spacing:.04em}
+  .pnl{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .pnl small{color:var(--mute);font-size:13px}
+  .pnl .n{font-family:'JetBrains Mono',monospace;font-size:26px}
+  .n.up{color:var(--up)} .n.dn{color:var(--red)}
+  .eq{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);padding:10px 0 0}
+  .eq b{color:var(--cream);font-weight:500;font-family:'JetBrains Mono',monospace}
+  .switch{margin:22px 0 8px;width:100%;height:64px;border-radius:32px;border:0;font:600 16px Inter,sans-serif;letter-spacing:.12em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
+  .switch.on{background:var(--copper);color:#1A120A}
+  .switch.off{background:transparent;color:var(--cream);border:1.5px solid var(--line)}
+  .switch:disabled{opacity:.6}
+  h3{font-size:12px;letter-spacing:.14em;color:var(--mute);font-weight:600;margin:28px 0 10px;text-transform:uppercase}
+  .pos{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:4px}
+  .pos .t{font-weight:600}
+  .pos .d{font-size:12px;color:var(--mute);font-family:'JetBrains Mono',monospace}
+  .tag{font-size:11px;padding:2px 7px;border-radius:6px;margin-left:6px;background:var(--green);color:var(--mute)}
+  .feed{list-style:none;margin:0;padding:0}
+  .feed li{padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.45;display:grid;grid-template-columns:48px 1fr;gap:10px}
+  .feed time{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mute);padding-top:2px}
+  .feed li.k{color:var(--cream)} .feed li:not(.k){color:var(--mute)}
+  .feed li.k .m::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--copper);margin-right:8px;vertical-align:middle}
+  .empty{color:var(--mute);font-size:14px;padding:12px 0}
+  .ghost{background:none;border:1px solid var(--line);color:var(--mute);border-radius:12px;height:44px;padding:0 16px;font:500 14px Inter,sans-serif;cursor:pointer}
+  .row{display:flex;gap:10px;justify-content:space-between;margin-top:26px}
+  /* setup */
+  .setup{text-align:center;padding-top:28px}
+  .setup img{width:220px;max-width:70%}
+  .setup p{color:var(--mute);font-size:14px;line-height:1.5}
+  .setup label{display:block;text-align:left;font-size:13px;color:var(--mute);margin:22px 0 8px}
+  .setup input{width:100%;height:56px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--cream);font:500 20px 'JetBrains Mono',monospace;text-align:center;letter-spacing:.12em;text-transform:uppercase}
+  .setup input:focus{outline:2px solid var(--blue);outline-offset:2px}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--card);border:1px solid var(--line);padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function () {
+  var DB = 'https://axon9-7309e-default-rtdb.europe-west1.firebasedatabase.app';
+  var key = localStorage.getItem('bp_key') || '', S = null, busy = false, last = '';
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function toast(t) { var e = $('toast'); e.textContent = t; e.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(function () { e.classList.remove('show'); }, 2600); }
+  function money(v) { var cs = (S && S.cs) || ''; v = Number(v || 0); return (v < 0 ? '-' : '+') + cs + Math.abs(v).toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function plain(v) { var cs = (S && S.cs) || ''; return cs + Number(v || 0).toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function hhmm(t) { var d = new Date(t * 1000); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+  function base() { return DB + '/axon/BP' + key; }
+
+  function setupView() {
+    return '<div class="setup"><img src="logo.png" alt="Benjamin Pro">' +
+      '<p>Connect to your Benjamin Pro in MT5.<br>The code is on the chart: <b style="color:var(--cream)">APP CODE</b>.</p>' +
+      '<label for="code">App code</label><input id="code" maxlength="14" placeholder="XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false">' +
+      '<button class="switch on" id="link" style="margin-top:18px">CONNECT</button></div>';
+  }
+  function mainView() {
+    var live = S && (Date.now() / 1000 - S.t) < 60;
+    var on = S ? S.on : false;
+    var status = !S ? 'Connecting…' : !live ? 'Offline' : S.status;
+    var out = '<header><div class="brand"><img src="icon.png" alt=""><b>BENJAMIN <span>PRO</span></b></div>' +
+      '<div class="live"><i class="dot ' + (live ? 'on' : '') + '"></i>' + (live ? 'Live' : 'MT5 offline') + '</div></header>';
+    out += '<section class="hero"><div class="status">' + esc(status) + '</div>' +
+      '<div class="sub">' + (S ? esc(S.profile) + ' · ' + esc(S.cur) + ' · ' + [S.gold ? 'Gold' : '', S.btc ? 'BTC' : ''].filter(Boolean).join(' + ') : '') + '</div></section>';
+    if (S) {
+      var d = Number(S.today || 0);
+      out += '<div class="pnl"><small>Today</small><span class="n ' + (d > 0 ? 'up' : d < 0 ? 'dn' : '') + '">' + money(d) + '</span></div>' +
+        '<div class="eq"><span>Equity <b>' + plain(S.eq) + '</b></span><span>Open risk <b>' + Number(S.risk || 0).toFixed(1) + '%</b></span></div>';
+    }
+    out += '<button class="switch ' + (on ? 'on' : 'off') + '" id="sw" aria-pressed="' + on + '"' + (S ? '' : ' disabled') + '>' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v9M6.3 6.3a8 8 0 1 0 11.4 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' +
+      (on ? 'AUTO ON' : 'AUTO OFF') + '</button>';
+    var pos = (S && S.pos) || [];
+    if (pos.length) {
+      out += '<h3>Open trades</h3>' + pos.map(function (p) {
+        var pl = Number(p.pl || 0);
+        return '<div class="pos"><div class="t">' + esc(p.d) + ' ' + esc(p.s) + '<span class="tag">' + esc(p.m) + '</span></div>' +
+          '<div class="n ' + (pl >= 0 ? 'up' : 'dn') + '" style="font-family:JetBrains Mono,monospace">' + money(pl) + '</div>' +
+          '<div class="d">' + Number(p.v).toFixed(2) + ' @ ' + esc(p.p) + '</div><div class="d">SL ' + esc(p.sl) + ' · TP ' + esc(p.tp) + '</div></div>';
+      }).join('');
+    }
+    var feed = (S && S.feed) || [];
+    out += '<h3>What Benjamin is doing</h3>';
+    out += feed.length ? '<ul class="feed">' + feed.map(function (f) {
+      return '<li class="' + (f.k ? 'k' : '') + '"><time>' + hhmm(f.t) + '</time><span class="m">' + esc(f.m) + '</span></li>';
+    }).join('') + '</ul>' : '<div class="empty">Nothing yet – Benjamin explains every trade, skip and stop here.</div>';
+    out += '<div class="row">' + (pos.length ? '<button class="ghost" id="closeall">Close all trades</button>' : '<span></span>') +
+      '<button class="ghost" id="unlink">Disconnect</button></div>';
+    return out;
+  }
+  function render(force) { var h = key ? mainView() : setupView(); if (force || h !== last) { last = h; $('app').innerHTML = h; } }
+
+  function load() {
+    if (!key) return;
+    fetch(base() + '/bp.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.t) S = d; render();
+    }).catch(function () {});
+  }
+  function send(cmd, msg) {
+    if (busy) return; busy = true;
+    cmd.t = Math.floor(Date.now() / 1000);
+    fetch(base() + '/cmd.json', { method: 'PUT', body: JSON.stringify(cmd) }).then(function (r) {
+      busy = false; toast(r.ok ? msg : 'Could not reach Benjamin – try again');
+    }).catch(function () { busy = false; toast('No internet – try again'); });
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    if (b.id === 'link') {
+      var c = ($('code').value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (c.length !== 12) { toast('The code has 12 letters/numbers'); return; }
+      toast('Connecting…');
+      fetch(DB + '/axon/BP' + c + '/bp.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+        if (!d || !d.t) { toast('Code not found – is Benjamin running with WebRequest allowed?'); return; }
+        key = c; S = d; localStorage.setItem('bp_key', key); render(true); toast('Connected · #' + d.login);
+      }).catch(function () { toast('No internet – try again'); });
+    }
+    if (b.id === 'sw' && S) {
+      var on = !S.on; S.on = on; render(true);
+      send({ on: on }, on ? 'Switching ON – Benjamin confirms within ~10s' : 'Switching OFF – open trades still managed');
+    }
+    if (b.id === 'closeall') {
+      if (b.dataset.sure) { send({ on: S.on, close: true }, 'Closing all trades…'); delete b.dataset.sure; b.textContent = 'Close all trades'; }
+      else { b.dataset.sure = '1'; b.textContent = 'Tap again to close all'; setTimeout(function () { if (b.isConnected) { delete b.dataset.sure; b.textContent = 'Close all trades'; } }, 4000); }
+    }
+    if (b.id === 'unlink') { localStorage.removeItem('bp_key'); key = ''; S = null; render(true); }
+  });
+  document.addEventListener('input', function (e) {
+    if (e.target.id !== 'code') return;
+    var c = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
+    e.target.value = c.replace(/(.{4})(?=.)/g, '$1-');
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.id === 'code') $('link').click(); });
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});
+  render(true); load();
+  setInterval(function () { if (!document.hidden) load(); }, 5000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
+})();
+</script>
+</body>
+</html>
