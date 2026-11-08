@@ -99,6 +99,14 @@ nav button.on{color:var(--copper2)}
 nav button.on::before{content:'';position:absolute;top:0;width:28px;height:3px;border-radius:0 0 3px 3px;background:var(--copper)}
 nav .ai{width:44px;height:44px;margin-top:-22px;border-radius:50%;background:linear-gradient(145deg,var(--copper2),var(--copper));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(208,144,79,.4)}
 nav .ai img{width:38px;height:38px;border-radius:50%}
+/* markets list */
+.ml{margin-top:6px}
+.mr{width:100%;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:14px 2px;background:none;border:0;border-bottom:1px solid var(--line);color:var(--cream);text-align:left;cursor:pointer;font-family:Inter,sans-serif}
+.mr .lg{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+.mr .lg.au{background:linear-gradient(145deg,#F5D27A,#B8862C);color:#2A1E05}.mr .lg.bt{background:linear-gradient(145deg,#FFB547,#E8860C);color:#2A1702}
+.mr b{display:block;font-size:16px}.mr small{display:block;color:var(--mute);font-size:13px;margin-top:3px}
+.mr .rt{text-align:right}.mr .rt b{font-family:'JetBrains Mono',monospace;font-weight:500}.mr .rt small{font-weight:600}
+.back{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--copper2);font:600 14px Inter,sans-serif;padding:14px 0 0;cursor:pointer}
 /* other tabs */
 h1{font-size:26px;margin:14px 0 4px}
 .lead{color:var(--mute);font-size:14px;margin:0 0 14px}
@@ -144,7 +152,7 @@ h1{font-size:26px;margin:14px 0 4px}
 <script>
 (function () {
   var DB = 'https://axon9-7309e-default-rtdb.europe-west1.firebasedatabase.app';
-  var key = localStorage.getItem('bp_key') || '', S = null, busy = false, last = '', tab = 'home', mkSel = 0, ask = '';
+  var key = localStorage.getItem('bp_key') || '', S = null, busy = false, last = '', tab = 'home', mkSel = 0, ask = '', mkOpen = false;
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function toast(t) { var e = $('toast'); e.textContent = t; e.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(function () { e.classList.remove('show'); }, 2800); }
@@ -260,9 +268,19 @@ h1{font-size:26px;margin:14px 0 4px}
     return out;
   }
   function markets() {
-    var mk = S.mk || []; if (mkSel >= mk.length) mkSel = 0; var m = mk[mkSel]; if (!m) return '<h1>Markets</h1><p class="lead">Waiting for data…</p>';
-    var ch = Number(m.chg || 0), sd = sideOf(m);
-    return '<h1>Markets</h1><p class="lead">What Benjamin sees, live.</p><div class="seg">' + mk.map(function (x, i) { return '<button data-mk2="' + i + '" class="' + (i === mkSel ? 'on' : '') + '">' + esc(x.n) + '</button>'; }).join('') + '</div>' +
+    var mk = S.mk || [];
+    if (!mkOpen) {
+      return '<h1>Markets</h1><p class="lead">Benjamin trades these two only.</p><div class="ml">' + mk.map(function (m, i) {
+        var ch = Number(m.chg || 0), au = m.n === 'Gold';
+        return '<button class="mr" data-mk="' + i + '"><span class="lg ' + (au ? 'au' : 'bt') + '">' + (au ? 'Au' : '₿') + '</span>' +
+          '<span><b>' + (au ? 'XAUUSD' : 'BTCUSD') + '</b><small>' + (m.open ? (au ? 'Gold vs US Dollar' : 'Bitcoin vs US Dollar') : 'Market Closed') + '</small></span>' +
+          '<span class="rt"><b>' + esc(m.px) + '</b><small class="' + (ch >= 0 ? 'up' : 'dn') + '">' + (ch >= 0 ? '+' : '') + ch.toFixed(2) + '%</small></span></button>';
+      }).join('') + '</div>';
+    }
+    if (mkSel >= mk.length) mkSel = 0; var m = mk[mkSel]; if (!m) return '<p class="lead">Waiting for data…</p>';
+    var ch = Number(m.chg || 0), sd = sideOf(m), au = m.n === 'Gold';
+    return '<button class="back" id="mkback"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Markets</button>' +
+      '<h1>' + (au ? 'XAUUSD' : 'BTCUSD') + '</h1><p class="lead">' + (au ? 'Gold vs US Dollar' : 'Bitcoin vs US Dollar') + (m.open ? '' : ' · Market Closed') + '</p>' +
       '<div class="big-chart"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:22px">' + esc(m.px) + '</b><span class="' + (ch >= 0 ? 'up' : 'dn') + '" style="font-weight:600">' + (ch >= 0 ? '+' : '') + ch.toFixed(2) + '% today</span></div>' +
       '<div style="margin:6px 0 10px"><span class="pill ' + sd[0] + '">' + sd[1] + '</span> <span style="color:var(--mute);font-size:12px">M15 · ADX ' + Number(m.adx || 0).toFixed(0) + (m.setup ? ' · last setup ' + m.score + '/100' : '') + '</span></div>' +
       candles(m, (S.pos || []).filter(function (p) { return p.s === m.n; })) + '</div><div class="think">“' + esc(m.think) + '”</div>';
@@ -311,8 +329,9 @@ h1{font-size:26px;margin:14px 0 4px}
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('button,[data-tab]'); if (!b) return;
-    if (b.dataset.tab) { tab = b.dataset.tab; window.scrollTo(0, 0); render(true); return; }
-    if (b.dataset.mk != null) { mkSel = +b.dataset.mk; tab = 'markets'; window.scrollTo(0, 0); render(true); return; }
+    if (b.dataset.tab) { tab = b.dataset.tab; mkOpen = false; window.scrollTo(0, 0); render(true); return; }
+    if (b.dataset.mk != null) { mkSel = +b.dataset.mk; tab = 'markets'; mkOpen = true; window.scrollTo(0, 0); render(true); return; }
+    if (b.id === 'mkback') { mkOpen = false; render(true); return; }
     if (b.dataset.mk2 != null) { mkSel = +b.dataset.mk2; render(true); return; }
     if (b.dataset.ask) { ask = b.dataset.ask; render(true); return; }
     if (b.id === 'link') {
