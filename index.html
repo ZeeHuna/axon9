@@ -627,6 +627,7 @@ nav button{font-size:10.5px}
 .a9logo .p:before,.a9logo .p:after{content:"";width:46px;height:2px;background:linear-gradient(90deg,transparent,var(--gold))}.a9logo .p:after{transform:scaleX(-1)}
 .a9logo small{display:block;margin-top:8px;font-size:11.5px;letter-spacing:.24em;color:var(--muted);font-weight:600}
 #splash .a9logo img{width:120px;height:120px;border-radius:50%;max-width:none}
+.mchips.phm{flex-wrap:wrap;overflow:visible}.mchips.phm button{height:38px}.mchips button.on b{color:#1A110A!important}.ring.w span{font-size:26px}
 .h9s{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
 .h9s div{background:rgba(0,0,0,.18);border-radius:12px;padding:10px 12px}
 .h9s span{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em}
@@ -663,7 +664,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.3.1';
+  var APP_VER = '10.3.2';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1658,8 +1659,9 @@ nav button{font-size:10.5px}
     }
     if (!sgM || !inCat.filter(function (x) { return x.n === sgM; }).length) { var best = inCat.slice().sort(function (a, b) { return confOf(b) - confOf(a); })[0]; sgM = best.n; }
     var m = ms.filter(function (x) { return x.n === sgM; })[0], r = sigFor(m) || aiRead(m), v = verdictOf(m), t = techOf(m), c = conn();
+    if (c.k !== 'ok') r = null;   // v10.3.2: no BUY/SELL from old data
     loadBarsX(m.n); curSig = r; if (r && !r.ai) selSig = radKey(r); else selSig = '';
-    var dir = r ? r.s : /BUY|SELL/.test(v.v) ? v.v : 'WAIT', conf = r ? (r.c || 60) : (v.sig ? v.sig.sc : 0);
+    var dir = c.k !== 'ok' ? 'OFFLINE' : r ? r.s : /BUY|SELL/.test(v.v) ? v.v : 'WAIT', conf = r ? (r.c || 60) : (v.sig ? v.sig.sc : 0);
     var cats = [['ALL', '🌐 All markets'], ['FOREX', '💱 Major FX'], ['METALS', '🥇 Metals'], ['INDICES', '📈 Indices'], ['CRYPTO', '₿ Crypto']];
     var left = '<div class="gpan"><b class="gt">Choose Your Market</b><div class="gcat">' + cats.map(function (k) { return '<button class="' + (sigCat === k[0] ? 'on' : '') + '" data-cat="' + k[0] + '">' + k[1] + '</button>'; }).join('') + '</div>' +
       '<div class="glist">' + ms.filter(function (x) { return sigCat === 'ALL' || catOf(x) === sigCat; }).map(function (x) { var cf = confOf(x), rx = sigFor(x) || aiRead(x);
