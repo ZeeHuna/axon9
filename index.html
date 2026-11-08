@@ -594,6 +594,7 @@ nav button{font-size:10.5px}
 .eqsb button{height:58px;border-radius:8px;border:1px solid #2A3346;background:#151D2E;color:#C9D3E3}.eqsb button small{display:block;font-size:10.5px;font-weight:700}.eqsb button b{font-family:"JetBrains Mono",monospace;font-size:15px}.eqsb .s.on{background:#E5484D;border-color:#E5484D;color:#fff}.eqsb .b.on{background:#3B82F6;border-color:#3B82F6;color:#fff}
 .eqt{display:grid;grid-template-columns:repeat(3,1fr);margin-top:10px;border-bottom:1px solid #1E2738}.eqt button{height:34px;background:none;color:#8D99AE;font-size:12.5px;border-bottom:2px solid transparent}.eqt button.on{color:#fff;border-color:#fff}.eqt button:disabled{opacity:.45}
 .eql{display:block;margin-top:10px;font-size:12px;color:#AAB4C8}.eqv{display:flex;margin-top:4px;border:1px solid #2A3346;border-radius:8px;overflow:hidden}.eqv input{flex:1;height:40px;background:#0A0F1A;border:0;color:var(--text);padding:0 10px;font-family:"JetBrains Mono",monospace}.eqv span{display:flex;align-items:center;padding:0 12px;background:#151D2E;color:#8D99AE;font-size:12px}
+.eqn{display:grid;grid-template-columns:48px 1fr 48px;margin-top:4px;border:1px solid #2A3346;border-radius:8px;overflow:hidden}.eqn button{height:40px;background:#151D2E;color:#fff;font-size:20px}.eqn b{display:flex;align-items:center;justify-content:center;background:#0A0F1A;font-family:"JetBrains Mono",monospace;font-size:16px}.linkb{background:none;color:#4FC3F7;font-size:11.5px;padding:0;text-decoration:underline}
 .eq2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.eq2 input{width:100%;height:40px;margin-top:4px;border-radius:8px;border:1px solid #2A3346;background:#0A0F1A;color:var(--text);padding:0 10px;font-family:"JetBrains Mono",monospace}
 .eqgo{width:100%;margin-top:12px;border-radius:10px;padding:10px;font-weight:800;font-size:15px;color:#fff}.eqgo small{display:block;font-weight:500;font-size:12px;opacity:.9}.eqgo.s{background:#E5484D}.eqgo.b{background:#3B82F6}
 .eqb{margin-top:10px}.eqs{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 14px;padding:8px 4px;border-bottom:1px solid #1E2738;margin-bottom:6px}@media (min-width:900px){.eqs{grid-template-columns:repeat(8,1fr)}}.eqs small{display:block;font-size:10.5px;color:#6B7890}.eqs b{font-family:"JetBrains Mono",monospace;font-size:12.5px}
@@ -631,7 +632,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '9.8.4';
+  var APP_VER = '9.9.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -882,24 +883,18 @@ nav button{font-size:10.5px}
       out += '<div class="step">Step 1 of 3</div><div class="wh">Which broker?</div><div class="why">AXON-9 works with every broker that offers MetaTrader 5 – demo or real.</div>' +
         '<input class="bsearch" id="bq" type="search" placeholder="Search brokers…" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="search" value="' + esc(bq) + '">' +
         '<div class="brokers">' + BROKERS.map(function (b) { return '<button class="' + (wiz.broker === b[0] ? 'on' : '') + '" data-broker="' + b[0] + '">' + b[0] + '<small>' + b[1] + '</small></button>'; }).join('') + '</div>' +
-        '<div class="hint"><span>💡</span><span>Have a pairing code instead? <button class="copy" data-wizgo="3">Enter code ›</button></span></div>';
+        '<div class="hint"><span>💡</span><span>Already have AXON-9 running in that MT5? <button class="copy" data-wizgo="3">Skip to the code ›</button></span></div>';
     } else if (st === 2) {
-      out += '<div class="step">Step 2 of 3 · log in</div><div class="wh">Log in to your ' + esc(br) + ' account</div>' +
-        '<div class="why">Same details as MT5 – demo or real.</div>' +
-        '<div class="field"><label for="lg">Login</label><input id="lg" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="e.g. 486128678" value="' + esc(wiz.login || '') + '"></div>' +
-        '<div class="field"><label for="sv">Server</label><input id="sv" maxlength="40" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="e.g. Exness-MT5Trial10" value="' + esc(wiz.server || '') + '"></div>' +
-        '<div class="field"><label for="an">Name this account</label><input id="an" maxlength="20" autocapitalize="words" autocorrect="off" spellcheck="false" value="' + esc(wiz.name || '') + '" placeholder="My ' + esc(wiz.broker && wiz.broker !== 'Other' ? wiz.broker.split(' ')[0] : '') + ' demo"></div>' +
-        (wiz.wait ? '<div class="hint"><span>⏳</span><span><b>Waiting for MT5 #' + esc(wiz.login) + '…</b><br>Now in MT5: <b>File → Login to Trade Account</b> with the same login, password and server. AXON-9 links it here by itself.</span></div>' +
-          (wiz.slow ? '<div class="field" style="margin-top:12px"><label for="pc">Taking long? Type the code from the MT5 chart</label><input id="pc" class="code" maxlength="9" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="XXXX-XXXX" value="' + esc(wiz.code || '') + '"></div><button class="btn gold full lg" id="addcode" style="margin-top:10px">Connect with code</button>' : '') +
-          '<button class="btn ghost full" id="lgstop" style="margin-top:12px">Cancel</button>'
-          : '<button class="btn gold full lg" id="lgo" style="margin-top:16px">Log in</button>') +
-        '<details class="card det" style="margin-top:16px"><summary>First time on this computer? Install AXON-9</summary><ol class="chk">' +
-        '<li><span>Install <b>' + esc(br) + ' MetaTrader 5</b>.</span></li>' +
-        '<li><span>In MT5: <b>File → Open Data Folder → MQL5 → Experts</b>. Put <b>AXON9.ex5</b> there, then right-click <b>Expert Advisors → Refresh</b>.</span></li>' +
+      out += '<div class="step">Step 2 of 3 · on the computer</div><div class="wh">Put AXON-9 in ' + esc(br) + ' MT5</div>' +
+        '<ol class="chk">' +
+        '<li><span>Install <b>' + esc(br) + ' MetaTrader 5</b> from their website and log in to the account (demo or real).</span></li>' +
+        '<li><span>In MT5: <b>File → Open Data Folder → MQL5 → Experts</b>. Put <b>AXON9.ex5</b> there. Then right-click <b>Expert Advisors → Refresh</b> in the Navigator.</span></li>' +
         '<li><span><b>Tools → Options → Expert Advisors</b>: tick <b>Allow WebRequest</b> and add<br><code>' + esc(HOME_DB) + '</code><button class="copy" data-copy="' + esc(HOME_DB) + '">Copy</button></span></li>' +
-        '<li><span>Drag <b>AXON9</b> onto any chart → <b>Load</b> <b>axon9_app.set</b> → OK. Turn <b>Algo Trading</b> on.</span></li>' +
-        '</ol><div class="dl"><a href="AXON9.ex5" download>⬇ AXON9.ex5</a><a href="axon9_app.set" download>⬇ axon9_app.set</a></div>' +
-        '<div class="why" style="margin-top:8px">Done once per computer. After that, switching accounts is just a login.</div></details>';
+        '<li><span>Drag <b>AXON9</b> onto any chart → <b>Load</b> the <b>axon9_app.set</b> file → OK. Turn <b>Algo Trading</b> on (green).</span></li>' +
+        '</ol>' +
+        '<div class="dl"><a href="AXON9.ex5" download>⬇ AXON9.ex5</a><a href="axon9_app.set" download>⬇ axon9_app.set</a></div>' +
+        '<div class="why" style="margin-top:10px">Market names differ per broker (GER40 / DE40 / GER30…) – AXON-9 finds them by itself. Telegram is optional.</div>' +
+        '<button class="btn gold full lg" data-wizgo="3" style="margin-top:16px">Done – it shows a code ›</button>';
     } else {
       out += '<div class="step">Step 3 of 3</div><div class="wh">Type the pairing code</div>' +
         '<div class="why">It is at the top-left of the MT5 chart: <b style="color:var(--text)">APP PAIRING CODE</b>.</div>' +
@@ -917,7 +912,6 @@ nav button{font-size:10.5px}
       '<button class="link" id="signout">Sign out</button>';
   }
   function addByCode() {
-    stopLogin();
     var c = ($('pc').value || '').toUpperCase().replace(/[^A-Z0-9]/g, ''), nmIn = (($('an') && $('an').value) || '').trim();
     if (c.length !== 8) { toast('The code has 8 letters/numbers'); return; }
     toast('Checking code…');
@@ -931,41 +925,6 @@ nav button{font-size:10.5px}
       pick({ k: d.k, db: HOME_DB }); tab = 'home'; setNav(); render(); load();
       toast('Connected · ' + nm + ' #' + d.login);
     }).catch(function () { toast('No internet - try again'); });
-  }
-  //--- MT5-style login: watch AXON-9's fresh pairing posts for this login number, link automatically
-  var lgTimer = null;
-  function linkFound(d, nmIn) {
-    var nm = (nmIn || (wiz.broker && wiz.broker !== 'Other' ? wiz.broker : (d.broker || 'MT5').split(' ')[0]) + (d.real ? ' real' : ' demo')).slice(0, 20);
-    addAcct({ k: d.k, db: HOME_DB, name: nm, login: d.login, broker: d.broker, real: d.real });
-    wiz = { step: 1, broker: '', code: '', name: '' };
-    pick({ k: d.k, db: HOME_DB }); tab = 'home'; setNav(); render(); load();
-    toast('Connected · ' + nm + ' #' + d.login);
-  }
-  function stopLogin() { clearInterval(lgTimer); lgTimer = null; wiz.wait = false; wiz.slow = false; }
-  function loginLink() {
-    var lg = (($('lg') && $('lg').value) || wiz.login || '').replace(/\D/g, ''), sv = (($('sv') && $('sv').value) || '').trim(), nmIn = (($('an') && $('an').value) || '').trim();
-    if (lg.length < 4) { toast('Type your MT5 login number'); return; }
-    wiz.login = lg; wiz.server = sv; wiz.name = nmIn; wiz.wait = true; render();
-    var t0 = Date.now();
-    function done(c, d) { stopLogin(); if (c) fetch(HOME_DB + '/pair/' + c + '.json', { method: 'DELETE' }).catch(function () {}); linkFound(d, nmIn); }
-    function ok(d) { return d && d.k && String(d.login) === lg && (!d.exp || d.exp * 1000 > Date.now()); }
-    function look() {
-      if (!wiz.wait) return;
-      if (Date.now() - t0 > 5 * 60000) { stopLogin(); render(); toast('MT5 not seen yet – log in to #' + lg + ' in MT5, then tap Log in again'); return; }
-      if (Date.now() - t0 > 15000 && !wiz.slow) { wiz.slow = true; render(); }
-      // 1) AXON-9 posts its code under the login number: /pair/L<login>
-      fetch(HOME_DB + '/pair/L' + lg + '.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
-        if (wiz.wait && ok(d)) { done('L' + lg, d); return; }
-        // 2) fallback: scan the code list (works only if the database allows it)
-        return fetch(HOME_DB + '/pair.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (all) {
-          if (!wiz.wait || !all || all.error) return;
-          var hit = null;
-          Object.keys(all).forEach(function (c) { var x = all[c]; if (ok(x) && (!hit || (x.exp || 0) > (hit.d.exp || 0))) hit = { c: c, d: x }; });
-          if (hit) done(hit.c, hit.d);
-        });
-      }).catch(function () {});
-    }
-    clearInterval(lgTimer); lgTimer = setInterval(look, 3000); look();
   }
   function usd(zar) { var v = Number(zar || 0) / (S && S.usdzar ? S.usdzar : 16.5); return '$' + v.toLocaleString('en-US', { maximumFractionDigits: v < 10000 ? 2 : 0 }); }
   //=====================================================================================
@@ -1581,6 +1540,9 @@ nav button{font-size:10.5px}
   //--- v9.5 PAGES BUILT FROM THE DESIGN: Markets (symbol book + chart + 1-click), Signals (market picker + signal ring
   //    + AI panel), Charts (TradingView-style), Trades (position manager + order panel), Performance (stats + equity)
   //=====================================================================================
+  var tN = 1, tKey = '', tEdit = false, hKey = '', hEdit = false;
+  //--- v9.9: real SL / TP numbers typed in for you (stop beyond the swing, TP = 2x the stop) - change them if you want
+  function autoLv(m, buy) { var px = num(buy ? m.ask || m.px : m.bid || m.px), d = num(m.slDist); if (!isFinite(px) || !(d > 0)) return null; return { sl: fmtP(m, px - (buy ? 1 : -1) * d).replace(/\s/g, ''), tp: fmtP(m, px + (buy ? 1 : -1) * 2 * d).replace(/\s/g, '') }; }
   var mQ = '', oneClick = false, sigCat = 'ALL', sgM = '', tTab = 'pos', tVol = '0.01', tTP = '', tSL = '', modTk = '', modSL = '', modTP = '', pRange = 'daily', pRep = 'daily', PF = null, PFt = 0;
   var rejected = (function () { try { return JSON.parse(store.get('axrej') || '{}'); } catch (e) { return {}; } })();
   function catOf(m) { var n = String(m.n).toUpperCase(); return /BTC|ETH|SOL|XRP/.test(n) ? 'CRYPTO' : /GOLD|XAU|XAG|SILVER/.test(n) ? 'METALS' : /NAS|US30|GER|SPX|US500|DAX/.test(n) ? 'INDICES' : 'FOREX'; }
@@ -1734,14 +1696,16 @@ nav button{font-size:10.5px}
     var ms = S.markets || [], m = curA9(); if (!m) return '<div class="card empty">No markets yet.</div>';
     a9m = m.n; mkSel = m.i; loadBars(); loadBarsX(m.n); loadPerf();
     var c = conn(), acc = S.acc || {}, tr = S.trades || [], buy = a9side === 'buy', pl = sumPL();
+    var k0 = m.n + '|' + a9side; if (k0 !== tKey) { tKey = k0; tEdit = false; } if (!tEdit) { var al = autoLv(m, buy); if (al) { tSL = al.sl; tTP = al.tp; } }
     var mw = '<div class="eqw">' + ms.map(function (x) { return '<button class="eqr ' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '"><div><small class="' + (x.chg >= 0 ? 'up' : 'down') + '">' + (x.chg >= 0 ? '+' : '') + Number(x.chg || 0).toFixed(2) + '%</small><b>' + esc(x.n) + '</b><small class="why">⇅ ' + esc(x.spr != null ? x.spr : '') + '</small></div><div class="eqp down">' + bigPx(x.bid || x.px) + '</div><div class="eqp up">' + bigPx(x.ask || x.px) + '</div></button>'; }).join('') + '</div>';
     var ord = '<div class="eqo"><div class="row"><b>' + esc(m.n) + '</b><small class="why">' + esc(catOf(m)) + '</small></div><div class="why">' + esc(MNAME[m.n] || '') + '</div>' +
       '<div class="eqsb"><button class="s ' + (!buy ? 'on' : '') + '" data-a9side="sell"><small>SELL</small><b>' + esc(m.bid || m.px) + '</b></button><span>' + esc(m.spr != null ? m.spr : '') + '</span><button class="b ' + (buy ? 'on' : '') + '" data-a9side="buy"><small>BUY</small><b>' + esc(m.ask || m.px) + '</b></button></div>' +
       '<div class="eqt"><button class="on">Market</button><button disabled title="AXON-9 places market orders only">Limit</button><button disabled title="AXON-9 places market orders only">Stop</button></div>' +
       '<label class="eql">Volume</label><div class="eqv"><input id="tvol" inputmode="decimal" value="' + esc(tVol) + '"><span>Lots</span></div>' +
-      '<div class="eq2"><div><label class="eql">Take Profit</label><input id="ttp" inputmode="decimal" placeholder="Auto" value="' + esc(tTP) + '"></div><div><label class="eql">Stop Loss</label><input id="tsl" inputmode="decimal" placeholder="Auto" value="' + esc(tSL) + '"></div></div>' +
-      (true ? '<button class="eqgo ' + (buy ? 'b' : 's') + '" data-tplace="1">' + (buy ? 'BUY' : 'SELL') + '<small>' + esc(tVol) + ' Lots ' + esc(m.n) + ' @ Market</small></button>' : '<button class="eqgo offl" disabled>⛔ MT5 OFFLINE<small>trading disabled</small></button>') +
-      '<div class="why" style="margin-top:6px;font-size:11.5px">Empty TP / SL = AXON-9 sets them.</div></div>';
+      '<label class="eql">Positions <small class="why">1 – 25</small></label><div class="eqn"><button data-tnstep="-1" aria-label="Fewer positions">−</button><b>' + tN + '</b><button data-tnstep="1" aria-label="More positions">+</button></div>' +
+      '<div class="eq2"><div><label class="eql">Take Profit</label><input id="ttp" inputmode="decimal" placeholder="price" value="' + esc(tTP) + '"></div><div><label class="eql">Stop Loss</label><input id="tsl" inputmode="decimal" placeholder="price" value="' + esc(tSL) + '"></div></div>' +
+      (true ? '<button class="eqgo ' + (buy ? 'b' : 's') + '" data-tplace="1">' + (buy ? 'BUY' : 'SELL') + '<small>' + (tN > 1 ? tN + ' × ' : '') + esc(tVol) + ' Lots ' + esc(m.n) + ' @ Market</small></button>' : '<button class="eqgo offl" disabled>⛔ MT5 OFFLINE<small>trading disabled</small></button>') +
+      '<div class="why" style="margin-top:6px;font-size:11.5px">SL / TP filled in by AXON-9 (stop beyond the swing, TP = 2× the stop). Type over them to use your own. <button class="linkb" data-trefill="1">↻ refill</button></div></div>';
     var chart = '<div class="xpan eqc2"><div class="row"><b>' + esc(m.n) + ' <span class="mono">' + esc(m.px) + '</span></b>' + chartTfs('xtf') + '</div><canvas id="cv" class="cv simp eqcv" aria-label="' + esc(m.n) + ' chart"></canvas></div>';
     var sumb = '<div class="eqs">' + [['Balance', acc.b], ['Equity', acc.e], ['Credit', acc.c], ['Margin', acc.m], ['Swap', sumSwap()], ['Margin Free', acc.f], ['Margin Level', acc.l != null ? Number(acc.l).toFixed(2) + '%' : null], ['Profit & Loss', pl]].map(function (k, i) { return '<div><small>' + k[0] + '</small><b class="' + (i === 7 ? (pl >= 0 ? 'blu' : 'down') : '') + '">' + (k[1] == null ? '–' : typeof k[1] === 'string' ? k[1] : money(k[1])) + '</b></div>'; }).join('') + '</div>';
     var tabs = '<div class="xtabs">' + [['pos', 'Positions (' + tr.length + ')'], ['pend', 'Pending'], ['hist', 'History']].map(function (k) { return '<button class="' + (tTab === k[0] ? 'on' : '') + '" data-ttab="' + k[0] + '">' + k[1] + '</button>'; }).join('') + (tr.length && tTab === 'pos' ? '<button class="xbtn2 dang" data-confirm="Close ALL trades?" data-cmd="cb:closeall" data-msg="Closing everything…">Close all</button>' : '') + '</div>';
@@ -1817,6 +1781,7 @@ nav button{font-size:10.5px}
     if (!ms.length) return '';
     var m = curA9(); a9m = m.n; mkSel = m.i; loadBars(); loadBarsX(m.n);
     var c = conn(), buy = a9side === 'buy', maxLot = m.maxLot || 100; lotSel = Math.min(Math.max(0.01, lotSel), maxLot);
+    var hk0 = m.n + '|' + a9side; if (hk0 !== hKey) { hKey = hk0; hEdit = false; } if (!hEdit) { var hl = autoLv(m, buy); if (hl) { hSL = hl.sl; hTP = hl.tp; } }
     var list = '<div class="hpan ha-list"><div class="hh">Markets</div><div class="hlist" style="margin-top:6px">' + ms.map(function (x) {
       return '<button class="hli ' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '"><div><b>' + esc(x.n) + '</b><small>' + esc(MNAME[x.n] || x.sym || '') + '</small></div><div class="hp"><b class="' + (x.chg >= 0 ? 'up' : 'down') + '">' + esc(x.px) + '</b><br><span class="hchg ' + (x.chg >= 0 ? 'up' : 'down') + '">' + (x.chg >= 0 ? '↗ +' : '↘ ') + Number(x.chg || 0).toFixed(2) + '%</span></div></button>'; }).join('') + '</div></div>';
     var chart = '<div class="hpan ha-chart"><div class="mchips phm" style="margin-bottom:10px">' + ms.map(function (x) { return '<button class="' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '">' + esc(x.n) + '</button>'; }).join('') + '</div><div class="row" style="flex-wrap:wrap;gap:8px"><div><b style="font-size:16px">' + esc(m.n) + '</b> <span class="mono">' + esc(m.px) + '</span> <span class="hchg ' + (m.chg >= 0 ? 'up' : 'down') + '">' + (m.chg >= 0 ? '+' : '') + Number(m.chg || 0).toFixed(2) + '%</span></div>' +
@@ -1829,10 +1794,10 @@ nav button{font-size:10.5px}
       '<div class="side"><button class="b ' + (buy ? 'on' : '') + '" data-a9side="buy">BUY<br><small class="mono">' + esc(m.ask || m.px) + '</small></button><button class="s ' + (!buy ? 'on' : '') + '" data-a9side="sell">SELL<br><small class="mono">' + esc(m.bid || m.px) + '</small></button></div>' +
       '<div class="lab"><span>Lot size</span><em>' + (lotSel >= 1 ? 'STANDARD LOT' : lotSel >= 0.1 ? 'MINI LOT' : 'MICRO LOT') + '</em></div><div class="lot"><button data-lotstep="-1" aria-label="Smaller lot">−</button><div>' + lotSel.toFixed(2) + '</div><button data-lotstep="1" aria-label="Bigger lot">+</button></div>' +
       '<div class="lab"><span>Positions</span><em>1 – 25</em></div><div class="lot"><button data-nstep="-1" aria-label="Fewer positions">−</button><div>' + nSel + '</div><button data-nstep="1" aria-label="More positions">+</button></div>' +
-      '<div class="lab"><span style="color:#FF5A6E">Stop loss</span><span style="color:#3DDC97">Take profit</span></div><div class="sltp"><input id="hsl" inputmode="decimal" placeholder="Auto SL" value="' + esc(hSL) + '"><input id="htp" inputmode="decimal" placeholder="Auto TP" value="' + esc(hTP) + '"></div>' +
+      '<div class="lab"><span style="color:#FF5A6E">Stop loss</span><span style="color:#3DDC97">Take profit</span></div><div class="sltp"><input id="hsl" inputmode="decimal" placeholder="price" value="' + esc(hSL) + '"><input id="htp" inputmode="decimal" placeholder="price" value="' + esc(hTP) + '"></div>' +
       '<div class="est"><div><span>Risk if SL hit</span><b>≈ ' + r1.toFixed(2) + '%</b></div><div><span>Auto SL distance</span><b>' + esc(m.slDist || '–') + '</b></div><div><span>Spread</span><b>' + esc(m.spr != null ? m.spr : '–') + '</b></div><div><span>Net position</span><b class="' + (netL > 0 ? 'up' : netL < 0 ? 'down' : '') + '">' + (netL ? (netL > 0 ? '+' : '') + netL.toFixed(2) + ' lots' : 'flat') + '</b></div></div>' +
       (true ? '<button class="hcf ' + (buy ? '' : 'sell') + '" data-hconfirm="1">CONFIRM ' + (buy ? 'BUY' : 'SELL') + ' ' + (nSel > 1 ? nSel + ' × ' : '') + lotSel.toFixed(2) + ' LOTS</button>' : '<button class="hcf offl" disabled>⛔ MT5 OFFLINE – TRADING DISABLED</button>') +
-      '<div class="why" style="margin-top:8px;font-size:11.5px">Leave SL/TP empty and AXON-9 sets them (stop from the hourly range, TP 1R / 2R).</div></div>';
+      '<div class="why" style="margin-top:8px;font-size:11.5px">SL / TP filled in by AXON-9 – type over them to use your own. <button class="linkb" data-hrefill="1">↻ refill</button></div></div>';
     //--- positions
     var tr = s.trades || [], ex = s.exe || [], tot = 0, vol = 0; tr.forEach(function (t) { tot += plNum(t.pl); vol += t.vol || 0; });
     var cur = function (t) { var mm = (s.markets || []).filter(function (x) { return x.sym && String(t.sym).indexOf(String(x.sym).replace(/m$/, '')) === 0; })[0]; return mm ? (t.side === 'BUY' ? mm.bid || mm.px : mm.ask || mm.px) : '–'; };
@@ -2013,7 +1978,7 @@ nav button{font-size:10.5px}
   var pendingRender = false, lastHtml = '';
   function typing() { var a = document.activeElement; return a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA') && a.type !== 'file' && $('view').contains(a); }
   document.addEventListener('input', function (e) { var t = e.target, id = t && t.id; if (!id) return;
-    if (id === 'hsl') hSL = t.value; if (id === 'htp') hTP = t.value; if (id === 'tvol') tVol = t.value; if (id === 'ttp') tTP = t.value; if (id === 'tsl') tSL = t.value; if (id === 'msl') modSL = t.value; if (id === 'mtp') modTP = t.value;
+    if (id === 'hsl') { hSL = t.value; hEdit = true; } if (id === 'htp') { hTP = t.value; hEdit = true; } if (id === 'tvol') tVol = t.value; if (id === 'ttp') { tTP = t.value; tEdit = true; } if (id === 'tsl') { tSL = t.value; tEdit = true; } if (id === 'msl') modSL = t.value; if (id === 'mtp') modTP = t.value;
     if (id === 'mxq') { mQ = t.value; var q = mQ.toUpperCase(); [].forEach.call(document.querySelectorAll('.sbr'), function (r) { r.style.display = !q || r.textContent.toUpperCase().indexOf(q) >= 0 ? '' : 'none'; }); }
   });
   document.addEventListener('focusout', function () { setTimeout(function () { if (pendingRender && !typing()) { pendingRender = false; render(); } }, 150); });
@@ -2059,7 +2024,7 @@ nav button{font-size:10.5px}
     if (b.dataset.wizstart) { wiz = { step: 1, broker: '', code: '', name: '' }; tab = 'wiz'; render(); window.scrollTo(0, 0); return; }
     if (b.dataset.broker) { wiz.broker = b.dataset.broker; wiz.step = 2; render(); window.scrollTo(0, 0); return; }
     if (b.dataset.wizgo) { wiz.step = Number(b.dataset.wizgo); render(); window.scrollTo(0, 0); if (wiz.step === 3) setTimeout(function () { var c = $('pc'); if (c) c.focus(); }, 50); return; }
-    if (b.dataset.wizback) { stopLogin(); if (wiz.step > 1) wiz.step = wiz.step === 3 && !wiz.broker ? 1 : wiz.step - 1; else tab = KEY ? 'accts' : 'home'; render(); return; }
+    if (b.dataset.wizback) { if (wiz.step > 1) wiz.step = wiz.step === 3 && !wiz.broker ? 1 : wiz.step - 1; else tab = KEY ? 'accts' : 'home'; render(); return; }
     if (b.dataset.copy) { try { navigator.clipboard.writeText(b.dataset.copy); toast('Copied'); } catch (e2) { toast(b.dataset.copy); } return; }
     if (b.id === 'forgot') {
       var fe = ($('em').value || '').trim(); if (!fe) { toast('Type your email first'); return; }
@@ -2069,8 +2034,6 @@ nav button{font-size:10.5px}
     }
     if (b.id === 'signout') { if (confirm('Sign out of AXON-9 on this phone? (the bots keep running)')) signOut(); return; }
     if (b.id === 'addcode') { addByCode(); return; }
-    if (b.id === 'lgo') { loginLink(); return; }
-    if (b.id === 'lgstop') { stopLogin(); render(); return; }
     if (b.dataset.a9go) { a9m = b.dataset.a9go; store.set('axa9m', a9m); }
     if (b.dataset.tab2) { if (b.dataset.tsub) tSub = b.dataset.tsub; if (b.dataset.sel) { selSig = b.dataset.sel; sgLot = 0.01; } tab = b.dataset.tab2; if (tab === 'settings') setSub = ''; if (tab === 'accts') { menuOpen = -1; peekAll(); } setNav(); render(); window.scrollTo(0, 0); return; }
     if (b.dataset.tab) { if (tab === b.dataset.tab) { setSub = ''; mSub = 'list'; } tab = b.dataset.tab; picking = null; document.querySelectorAll('nav button').forEach(function (n) { n.classList.toggle('on', n === b); }); render(); window.scrollTo(0, 0); return; }
@@ -2102,6 +2065,9 @@ nav button{font-size:10.5px}
     if (b.dataset.oneclick) { oneClick = !oneClick; toast(oneClick ? '1-Click ON – BUY / SELL trade instantly' : '1-Click OFF – every trade asks first'); render(true); return; }
     if (b.dataset.lotset) { lotSel = Number(b.dataset.lotset); render(true); return; }
     if (b.dataset.oc) { var om = curA9(), od = b.dataset.oc; if (!canTrade()) { toast('MT5 OFFLINE – trade NOT sent'); return; } if (!oneClick && !confirm(od.toUpperCase() + ' ' + lotSel.toFixed(2) + ' ' + om.n + ' at market? (AXON-9 sets SL / TP)')) return; send('/trade ' + om.n + ' ' + od + ' ' + lotSel.toFixed(2) + ' 1', od === 'buy' ? 'Buying…' : 'Selling…'); return; }
+    if (b.dataset.tnstep) { tN = Math.max(1, Math.min(25, tN + Number(b.dataset.tnstep))); render(true); return; }
+    if (b.dataset.trefill) { tEdit = false; tKey = ''; render(true); return; }
+    if (b.dataset.hrefill) { hEdit = false; hKey = ''; render(true); return; }
     if (b.dataset.sgnstep) { sgN = Math.max(1, Math.min(25, sgN + Number(b.dataset.sgnstep))); render(true); return; }
     if (b.dataset.nstep) { nSel = Math.max(1, Math.min(25, nSel + Number(b.dataset.nstep))); render(true); return; }
     if (b.dataset.usesug) { var us = b.dataset.usesug.split('|'); sgN = +us[0]; sgLot = +us[1]; render(true); return; }
@@ -2120,9 +2086,9 @@ nav button{font-size:10.5px}
       if ((tSL && !isFinite(ps)) || (tTP && !isFinite(pt))) { toast('SL / TP must be prices'); return; }
       if (tSL && (sd === 'buy' ? ps >= pp : ps <= pp)) { toast('Stop loss must be ' + (sd === 'buy' ? 'below' : 'above') + ' the price'); return; }
       if (tTP && (sd === 'buy' ? pt <= pp : pt >= pp)) { toast('Take profit must be ' + (sd === 'buy' ? 'above' : 'below') + ' the price'); return; }
-      if (tSL && tTP) cm = '/ptrade ' + pm.n + ' ' + sd + ' ' + lv.toFixed(2) + ' 1 ' + ps + ' ' + pt + ' ' + pt; else if (tSL || tTP) { toast('Fill both TP and SL – or leave both empty'); return; } else cm = '/trade ' + pm.n + ' ' + sd + ' ' + lv.toFixed(2) + ' 1';
-      if (!confirm(sd.toUpperCase() + ' ' + lv.toFixed(2) + ' lots ' + pm.n + ' @ Market' + (tSL ? ' – SL ' + tSL + ', TP ' + tTP : ' – AXON-9 sets SL / TP') + '?')) return;
-      send(cm, sd === 'buy' ? 'Buying…' : 'Selling…'); tSL = ''; tTP = ''; return;
+      if (tSL && tTP) cm = '/ptrade ' + pm.n + ' ' + sd + ' ' + lv.toFixed(2) + ' ' + tN + ' ' + ps + ' ' + pt + ' ' + pt; else if (tSL || tTP) { toast('Fill both TP and SL – or leave both empty'); return; } else cm = '/trade ' + pm.n + ' ' + sd + ' ' + lv.toFixed(2) + ' ' + tN;
+      if (!confirm(sd.toUpperCase() + ' ' + tN + ' × ' + lv.toFixed(2) + ' lots ' + pm.n + ' @ Market' + (tSL ? ' – SL ' + tSL + ', TP ' + tTP : ' – AXON-9 sets SL / TP') + '?')) return;
+      send(cm, sd === 'buy' ? 'Buying…' : 'Selling…'); tEdit = false; tKey = ''; return;
     }
     if (b.dataset.hconfirm) {
       var hm0 = curA9(), sl0 = num(hSL), tp0 = num(hTP), side0 = a9side === 'buy' ? 'buy' : 'sell', px0 = num(side0 === 'buy' ? (hm0.ask || hm0.px) : (hm0.bid || hm0.px)), cmd0;
@@ -2133,7 +2099,7 @@ nav button{font-size:10.5px}
       else if (hSL || hTP) { toast('Fill both SL and TP – or leave both empty for AXON-9 levels'); return; }
       else cmd0 = '/trade ' + hm0.n + ' ' + side0 + ' ' + lotSel.toFixed(2) + ' ' + nSel;
       if (!confirm(side0.toUpperCase() + ' ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + hm0.n + (hSL ? ' – SL ' + hSL + ', TP ' + hTP : ' – AXON-9 sets SL/TP') + '?')) return;
-      send(cmd0, side0 === 'buy' ? 'Buying…' : 'Selling…'); hSL = ''; hTP = ''; return;
+      send(cmd0, side0 === 'buy' ? 'Buying…' : 'Selling…'); hEdit = false; hKey = ''; return;
     }
     if (b.dataset.sigconfirm) {
       var R0 = S.rad || [], r0 = (tab === 'signals' && curSig) ? curSig : ((selSig ? R0.filter(function (x) { return radKey(x) === selSig; })[0] : null) || R0.filter(tradeable)[0]);
@@ -2183,8 +2149,6 @@ nav button{font-size:10.5px}
     if (e.target.id === 'em') { store.set('axlastemail', e.target.value.trim()); return; }   // pairing code: auto-format ABCD-2345
     if (e.target.id === 'bq') { bq = e.target.value; var qq = bq.toLowerCase().trim(); document.querySelectorAll('[data-broker]').forEach(function (x) { x.style.display = !qq || x.dataset.broker === 'Other' || x.dataset.broker.toLowerCase().indexOf(qq) >= 0 ? '' : 'none'; }); return; }
     if (e.target.id === 'an') { wiz.name = e.target.value; return; }
-    if (e.target.id === 'lg') { wiz.login = e.target.value; return; }
-    if (e.target.id === 'sv') { wiz.server = e.target.value; return; }
     if (e.target.id !== 'pc') return;
     var c = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
     e.target.value = c.length > 4 ? c.slice(0, 4) + '-' + c.slice(4) : c; wiz.code = e.target.value;
