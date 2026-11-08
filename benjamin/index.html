@@ -76,7 +76,8 @@
   function money(v) { var cs = (S && S.cs) || ''; v = Number(v || 0); return (v < 0 ? '-' : '+') + cs + Math.abs(v).toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
   function plain(v) { var cs = (S && S.cs) || ''; return cs + Number(v || 0).toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
   function hhmm(t) { var d = new Date(t * 1000); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
-  function base() { return DB + '/axon/BP' + key; }
+  function path(c) { c = c.toLowerCase(); return DB + '/axon/' + c + c + 'bpbp'; }
+  function base() { return path(key); }
 
   function setupView() {
     return '<div class="setup"><img src="logo.png" alt="Benjamin Pro">' +
@@ -140,8 +141,8 @@
       var c = ($('code').value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
       if (c.length !== 12) { toast('The code has 12 letters/numbers'); return; }
       toast('Connecting…');
-      fetch(DB + '/axon/BP' + c + '/bp.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
-        if (!d || !d.t) { toast('Code not found – is Benjamin running with WebRequest allowed?'); return; }
+      fetch(path(c) + '/bp.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+        if (!d || !d.t) { toast('Code not found yet – Benjamin posts every 10s. Check the code on the chart and try again.'); return; }
         key = c; S = d; localStorage.setItem('bp_key', key); render(true); toast('Connected · #' + d.login);
       }).catch(function () { toast('No internet – try again'); });
     }
