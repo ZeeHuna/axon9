@@ -663,7 +663,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.3.0';
+  var APP_VER = '10.3.1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -768,7 +768,7 @@ nav button{font-size:10.5px}
   }
   function notify(title, body, tag) {
     try {
-      if (!('Notification' in window) || Notification.permission !== 'granted' || !document.hidden) return;
+      if (!soundOn() || !('Notification' in window) || Notification.permission !== 'granted' || !document.hidden) return;
       var o = { body: body, tag: tag || 'axon9', icon: 'bp-icon.png?v=2', badge: 'bp-icon.png?v=2', renotify: true, vibrate: [120, 60, 120] };
       if (navigator.serviceWorker && navigator.serviceWorker.ready) navigator.serviceWorker.ready.then(function (r) { r.showNotification(title, o); }).catch(function () { new Notification(title, o); });
       else new Notification(title, o);
@@ -1996,7 +1996,7 @@ nav button{font-size:10.5px}
       out += '<div class="card">' + (s.markets || []).map(function (m) { return '<div class="row" style="padding:10px 0;border-bottom:1px solid var(--line)"><div><b>' + esc(m.n) + '</b><div class="why">' + (m.off ? 'not trading · still shown' : 'analysed and traded') + '</div></div>' + onOff(!m.off, '/market ' + m.n + ' ' + (m.off ? 'on' : 'off'), 'Switch ' + esc(m.n)) + '</div>'; }).join('') + '</div>';
     } else if (setSub === 'alerts') {
       var np = ('Notification' in window) ? Notification.permission : 'unsupported', mute = {}; try { mute = JSON.parse(store.get('axmute') || '{}'); } catch (e) {}
-      out += '<div class="card"><div class="row"><div><div class="label">Chimes</div><div class="why">Sound + vibration for signals, opens, closes and emergencies</div></div><button class="toggle ' + (soundOn() ? 'on' : '') + '" id="sound" aria-label="Chimes"><span></span></button></div>' +
+      out += '<div class="card"><div class="row"><div><div class="label">Chimes</div><div class="why">Sound, vibration and phone pop-ups for signals, opens and closes. Off = silent</div></div><button class="toggle ' + (soundOn() ? 'on' : '') + '" id="sound" aria-label="Chimes"><span></span></button></div>' +
         '<div class="grid2" style="margin-top:12px"><button class="btn ghost" id="testchime">▶ Test chime</button>' + (np === 'granted' ? '<button class="btn ghost" disabled>Notifications on ✓</button>' : np === 'unsupported' ? '<button class="btn ghost" disabled>No notifications here</button>' : '<button class="btn gold" id="notif">Allow notifications</button>') + '</div></div>';
       out += '<div class="card"><div class="row"><div><div class="label">Telegram</div><div class="why">' + (s.tgmute ? 'Off – emergencies only' : 'On – everything is also sent to Telegram') + '</div></div>' + onOff(!s.tgmute, s.tgmute ? '/tgon' : '/tgoff', 'Telegram') + '</div><div class="why" style="margin-top:8px">When the phone is locked or the app is closed, Telegram is what rings.</div></div>';
       out += '<div class="card"><div class="label">News & setup alerts per market</div><div class="chips" style="margin-top:8px">' + (s.markets || []).map(function (m) { return '<button class="' + (mute[m.n] ? '' : 'on') + '" data-mute="' + esc(m.n) + '">' + (mute[m.n] ? '🔕 ' : '🔔 ') + esc(m.n) + '</button>'; }).join('') + '</div></div>';
