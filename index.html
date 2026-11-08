@@ -982,6 +982,11 @@ nav button{font-size:10.5px}
     (pa.liq || []).forEach(function (l) { L.push({ p: num(l.p), t: l.n, c: '#E8B33A', d: [2, 4] }); });
     var g = v && v.sig;
     if (g && (v.v === 'BUY' || v.v === 'SELL')) L.push({ p: num(g.entry), t: 'Entry', c: '#FFFFFF', d: [] }, { p: num(g.sl), t: 'SL', c: '#F06A57', d: [] }, { p: num(g.tp1), t: 'TP1', c: '#3DCB8A', d: [] }, { p: num(g.tp2), t: 'TP2', c: '#3DCB8A', d: [] });
+    //--- v10.2: the latest SNIPER shot on this market - entry, stop and both targets on the chart
+    var sn = ((S && S.rad) || []).filter(function (r) { return r.e === 'SNIPER' && r.m === m.n && /DETECTED|QUALIFIED|EXECUTED/.test(r.st) && Date.now() / 1000 - r.t < 3 * 3600; })
+      .sort(function (a, b) { return b.t - a.t; })[0];
+    if (sn && num(sn.p)) L.push({ p: num(sn.p), t: '🎯 Sniper ' + (sn.s || '') + (sn.c ? ' ' + sn.c + '/100' : ''), c: '#F1B877', d: [] },
+      { p: num(sn.sl), t: 'Sniper SL', c: '#F06A57', d: [4, 3] }, { p: num(sn.t1), t: 'Sniper TP1 (half)', c: '#3DCB8A', d: [4, 3] }, { p: num(sn.t2), t: 'Sniper TP2', c: '#3DCB8A', d: [] });
     return L.filter(function (l) { return isFinite(l.p); });
   }
   //=====================================================================================
