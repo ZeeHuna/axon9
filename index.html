@@ -617,6 +617,7 @@ nav button{font-size:10.5px}
 .h9r{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px}
 .h9c{font:500 13px 'JetBrains Mono',monospace;padding:4px 9px;border-radius:7px;background:rgba(0,0,0,.22)}
 .h9e{font-size:13px;color:var(--muted)}
+.h9a{margin-top:12px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.4;display:flex;gap:10px;align-items:flex-start}.h9a i{flex:none;width:9px;height:9px;border-radius:50%;margin-top:5px}.h9a.ok{background:rgba(61,203,138,.1);color:#BFE9D2}.h9a.ok i{background:#3DCB8A;box-shadow:0 0 0 4px rgba(61,203,138,.18)}.h9a.bad{background:rgba(240,106,87,.12);color:#F7C3BA}.h9a.bad i{background:#F06A57}.h9a small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
 .h9s{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
 .h9s div{background:rgba(0,0,0,.18);border-radius:12px;padding:10px 12px}
 .h9s span{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em}
@@ -653,7 +654,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.1.0';
+  var APP_VER = '10.2.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1856,19 +1857,27 @@ nav button{font-size:10.5px}
       '<div><span>Volatility (ATR)</span><b>' + esc(m.atr || '–') + '</b></div><div><span>Trend strength (ADX)</span><b>' + esc(m.adx != null ? Number(m.adx).toFixed(0) : '–') + '</b></div></div></div>';
     return '<div class="hterm">' + list + chart + tk + pos + sent + pulse + '</div>';
   }
+  function autoStat(s, c) {
+    if (c.k !== 'ok') return ['bad', 'NOT RUNNING – MT5 is offline', 'AXON-9 only trades while MT5 is open and online. For 24/7, run MT5 on a VPS.'];
+    if (s.aw) return ['bad', 'NOT TRADING – ' + s.aw, ''];
+    if (s.aw === undefined) { if (!s.auto) return ['bad', 'NOT TRADING – Auto is OFF', '']; if (s.algo === false) return ['bad', 'NOT TRADING – Algo Trading is OFF in MT5', '']; if (s.safe) return ['bad', 'NOT TRADING – ' + s.safe, '']; }
+    var ms = S.markets || [], open = ms.filter(function (m) { return !m.aw && !m.off; }), cl = ms.filter(function (m) { return m.aw; });
+    if (s.aw !== undefined && !open.length) return ['bad', 'WAITING – no market can trade right now', cl.slice(0, 3).map(function (m) { return m.n + ': ' + m.aw; }).join(' · ')];
+    return ['ok', 'HUNTING 24/7 – ' + (s.aw !== undefined ? open.length + ' of ' + ms.length + ' markets live' : 'scanning'), (s.open ? s.open + ' trade' + (s.open > 1 ? 's' : '') + ' open · ' : '') + (s.aw !== undefined && open.length ? open.slice(0, 5).map(function (m) { return m.n; }).join(', ') : '')];
+  }
   function home() {
     var s = S, r = riskState(), c = conn(), out = '';
     if (s.kill) out += '<div class="alert bad"><div class="row"><b>🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9?" data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div></div>';
     else if (s.emergency) out += '<div class="alert bad"><b>EMERGENCY:</b> a trade has no stop loss. Check Trades now.</div>';
     var dUsed = Math.max(0, -(s.todayPct || 0)), dCap = s.dloss || 4;
     var ts = !s.auto ? ['SIGNALS ONLY', 'warn'] : r.c === 'bad' || s.safe ? ['AUTO BLOCKED', 'bad'] : s.algo === false ? ['ALGO OFF', 'bad'] : ['AUTO ON', 'ok'];
-    var cst = c.k !== 'ok' ? ['MT5 OFFLINE – no trading', 'bad'] : !s.auto ? ['MT5 live · signals only', 'warn'] : r.c === 'bad' || s.safe ? ['MT5 live · auto blocked', 'bad'] : s.algo === false ? ['Algo Trading OFF in MT5', 'bad'] : ['MT5 live · AUTO trading', 'ok'];
+    var cst = c.k !== 'ok' ? ['MT5 OFFLINE – no trading', 'bad'] : !s.auto ? ['MT5 live · signals only', 'warn'] : r.c === 'bad' || s.safe || s.aw ? ['MT5 live · auto blocked', 'bad'] : s.algo === false ? ['Algo Trading OFF in MT5', 'bad'] : ['MT5 live · AUTO trading', 'ok'];
     var balTxt = String(s.bal || s.eq || ''), dot = balTxt.lastIndexOf('.');
     out += '<section class="h9"><div class="h9t"><span class="h9g">' + (s.real ? 'REAL' : 'DEMO') + '</span><span class="h9g c">' + esc(s.mode || '') + '</span><span class="h9g st ' + cst[1] + '"><i></i>' + cst[0] + '</span></div>' +
       '<div class="h9l">Balance</div><div class="h9b">' + (dot > 0 ? esc(balTxt.slice(0, dot)) + '<small>' + esc(balTxt.slice(dot)) + '</small>' : esc(balTxt)) + '</div>' +
       '<div class="h9r"><span class="h9c ' + (s.todayPct >= 0 ? 'up' : 'down') + '">' + esc(s.today) + ' today (' + (s.todayPct >= 0 ? '+' : '') + Number(s.todayPct || 0).toFixed(2) + '%)</span><span class="h9e">Equity ' + esc(s.eq) + '</span></div>' +
       '<div class="h9s"><div><span>Open positions</span><b class="mono">' + (s.open || 0) + '</b></div><div><span>Daily drawdown</span><b class="mono">' + dUsed.toFixed(1) + '% <small>of ' + dCap + '%</small></b>' + riskBar(dUsed, dCap) + '</div></div>' +
-      '<button class="autop ' + (s.auto ? 'on' : '') + '" data-cmd="' + (s.auto ? '/signals' : '/auto') + '" data-confirm="' + (s.auto ? 'Switch AUTO OFF? AXON-9 stops placing trades by itself.' : 'Switch AUTO ON? AXON-9 places trades by itself 24/7.') + '" data-msg="' + (s.auto ? 'Auto OFF…' : 'Auto ON…') + '">AUTO ' + (s.auto ? 'ON' : 'OFF') + ' <i></i></button>' + '</section>';
+      '<button class="autop ' + (s.auto ? 'on' : '') + '" data-cmd="' + (s.auto ? '/signals' : '/auto') + '" data-confirm="' + (s.auto ? 'Switch AUTO OFF? AXON-9 stops placing trades by itself.' : 'Switch AUTO ON? AXON-9 places trades by itself 24/7.') + '" data-msg="' + (s.auto ? 'Auto OFF…' : 'Auto ON…') + '">AUTO ' + (s.auto ? 'ON' : 'OFF') + ' <i></i></button>' + (function () { var a = autoStat(s, c); return '<div class="h9a ' + a[0] + '"><i></i><div><b>' + esc(a[1]) + '</b>' + (a[2] ? '<small>' + esc(a[2]) + '</small>' : '') + '</div></div>'; })() + '</section>';
     out += bestHtml();
     out += homeChart();
     var tr = s.trades || [], pl = sumPL();
