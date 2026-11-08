@@ -634,7 +634,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.0.0';
+  var APP_VER = '10.0.1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1615,7 +1615,14 @@ nav button{font-size:10.5px}
   }
   function signals() {
     var ms = S.markets || []; if (!ms.length) return '<div class="card empty">No markets from the bot yet.</div>';
-    if (!sgM || !ms.filter(function (x) { return x.n === sgM; }).length) { var best = ms.slice().sort(function (a, b) { return confOf(b) - confOf(a); })[0]; sgM = best.n; }
+    var inCat = ms.filter(function (x) { return sigCat === 'ALL' || catOf(x) === sigCat; });   // v10.0.1: the category you tap decides the market shown
+    if (!inCat.length) {
+      var catN = { FOREX: 'currency', METALS: 'metals', INDICES: 'index', CRYPTO: 'crypto' }[sigCat] || '';
+      var cats0 = [['ALL', '🌐 All markets'], ['FOREX', '💱 Major FX'], ['METALS', '🥇 Metals'], ['INDICES', '📈 Indices'], ['CRYPTO', '₿ Crypto']];
+      return '<div class="g3"><div class="gcol"><div class="gpan"><b class="gt">Choose Your Market</b><div class="gcat">' + cats0.map(function (k) { return '<button class="' + (sigCat === k[0] ? 'on' : '') + '" data-cat="' + k[0] + '">' + k[1] + '</button>'; }).join('') + '</div></div></div>' +
+        '<div class="gcol"><div class="gpan gc"><div class="gname">No ' + catN + ' markets</div><div class="why" style="margin-top:10px">This MT5 account (' + esc(brokerName()) + ' #' + esc(S.login || '') + ') has no ' + catN + ' market in AXON-9 yet.</div><button class="ggen" style="max-width:280px;margin:16px auto 0" data-cat="ALL">Show all markets</button></div></div></div>';
+    }
+    if (!sgM || !inCat.filter(function (x) { return x.n === sgM; }).length) { var best = inCat.slice().sort(function (a, b) { return confOf(b) - confOf(a); })[0]; sgM = best.n; }
     var m = ms.filter(function (x) { return x.n === sgM; })[0], r = sigFor(m) || aiRead(m), v = verdictOf(m), t = techOf(m), c = conn();
     loadBarsX(m.n); curSig = r; if (r && !r.ai) selSig = radKey(r); else selSig = '';
     var dir = r ? r.s : /BUY|SELL/.test(v.v) ? v.v : 'WAIT', conf = r ? (r.c || 60) : (v.sig ? v.sig.sc : 0);
@@ -2054,7 +2061,7 @@ nav button{font-size:10.5px}
     if (b.dataset.sgnstep) { sgN = Math.max(1, Math.min(25, sgN + Number(b.dataset.sgnstep))); render(true); return; }
     if (b.dataset.nstep) { nSel = Math.max(1, Math.min(25, nSel + Number(b.dataset.nstep))); render(true); return; }
     if (b.dataset.usesug) { var us = b.dataset.usesug.split('|'); sgN = +us[0]; sgLot = +us[1]; render(true); return; }
-    if (b.dataset.cat) { sigCat = b.dataset.cat; render(true); return; }
+    if (b.dataset.cat) { sigCat = b.dataset.cat; sgM = ''; render(true); return; }
     if (b.dataset.sgm) { sgM = b.dataset.sgm; sgLot = 0.01; sgN = 1; render(true); return; }
     if (b.dataset.sgreject) { rejected[b.dataset.sgreject] = 1; store.set('axrej', JSON.stringify(rejected)); toast('Signal rejected – AXON-9 will not show it again'); render(true); return; }
     if (b.dataset.ttab) { tTab = b.dataset.ttab; if (tTab === 'hist') loadPerf(true); render(true); return; }
