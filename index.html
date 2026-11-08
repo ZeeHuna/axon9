@@ -8,8 +8,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AXON-9">
 <title>AXON-9</title>
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="bp-icon.png?v=2">
+<link rel="apple-touch-icon" href="bp-icon.png?v=2">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
 <style>
@@ -631,11 +631,11 @@ nav button{font-size:10.5px}
 </head>
 <body>
 <header>
-  <div class="brand"><img class="badge" src="icon.png" alt="AXON-9"><div><h1>AXON-9</h1><small>Multi-Market Trading Assistant</small></div></div>
+  <div class="brand"><img class="badge" src="bp-icon.png?v=2" alt="AXON-9"><div><h1>AXON-9</h1><small>Multi-Market Trading Assistant</small></div></div>
   <button id="acctbtn" class="acctpill" aria-label="Switch account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span><b id="sub">ACCOUNT</b><small id="acctname"></small></span><svg class="cv2" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button>
   <div class="hright"><div id="live" class="pill"><i></i><span>…</span><small id="livesub"></small></div><span class="hsep"></span><button id="hset" class="hicon" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button><button id="hav" class="hav" aria-label="Accounts"></button></div>
 </header>
-<div id="splash"><img src="logo.jpg" alt="AXON-9"></div>
+<div id="splash"><img src="bp-logo.jpg?v=2" alt="AXON-9"></div>
 <main id="view"></main>
 <nav>
   <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>Home</button>
@@ -654,7 +654,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.2.0';
+  var APP_VER = '10.2.1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -760,7 +760,7 @@ nav button{font-size:10.5px}
   function notify(title, body, tag) {
     try {
       if (!('Notification' in window) || Notification.permission !== 'granted' || !document.hidden) return;
-      var o = { body: body, tag: tag || 'axon9', icon: 'icon.png', badge: 'icon.png', renotify: true, vibrate: [120, 60, 120] };
+      var o = { body: body, tag: tag || 'axon9', icon: 'bp-icon.png?v=2', badge: 'bp-icon.png?v=2', renotify: true, vibrate: [120, 60, 120] };
       if (navigator.serviceWorker && navigator.serviceWorker.ready) navigator.serviceWorker.ready.then(function (r) { r.showNotification(title, o); }).catch(function () { new Notification(title, o); });
       else new Notification(title, o);
     } catch (e) {}
@@ -884,7 +884,7 @@ nav button{font-size:10.5px}
   }
   function signInView() {
     var c = authMode === 'up';
-    return '<div class="hero"><img class="hlogo" src="logo.jpg" alt="AXON-9 – Precision · Discipline · Profit"><p>' + (c ? 'Create your own login.<br>Your accounts stay private to you.' : 'Your MT5 trading bot,<br>in your pocket.') + '</p></div>' +
+    return '<div class="hero"><img class="hlogo" src="bp-logo.jpg?v=2" alt="AXON-9 – Precision · Discipline · Profit"><p>' + (c ? 'Create your own login.<br>Your accounts stay private to you.' : 'Your MT5 trading bot,<br>in your pocket.') + '</p></div>' +
       '<div class="card"><div class="seg"><button class="' + (!c ? 'on' : '') + '" data-auth="in">Sign in</button><button class="' + (c ? 'on' : '') + '" data-auth="up">Create account</button></div>' +
       '<div class="field"><label for="em">Email</label><input id="em" type="email" autocomplete="email" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="you@email.com" value="' + esc(store.get('axlastemail') || '') + '"></div>' +
       '<div class="field"><label for="pw">Password' + (c ? ' · at least 6 characters' : '') + '</label><input id="pw" type="password" autocomplete="' + (c ? 'new-password' : 'current-password') + '"><button class="eye" id="eye" type="button">Show</button></div>' +
@@ -928,7 +928,7 @@ nav button{font-size:10.5px}
     return out;
   }
   function noAcctView() {
-    return '<div class="hero"><img class="logo" src="icon.png" alt="AXON-9" style="border:0;background:none;padding:0"><h2>Welcome</h2><p>Signed in as <b style="color:var(--text)">' + esc(U.email) + '</b>.<br>Connect your first MT5 account – it takes 2 minutes.</p></div>' +
+    return '<div class="hero"><img class="logo" src="bp-icon.png?v=2" alt="AXON-9" style="border:0;background:none;padding:0"><h2>Welcome</h2><p>Signed in as <b style="color:var(--text)">' + esc(U.email) + '</b>.<br>Connect your first MT5 account – it takes 2 minutes.</p></div>' +
       '<button class="btn gold full lg" data-wizstart="1">Connect a broker account</button>' +
       '<div class="trust"><span>Exness</span><span>Octa</span><span>RCG</span><span>Accumarkets</span><span>HFM</span><span>XM</span><span>any MT5</span></div>' +
       '<button class="link" id="signout">Sign out</button>';
