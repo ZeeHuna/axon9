@@ -628,6 +628,7 @@ nav button{font-size:10.5px}
 .a9logo small{display:block;margin-top:8px;font-size:11.5px;letter-spacing:.24em;color:var(--muted);font-weight:600}
 #splash .a9logo img{width:120px;height:120px;border-radius:50%;max-width:none}
 .mchips.phm{flex-wrap:wrap;overflow:visible}.mchips.phm button{height:38px}.mchips button.on b{color:#1A110A!important}.ring.w span{font-size:26px}
+.gpat{margin:14px 0 4px;padding:12px 14px;border:1px solid var(--line2);border-radius:14px;background:var(--surface2);text-align:left;position:relative;overflow:hidden}.gpat span{display:block;font-size:11px;letter-spacing:.14em;color:var(--muted)}.gpat b{display:block;font-size:17px;margin-top:3px}.gpat small{display:block;color:var(--muted);margin-top:3px}.gpat i{position:absolute;left:0;bottom:0;height:3px;background:var(--gold)}
 .h9s{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
 .h9s div{background:rgba(0,0,0,.18);border-radius:12px;padding:10px 12px}
 .h9s span{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em}
@@ -664,7 +665,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.4.0';
+  var APP_VER = '10.5.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -993,6 +994,7 @@ nav button{font-size:10.5px}
     (pa.liq || []).forEach(function (l) { L.push({ p: num(l.p), t: l.n, c: '#E8B33A', d: [2, 4] }); });
     var g = v && v.sig;
     if (g && (v.v === 'BUY' || v.v === 'SELL')) L.push({ p: num(g.entry), t: 'Entry', c: '#FFFFFF', d: [] }, { p: num(g.sl), t: 'SL', c: '#F06A57', d: [] }, { p: num(g.tp1), t: 'TP1', c: '#3DCB8A', d: [] }, { p: num(g.tp2), t: 'TP2', c: '#3DCB8A', d: [] });
+    if (m.pt && num(m.pt.tg) > 0) L.push({ p: num(m.pt.tg), t: '📐 Pattern target', c: '#D0904F', d: [6, 4] });   // v10.5
     //--- v10.2: the latest SNIPER shot on this market - entry, stop and both targets on the chart
     var sn = ((S && S.rad) || []).filter(function (r) { return r.e === 'SNIPER' && r.m === m.n && /DETECTED|QUALIFIED|EXECUTED/.test(r.st) && Date.now() / 1000 - r.t < 3 * 3600; })
       .sort(function (a, b) { return b.t - a.t; })[0];
@@ -1068,6 +1070,14 @@ nav button{font-size:10.5px}
       g.fillStyle = 'rgba(11,21,16,.85)'; g.fillRect(lx, ly - 13, tw + 8, 13); g.fillStyle = l.c; g.fillText(l.t, lx + 4, ly - 3); used.push([ly, lx + tw + 8]);
       g.font = '11px "JetBrains Mono", monospace';
     });
+    if (m.pt && showL && m.pt.t2 > b[0][0]) {   // v10.5: pattern lines from AXON-9's pattern engine
+      var P = m.pt, t0 = b[0][0], tl = b[b.length - 1][0], dt = (P.t2 - P.t1) || 1, pc = P.d > 0 ? '#3DCB8A' : P.d < 0 ? '#F06A57' : '#D0904F';
+      var ix = function (t) { for (var i = 0; i < b.length; i++) if (b[i][0] >= t) return i; return b.length - 1; };
+      var ta = Math.max(P.t1, t0), xa = X(ix(ta)), xb = X(b.length - 1);
+      [[P.u1, P.u2], [P.l1, P.l2]].forEach(function (q) { var pa2 = q[0] + (q[1] - q[0]) * (ta - P.t1) / dt, pb2 = q[0] + (q[1] - q[0]) * (tl - P.t1) / dt; g.strokeStyle = pc; g.lineWidth = 2; g.beginPath(); g.moveTo(xa, y(pa2)); g.lineTo(xb, y(pb2)); g.stroke(); });
+      g.font = 'bold 10px "Space Grotesk", sans-serif'; var ptx = '📐 ' + P.n + ' · ' + P.tf + ' · Q' + P.q, ptw = g.measureText(ptx).width, pty = Math.min(topH - 6, y(P.l1 + (P.l2 - P.l1) * (ta - P.t1) / dt) + 16);
+      g.fillStyle = 'rgba(11,21,16,.85)'; g.fillRect(xa, pty - 11, ptw + 8, 14); g.fillStyle = pc; g.fillText(ptx, xa + 4, pty); g.font = '11px "JetBrains Mono", monospace';
+    }
     var last = c[c.length - 1], yl = y(last), bid = num(m.bid || m.px), ask = num(m.ask || m.px);
     g.setLineDash([3, 3]); g.strokeStyle = 'rgba(255,255,255,.7)'; g.beginPath(); g.moveTo(0, yl); g.lineTo(W - pr, yl); g.stroke(); g.setLineDash([]);
     var tag = function (p, txt, bg) { var ty = y(p); if (ty < 0 || ty > topH) return; g.fillStyle = bg; g.fillRect(W - pr + 1, ty - 8, pr - 2, 16); g.fillStyle = '#fff'; g.fillText(txt, W - pr + 4, ty + 4); };
@@ -1691,6 +1701,7 @@ nav button{font-size:10.5px}
     var center = '<div class="gpan gc">' + chipsM + '<div class="gname">' + esc(m.n) + '</div><div class="why">' + esc(MNAME[m.n] || '') + '</div>' +
       '<div class="ring ' + (dir === 'BUY' ? 'b' : dir === 'SELL' ? 's' : 'w') + '"><span>' + esc(dir) + '</span></div>' +
       '<div class="why">' + (r && r.ai ? '🤖 AI read on the live price · ' + esc(r.u) + ' · grade ' + esc(r.g) + (c.k !== 'ok' ? ' · ⚠ MT5 data ' + ageTxt(c.age) + ' old' : '') : r ? 'Signal generated • ' + hms(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + (r.g ? ' · grade ' + esc(r.g) : '') : esc(v.why || 'No clean setup right now – AXON-9 is waiting.')) + '</div>' +
+      (m.pt ? '<div class="gpat"><span>📐 PATTERN · ' + esc(m.pt.tf) + '</span><b>' + esc(m.pt.n) + '</b><small>Quality ' + m.pt.q + '/100 · ' + esc(m.pt.st) + (num(m.pt.tg) > 0 ? ' · target ' + fmtP(m, num(m.pt.tg)) : '') + '</small><i style="width:' + m.pt.q + '%"></i></div>' : '') +
       (r ? '<div class="glv"><div><span>Entry (now)</span><b>' + fmtP(m, e) + '</b></div><div><span>Stop loss</span><b class="down">' + esc(r.sl) + '</b></div><div><span>Take profit 1</span><b class="up">' + esc(r.t1) + '</b></div><div><span>Take profit 2</span><b class="up">' + esc(r.t2) + '</b></div><div><span>Risk : reward</span><b>1 : ' + rr.toFixed(2) + '</b></div><div><span>Strategy</span><b>' + esc(ENGN[r.e] || r.e) + '</b></div></div>' +
         '<div class="gsub">POSITIONS</div><div class="ocl gl"><button data-sgnstep="-1" aria-label="Fewer positions">−</button><b>' + sgN + '</b><button data-sgnstep="1" aria-label="More positions">+</button></div>' +
         '<div class="gpos">' + [1, 5, 10, 15, 20, 25].map(function (n) { return '<button class="' + (n === sgN ? 'on' : '') + '" data-sgn="' + n + '">' + n + '</button>'; }).join('') + '</div>' +
