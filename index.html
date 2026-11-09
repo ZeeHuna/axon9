@@ -664,7 +664,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.3.2';
+  var APP_VER = '10.4.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1385,6 +1385,20 @@ nav button{font-size:10.5px}
         .then(function (d) { if (d) { peek[x.k] = d; if (tab === 'accts') render(); } }).catch(function () {});
     });
   }
+  //--- v10.4: if this account went quiet, jump to the account whose MT5 is live right now
+  function autoLive() {
+    try {
+      if (!KEY || conn().k === 'ok' || accts().length < 2) return;
+      var now = Date.now() / 1000;
+      accts().forEach(function (x) {
+        if (x.k === KEY) return;
+        fetch((x.db || HOME_DB) + '/axon/' + x.k + '/state.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+          if (d && now - d.t < 180 && conn().k !== 'ok' && x.k !== KEY) { peek[x.k] = d; pick(x); load(); toast && toast('Switched to the live account ' + (x.name || d.login || '')); render(); }
+        }).catch(function () {});
+      });
+    } catch (e) {}
+  }
+  setTimeout(autoLive, 6000); setInterval(autoLive, 60000);
   function initials(x) { var b = (x.name || x.broker || 'MT').replace(/[^A-Za-z ]/g, '').trim().split(/\s+/); return ((b[0] || 'M')[0] + ((b[1] || b[0] || 'T')[0])).toUpperCase(); }
   function accounts() {
     var a = accts(), out = '<div class="row" style="padding:4px 2px 0"><div><div class="wh" style="margin:0">Accounts</div><div class="why">' + esc(U.email) + '</div></div><span class="tag">' + a.length + ' linked</span></div>';
