@@ -629,6 +629,7 @@ nav button{font-size:10.5px}
 #splash .a9logo img{width:120px;height:120px;border-radius:50%;max-width:none}
 .mchips.phm{flex-wrap:wrap;overflow:visible}.mchips.phm button{height:38px}.mchips button.on b{color:#1A110A!important}.ring.w span{font-size:26px}
 .gpat{margin:14px 0 4px;padding:12px 14px;border:1px solid var(--line2);border-radius:14px;background:var(--surface2);text-align:left;position:relative;overflow:hidden}.gpat span{display:block;font-size:11px;letter-spacing:.14em;color:var(--muted)}.gpat b{display:block;font-size:17px;margin-top:3px}.gpat small{display:block;color:var(--muted);margin-top:3px}.gpat i{position:absolute;left:0;bottom:0;height:3px;background:var(--gold)}
+.aiauto{margin:10px auto 0;display:inline-block;padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--surface2);color:var(--muted);border:1px solid var(--line2)}.aiauto.go{background:rgba(61,203,138,.14);color:#3DCB8A;border-color:rgba(61,203,138,.4)}
 .h9s{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
 .h9s div{background:rgba(0,0,0,.18);border-radius:12px;padding:10px 12px}
 .h9s span{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em}
@@ -665,7 +666,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.5.1';
+  var APP_VER = '10.6.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1652,8 +1653,10 @@ nav button{font-size:10.5px}
     var last = (S.rad || []).filter(function (r) { return r.m === m.n && (r.s === 'BUY' || r.s === 'SELL') && !rejected[radKey(r)] && now - r.t < 4 * 3600; })[0];
     var vote = (pa.d1 || 0) + (pa.h4 || 0) + (pa.h1 || 0) + (t ? (t.ema + t.macd) * 0.5 : 0);
     var dir = last ? (last.s === 'BUY' ? 1 : -1) : vote > 0 ? 1 : vote < 0 ? -1 : (Number(m.chg || 0) >= 0 ? 1 : -1);
+    if (m.aid) dir = m.aid;   // v10.6: same direction as AI Auto in MT5
     var agree = [pa.d1, pa.h4, pa.h1].filter(function (x) { return x === dir; }).length + (t && t.ema === dir ? 1 : 0) + (t && t.macd === dir ? 1 : 0);
     var conf = Math.max(35, Math.min(92, last && last.c ? Math.round((last.c + (40 + agree * 10)) / 2) : 40 + agree * 10));
+    if (m.aic) { conf = m.aic; agree = Math.round((m.aic - 40) / 10); }   // v10.6: phone shows exactly the confidence MT5 trades on
     var px = num(dir > 0 ? m.ask || m.px : m.bid || m.px), d = num(m.slDist);
     if (!isFinite(px) || !isFinite(d) || d <= 0) return null;
     return { m: m.n, s: dir > 0 ? 'BUY' : 'SELL', e: last ? last.e : 'AI', u: last ? last.u : 'AI read – trend ' + (agree >= 3 ? 'aligned' : 'mixed'), w: (agree >= 3 ? 'D1/H4/H1 + EMA/MACD mostly agree' : 'timeframes disagree – smaller size'), st: 'AI', g: conf >= 75 ? 'A' : conf >= 60 ? 'B' : 'C', c: conf, t: last ? last.t : now,
@@ -1700,7 +1703,7 @@ nav button{font-size:10.5px}
     var chipsM = '<div class="mchips phm" style="margin-bottom:12px">' + ms.map(function (x) { var rx = sigFor(x) || aiRead(x); return '<button class="' + (x.n === m.n ? 'on' : '') + '" data-sgm="' + esc(x.n) + '">' + esc(x.n) + (rx ? ' <b class="' + (rx.s === 'BUY' ? 'up' : 'down') + '">' + (rx.c || '') + '%</b>' : '') + '</button>'; }).join('') + '</div>';
     var center = '<div class="gpan gc">' + chipsM + '<div class="gname">' + esc(m.n) + '</div><div class="why">' + esc(MNAME[m.n] || '') + '</div>' +
       '<div class="ring ' + (dir === 'BUY' ? 'b' : dir === 'SELL' ? 's' : 'w') + '"><span>' + esc(dir) + '</span></div>' +
-      '<div class="why">' + (r && r.ai ? '🤖 AI read on the live price · ' + esc(r.u) + ' · grade ' + esc(r.g) + (c.k !== 'ok' ? ' · ⚠ MT5 data ' + ageTxt(c.age) + ' old' : '') : r ? 'Signal generated • ' + hms(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + (r.g ? ' · grade ' + esc(r.g) : '') : esc(v.why || 'No clean setup right now – AXON-9 is waiting.')) + '</div>' +
+      (r && r.ai && m.aic ? '<div class="aiauto ' + (m.aic >= (m.aimin || 80) ? 'go' : '') + '">' + (m.aic >= (m.aimin || 80) ? '⚡ AI AUTO: ' + m.aic + '% – Auto trades this' : 'AI AUTO trades at ' + (m.aimin || 80) + '%+ · now ' + m.aic + '%') + '</div>' : '') + '<div class="why">' + (r && r.ai ? '🤖 AI read on the live price · ' + esc(r.u) + ' · grade ' + esc(r.g) + (c.k !== 'ok' ? ' · ⚠ MT5 data ' + ageTxt(c.age) + ' old' : '') : r ? 'Signal generated • ' + hms(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + (r.g ? ' · grade ' + esc(r.g) : '') : esc(v.why || 'No clean setup right now – AXON-9 is waiting.')) + '</div>' +
       (m.pt ? '<div class="gpat"><span>📐 PATTERN · ' + esc(m.pt.tf) + '</span><b>' + esc(m.pt.n) + '</b><small>Quality ' + m.pt.q + '/100 · ' + esc(m.pt.st) + (num(m.pt.tg) > 0 ? ' · target ' + fmtP(m, num(m.pt.tg)) : '') + '</small><i style="width:' + m.pt.q + '%"></i></div>' : '') +
       (r ? '<div class="glv"><div><span>Entry (now)</span><b>' + fmtP(m, e) + '</b></div><div><span>Stop loss</span><b class="down">' + esc(r.sl) + '</b></div><div><span>Take profit 1</span><b class="up">' + esc(r.t1) + '</b></div><div><span>Take profit 2</span><b class="up">' + esc(r.t2) + '</b></div><div><span>Risk : reward</span><b>1 : ' + rr.toFixed(2) + '</b></div><div><span>Strategy</span><b>' + esc(ENGN[r.e] || r.e) + '</b></div></div>' +
         '<div class="gsub">POSITIONS</div><div class="ocl gl"><button data-sgnstep="-1" aria-label="Fewer positions">−</button><b>' + sgN + '</b><button data-sgnstep="1" aria-label="More positions">+</button></div>' +
