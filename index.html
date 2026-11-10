@@ -665,7 +665,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.5.0';
+  var APP_VER = '10.5.1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1062,7 +1062,7 @@ nav button{font-size:10.5px}
     if (!simple && (!tv || copt.sma)) { line(sma, '#F1B877'); leg.push(['SMA 20', '#F1B877']); }
     if (simple && !tv) { line(sma, '#F1B877'); leg.push(['SMA 20', '#F1B877']); }
     if (tv && copt.ema) { line(e9, '#D0904F', 1.5); line(e21, '#FF9800', 1.5); leg.push(['EMA 9', '#D0904F'], ['EMA 21', '#FF9800']); }
-    var used = [];
+    var used = [[14, 130], [24, 130]];   // v10.5.1: keep level labels clear of the EMA legend
     L.forEach(function (l) {
       var ly = y(l.p), lx = 4; used.forEach(function (u) { if (Math.abs(u[0] - ly) < 13) lx = Math.max(lx, u[1] + 6); });
       g.strokeStyle = l.c; g.lineWidth = /Entry|SL|TP/.test(l.t) ? 1.6 : 1.1; g.setLineDash(l.d); g.beginPath(); g.moveTo(0, ly); g.lineTo(W - pr, ly); g.stroke(); g.setLineDash([]);
