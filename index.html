@@ -666,7 +666,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '10.6.0';
+  var APP_VER = '10.7.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -742,6 +742,12 @@ nav button{font-size:10.5px}
   var lastSent = 0, wantSig = 0, shownMsg = null, reply = '', replyT = 0, tradeWait = 0;
   function send(c, msg) {
     if (!U || !KEY || !DB) return;
+    if (/^\/(ptrade|trade|tsym)\b/i.test(c)) {   // v10.7: ORDER LOCK - the same positions + lot is placed only once
+      var ow = c.split(' '), ofp = (ow[4] || '1') + 'x' + ow[3];
+      var olast = store.get('axolock_' + KEY) || '';
+      if (ofp === olast) { reply = '⛔ BLOCKED: you already placed ' + (ow[4] || '1') + ' position(s) x ' + ow[3] + ' lot. Change the positions or the lot size to trade again.'; replyT = Date.now(); toast('Blocked – same order as last time'); render(); return; }
+      store.set('axolock_' + KEY, ofp);
+    }
     if (/^\/(ptrade|trade|buy|sell)\b/i.test(c)) {   // v9.5.3: every order gets an answer on screen
       tradeWait = Date.now();
       reply = '⏳ Order sent – waiting for AXON-9 to confirm from MT5…'; replyT = Date.now();
