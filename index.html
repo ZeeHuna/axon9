@@ -667,7 +667,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '11.3.0';
+  var APP_VER = '11.3.1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1747,7 +1747,7 @@ nav button{font-size:10.5px}
     var right = '<div class="gpan"><div class="row"><b class="gt">AI Trade Signal</b><small class="gh">● ' + (r ? (r.ai ? 'Live price' : 'Signal found ' + (ago(r.t) === 'now' ? 'just now' : ago(r.t) + ' ago')) : 'Scanning') + '</small></div>' +
       '<div class="gsig ' + (dir === 'BUY' ? 'b' : dir === 'SELL' ? 's' : 'w') + '"><small>SIGNAL</small><b>' + esc(dir) + '</b></div>' +
       (r ? (true ? '<button class="gex ' + (tdir === 'SELL' ? 's' : '') + '" style="width:100%;margin-top:10px" data-sigconfirm="1" data-confirm="' + esc(tdir + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">' + (rm ? '✓ ' : '⚠ ' + esc(m.aim || '') + ' – your call: ') + esc(tdir) + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' NOW</button>' : '<button class="gex offl" style="width:100%;margin-top:10px" disabled>⛔ MT5 OFFLINE – no trading</button>') : '') +
-      '<div class="gbox"><div class="row"><span>AI Confidence</span><b class="gcf">' + (cfx ? cfx + '%' : '–') + (m.aim ? ' · ' + esc(modeTag(m)) : '') + '</b></div>' + (m.aiw ? '<small class="gwhy">' + esc(m.aiw) + '</small>' : '') + '<div class="gbar"><i style="width:' + cfx + '%"></i></div></div>' +
+      '<div class="gbox"><div class="row"><span>AI Confidence</span><b class="gcf">' + (cfx ? cfx + '%' : '–') + '</b></div><div class="gbar"><i style="width:' + cfx + '%"></i></div></div>' +
       '<div class="gbox"><div class="row"><span>Volatility Index</span><b class="gvo">' + (t ? t.vol.toFixed(2) + '%' : '–') + '</b></div></div>' +
       '<button class="ggen" data-cmd="/now ' + esc(m.n) + '" data-msg="AXON-9 is reading ' + esc(m.n) + '…">Generate New Signal</button>' +
       '<b class="gt" style="margin-top:14px;display:block">Technical Indicators</b><div class="gti">' +
