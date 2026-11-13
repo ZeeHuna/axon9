@@ -667,7 +667,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '11.3.1';
+  var APP_VER = '11.3.2';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -880,6 +880,7 @@ nav button{font-size:10.5px}
           if (d.markets) d.markets = d.markets.filter(function (m) { return !RMV.test(m.n) && !RMV.test(m.sym || ''); });
           if (d.rad) d.rad = d.rad.filter(function (r) { return !RMV.test(r.m); });
           if (d.sigs) d.sigs = d.sigs.filter(function (g) { return !RMV.test(g.m || ''); });
+          (d.markets || []).forEach(function (x) { if (x.aim === 'NEWS') { delete x.aim; delete x.aiw; } });   // v11.3.2: no NEWS label anywhere in the app
           S = d; lastOk = Date.now();
           var a = accts(), ch = false;
           a.forEach(function (x) { if (x.k === KEY) ['login', 'broker', 'real'].forEach(function (f) { if (d[f] != null && x[f] !== d[f]) { x[f] = d[f]; ch = true; } }); });
