@@ -667,7 +667,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '11.1.0';
+  var APP_VER = '11.2.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1666,6 +1666,8 @@ nav button{font-size:10.5px}
     var conf = Math.max(35, Math.min(92, last && last.c ? Math.round((last.c + (40 + agree * 10)) / 2) : 40 + agree * 10));
     if (m.aic) { conf = m.aic; agree = Math.round((m.aic - 40) / 10); }   // v10.6: phone shows exactly the confidence MT5 trades on
     var px = num(dir > 0 ? m.ask || m.px : m.bid || m.px), d = num(m.slDist);
+    if ((!isFinite(d) || d <= 0) && num(m.arh) > num(m.arl) && num(m.arl) > 0) d = (num(m.arh) - num(m.arl)) * 0.5;   // v11.2: no stop from MT5 -> half the range box
+    if ((!isFinite(d) || d <= 0) && isFinite(px)) { var tt = techOf(m); d = tt && tt.atr > 0 ? tt.atr * 1.2 : px * 0.003; }   // ...or ATR, or 0.3% of price
     if (!isFinite(px) || !isFinite(d) || d <= 0) return null;
     return { m: m.n, s: dir > 0 ? 'BUY' : 'SELL', e: last ? last.e : 'AI', u: last ? last.u : 'AI read – trend ' + (agree >= 3 ? 'aligned' : 'mixed'), w: (agree >= 3 ? 'D1/H4/H1 + EMA/MACD mostly agree' : 'timeframes disagree – smaller size'), st: 'AI', g: conf >= 75 ? 'A' : conf >= 60 ? 'B' : 'C', c: conf, t: last ? last.t : now,
       sl: fmtP(m, px - dir * d), t1: fmtP(m, px + dir * 1.5 * d), t2: fmtP(m, px + dir * 3 * d), ai: true };
