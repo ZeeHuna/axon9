@@ -626,7 +626,7 @@ nav button{font-size:10.5px}
 .a9logo .p{display:flex;align-items:center;gap:12px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:30px;letter-spacing:.32em;color:var(--gold);margin-top:2px}
 .a9logo .p:before,.a9logo .p:after{content:"";width:46px;height:2px;background:linear-gradient(90deg,transparent,var(--gold))}.a9logo .p:after{transform:scaleX(-1)}
 .a9logo small{display:block;margin-top:8px;font-size:11.5px;letter-spacing:.24em;color:var(--muted);font-weight:600}
-#splash .a9logo img{width:120px;height:120px;border-radius:50%;max-width:none}
+#splash{background:radial-gradient(circle at 50% 40%,#1F3B2D,#0B1510 70%)}#splash .a9logo img{width:min(62vw,300px);height:min(62vw,300px);border-radius:50%;max-width:none;box-shadow:0 0 0 3px rgba(208,144,79,.35),0 30px 90px -20px rgba(0,0,0,.9);animation:a9pop 1.1s ease-out both}#splash .a9logo .w,#splash .a9logo .p,#splash .a9logo small{animation:a9fade 1s .35s ease-out both}@keyframes a9pop{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}@keyframes a9fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .mchips.phm{flex-wrap:wrap;overflow:visible}.mchips.phm button{height:38px}.mchips button.on b{color:#1A110A!important}.ring.w span{font-size:26px}
 .gpat{margin:14px 0 4px;padding:12px 14px;border:1px solid var(--line2);border-radius:14px;background:var(--surface2);text-align:left;position:relative;overflow:hidden}.gpat span{display:block;font-size:11px;letter-spacing:.14em;color:var(--muted)}.gpat b{display:block;font-size:17px;margin-top:3px}.gpat small{display:block;color:var(--muted);margin-top:3px}.gpat i{position:absolute;left:0;bottom:0;height:3px;background:var(--gold)}
 .aiauto{margin:10px auto 0;display:inline-block;padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--surface2);color:var(--muted);border:1px solid var(--line2)}.aiauto.go{background:rgba(61,203,138,.14);color:#3DCB8A;border-color:rgba(61,203,138,.4)}
@@ -648,7 +648,7 @@ nav button{font-size:10.5px}
   <button id="acctbtn" class="acctpill" aria-label="Switch account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span><b id="sub">ACCOUNT</b><small id="acctname"></small></span><svg class="cv2" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button>
   <div class="hright"><div id="live" class="pill"><i></i><span>…</span><small id="livesub"></small></div><span class="hsep"></span><button id="hset" class="hicon" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button><button id="hav" class="hav" aria-label="Accounts"></button></div>
 </header>
-<div id="splash"><div class="a9logo"><img src="bp-icon.png?v=2" alt=""><div class="w">AXON-9</div><div class="p">PRO</div><small>9 MARKETS · AI AUTO TRADING</small></div></div>
+<div id="splash"><div class="a9logo"><img src="bp-icon.png?v=2" alt=""><div class="w">AXON-9</div><div class="p">PRO</div><small>AI AUTO TRADING</small></div></div>
 <main id="view"></main>
 <nav>
   <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>Home</button>
@@ -667,7 +667,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '11.4.0';
+  var APP_VER = '11.5.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2244,7 +2244,7 @@ nav button{font-size:10.5px}
     e.target.value = c.length > 4 ? c.slice(0, 4) + '-' + c.slice(4) : c; wiz.code = e.target.value;
   });
   document.addEventListener('keydown', function (e) { if (e.key !== 'Enter') return; var id = e.target.id; if (id === 'pw' || id === 'em') { e.target.blur(); $('auth').click(); } if (id === 'pc' || id === 'an') { e.preventDefault(); e.target.blur(); addByCode(); } if (id === 'bq' || id === 'lotin') e.target.blur(); });
-  setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 1300);
+  setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 2200);   // v11.5: the AXON-9 PRO logo greets you every time
   setInterval(function () { if (S && !document.hidden) loadBars(); }, 30000);
   setInterval(function () { if (S && !document.hidden && /^(a9|home|markets|trades)$/.test(tab)) loadBarsX(a9m); }, 12000);
   window.addEventListener('resize', function () { if (/^(a9|home|markets|trades)$/.test(tab)) drawChart(); });
