@@ -728,7 +728,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '12.1.0';
+  var APP_VER = '12.2.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1101,6 +1101,63 @@ nav button{font-size:10.5px}
   function ltfMove(m) { var pa = m.pa || {}, b = tfBars(m.n, 'm15'); var m15 = b.length > 12 ? (b[b.length - 1][4] > b[b.length - 13][4] ? 1 : -1) : 0; return pa.h1 || m15; }
   function arrw(d) { return d > 0 ? '▲' : d < 0 ? '▼' : '→'; }
   var copt = (function () { try { return JSON.parse(store.get('axcopt') || '') || null; } catch (e) { return null; } })() || { ema: 1, sma: 0, vol: 1, lv: 1, macd: 1, rsi: 1 };
+  //--- v12.2 CHART READER: the app reads every chart itself - swings, structure, trend lines, patterns, support/resistance
+  var cRead = {};
+  function chartRead(b) {
+    var n = b.length; if (n < 25) return null;
+    var atr = 0; for (var i = Math.max(1, n - 14); i < n; i++) atr += b[i][2] - b[i][3]; atr /= Math.min(14, n - 1); if (!(atr > 0)) return null;
+    var K = 3, H = [], Lw = [];
+    for (var i = K; i < n - 1; i++) {
+      var hi = true, lo = true;
+      for (var j = i - K; j <= Math.min(n - 1, i + K); j++) { if (j === i) continue; if (b[j][2] > b[i][2]) hi = false; if (b[j][3] < b[i][3]) lo = false; }
+      if (hi) H.push({ i: i, p: b[i][2] }); if (lo) Lw.push({ i: i, p: b[i][3] });
+    }
+    var tag = function (arr, up, dn) { arr.forEach(function (x, k) { x.t = k === 0 ? '' : x.p > arr[k - 1].p ? up : dn; }); };
+    tag(H, 'HH', 'LH'); tag(Lw, 'HL', 'LL');
+    var last = b[n - 1][4], r = { atr: atr, H: H, L: Lw, last: last, dir: 0, struct: 'Mixed – no clear trend', pat: '', pd: 0, st: '', up: null, dn: null, res: null, sup: null };
+    var h2 = H.slice(-2), l2 = Lw.slice(-2);
+    if (h2.length === 2 && l2.length === 2) {
+      var hh = h2[1].p > h2[0].p, hl = l2[1].p > l2[0].p;
+      if (hh && hl) { r.dir = 1; r.struct = 'Uptrend – higher highs and higher lows'; }
+      else if (!hh && !hl) { r.dir = -1; r.struct = 'Downtrend – lower highs and lower lows'; }
+      else if (!hh && hl) r.struct = 'Squeeze – lower highs but higher lows';
+      else r.struct = 'Widening – higher highs but lower lows';
+      var line = function (a, c2) { var m = (c2.p - a.p) / ((c2.i - a.i) || 1); return { a: a, m: m, at: function (i) { return a.p + m * (i - a.i); } }; };
+      r.up = line(h2[0], h2[1]); r.dn = line(l2[0], l2[1]);
+      var su = r.up.m / atr * 10, sd = r.dn.m / atr * 10, flat = function (v) { return Math.abs(v) < 0.6; };   // slope per 10 bars, in ATRs
+      var wNow = r.up.at(n - 1) - r.dn.at(n - 1), wThen = r.up.at(Math.min(h2[0].i, l2[0].i)) - r.dn.at(Math.min(h2[0].i, l2[0].i));
+      if (flat(su) && sd > 0.6) { r.pat = 'Ascending triangle'; r.pd = 1; }
+      else if (su < -0.6 && flat(sd)) { r.pat = 'Descending triangle'; r.pd = -1; }
+      else if (su < -0.6 && sd > 0.6) { r.pat = 'Symmetrical triangle'; r.pd = 0; }
+      else if (su > 0.6 && sd > 0.6) { if (wNow < wThen * 0.7) { r.pat = 'Rising wedge'; r.pd = -1; } else { r.pat = 'Channel up'; r.pd = 1; } }
+      else if (su < -0.6 && sd < -0.6) { if (wNow < wThen * 0.7) { r.pat = 'Falling wedge'; r.pd = 1; } else { r.pat = 'Channel down'; r.pd = -1; } }
+      else if (flat(su) && flat(sd)) { r.pat = 'Range (sideways box)'; r.pd = 0; }
+      // double top / bottom and head & shoulders override the line pattern
+      if (H.length >= 2 && Math.abs(h2[1].p - h2[0].p) < 0.35 * atr && h2[1].i - h2[0].i >= 5) { r.pat = 'Double top'; r.pd = -1; }
+      if (Lw.length >= 2 && Math.abs(l2[1].p - l2[0].p) < 0.35 * atr && l2[1].i - l2[0].i >= 5) { r.pat = 'Double bottom'; r.pd = 1; }
+      var h3 = H.slice(-3), l3 = Lw.slice(-3);
+      if (h3.length === 3 && h3[1].p > h3[0].p + 0.5 * atr && h3[1].p > h3[2].p + 0.5 * atr && Math.abs(h3[0].p - h3[2].p) < 0.6 * atr) { r.pat = 'Head & shoulders'; r.pd = -1; }
+      if (l3.length === 3 && l3[1].p < l3[0].p - 0.5 * atr && l3[1].p < l3[2].p - 0.5 * atr && Math.abs(l3[0].p - l3[2].p) < 0.6 * atr) { r.pat = 'Inverse head & shoulders'; r.pd = 1; }
+      var u = r.up.at(n - 1), d = r.dn.at(n - 1);
+      r.st = last > u + 0.15 * atr ? 'BREAKOUT UP' : last < d - 0.15 * atr ? 'BREAKOUT DOWN' : 'inside – waiting for the break';
+    }
+    var above = H.filter(function (x) { return x.p > last; }), below = Lw.filter(function (x) { return x.p < last; });
+    r.res = above.length ? above.reduce(function (a, x) { return x.p < a ? x.p : a; }, Infinity) : null;
+    r.sup = below.length ? below.reduce(function (a, x) { return x.p > a ? x.p : a; }, -Infinity) : null;
+    return r;
+  }
+  function readText(m, r) {
+    if (!r) return 'Reading the chart…';
+    var t = r.struct + '.';
+    if (r.pat) t += ' Shape: ' + r.pat + (r.pd > 0 ? ' (usually breaks UP)' : r.pd < 0 ? ' (usually breaks DOWN)' : ' (can break either way)') + ' – ' + r.st + '.';
+    if (r.sup !== null) t += ' Support ' + fmtP(m, r.sup) + '.';
+    if (r.res !== null) t += ' Resistance ' + fmtP(m, r.res) + '.';
+    if (/BREAKOUT UP/.test(r.st)) t += ' Buyers broke out – watch for a retest of the line.';
+    else if (/BREAKOUT DOWN/.test(r.st)) t += ' Sellers broke out – watch for a retest of the line.';
+    else if (r.sup !== null && r.res !== null) t += ' A close below ' + fmtP(m, r.sup) + ' favours SELL, a close above ' + fmtP(m, r.res) + ' favours BUY.';
+    return t;
+  }
+
   function drawChart() {
     var cv = $('cv'); if (!cv || !S) return;
     var m = curA9(); if (!m) return;
@@ -1148,6 +1205,30 @@ nav button{font-size:10.5px}
       [[P.u1, P.u2], [P.l1, P.l2]].forEach(function (q) { var pa2 = q[0] + (q[1] - q[0]) * (ta - P.t1) / dt, pb2 = q[0] + (q[1] - q[0]) * (tl - P.t1) / dt; g.strokeStyle = pc; g.lineWidth = 2; g.beginPath(); g.moveTo(xa, y(pa2)); g.lineTo(xb, y(pb2)); g.stroke(); });
       g.font = 'bold 10px "Space Grotesk", sans-serif'; var ptx = '📐 ' + P.n + ' · ' + P.tf + ' · Q' + P.q, ptw = g.measureText(ptx).width, pty = Math.min(topH - 6, y(P.l1 + (P.l2 - P.l1) * (ta - P.t1) / dt) + 16);
       g.fillStyle = 'rgba(11,21,16,.85)'; g.fillRect(xa, pty - 11, ptw + 8, 14); g.fillStyle = pc; g.fillText(ptx, xa + 4, pty); g.font = '11px "JetBrains Mono", monospace';
+    }
+
+    //--- v12.2 chart reader overlay: swing labels, trend lines, support / resistance, pattern name + direction
+    var CR = chartRead(b); cRead[m.n] = CR;
+    if (CR) {
+      g.font = 'bold 9px "JetBrains Mono", monospace';
+      CR.H.slice(-6).forEach(function (x) { if (!x.t) return; g.fillStyle = x.t === 'HH' ? '#3DCB8A' : '#F06A57'; g.fillText(x.t, X(x.i) - 7, y(x.p) - 5); });
+      CR.L.slice(-6).forEach(function (x) { if (!x.t) return; g.fillStyle = x.t === 'HL' ? '#3DCB8A' : '#F06A57'; g.fillText(x.t, X(x.i) - 7, y(x.p) + 13); });
+      if (CR.up && !(m.pt && showL && m.pt.t2 > b[0][0])) {
+        var pc2 = CR.pd > 0 ? '#3DCB8A' : CR.pd < 0 ? '#F06A57' : '#D0904F', iEnd = b.length - 1;
+        [CR.up, CR.dn].forEach(function (L2) { g.strokeStyle = pc2; g.lineWidth = 1.8; g.beginPath(); g.moveTo(X(L2.a.i), y(L2.a.p)); g.lineTo(X(iEnd), y(L2.at(iEnd))); g.stroke(); });
+      }
+      g.setLineDash([2, 4]); g.lineWidth = 1;
+      if (CR.res !== null) { g.strokeStyle = 'rgba(240,106,87,.75)'; g.beginPath(); g.moveTo(0, y(CR.res)); g.lineTo(W - pr, y(CR.res)); g.stroke(); }
+      if (CR.sup !== null) { g.strokeStyle = 'rgba(61,203,138,.75)'; g.beginPath(); g.moveTo(0, y(CR.sup)); g.lineTo(W - pr, y(CR.sup)); g.stroke(); }
+      g.setLineDash([]);
+      if (!(m.pt && showL && m.pt.t2 > b[0][0])) {
+        var nm = (CR.pat || CR.struct.split(' –')[0]) + (CR.pd > 0 ? '  ▲' : CR.pd < 0 ? '  ▼' : ''), ncol = CR.pd > 0 || (!CR.pat && CR.dir > 0) ? '#3DCB8A' : CR.pd < 0 || (!CR.pat && CR.dir < 0) ? '#F06A57' : '#D0904F';
+        g.font = 'bold 12px "Space Grotesk", sans-serif'; var nw = g.measureText(nm).width + 16, nx = W - pr - nw - 8, ny = 24;
+        g.fillStyle = 'rgba(11,21,16,.9)'; g.fillRect(nx, ny, nw, 22); g.strokeStyle = ncol; g.lineWidth = 1; g.strokeRect(nx + 0.5, ny + 0.5, nw - 1, 21); g.fillStyle = ncol; g.fillText(nm, nx + 8, ny + 15);
+        if (CR.st && CR.pat) { g.font = '10px "JetBrains Mono", monospace'; g.fillStyle = '#B9C7BE'; var sw = g.measureText(CR.st).width; g.fillText(CR.st, W - pr - sw - 10, ny + 36); }
+      }
+      g.font = '11px "JetBrains Mono", monospace';
+      var rdEl = document.querySelector('.cread[data-m="' + m.n + '"]'); if (rdEl) rdEl.textContent = readText(m, CR);
     }
     var last = c[c.length - 1], yl = y(last), bid = num(m.bid || m.px), ask = num(m.ask || m.px);
     g.setLineDash([3, 3]); g.strokeStyle = 'rgba(255,255,255,.7)'; g.beginPath(); g.moveTo(0, yl); g.lineTo(W - pr, yl); g.stroke(); g.setLineDash([]);
@@ -2095,7 +2176,9 @@ nav button{font-size:10.5px}
   }
   function patternsHtml() {
     var ms = (S.markets || []).filter(function (x) { return !x.off; });
-    var rows = ms.map(function (x) { var p = x.pt; return '<tr><td><b>' + esc(x.n) + '</b></td><td>' + (p && p.n ? esc(p.n) : '<span class="n">no clean pattern</span>') + '</td><td class="m">' + (p && p.tf ? esc(p.tf) : '–') + '</td><td class="m">' + (p && p.q ? p.q + '/100' : '–') + '</td><td>' + (p && p.d ? (p.d > 0 ? '<span class="u">▲ up</span>' : '<span class="d">▼ down</span>') : '<span class="n">–</span>') + '</td><td class="' + (p && /BREAK/.test(p.st || '') ? 'w' : 'n') + '">' + (p && p.st ? esc(p.st) : 'watching') + '</td></tr>'; }).join('');
+    var rows = ms.map(function (x) { var p = x.pt && x.pt.n ? x.pt : null, R = null;
+      if (!p) { loadBarsX(x.n); var bb = tfBars(x.n, 'h1'); R = bb && bb.length ? chartRead(bb.slice(-80)) : null; if (R) p = { n: R.pat || R.struct.split(' –')[0], tf: 'H1', d: R.pd || R.dir, st: R.pat ? R.st : 'structure', app: 1 }; }
+      return '<tr data-a9m="' + esc(x.n) + '" style="cursor:pointer"><td><b>' + esc(x.n) + '</b></td><td>' + (p ? esc(p.n) + (p.app ? ' <span class="n">· app read</span>' : '') : '<span class="n">loading candles…</span>') + '</td><td class="m">' + (p && p.tf ? esc(p.tf) : '–') + '</td><td class="m">' + (p && p.q ? p.q + '/100' : p ? '–' : '') + '</td><td>' + (p && p.d ? (p.d > 0 ? '<span class="u">▲ up</span>' : '<span class="d">▼ down</span>') : '<span class="n">– either way</span>') + '</td><td class="' + (p && /BREAK/.test(p.st || '') ? 'w' : 'n') + '">' + (p && p.st ? esc(p.st) : 'watching') + '</td></tr>'; }).join('');
     return '<section class="ccp"><div style="overflow-x:auto"><table class="cctbl"><thead><tr><th>MARKET</th><th>PATTERN</th><th>TF</th><th>QUALITY</th><th>LIKELY BREAK</th><th>STATUS</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>';
   }
   function tourHtml() {
@@ -2293,7 +2376,7 @@ nav button{font-size:10.5px}
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
     if (S && (tab === 'mkt' || tab === 'sym')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
     document.body.classList.toggle('cchome', tab === 'home' && wide()); ccTick();
-    var body = tab === 'home' ? (wide() ? homeCC() : home()) : tab === 'markets' ? ccHead('Market Scanner', 'ranked by AI confidence') + scanHtml() + marketsTab() : tab === 'a9' ? ccHead('Patterns', 'detected on every market') + patternsHtml() + a9Tab() : tab === 'perf' ? ccHead('AI Analytics', 'strategy tournament') + tourHtml() + perfTab() : tab === 'risk' ? riskTab() : tab === 'alerts' ? alertsTab() : tab === 'about' ? aboutTab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? ccHead('Trade Engine', 'four brains · analyse · enter · manage') + brainsHtml() + signalsWrap() : tab === 'trades' ? ccHead('Trade Journal', 'every trade · straight from MT5') + tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
+    var body = tab === 'home' ? (wide() ? homeCC() : home()) : tab === 'markets' ? ccHead('Market Scanner', 'ranked by AI confidence') + scanHtml() + marketsTab() : tab === 'a9' ? ccHead('Patterns', 'the app reads every chart') + '<section class="ccp ccbr"><b>Chart read · ' + esc(curA9() ? curA9().n : '') + ' · ' + esc(String(a9tf2).toUpperCase()) + '</b><p class="cread" data-m="' + esc(curA9() ? curA9().n : '') + '" style="font-size:14px;color:#EDE6D3">' + esc(readText(curA9() || {}, cRead[curA9() ? curA9().n : ''])) + '</p></section>' + patternsHtml() + a9Tab() : tab === 'perf' ? ccHead('AI Analytics', 'strategy tournament') + tourHtml() + perfTab() : tab === 'risk' ? riskTab() : tab === 'alerts' ? alertsTab() : tab === 'about' ? aboutTab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? ccHead('Trade Engine', 'four brains · analyse · enter · manage') + brainsHtml() + signalsWrap() : tab === 'trades' ? ccHead('Trade Journal', 'every trade · straight from MT5') + tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
     var html = rp + body + askSheet();
     if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
     var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
