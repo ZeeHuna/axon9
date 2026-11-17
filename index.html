@@ -641,18 +641,65 @@ nav button{font-size:10.5px}
 .h9 .autop:not(.on){background:rgba(237,230,211,.1);color:var(--text);border:1px solid rgba(237,230,211,.2)}
 .mchips button.on small{color:#1A110A!important;opacity:.75}
 .hero>p{grid-column:1/-1;margin:0;min-width:0;overflow-wrap:anywhere}
+
+/* ===== v12.0 COMMAND CENTRE (desktop terminal) ===== */
+#cctick{display:none}.brand .ccs{display:none}nav .ccl{display:none}
+.nnews{display:none!important}
+@media (min-width:1000px){
+ body{padding-left:76px;background:#070E0A}
+ nav{width:76px;padding:12px 0;align-items:center;gap:3px;background:#0A140E;border-right:1px solid #1B2C22;overflow-y:auto}
+ nav .ccl{display:block;width:44px;height:44px;border-radius:50%;margin:0 0 10px;flex:none;box-shadow:0 0 0 1px #D0904F,0 0 16px rgba(208,144,79,.35)}
+ nav button{flex-direction:column;justify-content:center;gap:3px;width:70px;font-size:8px;font-weight:600;letter-spacing:0;overflow:hidden;text-transform:uppercase;padding:8px 0;min-height:52px;border-radius:8px;border:1px solid transparent;flex:none}
+ nav button.on{background:#182B21;border-color:#2E4739;color:#F1B877}nav button.on::after{display:none}
+ nav svg{width:20px;height:20px}
+ nav .navkill{margin-top:auto;font-size:7.5px;line-height:1.2;text-transform:uppercase;color:#F06A57;border-color:rgba(240,106,87,.4);padding:6px 2px;text-align:center;flex-direction:column;gap:3px}nav .navkill svg{margin:0 auto}nav .navkill span{display:block}
+ header{min-height:52px;padding:6px 16px;border-bottom:1px solid #1B2C22;background:#0A140E;backdrop-filter:none}
+ header .badge{display:none}.brand h1{font-size:22px}.brand small{display:none}
+ .brand .ccs{display:inline-block;margin-left:10px;font:600 10px Inter,sans-serif;letter-spacing:.22em;color:#8FA398;padding:4px 8px;border:1px solid #22362B;border-radius:4px;vertical-align:middle}
+ #cctick{display:flex;height:34px;align-items:stretch;border-bottom:1px solid #1B2C22;background:#0C1711;font:600 12px 'JetBrains Mono',monospace;overflow-x:auto}
+ #cctick>button{flex:1 0 auto;display:flex;align-items:center;gap:10px;padding:0 16px;border:0;border-right:1px solid #1B2C22;background:none;color:#EDE6D3;font:inherit;cursor:pointer}
+ #cctick>button:hover{background:#13221A}#cctick b{font-family:Inter,sans-serif}#cctick em{font-style:normal;font-size:10px;padding:2px 6px;border-radius:3px;border:1px solid #2E4739;color:#8FA398}
+ #cctick .u{color:#3DCB8A}#cctick .d{color:#F06A57}#cctick .n{color:#8FA398}
+ body.cchome main{max-width:none;padding:8px;gap:8px}
+}
+.cc{display:grid;gap:8px;grid-template-columns:repeat(4,minmax(0,1fr)) 340px;grid-template-areas:"k1 k2 k3 k4 au" "ch ch ch ch sg" "en en sc sc rk" "co co co co rk"}
+.cc>.a-k1{grid-area:k1}.cc>.a-k2{grid-area:k2}.cc>.a-k3{grid-area:k3}.cc>.a-k4{grid-area:k4}.cc>.a-au{grid-area:au}.cc>.a-ch{grid-area:ch}.cc>.a-sg{grid-area:sg}.cc>.a-en{grid-area:en}.cc>.a-sc{grid-area:sc}.cc>.a-rk{grid-area:rk}.cc>.a-co{grid-area:co}
+.ccp{background:#111F17;border:1px solid #22362B;border-radius:6px;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.cch{display:flex;align-items:center;gap:8px;min-height:30px;padding:0 12px;border-bottom:1px solid #22362B;background:#0F1D15;font:600 11px Inter,sans-serif;letter-spacing:.14em;color:#B9C7BE;text-transform:uppercase}
+.cch i{width:6px;height:6px;border-radius:50%;background:#3DCB8A;box-shadow:0 0 6px #3DCB8A;flex:none}.cch i.w{background:#E8C26B;box-shadow:0 0 6px #E8C26B}.cch i.b{background:#F06A57;box-shadow:0 0 6px #F06A57}
+.cch em{margin-left:auto;font-style:normal;letter-spacing:.02em;font-weight:500;color:#8FA398;text-transform:none;font-family:'JetBrains Mono',monospace}
+.ccb{padding:12px 14px;flex:1 1 auto;min-height:0}
+.cck{padding:12px 14px;justify-content:center}.cck .l{font:600 10px Inter,sans-serif;letter-spacing:.16em;color:#8FA398}.cck .v{font:700 24px 'JetBrains Mono',monospace;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cck .s{font:500 11px 'JetBrains Mono',monospace;color:#8FA398;margin-top:2px}
+.cck .v.u,.ccr .u{color:#3DCB8A}.cck .v.d,.ccr .d{color:#F06A57}.ccr .w{color:#E8C26B}.ccr .n{color:#8FA398}
+.ccp .hpan{background:none;border:0;padding:10px 12px;margin:0!important;border-radius:0}
+.ccp .card{background:none;border:0;border-radius:0;padding:12px 14px;box-shadow:none}
+.ccr{display:grid;grid-template-columns:14px minmax(0,1fr) 96px 72px;gap:10px;align-items:center;padding:7px 12px;border-bottom:1px solid #1B2C22;font-size:13px}
+.ccr>i{width:8px;height:8px;border-radius:50%;background:#8FA398}.ccr>i.u{background:#3DCB8A;box-shadow:0 0 6px #3DCB8A}.ccr>i.w{background:#E8C26B;box-shadow:0 0 6px #E8C26B}
+.ccr .st{font:700 10px 'JetBrains Mono',monospace;letter-spacing:.06em}.ccr .r{font:600 12px 'JetBrains Mono',monospace;text-align:right}
+.ccs2{grid-template-columns:70px 64px 54px minmax(0,1fr)}.ccs2 .bar{display:flex;align-items:center;gap:8px}.ccs2 .bar>span{flex:1;height:4px;border-radius:2px;background:#1B2C22;overflow:hidden}.ccs2 .bar>span>i{display:block;height:4px;background:#D0904F}
+.ccg{margin-bottom:12px}.ccg>div:first-child{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.1em;color:#8FA398}.ccg b{font:600 12px 'JetBrains Mono',monospace;letter-spacing:0}
+.ccg .rbar{margin-top:6px}
+.cckill{width:100%;height:48px;margin-top:10px;border-radius:6px;border:1px solid #F06A57;background:rgba(240,106,87,.12);color:#F06A57;font:800 12px Inter,sans-serif;letter-spacing:.16em}
+.ccc{font:500 12px/1.75 'JetBrains Mono',monospace;background:#070E0A;max-height:190px;overflow:auto;padding:8px 12px}
+.ccc time{color:#5E8C6F;margin-right:12px}.ccc .t{display:inline-block;width:56px;margin-right:8px}
+.ccc .open{color:#3DCB8A}.ccc .close{color:#3DCB8A}.ccc .block{color:#F06A57}.ccc .sig{color:#E8C26B}.ccc span:last-child{color:#C9D4CC}
+.ccau .autop{margin-top:0;width:100%;justify-content:center;height:38px;border-radius:6px}
+.ccau .h9a{margin-top:8px}
+@media (max-width:1399px){.cc{grid-template-columns:repeat(4,minmax(0,1fr)) 300px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><img class="badge" src="bp-icon.png?v=2" alt="AXON-9"><div><h1>AXON-9 <span style="color:var(--gold)">PRO</span></h1><small>Multi-Market Trading Assistant</small></div></div>
+  <div class="brand"><img class="badge" src="bp-icon.png?v=2" alt="AXON-9"><div><h1>AXON-9 <span style="color:var(--gold)">PRO</span><span class="ccs">COMMAND</span></h1><small>Multi-Market Trading Assistant</small></div></div>
   <button id="acctbtn" class="acctpill" aria-label="Switch account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span><b id="sub">ACCOUNT</b><small id="acctname"></small></span><svg class="cv2" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button>
   <div class="hright"><div id="live" class="pill"><i></i><span>…</span><small id="livesub"></small></div><span class="hsep"></span><button id="hset" class="hicon" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button><button id="hav" class="hav" aria-label="Accounts"></button></div>
 </header>
 <div id="splash"><div class="a9logo"><img src="bp-icon.png?v=2" alt=""><div class="w">AXON-9</div><div class="p">PRO</div><small>AI AUTO TRADING</small></div></div>
+<div id="cctick" aria-label="Markets"></div>
 <main id="view"></main>
 <nav>
-  <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>Home</button>
+  <img class="ccl" src="bp-icon.png?v=2" alt="AXON-9 Pro">
+  <button data-tab="home" class="on" aria-label="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>Dashboard</button>
   <button data-tab="markets" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Markets</button>
   <button data-tab="a9" aria-label="Charts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4v16M6 8h-2v8h2M12 2v20M12 6h-2v10h2M18 6v14M18 9h-2v6h2"/></svg>Charts</button>
   <button data-tab="signals" aria-label="Signals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Signals</button>
@@ -668,7 +715,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '11.7.0';
+  var APP_VER = '12.0.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1945,6 +1992,75 @@ nav button{font-size:10.5px}
     if (s.aw !== undefined && !open.length) return ['bad', 'WAITING – no market can trade right now', cl.slice(0, 3).map(function (m) { return m.n + ': ' + m.aw; }).join(' · ')];
     return ['ok', 'HUNTING 24/7 – ' + (s.aw !== undefined ? open.length + ' of ' + ms.length + ' markets live' : 'scanning'), (s.open ? s.open + ' trade' + (s.open > 1 ? 's' : '') + ' open · ' : '') + (s.aw !== undefined && open.length ? open.slice(0, 5).map(function (m) { return m.n; }).join(', ') : '')];
   }
+  //--- v12.0 COMMAND CENTRE: desktop terminal dashboard (phones keep the old Home)
+  function wide() { return window.innerWidth >= 1000; }
+  function verGE(v) { var a = String((S && S.ver) || '0').split('.').map(Number), b = String(v).split('.').map(Number); for (var i = 0; i < 3; i++) { if ((a[i] || 0) !== (b[i] || 0)) return (a[i] || 0) > (b[i] || 0); } return true; }
+  var BT = { HOLD: '+33.1R', SCALP: '−38.7R', RANGE: '−25.4R' };   // BTC backtest, Mar 2025 - Nov 2026 (v6.8.3 report)
+  function ccPanel(cls, title, led, right, body) { return '<section class="ccp ' + cls + '"><div class="cch"><i class="' + (led || '') + '"></i><h2 style="margin:0;font:inherit">' + title + '</h2>' + (right ? '<em>' + right + '</em>' : '') + '</div>' + body + '</section>'; }
+  function ccTick() {
+    var el = $('cctick'); if (!el) return;
+    if (!S || !wide()) { el.innerHTML = ''; return; }
+    var h = (S.markets || []).filter(function (x) { return !x.off; }).map(function (x) {
+      var d = x.aid > 0 ? ['▲', 'u'] : x.aid < 0 ? ['▼', 'd'] : ['–', 'n'];
+      return '<button data-tab2="markets" aria-label="' + esc(x.n) + '"><b>' + esc(x.n) + '</b><span>' + esc(x.px || '') + '</span><span class="' + d[1] + '">' + d[0] + ' ' + (x.aic || 0) + '%</span><em>' + esc(x.aim || '') + '</em></button>';
+    }).join('');
+    if (el.innerHTML !== h) el.innerHTML = h;
+  }
+  function homeCC() {
+    var s = S, r = riskState(), c = conn(), out = '';
+    if (s.kill) out += '<div class="alert bad"><div class="row"><b>🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9?" data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div></div>';
+    else if (s.emergency) out += '<div class="alert bad"><b>EMERGENCY:</b> a trade has no stop loss. Check Trades now.</div>';
+    var dUsed = Math.max(0, -(s.todayPct || 0)), dCap = s.dloss || 4, pl = sumPL(), tr = s.trades || [];
+    var k = function (cls, l, v, vc, sub) { return '<section class="ccp cck ' + cls + '"><div class="l">' + l + '</div><div class="v ' + (vc || '') + '">' + v + '</div><div class="s">' + sub + '</div></section>'; };
+    var g = '<div class="cc">';
+    g += k('a-k1', 'BALANCE', esc(s.bal || s.eq || ''), '', 'equity ' + esc(s.eq || '') + (s.real ? ' · REAL' : ' · DEMO'));
+    g += k('a-k2', 'TODAY', esc(s.today || ''), (s.todayPct || 0) >= 0 ? 'u' : 'd', ((s.todayPct || 0) >= 0 ? '+' : '') + Number(s.todayPct || 0).toFixed(2) + '% from day start');
+    g += k('a-k3', 'OPEN POSITIONS', String(tr.length), '', '<span class="' + (pl >= 0 ? 'u' : 'd') + '" style="color:' + (pl >= 0 ? '#3DCB8A' : '#F06A57') + '">' + money(pl) + '</span> floating');
+    g += k('a-k4', 'DAILY LOSS USED', dUsed.toFixed(1) + '%', dUsed >= dCap ? 'd' : '', 'limit ' + dCap + '%' + (dUsed >= dCap ? ' · HIT' : ''));
+    var a = autoStat(s, c);
+    g += ccPanel('a-au ccau', 'Auto', a[0] === 'ok' ? '' : a[0] === 'bad' ? 'b' : 'w', esc(s.mode || ''),
+      '<div class="ccb"><button class="autop ' + (s.auto ? 'on' : '') + '" data-cmd="' + (s.auto ? '/signals' : '/auto') + '" data-confirm="' + (s.auto ? 'Switch AUTO OFF? AXON-9 stops placing trades by itself.' : 'Switch AUTO ON? AXON-9 places trades by itself 24/7.') + '" data-msg="' + (s.auto ? 'Auto OFF…' : 'Auto ON…') + '">AUTO ' + (s.auto ? 'ON' : 'OFF') + ' <i></i></button>' +
+      '<div class="h9a ' + a[0] + '"><i></i><div><b>' + esc(a[1]) + '</b>' + (a[2] ? '<small>' + esc(a[2]) + '</small>' : '') + '</div></div></div>');
+    g += ccPanel('a-ch', 'Chart', '', esc(a9m || ''), homeChart());
+    g += ccPanel('a-sg', 'AI signal', 'w', 'best right now', bestHtml());
+    //--- engine room: real on/off from the bot + v6.8.3 AI modes + backtest results
+    var E = s.eng || [], ai = E.filter(function (e) { return /AI/.test(e.n); })[0], v683 = verGE('6.8.3'), rows = [];
+    var row = function (led, n, st, stc, res, resc) { return '<div class="ccr"><i class="' + led + '"></i><span style="font-weight:600">' + n + '</span><span class="st ' + stc + '">' + st + '</span><span class="r ' + resc + '">' + res + '</span></div>'; };
+    if (ai) {
+      rows.push(row(ai.on && s.auto ? 'u' : '', 'AI · HOLD', ai.on ? (s.auto ? 'AUTO ON' : 'AUTO OFF') : 'OFF', ai.on && s.auto ? 'u' : 'n', BT.HOLD, 'u'));
+      rows.push(row('', 'AI · SCALP', v683 ? 'OFF' : 'ON (old bot)', v683 ? 'n' : 'w', BT.SCALP, 'd'));
+      rows.push(row('', 'AI · RANGE', v683 ? 'OFF' : 'ON (old bot)', v683 ? 'n' : 'w', BT.RANGE, 'd'));
+    }
+    E.forEach(function (e) { if (/AI/.test(e.n)) return; rows.push(row(e.on ? 'w' : '', esc(e.n), e.on ? 'UNTESTED' : 'OFF', e.on ? 'w' : 'n', '—', 'n')); });
+    rows.push(row('', 'Flip', 'NOT BUILT', 'n', '—', 'n'));
+    var nOn = rows.filter(function (x) { return /UNTESTED/.test(x); }).length;
+    g += ccPanel('a-en', 'Engine room', 'u', (v683 ? 'HOLD only on Auto' : 'update bot to 6.8.3') + ' · ' + nOn + ' untested', rows.join(''));
+    //--- scanner
+    var ms = (s.markets || []).filter(function (x) { return !x.off; }).slice().sort(function (x, y) { return (y.aic || 0) - (x.aic || 0); });
+    g += ccPanel('a-sc', 'Scanner', 'u', ms.length + ' markets', ms.map(function (x) {
+      var d = x.aid > 0 ? ['BUY', 'u'] : x.aid < 0 ? ['SELL', 'd'] : ['WAIT', 'n'], skip = v683 && x.aim && x.aim !== 'HOLD';
+      return '<div class="ccr ccs2"><span style="font-weight:700">' + esc(x.n) + '</span><span class="st n">' + esc(x.aim || '—') + '</span><span class="st ' + d[1] + '">' + d[0] + '</span><span class="bar"><span><i style="width:' + Math.min(100, x.aic || 0) + '%;background:' + (skip ? '#8FA398' : '#D0904F') + '"></i></span><b class="r" style="width:34px">' + (x.aic || 0) + '%</b></span></div>';
+    }).join('') || '<div class="ccb why">No markets yet.</div>');
+    //--- risk
+    var dd = Number(s.dd || 0), ddf = Number(s.ddf || 1);
+    var gauge = function (l, val, used, cap) { return '<div class="ccg"><div><span>' + l + '</span><b>' + val + '</b></div>' + riskBar(used, cap) + '</div>'; };
+    g += ccPanel('a-rk', 'Risk', r.c === 'bad' || dUsed >= dCap ? 'b' : r.c === 'warn' ? 'w' : '', dUsed >= dCap ? 'LIMIT HIT' : 'OK',
+      '<div class="ccb">' + gauge('DAILY LOSS', dUsed.toFixed(1) + '% / ' + dCap + '%', dUsed, dCap) +
+      gauge('DRAWDOWN FROM PEAK', dd.toFixed(1) + '%', dd, 100) +
+      gauge('RISK PER TRADE', Number(s.risk || 0).toFixed(2) + '%', Number(s.risk || 0), 2) +
+      '<div class="ccr" style="grid-template-columns:1fr auto;padding:8px 0"><span class="n">Size guard</span><b class="r ' + (ddf < 1 ? 'w' : 'u') + '">× ' + ddf.toFixed(2) + '</b></div>' +
+      '<div class="ccr" style="grid-template-columns:1fr auto;padding:8px 0"><span class="n">Stop to entry (AI)</span><b class="r">' + (v683 ? '+1.5R' : '—') + '</b></div>' +
+      '<div class="ccr" style="grid-template-columns:1fr auto;padding:8px 0"><span class="n">Your trades</span><b class="r u">never blocked</b></div>' +
+      (tr.length ? '<button class="btn danger full" style="margin-top:10px" data-confirm="Close ALL ' + tr.length + ' trades?" data-cmd="cb:closeall" data-msg="Closing everything…">Close all ' + tr.length + ' trades</button>' : '') +
+      '<button class="cckill" data-confirm="KILL SWITCH: close ALL trades and lock Auto?" data-cmd="/kill" data-msg="Kill switch…">EMERGENCY KILL SWITCH</button></div>');
+    //--- console
+    var f = (s.feed || []).slice(0, 40);
+    g += ccPanel('a-co', 'Console', 'u', 'live', '<div class="ccc" role="log">' + (f.length ? f.map(function (e) { var kk = feedKind(e.x), d = new Date((e.t || 0) * 1000);
+      return '<div><time>' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ':' + ('0' + d.getSeconds()).slice(-2) + '</time><span class="t ' + kk[0] + '">' + (kk[0] ? kk[0].toUpperCase() : 'INFO') + '</span><span>' + esc(e.x) + '</span></div>'; }).join('') : '<div>Nothing yet today.</div>') + '</div>');
+    g += '</div>';
+    return out + g;
+  }
+
   function home() {
     var s = S, r = riskState(), c = conn(), out = '';
     if (s.kill) out += '<div class="alert bad"><div class="row"><b>🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9?" data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div></div>';
@@ -2094,6 +2210,7 @@ nav button{font-size:10.5px}
     if (U && tab === 'wiz') { $('sub').textContent = U.email; lastHtml = ''; v.innerHTML = wizard(); return; }
     if (!U) { $('sub').textContent = 'not signed in'; $('live').className = 'pill'; $('live').children[1].textContent = 'SIGN IN'; lastHtml = ''; v.innerHTML = signInView(); return; }
     if (!KEY) { $('sub').textContent = U.email; lastHtml = ''; v.innerHTML = noAcctView(); return; }
+    if (tab !== 'home') document.body.classList.remove('cchome');
     if (tab === 'accts') { liveState(); lastHtml = ''; v.innerHTML = accounts(); return; }
     if (tab === 'read' || tab === 'chart') tab = 'a9';
     setNav(); liveState();
@@ -2101,7 +2218,8 @@ nav button{font-size:10.5px}
     var rp = reply && Date.now() - replyT < 90000 ? '<div class="reply" role="status"><div><div class="label">AXON-9 says</div><p>' + esc(reply) + '</p></div><button data-replyx="1" aria-label="Close">✕</button></div>' : '';
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
     if (S && (tab === 'mkt' || tab === 'sym')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
-    var body = tab === 'home' ? home() : tab === 'markets' ? marketsTab() : tab === 'a9' ? a9Tab() : tab === 'perf' ? perfTab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? signalsWrap() : tab === 'trades' ? tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
+    document.body.classList.toggle('cchome', tab === 'home' && wide()); ccTick();
+    var body = tab === 'home' ? (wide() ? homeCC() : home()) : tab === 'markets' ? marketsTab() : tab === 'a9' ? a9Tab() : tab === 'perf' ? perfTab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? signalsWrap() : tab === 'trades' ? tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
     var html = rp + body + askSheet();
     if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
     var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
@@ -2260,7 +2378,8 @@ nav button{font-size:10.5px}
   setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 2200);   // v11.5: the AXON-9 PRO logo greets you every time
   setInterval(function () { if (S && !document.hidden) loadBars(); }, 30000);
   setInterval(function () { if (S && !document.hidden && /^(a9|home|markets|trades)$/.test(tab)) loadBarsX(a9m); }, 12000);
-  window.addEventListener('resize', function () { if (/^(a9|home|markets|trades)$/.test(tab)) drawChart(); });
+  var wasWide = wide();
+  window.addEventListener('resize', function () { if (wide() !== wasWide) { wasWide = wide(); lastHtml = ''; render(true); return; } if (/^(a9|home|markets|trades)$/.test(tab)) drawChart(); });
   render(); load(); loadBars(true); cloudLoad().then(function () { render(); load(); });
   setInterval(load, 3000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
