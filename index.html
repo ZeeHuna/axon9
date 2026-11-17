@@ -686,6 +686,17 @@ nav button{font-size:10.5px}
 .ccau .autop{margin-top:0;width:100%;justify-content:center;height:38px;border-radius:6px}
 .ccau .h9a{margin-top:8px}
 @media (max-width:1399px){.cc{grid-template-columns:repeat(4,minmax(0,1fr)) 300px}}
+
+/* v12.1: 10 sections */
+@media (max-width:999px){nav{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(64px,1fr);overflow-x:auto;scrollbar-width:none}nav::-webkit-scrollbar{display:none}nav .navkill{display:none}}
+.cchd{display:flex;align-items:center;gap:10px;min-height:38px;padding:0 14px;border:1px solid #22362B;border-radius:6px;background:#0F1D15}
+.cchd i{width:7px;height:7px;border-radius:50%;background:#3DCB8A;box-shadow:0 0 6px #3DCB8A}.cchd h2{margin:0;font:700 13px Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.cchd span{margin-left:auto;font:500 12px 'JetBrains Mono',monospace;color:#8FA398;text-align:right}
+.ccrow{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.ccbr{padding:12px 14px}.ccbr b{display:block;font-size:15px}.ccbr p{margin:6px 0 10px;font-size:13px;line-height:1.45;color:#B9C7BE}
+.cctag{display:inline-block;font:700 10px 'JetBrains Mono',monospace;letter-spacing:.06em;padding:4px 8px;border-radius:4px;color:#0B1510;background:#8FA398}.cctag.u{background:#3DCB8A}.cctag.w{background:#E8C26B}.cctag.d{background:#F06A57}
+.cctbl{width:100%;border-collapse:collapse;font-size:13px}.cctbl th{text-align:left;font:600 10px Inter,sans-serif;letter-spacing:.12em;color:#8FA398;padding:8px 10px;border-bottom:1px solid #22362B}.cctbl td{padding:9px 10px;border-bottom:1px solid #1B2C22}.cctbl .m{font-family:'JetBrains Mono',monospace}
+.cctbl .u{color:#3DCB8A}.cctbl .d{color:#F06A57}.cctbl .n{color:#8FA398}.cctbl .w{color:#E8C26B}
 </style>
 </head>
 <body>
@@ -699,14 +710,16 @@ nav button{font-size:10.5px}
 <main id="view"></main>
 <nav>
   <img class="ccl" src="bp-icon.png?v=2" alt="AXON-9 Pro">
-  <button data-tab="home" class="on" aria-label="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/></svg>Dashboard</button>
-  <button data-tab="markets" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Markets</button>
-  <button data-tab="a9" aria-label="Charts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4v16M6 8h-2v8h2M12 2v20M12 6h-2v10h2M18 6v14M18 9h-2v6h2"/></svg>Charts</button>
-  <button data-tab="signals" aria-label="Signals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Signals</button>
-  <button data-tab="trades" aria-label="Trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></svg>Trades</button>
-  <button data-tab="perf" aria-label="Performance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-7"/></svg>Performance</button>
-  <button data-tab="news" class="nnews" aria-label="News"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h13v16H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v10a2 2 0 0 1-2 2"/><path d="M8 8h5M8 12h5M8 16h3"/></svg>News</button>
-  <button data-tab="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>Settings</button>
+  <button data-tab="home" class="on" aria-label="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</button>
+  <button data-tab="signals" aria-label="Trade Engine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Trade Engine</button>
+  <button data-tab="markets" aria-label="Market Scanner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>Scanner</button>
+  <button data-tab="a9" aria-label="Patterns"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-6 4 4 8-10"/><path d="M3 21h18"/></svg>Patterns</button>
+  <button data-tab="trades" aria-label="Trade Journal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11l3 3v15H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>Journal</button>
+  <button data-tab="perf" aria-label="AI Analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Analytics</button>
+  <button data-tab="risk" aria-label="Risk Manager"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Risk</button>
+  <button data-tab="alerts" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1112 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 004 0"/></svg>Alerts</button>
+  <button data-tab="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Settings</button>
+  <button data-tab="about" aria-label="About"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>About</button>
   <button class="navkill" data-confirm="KILL SWITCH: close ALL trades and lock Auto?" data-cmd="/kill" data-msg="Kill switch…"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6"/><circle cx="12" cy="16.5" r=".6"/></svg><span>Emergency<br>Kill Switch</span></button>
 </nav>
 <div id="toast" class="toast"></div>
@@ -715,7 +728,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '12.0.0';
+  var APP_VER = '12.1.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2061,6 +2074,67 @@ nav button{font-size:10.5px}
     return out + g;
   }
 
+  //--- v12.1 the 10 sections: page header + the new pages (Risk Manager, Notifications, About)
+  function ccHead(t, sub) { return '<div class="cchd"><i></i><h2>' + t + '</h2>' + (sub ? '<span>' + sub + '</span>' : '') + '</div>'; }
+  function subPage(sub) { var o = setSub; setSub = sub; var h = setPage(); setSub = o; return h.replace(/<button class="btn ghost" data-setback="1"[^>]*>[^<]*<\/button>/, '').replace(/<div class="ptitle"><h2>[^<]*<\/h2><\/div>/, ''); }
+  function brainsHtml() {
+    var E = S.eng || [], on = function (re) { var e = E.filter(function (x) { return re.test(x.n); })[0]; return e ? e.on : false; };
+    var B = [['Market Brain', 'Reads D1, H4, H1 and M15 trend, ADX and how straight price moves. Picks HOLD, SCALP or RANGE.', 'TESTED · HOLD +33.1R', 'u'],
+      ['Pattern Brain', 'Head & shoulders, double tops/bottoms, triangles, channels, flags – drawn on the chart.', on(/Pattern/) ? 'ON · UNTESTED' : 'OFF', on(/Pattern/) ? 'w' : ''],
+      ['Sniper Brain', 'Liquidity sweep, break of structure, retest and multi-timeframe confirmation for the entry.', on(/Sniper/) ? 'ON · UNTESTED' : 'OFF', on(/Sniper/) ? 'w' : ''],
+      ['Protection Brain', 'Risk per trade, daily loss limit, drawdown guard, stop to entry at +1.5R on AI trades.', 'ACTIVE', 'u']];
+    return '<div class="ccrow">' + B.map(function (b) { return '<section class="ccp ccbr"><b>' + b[0] + '</b><p>' + b[1] + '</p><span class="cctag ' + b[3] + '">' + b[2] + '</span></section>'; }).join('') + '</div>';
+  }
+  function scanHtml() {
+    var ms = (S.markets || []).filter(function (x) { return !x.off; }).slice().sort(function (x, y) { return (y.aic || 0) - (x.aic || 0); }), v683 = verGE('6.8.3');
+    var tr = function (v) { return v > 0 ? '<span class="u">▲ up</span>' : v < 0 ? '<span class="d">▼ down</span>' : '<span class="n">– mixed</span>'; };
+    return '<section class="ccp"><div style="overflow-x:auto"><table class="cctbl"><thead><tr><th>#</th><th>MARKET</th><th>PRICE</th><th>H4</th><th>H1</th><th>STATE</th><th>AI</th><th>AUTO</th></tr></thead><tbody>' +
+      ms.map(function (x, i) { var d = x.aid > 0 ? '<b class="u">BUY</b>' : x.aid < 0 ? '<b class="d">SELL</b>' : '<b class="n">WAIT</b>', hold = x.aim === 'HOLD';
+        return '<tr><td class="m n">' + (i + 1) + '</td><td><b>' + esc(x.n) + '</b></td><td class="m">' + esc(x.px || '') + '</td><td>' + tr(x.h4) + '</td><td>' + tr(x.h1) + '</td><td>' + esc(x.reg || x.aim || '') + '</td><td class="m">' + d + ' ' + esc(x.aim || '') + ' ' + (x.aic || 0) + '%</td><td class="' + (hold && (x.aic || 0) >= (x.aimin || 70) ? 'u' : 'n') + '">' + (hold ? ((x.aic || 0) >= (x.aimin || 70) ? 'TAKES IT' : 'waits for ' + (x.aimin || 70) + '%') : v683 ? 'skips · ' + esc(x.aim || '') + ' off' : 'old bot') + '</td></tr>'; }).join('') +
+      '</tbody></table></div></section>';
+  }
+  function patternsHtml() {
+    var ms = (S.markets || []).filter(function (x) { return !x.off; });
+    var rows = ms.map(function (x) { var p = x.pt; return '<tr><td><b>' + esc(x.n) + '</b></td><td>' + (p && p.n ? esc(p.n) : '<span class="n">no clean pattern</span>') + '</td><td class="m">' + (p && p.tf ? esc(p.tf) : '–') + '</td><td class="m">' + (p && p.q ? p.q + '/100' : '–') + '</td><td>' + (p && p.d ? (p.d > 0 ? '<span class="u">▲ up</span>' : '<span class="d">▼ down</span>') : '<span class="n">–</span>') + '</td><td class="' + (p && /BREAK/.test(p.st || '') ? 'w' : 'n') + '">' + (p && p.st ? esc(p.st) : 'watching') + '</td></tr>'; }).join('');
+    return '<section class="ccp"><div style="overflow-x:auto"><table class="cctbl"><thead><tr><th>MARKET</th><th>PATTERN</th><th>TF</th><th>QUALITY</th><th>LIKELY BREAK</th><th>STATUS</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>';
+  }
+  function tourHtml() {
+    var R = [['HOLD + stop to entry at +1.5R', '160', '25.6%', '+33.1R', 'u', '15.0R', 'AUTO ON', 'u'], ['HOLD', '154', '30.5%', '+31.9R', 'u', '20.1R', 'WINNER', 'u'],
+      ['RANGE (best of 5 versions)', '511', '43.8%', '−26.7R', 'd', '39.6R', 'OFF', ''], ['SCALP', '751', '38.7%', '−38.7R', 'd', '47.4R', 'OFF', ''],
+      ['Sniper · Zone · Reversal · Pattern', '–', '–', '–', 'n', '–', 'TEST NEXT', 'w']];
+    return '<section class="ccp"><div style="overflow-x:auto"><table class="cctbl"><thead><tr><th>STRATEGY</th><th>TRADES</th><th>WIN %</th><th>PROFIT</th><th>MAX DROP</th><th>VERDICT</th></tr></thead><tbody>' +
+      R.map(function (r) { return '<tr><td><b>' + r[0] + '</b></td><td class="m">' + r[1] + '</td><td class="m">' + r[2] + '</td><td class="m ' + r[4] + '">' + r[3] + '</td><td class="m">' + r[5] + '</td><td><span class="cctag ' + r[7] + '">' + r[6] + '</span></td></tr>'; }).join('') +
+      '</tbody></table></div><div class="why" style="padding:8px 12px">BTC 1-minute candles, Mar 2025 – Nov 2026, real spreads. GOLD and USDJPY next (needs your MT5 M1 export).</div></section>';
+  }
+  function riskTab() {
+    var s = S, dUsed = Math.max(0, -(s.todayPct || 0)), dCap = s.dloss || 4, r = riskState();
+    var g = function (l, val, used, cap) { return '<div class="ccg"><div><span>' + l + '</span><b>' + val + '</b></div>' + riskBar(used, cap) + '</div>'; };
+    var ex = {}; (s.trades || []).forEach(function (t) { ex[t.sym] = (ex[t.sym] || 0) + 1; });
+    return ccHead('Risk Manager', r.c === 'ok' ? 'protected' : esc(r.t)) +
+      '<div class="ccrow"><section class="ccp ccbr">' + g('DAILY LOSS', dUsed.toFixed(1) + '% / ' + dCap + '%', dUsed, dCap) + g('DRAWDOWN FROM PEAK', Number(s.dd || 0).toFixed(1) + '%', Number(s.dd || 0), 100) + g('RISK PER TRADE', Number(s.risk || 0).toFixed(2) + '%', Number(s.risk || 0), 2) +
+      '<div class="why">Size guard × ' + Number(s.ddf || 1).toFixed(2) + ' · max open ' + (s.maxo || '–') + ' · your own trades are never blocked</div></section>' +
+      '<section class="ccp ccbr"><b>Exposure by market</b>' + (Object.keys(ex).length ? '<table class="cctbl" style="margin-top:8px"><tbody>' + Object.keys(ex).map(function (k) { return '<tr><td>' + esc(k) + '</td><td class="m">' + ex[k] + ' open</td></tr>'; }).join('') + '</tbody></table>' : '<p>No open trades.</p>') + '</section>' +
+      '<section class="ccp ccbr"><b>Smart Profit Manager</b><table class="cctbl" style="margin-top:8px"><tbody><tr><td>Stop to entry at +1.5R</td><td class="u">' + (verGE('6.8.3') ? 'ON · tested best' : 'needs bot 6.8.3') + '</td></tr><tr><td>Half off at +1R</td><td class="n">OFF · cut profit to +18R</td></tr><tr><td>Trailing stop</td><td class="w">untested</td></tr></tbody></table></section></div>' +
+      subPage('risk') + subPage('emergency');
+  }
+  function alertsTab() {
+    var s = S;
+    return ccHead('Notifications', s.tgmute ? 'Telegram muted' : 'Telegram on') +
+      '<section class="ccp ccbr"><b>Telegram</b><p>' + (s.tgmute ? 'Telegram messages are muted.' : 'Trades, take-profits, stops, errors and the daily report go to your Telegram (needs the bot token in the EA inputs).') + '</p><div class="seg"><button data-cmd="/tgon" data-msg="Telegram on…">Telegram ON</button><button data-cmd="/tgoff" data-msg="Telegram muted…">Telegram OFF</button><button data-cmd="/report" data-msg="Sending report…">Send daily report now</button></div></section>' +
+      subPage('alerts') + ccHead('Latest alerts', 'live') + '<section class="ccp ccbr">' + feedHtml(25) + '</section>';
+  }
+  function aboutTab() {
+    var s = S, c = conn();
+    var kv = function (a) { return '<table class="cctbl"><tbody>' + a.map(function (x) { return '<tr><td class="n">' + x[0] + '</td><td class="m ' + (x[2] || '') + '">' + x[1] + '</td></tr>'; }).join('') + '</tbody></table>'; };
+    var H = [['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
+      ['6.8.3', 'Bot: Auto trades HOLD only · stop to entry at +1.5R · one copy across MT5 terminals'], ['6.8.2', 'Bot: patterns always drawn, 12h high/low when no clean pattern'], ['6.8.1', 'Bot: NAS100, US30, GER40, ETH removed']];
+    return ccHead('About', 'AXON-9 Pro') + '<div class="ccrow">' +
+      '<section class="ccp ccbr"><b>System</b>' + kv([['App version', APP_VER], ['Bot version', esc(s.ver || '?'), verGE('6.8.3') ? 'u' : 'w'], ['Broker', esc(brokerName())], ['Account', esc(String(s.login || '')) + (s.real ? ' · REAL' : ' · DEMO')], ['Developer', 'Zola Huna']]) + '</section>' +
+      '<section class="ccp ccbr"><b>24/7 Autopilot · health</b>' + kv([['MT5 link', c.k === 'ok' ? 'connected' + (s.ping ? ' · ' + s.ping + ' ms' : '') : c.t, c.k === 'ok' ? 'u' : 'd'], ['Algo Trading', s.algo === false ? 'OFF in MT5' : 'on', s.algo === false ? 'd' : 'u'], ['Auto', s.auto ? 'ON' : 'OFF', s.auto ? 'u' : 'w'], ['Trading now', s.aw ? 'blocked · ' + esc(s.aw) : 'allowed', s.aw ? 'w' : 'u'], ['Runs 24/7 while', 'MT5 + broker + PC/VPS stay on']]) +
+      '<button class="btn ghost full" style="margin-top:10px" data-cmd="/selftest" data-msg="Self-test…">Run self-test</button></section></div>' +
+      ccHead('Update history', '') + '<section class="ccp ccbr">' + kv(H.map(function (h) { return [h[0], esc(h[1])]; })) + '</section>';
+  }
+
   function home() {
     var s = S, r = riskState(), c = conn(), out = '';
     if (s.kill) out += '<div class="alert bad"><div class="row"><b>🛑 KILL SWITCH ON</b><button class="btn gold" style="height:38px" data-confirm="Unlock AXON-9?" data-cmd="/unlock" data-msg="Unlocking…">Unlock</button></div></div>';
@@ -2219,7 +2293,7 @@ nav button{font-size:10.5px}
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
     if (S && (tab === 'mkt' || tab === 'sym')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
     document.body.classList.toggle('cchome', tab === 'home' && wide()); ccTick();
-    var body = tab === 'home' ? (wide() ? homeCC() : home()) : tab === 'markets' ? marketsTab() : tab === 'a9' ? a9Tab() : tab === 'perf' ? perfTab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? signalsWrap() : tab === 'trades' ? tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
+    var body = tab === 'home' ? (wide() ? homeCC() : home()) : tab === 'markets' ? ccHead('Market Scanner', 'ranked by AI confidence') + scanHtml() + marketsTab() : tab === 'a9' ? ccHead('Patterns', 'detected on every market') + patternsHtml() + a9Tab() : tab === 'perf' ? ccHead('AI Analytics', 'strategy tournament') + tourHtml() + perfTab() : tab === 'risk' ? riskTab() : tab === 'alerts' ? alertsTab() : tab === 'about' ? aboutTab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? ccHead('Trade Engine', 'four brains · analyse · enter · manage') + brainsHtml() + signalsWrap() : tab === 'trades' ? ccHead('Trade Journal', 'every trade · straight from MT5') + tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
     var html = rp + body + askSheet();
     if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
     var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
