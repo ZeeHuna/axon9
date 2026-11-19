@@ -773,7 +773,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '13.0.0';
+  var APP_VER = '13.1.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1925,7 +1925,7 @@ nav button{font-size:10.5px}
     var chipsM = '<div class="mchips phm" style="margin-bottom:12px">' + ms.map(function (x) { var rx = sigFor(x) || aiRead(x); return '<button class="' + (x.n === m.n ? 'on' : '') + '" data-sgm="' + esc(x.n) + '">' + esc(x.n) + (rx ? ' <b class="' + (rx.s === 'BUY' ? 'up' : 'down') + '">' + (rx.c || '') + '%</b>' : '') + '</button>'; }).join('') + '</div>';
     var center = '<div class="gpan gc">' + chipsM + '<div class="gname">' + esc(m.n) + '</div><div class="why">' + esc(MNAME[m.n] || '') + '</div>' +
       '<div class="ring ' + (dir === 'BUY' ? 'b' : dir === 'SELL' ? 's' : 'w') + '"><span>' + esc(dir) + '</span></div>' +
-      (m.aim && c.k === 'ok' ? '<div class="aiauto ' + (m.aim === 'SCALP' || m.aim === 'HOLD' ? 'go' : '') + '">' + (m.aim === 'RANGE' && !m.aid ? '⇅ ' + esc(m.aiw || 'RANGE – waiting for price to reach an edge') : m.aim === 'CHOP' ? '⏸ CHOP – market sideways, no BUY or SELL' : m.aim === 'NEWS' ? '⏸ NEWS – high-impact news, no trade' : m.aim === 'WAIT' ? '⏸ WAIT – signals disagree, no trade yet' : '⚡ ' + m.aim + ' ' + (m.aid > 0 ? 'BUY' : 'SELL') + (m.aic >= (m.aimin || 70) ? ' – AI Auto trades this' : ' – weak (' + m.aic + '%), Auto waits for ' + (m.aimin || 70) + '%') + (m.aim === 'HOLD' ? ' · target 3R' : ' · target 1.5R')) + '</div>' : '') + '<div class="why">' + (r && r.ai ? '🤖 AI read on the live price · ' + esc(r.u) + ' · grade ' + esc(r.g) + (c.k !== 'ok' ? ' · ⚠ MT5 data ' + ageTxt(c.age) + ' old' : '') : r ? 'Signal generated • ' + hms(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + (r.g ? ' · grade ' + esc(r.g) : '') : esc(v.why || 'No clean setup right now – AXON-9 is waiting.')) + '</div>' +
+      (m.aim && c.k === 'ok' ? '<div class="aiauto ' + (m.aim === 'SCALP' || m.aim === 'HOLD' ? 'go' : '') + '">' + (m.aim === 'RANGE' && !m.aid ? '⇅ ' + esc(m.aiw || 'RANGE – waiting for price to reach an edge') : m.aim === 'CHOP' ? '⏸ CHOP – market sideways, no BUY or SELL' : m.aim === 'NEWS' ? '⏸ NEWS – high-impact news, no trade' : m.aim === 'WAIT' ? '⏸ WAIT – signals disagree, no trade yet' : '⚡ ' + m.aim + ' ' + (m.aid > 0 ? 'BUY' : 'SELL') + (m.aim !== 'HOLD' && verGE('6.8.3') ? ' – Auto skips (' + m.aim + ' off) · your call' : m.aic >= (m.aimin || 70) ? ' – AI Auto trades this' : ' – weak (' + m.aic + '%), Auto waits for ' + (m.aimin || 70) + '%') + (m.aim === 'HOLD' ? ' · target 3R' : ' · target 1.5R')) + '</div>' : '') + '<div class="why">' + (r && r.ai ? '🤖 AI read on the live price · ' + esc(r.u) + ' · grade ' + esc(r.g) + (c.k !== 'ok' ? ' · ⚠ MT5 data ' + ageTxt(c.age) + ' old' : '') : r ? 'Signal generated • ' + hms(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + (r.g ? ' · grade ' + esc(r.g) : '') : esc(v.why || 'No clean setup right now – AXON-9 is waiting.')) + '</div>' +
       (m.pt ? '<div class="gpat"><span>📐 PATTERN · ' + esc(m.pt.tf) + '</span><b>' + esc(m.pt.n) + '</b><small>Quality ' + m.pt.q + '/100 · ' + esc(m.pt.st) + (num(m.pt.tg) > 0 ? ' · target ' + fmtP(m, num(m.pt.tg)) : '') + '</small><i style="width:' + m.pt.q + '%"></i></div>' : '') +
       (r ? '<div class="glv"><div><span>Entry (now)</span><b>' + fmtP(m, e) + '</b></div><div><span>Stop loss</span><b class="down">' + esc(r.sl) + '</b></div><div><span>Take profit 1</span><b class="up">' + esc(r.t1) + '</b></div><div><span>Take profit 2</span><b class="up">' + esc(r.t2) + '</b></div><div><span>Risk : reward</span><b>1 : ' + rr.toFixed(2) + '</b></div><div><span>Strategy</span><b>' + esc(ENGN[r.e] || r.e) + '</b></div></div>' +
         '<div class="gsub">POSITIONS</div><div class="ocl gl"><button data-sgnstep="-1" aria-label="Fewer positions">−</button><b>' + sgN + '</b><button data-sgnstep="1" aria-label="More positions">+</button></div>' +
@@ -1934,7 +1934,7 @@ nav button{font-size:10.5px}
         (function () { var sg = suggest(m, r); if (!sg) return '';
           function row(t, k) { return '<div class="sz"><b>' + t + ': ' + k.pos + ' × ' + k.lot.toFixed(2) + ' lot</b><span>lose ' + cash(sg, k.loss) + ' at the stop · make ' + cash(sg, k.w1) + ' at TP1 · ' + cash(sg, k.w2) + ' at TP2</span></div>'; }
           return '<div class="gsug"><div><small>🤖 YOUR SIZE · ' + cash(sg, sg.bal) + ' account</small>' +
-            (sg.safe ? row('Safe (2%)', sg.safe) + (sg.max && sg.max.n > sg.safe.n ? row('Max (10%)', sg.max) : '') :
+            (sg.safe ? row('Max size (2% risk)', sg.safe) :
               '<div class="sz bad"><b>Too big for this account</b><span>even 1 × 0.01 risks ' + sg.one.risk.toFixed(0) + '% (' + cash(sg, sg.one.loss) + ') at the stop · makes ' + cash(sg, sg.one.w1) + ' at TP1</span></div>') +
             '</div>' + (sg.safe ? '<button data-usesug="' + sg.safe.pos + '|' + sg.safe.lot.toFixed(2) + '">Use safe</button>' : '') + '</div>'; })() +
         '<div class="gunl">◎ If the stop is hit ≈ <b>' + risk.toFixed(1) + '%</b> of the account</div>' +
@@ -1948,7 +1948,7 @@ nav button{font-size:10.5px}
     var right = '<div class="gpan"><div class="row"><b class="gt">AI Trade Signal</b><small class="gh">● ' + (r ? (r.ai ? 'Live price' : 'Signal found ' + (ago(r.t) === 'now' ? 'just now' : ago(r.t) + ' ago')) : 'Scanning') + '</small></div>' +
       '<div class="gsig ' + (dir === 'BUY' ? 'b' : dir === 'SELL' ? 's' : 'w') + '"><small>SIGNAL</small><b>' + esc(dir) + '</b></div>' +
       (r ? (true ? '<button class="gex ' + (tdir === 'SELL' ? 's' : '') + '" style="width:100%;margin-top:10px" data-sigconfirm="1" data-confirm="' + esc(tdir + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">' + (rm && dir !== 'WEAK' ? '✓ ' : '⚠ ' + esc(dir === 'WEAK' ? 'WEAK' : m.aim || '') + ' – your call: ') + esc(tdir) + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' NOW</button>' : '<button class="gex offl" style="width:100%;margin-top:10px" disabled>⛔ MT5 OFFLINE – no trading</button>') : '') +
-      '<div class="gbox"><div class="row"><span>AI Confidence</span><b class="gcf">' + (cfx ? cfx + '%' : '–') + '</b></div><div class="gbar"><i style="width:' + cfx + '%"></i></div></div>' +
+      '<div class="gbox"><div class="row"><span>AI Confidence</span><b class="gcf">' + (cfx ? cfx + '%' : '–') + '</b></div><div class="gbar"><i style="width:' + cfx + '%"></i></div><small style="display:block;margin-top:6px;font-size:11px;color:#8FA398">How many checks agree right now – not a win chance. Changes every candle.</small></div>' +
       '<div class="gbox"><div class="row"><span>Volatility Index</span><b class="gvo">' + (t ? t.vol.toFixed(2) + '%' : '–') + '</b></div></div>' +
       '<button class="ggen" data-cmd="/now ' + esc(m.n) + '" data-msg="AXON-9 is reading ' + esc(m.n) + '…">Generate New Signal</button>' +
       '<b class="gt" style="margin-top:14px;display:block">Technical Indicators</b><div class="gti">' +
@@ -2206,8 +2206,8 @@ nav button{font-size:10.5px}
   function brainsHtml() {
     var E = S.eng || [], on = function (re) { var e = E.filter(function (x) { return re.test(x.n); })[0]; return e ? e.on : false; };
     var B = [['Market Brain', 'Reads D1, H4, H1 and M15 trend, ADX and how straight price moves. Picks HOLD, SCALP or RANGE.', 'TESTED · HOLD +33.1R', 'u'],
-      ['Pattern Brain', 'Head & shoulders, double tops/bottoms, triangles, channels, flags – drawn on the chart.', on(/Pattern/) ? 'ON · UNTESTED' : 'OFF', on(/Pattern/) ? 'w' : ''],
-      ['Sniper Brain', 'Liquidity sweep, break of structure, retest and multi-timeframe confirmation for the entry.', on(/Sniper/) ? 'ON · UNTESTED' : 'OFF', on(/Sniper/) ? 'w' : ''],
+      ['Pattern Brain', 'Head & shoulders, double tops/bottoms, triangles, channels, flags – drawn on the chart.', verGE('6.8.4') ? 'ANALYSIS ONLY · no auto trades' : on(/Pattern/) ? 'ON · UNTESTED' : 'OFF', verGE('6.8.4') ? '' : on(/Pattern/) ? 'w' : ''],
+      ['Sniper Brain', 'Liquidity sweep, break of structure, retest and multi-timeframe confirmation for the entry.', verGE('6.8.4') ? 'ANALYSIS ONLY · no auto trades' : on(/Sniper/) ? 'ON · UNTESTED' : 'OFF', verGE('6.8.4') ? '' : on(/Sniper/) ? 'w' : ''],
       ['Protection Brain', 'Risk per trade, daily loss limit, drawdown guard, stop to entry at +1.5R on AI trades.', 'ACTIVE', 'u']];
     return '<div class="ccrow">' + B.map(function (b) { return '<section class="ccp ccbr"><b>' + b[0] + '</b><p>' + b[1] + '</p><span class="cctag ' + b[3] + '">' + b[2] + '</span></section>'; }).join('') + '</div>';
   }
@@ -2254,7 +2254,7 @@ nav button{font-size:10.5px}
   function aboutTab() {
     var s = S, c = conn();
     var kv = function (a) { return '<table class="cctbl"><tbody>' + a.map(function (x) { return '<tr><td class="n">' + x[0] + '</td><td class="m ' + (x[2] || '') + '">' + x[1] + '</td></tr>'; }).join('') + '</tbody></table>'; };
-    var H = [['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
+    var H = [['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
       ['6.8.3', 'Bot: Auto trades HOLD only · stop to entry at +1.5R · one copy across MT5 terminals'], ['6.8.2', 'Bot: patterns always drawn, 12h high/low when no clean pattern'], ['6.8.1', 'Bot: NAS100, US30, GER40, ETH removed']];
     return ccHead('About', 'AXON-9 Pro') + '<div class="ccrow">' +
       '<section class="ccp ccbr"><b>System</b>' + kv([['App version', APP_VER], ['Bot version', esc(s.ver || '?'), verGE('6.8.3') ? 'u' : 'w'], ['Broker', esc(brokerName())], ['Account', esc(String(s.login || '')) + (s.real ? ' · REAL' : ' · DEMO')], ['Developer', 'Zola Huna']]) + '</section>' +
@@ -2304,9 +2304,9 @@ nav button{font-size:10.5px}
     var E = s.eng || [], ai = E.filter(function (e) { return /AI/.test(e.n); })[0];
     var oth = [['SCALP', v683 ? 'OFF · lost −38.7R' : 'ON (old bot)', v683 ? 'n' : 'w'], ['RANGE', v683 ? 'OFF · lost −25.4R' : 'ON (old bot)', v683 ? 'n' : 'w']];
     var unt = E.filter(function (e) { return !/AI/.test(e.n) && e.on; }).map(function (e) { return e.n; });
-    if (unt.length) oth.push(['Untested · still trading', unt.join(', '), 'w']);
+    if (unt.length) oth.push(verGE('6.8.4') ? ['Analysis only (no auto trades)', unt.join(', '), 'n'] : ['Untested · still trading', unt.join(', '), 'w']);
     oth.push(['Flip', 'NOT BUILT', 'n']);
-    g += '<section class="bxp a-eng"><h2><i></i>Active engine<em>' + (v683 ? 'bot ' + esc(s.ver) : 'update bot') + '</em></h2><div class="bpb beng"><div class="hold"><b>HOLD ' + (ai && ai.on && s.auto ? '· AUTO ON' : '· AUTO OFF') + '</b><p>Trend trades only when every timeframe agrees. Stop 1.56 × ATR, target 3R, stop moves to entry at +1.5R. Backtest +33.1R.</p></div>' +
+    g += '<section class="bxp a-eng"><h2><i></i>Active engine<em>' + (v683 ? 'bot ' + esc(s.ver) : 'update bot') + '</em></h2><div class="bpb beng"><div class="hold"><b>HOLD ' + (ai && ai.on && s.auto ? '· AUTO ON' : '· AUTO OFF') + '</b><p>Trend trades only when every timeframe agrees. Stop 1.56 × ATR, target 3R, stop moves to entry at +1.5R. Backtest +33.1R.' + (verGE('6.8.4') ? ' The only engine allowed to trade by itself – every order passes the safety gate.' : '') + '</p></div>' +
       oth.map(function (o) { return '<div class="oth">' + esc(o[0]) + '<span style="color:' + (o[2] === 'w' ? '#E8C26B' : '#8FA398') + '">' + o[1] + '</span></div>'; }).join('') + '</div></section>';
     //--- 4 TRADE EXECUTION: signal accepted -> order sent -> filled -> open -> protected
     var f = s.feed || [], now = Date.now() / 1000;
