@@ -773,7 +773,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '13.1.0';
+  var APP_VER = '13.2.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -842,6 +842,7 @@ nav button{font-size:10.5px}
   if (U && p.k) addAcct({ k: p.k, db: (p.db || HOME_DB).replace(/\/$/, ''), name: '' });
   if (U && !accts().some(function (y) { return y.k === KEY; })) pick(accts()[0]);
   if (!U) { KEY = ''; DB = ''; }
+  var HARD_LOT = 0.02;   // v13.2: no position bigger than 0.02 lot - matches bot 6.8.5 HardMaxLot
   var S = null, tab = 'home', picking = null, lastOk = 0, busy = false, mkSel = 0, lotSel = 0.01, nSel = 1, authMode = 'in', authBusy = false;
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -1351,7 +1352,7 @@ nav button{font-size:10.5px}
   function symView() {
     var x = (S.watch || []).filter(function (y) { return y.s === symSel; })[0];
     if (!x) return '<div class="card empty">Loading ' + esc(symSel) + '…</div><button class="btn ghost full" data-back="1">‹ Back</button>';
-    var maxLot = x.vx || 100, maxN = 10;
+    var maxLot = Math.min(HARD_LOT, x.vx || 100, maxN = 10);
     (S.markets || []).forEach(function (m) { if (m.maxN) maxN = m.maxN; });
     lotSel = Math.min(lotSel, maxLot);
     var out = '<button class="btn ghost" data-back="1" style="align-self:flex-start;height:40px">‹ Markets</button>';
@@ -1481,7 +1482,7 @@ nav button{font-size:10.5px}
     if (!r) return '<div class="card pnl tkt"><b class="ttl">⚡ Trade Signal</b><div class="why" style="padding:18px 0">Tap <b>Trade</b> or <b>View</b> on any signal to load it here.</div></div>';
     var m = (S.markets || []).filter(function (x) { return x.n === r.m; })[0] || {}, buy = r.s === 'BUY', c = r.c || 0, can = tradeable(r);
     var e = num(buy ? m.ask || m.px : m.bid || m.px), sl = num(r.sl), t1 = num(r.t1), t2 = num(r.t2), rr = can && Math.abs(e - sl) > 0 ? Math.abs(t2 - e) / Math.abs(e - sl) : 0;
-    var maxLot = m.maxLot || 100; sgLot = Math.min(Math.max(0.01, sgLot), maxLot);
+    var maxLot = Math.min(HARD_LOT, Math.min(HARD_LOT, m.maxLot || 100)); sgLot = Math.min(Math.max(0.01, sgLot), maxLot);
     var riskPct = (m.r001 || 0) * Math.round(sgLot * 100) * sgN * (m.slDist && can ? Math.abs(e - sl) / num(m.slDist) : 1);
     var hb = htfBias(m), trend = hb > 0 ? 'Bullish' : hb < 0 ? 'Bearish' : 'Mixed';
     return '<div class="card pnl tkt"><div class="row"><b class="ttl">⚡ Trade Signal</b><small class="why">' + hm(r.t) + ' · ' + esc(ENGN[r.e] || r.e) + '</small></div>' +
@@ -1527,7 +1528,8 @@ nav button{font-size:10.5px}
     var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'AXON9_report_' + acctName().replace(/\W+/g, '_') + '.csv'; document.body.appendChild(a); a.click(); setTimeout(function () { a.remove(); }, 500);
   }
   document.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('#csvx'); if (b) { e.preventDefault(); if (S) csvExport(); } });
-  function lotStep(x, d) {   // 0.01 to 0.10, 0.05 to 0.50, 0.10 to 2, 0.50 to 10, then 1.00
+  function lotStep(x, d) { return Math.min(HARD_LOT, Math.max(0.01, lotStep0(x, d))); }
+  function lotStep0(x, d) {   // 0.01 to 0.10, 0.05 to 0.50, 0.10 to 2, 0.50 to 10, then 1.00
     var lim = [[0.1, 0.01], [0.5, 0.05], [2, 0.1], [10, 0.5], [1e9, 1]], st = 1;
     for (var i = 0; i < lim.length; i++) { if (d > 0 ? x < lim[i][0] - 1e-9 : x <= lim[i][0] + 1e-9) { st = lim[i][1]; break; } }
     return Math.round((x + d * st) * 100) / 100;
@@ -1542,7 +1544,7 @@ nav button{font-size:10.5px}
   function market() {
     var m = (S.markets || []).filter(function (x) { return x.i === mkSel; })[0];
     if (!m) return '<div class="card empty">Market not found.</div><button class="btn ghost full" data-back="1">‹ Back</button>';
-    var maxLot = m.maxLot || 100, maxN = m.maxN || 10, out = '';
+    var maxLot = Math.min(HARD_LOT, Math.min(HARD_LOT, m.maxLot || 100), maxN = m.maxN || 10, out = '');
     out += '<button class="btn ghost" data-back="1" style="margin-bottom:10px">‹ Markets</button>';
     out += '<div class="card"><div class="row"><div><div class="big">' + esc(m.n) + '</div><div class="why mono">' + esc(m.sym || '') + ' · spread ' + (m.spr || 0) + ' pts</div></div>' +
       '<span class="tag ' + (m.reg === 'TREND' ? 'trend' : '') + '">' + esc(m.reg) + '</span></div>' +
@@ -1823,7 +1825,7 @@ nav button{font-size:10.5px}
     var out = '<div class="seg">' + [['list', 'Markets'], ['news', 'News & calendar']].map(function (x) { return '<button class="' + (mSub === x[0] ? 'on' : '') + '" data-msub="' + x[0] + '">' + x[1] + '</button>'; }).join('') + '</div>';
     if (mSub === 'news') return out + newsTab();
     var ms = S.markets || []; if (!ms.length) return out + '<div class="card empty">No markets from the bot yet.</div>';
-    var m = curA9(); a9m = m.n; mkSel = m.i; loadBars(); loadBarsX(m.n); lotSel = Math.min(Math.max(0.01, lotSel), m.maxLot || 100);
+    var m = curA9(); a9m = m.n; mkSel = m.i; loadBars(); loadBarsX(m.n); lotSel = Math.min(Math.max(0.01, lotSel), Math.min(HARD_LOT, m.maxLot || 100));
     var c = conn(), q = mQ.toUpperCase();
     var book = '<div class="xpan sbook"><div class="xtabs"><span class="on">Symbol Book</span><span>' + (S.markets || []).length + ' bot markets</span></div><input id="mxq" class="xin" placeholder="Search symbols…" value="' + esc(mQ) + '" autocomplete="off">' +
       '<div class="sbh"><span>Symbol</span><span>Bid</span><span>Spread</span><span>Ask</span></div>' +
@@ -1831,7 +1833,7 @@ nav button{font-size:10.5px}
         return '<button class="sbr ' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '"><div class="sbn"><b>' + esc(x.n) + '</b><small>' + esc(MNAME[x.n] || '') + '</small><small class="tf3">D1 ' + trd(pa.d1) + ' H4 ' + trd(pa.h4) + ' H1 ' + trd(pa.h1) + (x.off ? ' · off' : '') + '</small></div><span class="mono down">' + esc(x.bid || x.px) + '</span><span class="mono sp">' + esc(x.spr != null ? x.spr : '–') + '</span><span class="mono up">' + esc(x.ask || x.px) + '</span></button>'; }).join('') +
       ((S.watch || []).length ? '<div class="sbh" style="margin-top:8px"><span>Other MT5 symbols</span></div>' + (S.watch || []).filter(function (w) { return !q || String(w.s).toUpperCase().indexOf(q) >= 0; }).slice(0, 30).map(function (w) { return '<button class="sbr" data-sym="' + esc(w.s) + '"><div class="sbn"><b>' + esc(w.s) + '</b></div><span class="mono down">' + esc(w.b || w.p || '–') + '</span><span class="mono sp">–</span><span class="mono up">' + esc(w.a || w.p || '–') + '</span></button>'; }).join('') : '') + '</div>';
     var oc = '<div class="oc"><button class="ocs" ' + (c.k === 'ok' ? 'data-oc="sell"' : 'disabled') + '><small>SELL</small><b>' + esc(m.bid || m.px) + '</b></button><div class="ocl"><button data-lotstep="-1">−</button><b>' + lotSel.toFixed(2) + '</b><button data-lotstep="1">+</button></div><button class="ocb" ' + (c.k === 'ok' ? 'data-oc="buy"' : 'disabled') + '><small>BUY</small><b>' + esc(m.ask || m.px) + '</b></button>' +
-      '<div class="ocq">' + [0.01, 0.1, 0.5, 1].map(function (v) { return '<button class="' + (Math.abs(lotSel - v) < 1e-9 ? 'on' : '') + '" data-lotset="' + v + '">' + v + '</button>'; }).join('') + '</div></div>';
+      '<div class="ocq">' + [0.01, 0.02].map(function (v) { return '<button class="' + (Math.abs(lotSel - v) < 1e-9 ? 'on' : '') + '" data-lotset="' + v + '">' + v + '</button>'; }).join('') + '</div></div>';
     var tool = '<div class="xtool"><b class="xsym">' + esc(m.n) + ' ▾</b>' + chartTfs('xtf') + '<button class="xbtn2 ' + (copt.lv ? 'on' : '') + '" data-copt="lv">📊 Indicators</button><button class="xbtn2" data-tab2="trades">📝 New order</button><button class="xbtn2 oc1 ' + (oneClick ? 'on' : '') + '" data-oneclick="1">⚡ 1-Click ' + (oneClick ? 'ON' : 'OFF') + '</button></div>';
     var chart = '<div class="xpan xchart">' + tool + '<div class="xcw">' + oc + '<canvas id="cv" class="cv simp xcv" aria-label="' + esc(m.n) + ' chart"></canvas></div></div>';
     var acc = S.acc || {}, tr = S.trades || [], pl = sumPL(), ses = sessNow().filter(function (x) { return x[1]; }).map(function (x) { return x[0]; }).join(' · ');
@@ -1866,7 +1868,7 @@ nav button{font-size:10.5px}
     if (!(per > 0) || !(dist > 0)) return null;
     var A = S.acc || {}, bal = Number(A.b || 0), cur = A.cur || 'USD', sym = cur === 'ZAR' ? 'R' : cur === 'USD' ? '$' : cur === 'EUR' ? '€' : cur === 'GBP' ? '£' : cur + ' ';
     var rr1 = Math.abs(num(r.t1) - e) / dist, rr2 = Math.abs(num(r.t2) - e) / dist;
-    function pack(u) { var pos = u >= 50 ? 10 : u >= 25 ? 5 : Math.min(25, u), lot = Math.max(1, Math.floor(u / pos)) / 100, n = Math.round(lot * 100) * pos, loss = per / 100 * bal * n;
+    function pack(u) { var lot = u >= 2 ? 0.02 : 0.01, pos = Math.max(1, Math.min(25, Math.floor(u / (lot * 100)))), n = Math.round(lot * 100) * pos, loss = per / 100 * bal * n;
       return { pos: pos, lot: lot, n: n, risk: per * n, loss: loss, w1: loss * rr1, w2: loss * rr2 }; }
     var u2 = Math.floor(2 / per), u10 = Math.floor(10 / per);
     return { sym: sym, bal: bal, per: per, safe: u2 >= 1 ? pack(u2) : null, max: u10 >= 1 ? pack(u10) : null, one: pack(1),
@@ -1920,7 +1922,7 @@ nav button{font-size:10.5px}
     var trends = '<div class="gpan"><div class="row"><b class="gt">Market Trends</b><button class="gref" data-cmd="/now ' + esc(m.n) + '" data-msg="Refreshing ' + esc(m.n) + '…">Refresh</button></div><div class="why">Live multi-timeframe read from MT5.</div><div class="gchips"><span>' + esc(m.n) + '</span><span>' + a9tf2.toUpperCase() + '</span><span>' + esc(String(pa.reg || m.reg || '–')) + '</span></div>' +
       '<div class="gtr">' + [['D1', pa.d1], ['H4', pa.h4], ['H1', pa.h1], ['Now', ltfMove(m)]].map(function (x) { return '<div><span>' + x[0] + '</span>' + trd(x[1]) + '<small>' + (x[1] > 0 ? 'Bullish' : x[1] < 0 ? 'Bearish' : 'Ranging') + '</small></div>'; }).join('') + '</div></div>';
     var e = r ? num(dir === 'BUY' ? m.ask || m.px : m.bid || m.px) : 0, sl = r ? num(r.sl) : 0, t2 = r ? num(r.t2) : 0, rr = r && Math.abs(e - sl) > 0 ? Math.abs(t2 - e) / Math.abs(e - sl) : 0;
-    sgLot = Math.min(Math.max(0.01, sgLot), m.maxLot || 100);
+    sgLot = Math.min(Math.max(0.01, sgLot), Math.min(HARD_LOT, m.maxLot || 100));
     var risk = (m.r001 || 0) * Math.round(sgLot * 100) * sgN * (m.slDist && r ? Math.abs(e - sl) / num(m.slDist) : 1);
     var chipsM = '<div class="mchips phm" style="margin-bottom:12px">' + ms.map(function (x) { var rx = sigFor(x) || aiRead(x); return '<button class="' + (x.n === m.n ? 'on' : '') + '" data-sgm="' + esc(x.n) + '">' + esc(x.n) + (rx ? ' <b class="' + (rx.s === 'BUY' ? 'up' : 'down') + '">' + (rx.c || '') + '%</b>' : '') + '</button>'; }).join('') + '</div>';
     var center = '<div class="gpan gc">' + chipsM + '<div class="gname">' + esc(m.n) + '</div><div class="why">' + esc(MNAME[m.n] || '') + '</div>' +
@@ -2086,7 +2088,7 @@ nav button{font-size:10.5px}
     var s = S, ms = (s.markets || []).filter(function (x) { return !x.off; }); if (!ms.length) ms = s.markets || [];
     if (!ms.length) return '';
     var m = curA9(); a9m = m.n; mkSel = m.i; loadBars(); loadBarsX(m.n);
-    var c = conn(), buy = a9side === 'buy', maxLot = m.maxLot || 100; lotSel = Math.min(Math.max(0.01, lotSel), maxLot);
+    var c = conn(), buy = a9side === 'buy', maxLot = Math.min(HARD_LOT, m.maxLot || 100); lotSel = Math.min(Math.max(0.01, lotSel), maxLot);
     var hk0 = m.n + '|' + a9side; if (hk0 !== hKey) { hKey = hk0; hEdit = false; } if (!hEdit) { var hl = autoLv(m, buy); if (hl) { hSL = hl.sl; hTP = hl.tp; } }
     var list = '<div class="hpan ha-list"><div class="hh">Markets</div><div class="hlist" style="margin-top:6px">' + ms.map(function (x) {
       return '<button class="hli ' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '"><div><b>' + esc(x.n) + '</b><small>' + esc(MNAME[x.n] || x.sym || '') + '</small></div><div class="hp"><b class="' + (x.chg >= 0 ? 'up' : 'down') + '">' + esc(x.px) + '</b><br><span class="hchg ' + (x.chg >= 0 ? 'up' : 'down') + '">' + (x.chg >= 0 ? '↗ +' : '↘ ') + Number(x.chg || 0).toFixed(2) + '%</span></div></button>'; }).join('') + '</div></div>';
@@ -2254,7 +2256,7 @@ nav button{font-size:10.5px}
   function aboutTab() {
     var s = S, c = conn();
     var kv = function (a) { return '<table class="cctbl"><tbody>' + a.map(function (x) { return '<tr><td class="n">' + x[0] + '</td><td class="m ' + (x[2] || '') + '">' + x[1] + '</td></tr>'; }).join('') + '</tbody></table>'; };
-    var H = [['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
+    var H = [['13.2', 'Lot size capped at 0.01–0.02 per position everywhere (needs bot 6.8.5)'], ['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
       ['6.8.3', 'Bot: Auto trades HOLD only · stop to entry at +1.5R · one copy across MT5 terminals'], ['6.8.2', 'Bot: patterns always drawn, 12h high/low when no clean pattern'], ['6.8.1', 'Bot: NAS100, US30, GER40, ETH removed']];
     return ccHead('About', 'AXON-9 Pro') + '<div class="ccrow">' +
       '<section class="ccp ccbr"><b>System</b>' + kv([['App version', APP_VER], ['Bot version', esc(s.ver || '?'), verGE('6.8.3') ? 'u' : 'w'], ['Broker', esc(brokerName())], ['Account', esc(String(s.login || '')) + (s.real ? ' · REAL' : ' · DEMO')], ['Developer', 'Zola Huna']]) + '</section>' +
