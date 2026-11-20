@@ -773,7 +773,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '13.3.0';
+  var APP_VER = '13.4.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2259,7 +2259,7 @@ nav button{font-size:10.5px}
   function aboutTab() {
     var s = S, c = conn();
     var kv = function (a) { return '<table class="cctbl"><tbody>' + a.map(function (x) { return '<tr><td class="n">' + x[0] + '</td><td class="m ' + (x[2] || '') + '">' + x[1] + '</td></tr>'; }).join('') + '</tbody></table>'; };
-    var H = [['13.3', 'Retest shield: GOLD max 2, BTC max 5, yen pairs max 10 positions of 0.01 (needs bot 6.8.6)'], ['13.2', 'Lot size capped at 0.01–0.02 per position everywhere (needs bot 6.8.5)'], ['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
+    var H = [['13.4', 'Hard loss lock: 5% a day, 10% a week, 5 losses in a row – stops your trades and the bot (needs bot 6.8.7)'], ['13.3', 'Retest shield: GOLD max 2, BTC max 5, yen pairs max 10 positions of 0.01 (needs bot 6.8.6)'], ['13.2', 'Lot size capped at 0.01–0.02 per position everywhere (needs bot 6.8.5)'], ['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
       ['6.8.3', 'Bot: Auto trades HOLD only · stop to entry at +1.5R · one copy across MT5 terminals'], ['6.8.2', 'Bot: patterns always drawn, 12h high/low when no clean pattern'], ['6.8.1', 'Bot: NAS100, US30, GER40, ETH removed']];
     return ccHead('About', 'AXON-9 Pro') + '<div class="ccrow">' +
       '<section class="ccp ccbr"><b>System</b>' + kv([['App version', APP_VER], ['Bot version', esc(s.ver || '?'), verGE('6.8.3') ? 'u' : 'w'], ['Broker', esc(brokerName())], ['Account', esc(String(s.login || '')) + (s.real ? ' · REAL' : ' · DEMO')], ['Developer', 'Zola Huna']]) + '</section>' +
@@ -2274,6 +2274,7 @@ nav button{font-size:10.5px}
     var recentOpen = f.filter(function (e) { return /^AI (HOLD|SCALP|RANGE) /.test(e.x) && now - (e.t || 0) < 180; })[0];
     if (c.k !== 'ok') return ['OFFLINE', '#F06A57', 'MT5 ' + c.t.toLowerCase() + ' · last update ' + ageTxt(c.age), 1];
     if (s.kill) return ['STOPPED', '#F06A57', 'Kill switch is on – Auto locked. Press START to unlock.', 1];
+    if (s.hl) return ['HARD STOP', '#F06A57', esc(s.hl) + ' (yours and the bot\'s)', 1];
     if (!s.auto) return ['AUTO OFF', '#8FA398', 'Signals only. Switch AUTO on and AXON-9 trades by itself.', 1];
     if (s.algo === false) return ['BLOCKED', '#F06A57', 'Algo Trading is OFF in MT5 – press the Algo Trading button there.', 1];
     if (s.aw) return ['BLOCKED', '#E8C26B', esc(s.aw) + ' · Auto resumes by itself', 0];
@@ -2294,7 +2295,7 @@ nav button{font-size:10.5px}
     //--- 2 AI BRAIN
     var ms = (s.markets || []).filter(function (x) { return !x.off; }).slice().sort(function (x, y) { return (y.aim === 'HOLD') - (x.aim === 'HOLD') || (y.aic || 0) - (x.aic || 0); });
     var go = ms.filter(function (x) { return x.aim === 'HOLD' && (x.aic || 0) >= (x.aimin || 70) && x.aid; })[0];
-    var head = go ? 'Best setup: <b>' + esc(go.n) + ' ' + (go.aid > 0 ? 'BUY' : 'SELL') + '</b> – HOLD ' + go.aic + '%. ' + (s.auto && !s.aw && !s.kill ? 'Auto takes it when the M15 candle closes.' : 'Auto is not trading right now.')
+    var head = go ? 'Best setup: <b>' + esc(go.n) + ' ' + (go.aid > 0 ? 'BUY' : 'SELL') + '</b> – HOLD ' + go.aic + '%. ' + (s.auto && !s.aw && !s.kill && !s.hl ? 'Auto takes it when the M15 candle closes.' : 'Auto is not trading right now.')
       : 'No market passes the HOLD rules yet. AXON-9 needs <b>D1, H4 and H1 pointing the same way</b>, a <b>strong trend</b> (ADX 25+) and <b>' + ((ms[0] || {}).aimin || 70) + '%+ confidence</b>.';
     var tfc = function (v, l) { return '<span class="' + (v > 0 ? 'u' : v < 0 ? 'd' : '') + '">' + l + (v > 0 ? '▲' : v < 0 ? '▼' : '–') + '</span>'; };
     var rows = ms.map(function (x) {
@@ -2330,7 +2331,7 @@ nav button{font-size:10.5px}
     g += '<section class="bxp a-risk"><h2><i class="' + (hit ? 'b' : '') + '"></i>Risk command<em>' + (hit ? 'daily limit hit' : 'protected') + '</em></h2><div class="bpb">' +
       '<div class="ccg"><div><span>DAILY LOSS</span><b>' + dUsed.toFixed(1) + '% / ' + dCap + '%</b></div>' + riskBar(dUsed, dCap) + '</div>' +
       '<div class="bkv"><span>Risk per Auto trade</span><b>' + Number(s.risk || 0).toFixed(2) + '%</b></div><div class="bkv"><span>Size guard</span><b class="' + ((s.ddf || 1) < 1 ? 'w' : 'u') + '">× ' + Number(s.ddf || 1).toFixed(2) + '</b></div>' +
-      '<div class="bkv"><span>Below peak</span><b class="' + ((s.dd || 0) > 20 ? 'd' : '') + '">' + Number(s.dd || 0).toFixed(1) + '%</b></div><div class="bkv"><span>Your own trades</span><b class="u">never blocked</b></div>' +
+      '<div class="bkv"><span>Below peak</span><b class="' + ((s.dd || 0) > 20 ? 'd' : '') + '">' + Number(s.dd || 0).toFixed(1) + '%</b></div><div class="bkv"><span>Hard max · today / week</span><b class="' + (s.hl ? 'd' : '') + '">' + ((s.hlp || [])[0] || 5) + '% / ' + ((s.hlp || [])[1] || 10) + '%</b></div><div class="bkv"><span>Hard max · losses in a row</span><b>' + ((s.hlp || [])[2] || 5) + '</b></div>' +
       '<button class="btn ghost full" style="margin-top:10px" data-tab2="risk">Risk Manager ›</button></div></section>';
     //--- 6 PERFORMANCE (real closed trades only)
     var cd = s.card || [], n = 0, w = 0, rs = 0; cd.forEach(function (x) { n += x.n || 0; w += (x.w || 0) * (x.n || 0) / 100; rs += (x.avg || 0) * (x.n || 0); });
@@ -2501,7 +2502,8 @@ nav button{font-size:10.5px}
     var mkN = tab === 'mkt' ? ((S.markets || []).filter(function (x) { return x.i === mkSel; })[0] || {}).n : '';
     if (S && (tab === 'mkt' || tab === 'sym')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
     document.body.classList.toggle('cchome', tab === 'home' && wide()); ccTick();
-    var body = tab === 'home' ? botHome() : tab === 'markets' ? ccHead('Market Scanner', 'ranked by AI confidence') + scanHtml() : tab === 'a9' ? ccHead('Patterns', 'the app reads every chart') + '<section class="ccp ccbr"><b>Chart read · ' + esc(curA9() ? curA9().n : '') + ' · ' + esc(String(a9tf2).toUpperCase()) + '</b><p class="cread" data-m="' + esc(curA9() ? curA9().n : '') + '" style="font-size:14px;color:#EDE6D3">' + esc(readText(curA9() || {}, cRead[curA9() ? curA9().n : ''])) + '</p></section>' + patternsHtml() + a9Tab() : tab === 'perf' ? ccHead('AI Analytics', 'strategy tournament') + tourHtml() + perfTab() : tab === 'risk' ? riskTab() : tab === 'alerts' ? alertsTab() : tab === 'about' ? aboutTab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? ccHead('Trade Engine', 'four brains · analyse · enter · manage') + brainsHtml() + signalsWrap() : tab === 'trades' ? ccHead('Trade Journal', 'every trade · straight from MT5') + tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings();
+    var hlBan = S && S.hl ? '<div class="alert bad"><b>⛔ ' + esc(S.hl) + '</b><br>Applies to your trades too. Closing trades still works.</div>' : '';
+    var body = tab === 'home' ? botHome() : tab === 'markets' ? ccHead('Market Scanner', 'ranked by AI confidence') + scanHtml() : tab === 'a9' ? ccHead('Patterns', 'the app reads every chart') + '<section class="ccp ccbr"><b>Chart read · ' + esc(curA9() ? curA9().n : '') + ' · ' + esc(String(a9tf2).toUpperCase()) + '</b><p class="cread" data-m="' + esc(curA9() ? curA9().n : '') + '" style="font-size:14px;color:#EDE6D3">' + esc(readText(curA9() || {}, cRead[curA9() ? curA9().n : ''])) + '</p></section>' + patternsHtml() + a9Tab() : tab === 'perf' ? ccHead('AI Analytics', 'strategy tournament') + tourHtml() + perfTab() : tab === 'risk' ? riskTab() : tab === 'alerts' ? alertsTab() : tab === 'about' ? aboutTab() : tab === 'news' ? '<div class="ptitle"><h2>News</h2></div>' + newsTab() : tab === 'growth' ? growthTab() : tab === 'signals' ? ccHead('Trade Engine', 'four brains · analyse · enter · manage') + brainsHtml() + signalsWrap() : tab === 'trades' ? ccHead('Trade Journal', 'every trade · straight from MT5') + tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings(); if (tab !== 'home' && hlBan) body = hlBan + body;
     var html = rp + body + askSheet();
     if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
     var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
