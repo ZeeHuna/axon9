@@ -2373,7 +2373,7 @@ nav button{font-size:10.5px}
 
   //--- v14.0 money icons
   function coin(n, sz) {
-    var k = n === 'GOLD' ? ['c-gold', 'Au'] : n === 'BTC' ? ['c-btc', '₿'] : n === 'USDJPY' ? ['c-usd', '$'] : n === 'GBPJPY' ? ['c-gbp', '£'] : n === 'EURJPY' ? ['c-eur', '€'] : /US30|NAS/.test(n) ? ['c-idx', n === 'US30' ? '30' : '100'] : ['c-usd', '$'];
+    var k = n === 'GOLD' ? ['c-gold', 'Au'] : n === 'BTC' ? ['c-btc', '₿'] : n === 'USDJPY' ? ['c-usd', '$'] : n === 'GBPJPY' ? ['c-gbp', '£'] : n === 'EURJPY' ? ['c-eur', '€'] : /US30|NAS|GER/.test(n) ? ['c-idx', n === 'US30' ? '30' : n === 'GER40' ? '40' : '100'] : ['c-usd', '$'];
     return '<span class="coin ' + k[0] + (sz ? ' ' + sz : '') + '" aria-hidden="true">' + k[1] + '</span>';
   }
   //--- v14.0 SCANNER: every market scanned live, ranked, with entry / stop / target and one tap to trade
@@ -2440,7 +2440,7 @@ nav button{font-size:10.5px}
     var sys = 'You are AXON-9, a sharp, honest trading assistant inside Zola\'s trading app. Speak simply and briefly (max 8 short lines), call him champ. ' +
       'Use the LIVE DATA below and, if given, his MT5 chart screenshot. Read the structure (higher highs/lows, trend lines, support and resistance, patterns, where price is in the move). ' +
       'Give one clear call. Never promise a win; say what would prove you wrong. Lot size must be 0.01-0.02. ' +
-      'Always end with exactly one line: VERDICT: BUY|SELL|WAIT <MARKET> SL <price> TP <price>  (MARKET is one of the names in the live data, e.g. GOLD, BTC, USDJPY, GBPJPY, EURJPY, US30, NAS100; for WAIT leave out SL/TP).\n\nLIVE DATA (from his MT5 right now):\n' + chatContext();
+      'Always end with exactly one line: VERDICT: BUY|SELL|WAIT <MARKET> SL <price> TP <price>  (MARKET is one of the names in the live data, e.g. GOLD, BTC, USDJPY, GBPJPY, EURJPY, US30, NAS100, GER40; for WAIT leave out SL/TP).\n\nLIVE DATA (from his MT5 right now):\n' + chatContext();
     var hist = chatMsgs.slice(-8).map(function (x) {
       var c = [];
       if (x.img && x === chatMsgs[chatMsgs.length - 1]) c.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: x.img.split(',')[1] } });
