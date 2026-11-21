@@ -786,6 +786,13 @@ nav button{font-size:10.5px}
 .nwc .imp{display:flex;flex-wrap:wrap;gap:6px}.nwc .imp>span{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 4px;border-radius:999px;background:#0E1A13;border:1px solid #22362B;font:700 12px 'Space Grotesk',sans-serif}
 .nwc .imp .u{color:#3DCB8A}.nwc .imp .d{color:#F06A57}.nwc .imp .m{color:#E8C26B}
 .nwc a{font-size:12.5px;color:#F1B877;font-weight:600}
+
+.scup{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:16px;border:1.5px dashed #D0904F;border-radius:12px;background:rgba(208,144,79,.06)}
+.scup .ic{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;background:#D0904F;color:#0B1510;font-size:24px;flex:none}
+.scup b{display:block;font-size:16px}.scup small{color:#B9C7BE;font-size:13px}
+.scup label{margin-left:auto;display:inline-flex;align-items:center;height:46px;padding:0 20px;border-radius:10px;background:#D0904F;color:#0B1510;font:800 14px 'Space Grotesk',sans-serif;cursor:pointer}
+.scres{background:#111F17;border:1px solid #2E4739;border-radius:12px;padding:14px;display:flex;gap:14px;flex-wrap:wrap}
+.scres img{width:220px;max-width:100%;border-radius:8px;align-self:flex-start}.scres .tx{flex:1 1 300px;white-space:pre-wrap;font-size:14px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -816,7 +823,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '14.1.0';
+  var APP_VER = '14.2.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2295,7 +2302,7 @@ nav button{font-size:10.5px}
   function aboutTab() {
     var s = S, c = conn();
     var kv = function (a) { return '<table class="cctbl"><tbody>' + a.map(function (x) { return '<tr><td class="n">' + x[0] + '</td><td class="m ' + (x[2] || '') + '">' + x[1] + '</td></tr>'; }).join('') + '</tbody></table>'; };
-    var H = [['14.1', 'News page: big world events (central banks, wars, tariffs, big-tech scandals) and which of your markets they push up or down; Ask AXON can search the news'], ['14.0', 'Clean redesign: Ask AXON chat + chart-image analysis, live scanner cards, money icons, fewer charts, US30 + NAS100 back, no limits except the 0.02 lot cap (bot 6.8.9)'], ['13.5', 'Your own trades: no position limit, only the 0.02 lot cap (needs bot 6.8.8)'], ['13.4', 'Hard loss lock: 5% a day, 10% a week, 5 losses in a row – stops your trades and the bot (needs bot 6.8.7)'], ['13.3', 'Retest shield: GOLD max 2, BTC max 5, yen pairs max 10 positions of 0.01 (needs bot 6.8.6)'], ['13.2', 'Lot size capped at 0.01–0.02 per position everywhere (needs bot 6.8.5)'], ['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
+    var H = [['14.2', 'Scanner: upload an MT5 chart picture and AXON-9 reads the direction and says BUY / SELL / WAIT'], ['14.1', 'News page: big world events (central banks, wars, tariffs, big-tech scandals) and which of your markets they push up or down; Ask AXON can search the news'], ['14.0', 'Clean redesign: Ask AXON chat + chart-image analysis, live scanner cards, money icons, fewer charts, US30 + NAS100 back, no limits except the 0.02 lot cap (bot 6.8.9)'], ['13.5', 'Your own trades: no position limit, only the 0.02 lot cap (needs bot 6.8.8)'], ['13.4', 'Hard loss lock: 5% a day, 10% a week, 5 losses in a row – stops your trades and the bot (needs bot 6.8.7)'], ['13.3', 'Retest shield: GOLD max 2, BTC max 5, yen pairs max 10 positions of 0.01 (needs bot 6.8.6)'], ['13.2', 'Lot size capped at 0.01–0.02 per position everywhere (needs bot 6.8.5)'], ['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
       ['6.8.3', 'Bot: Auto trades HOLD only · stop to entry at +1.5R · one copy across MT5 terminals'], ['6.8.2', 'Bot: patterns always drawn, 12h high/low when no clean pattern'], ['6.8.1', 'Bot: NAS100, US30, GER40, ETH removed']];
     return ccHead('About', 'AXON-9 Pro') + '<div class="ccrow">' +
       '<section class="ccp ccbr"><b>System</b>' + kv([['App version', APP_VER], ['Bot version', esc(s.ver || '?'), verGE('6.8.3') ? 'u' : 'w'], ['Broker', esc(brokerName())], ['Account', esc(String(s.login || '')) + (s.real ? ' · REAL' : ' · DEMO')], ['Developer', 'Zola Huna']]) + '</section>' +
@@ -2403,7 +2410,7 @@ nav button{font-size:10.5px}
   }
   //--- v14.0 ASK AXON: chat with the market + upload an MT5 chart screenshot for a BUY / SELL / WAIT read (Claude, key kept on this device)
   var chatMsgs = (function () { try { return JSON.parse(localStorage.getItem('axchat') || '[]'); } catch (e) { return []; } })(), chatImg = null, chatBusy = false, chatErr = '';
-  function chatSave() { try { localStorage.setItem('axchat', JSON.stringify(chatMsgs.slice(-30).map(function (x) { return { r: x.r, t: x.t, v: x.v }; }))); } catch (e) {} }
+  function chatSave() { try { localStorage.setItem('axchat', JSON.stringify(chatMsgs.slice(-30).map(function (x) { return { r: x.r, t: x.t, v: x.v, scan: x.scan }; }))); } catch (e) {} }
   function chatKey() { try { return localStorage.getItem('axak') || ''; } catch (e) { return ''; } }
   function chatContext() {
     var s = S || {}, acc = s.acc || {}, L = ['Account balance ' + (s.bal || '') + ' (' + (acc.cur || '') + '), equity ' + (s.eq || '') + ', open trades ' + (s.trades || []).length + '. Lot size allowed: 0.01 to 0.02 per position only.'];
@@ -2441,7 +2448,7 @@ nav button{font-size:10.5px}
     rd.onload = function () { var im = new Image(); im.onload = function () { var k = Math.min(1, 1400 / Math.max(im.width, im.height)), c = document.createElement('canvas'); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); cb(c.toDataURL('image/jpeg', 0.85)); }; im.src = rd.result; };
     rd.readAsDataURL(file);
   }
-  function chatSend(q) {
+  function chatSend(q, isScan) {
     q = (q || '').trim(); if (!q && !chatImg) return; if (chatBusy) return;
     var key = chatKey(); if (!key) { chatErr = 'Paste your API key first.'; lastHtml = ''; render(true); return; }
     var img = chatImg; chatImg = null; chatErr = '';
@@ -2463,7 +2470,7 @@ nav button{font-size:10.5px}
       .then(function (x) {
         chatBusy = false;
         if (!x.ok) { chatErr = 'AXON-9 could not answer: ' + ((x.j && x.j.error && x.j.error.message) || 'error'); }
-        else { var t = (x.j.content || []).filter(function (c) { return c.type === 'text'; }).map(function (c) { return c.text || ''; }).join('').trim(); chatMsgs.push({ r: 'ai', t: t, v: chatVerdict(t) }); }
+        else { var t = (x.j.content || []).filter(function (c) { return c.type === 'text'; }).map(function (c) { return c.text || ''; }).join('').trim(); chatMsgs.push({ r: 'ai', t: t, v: chatVerdict(t), scan: !!isScan, shot: isScan ? scanShot : null }); }
         chatMsgs.forEach(function (m) { if (m.img && m !== chatMsgs[chatMsgs.length - 2]) delete m.img; });
         chatSave(); lastHtml = ''; render(true); var lg = $('chatlog'); if (lg) lg.scrollIntoView({ block: 'end' });
       })
@@ -2511,6 +2518,25 @@ nav button{font-size:10.5px}
     var empty = !chatKey() ? '<section class="ccp ccbr"><b>One step first</b><p>News uses the same AXON-9 brain as Ask AXON. Open <b>Ask AXON</b>, paste your API key once, then come back. Each refresh costs roughly R1–R2.</p><button class="btn gold" data-tab2="chat">Open Ask AXON ›</button></section>' : '';
     return ccHead('News', 'big world events · your markets') + bar + (newsErr ? '<div class="alert bad">' + esc(newsErr) + '</div>' : '') + empty + '<div class="nwl">' + items + '</div>' +
       '<details class="card pnl" style="margin-top:10px"><summary><b class="ttl">Economic calendar &amp; alerts</b></summary>' + newsTab() + '</details>';
+  }
+
+  //--- v14.2 Scanner: upload an MT5 chart picture -> AXON-9 reads the direction (same brain as Ask AXON)
+  var scanShot = null;
+  function scanUpload() {
+    var key = chatKey(), last = null;
+    for (var i = chatMsgs.length - 1; i >= 0; i--) { if (chatMsgs[i].r === 'ai' && chatMsgs[i].scan) { last = chatMsgs[i]; break; } }
+    var box = '<div class="scup"><div class="ic" aria-hidden="true">📷</div><div><b>Scan a chart picture</b><small>Upload a screenshot from MT5 – AXON-9 reads the direction, the pattern and tells you BUY, SELL or WAIT with the stop and target.</small></div>' +
+      (key ? '<label>Upload chart<input type="file" accept="image/*" id="scanfile" style="display:none"></label>' : '<button class="btn gold" data-tab2="chat">Connect AXON-9 first ›</button>') + '</div>';
+    var res = '';
+    if (chatBusy && scanShot) res = '<div class="scres"><img src="' + scanShot + '" alt="Your chart"><div class="tx"><span class="dots"><i></i><i></i><i></i></span> reading your chart…</div></div>';
+    else if (last) {
+      var v = last.v || chatVerdict(last.t), mk0 = (S.markets || []).map(function (x) { return x.n; }), known = v && mk0.indexOf(v.n) >= 0;
+      res = '<div class="scres">' + (last.shot ? '<img src="' + last.shot + '" alt="Your chart">' : '') + '<div class="tx">' + esc((last.t || '').replace(/VERDICT:[^\n]*/i, '').trim()) +
+        (v ? '<div class="bub" style="max-width:100%;padding:0;background:none;border:0"><div class="vd">' + (known ? coin(v.n, 'sm') : '') + '<b class="' + (v.d === 'BUY' ? 'u' : v.d === 'SELL' ? 'd' : '') + '">' + v.d + ' ' + esc(v.n) + '</b>' + (v.sl ? '<span class="why">SL ' + esc(v.sl) + (v.tp ? ' · TP ' + esc(v.tp) : '') + '</span>' : '') +
+          (known && v.d !== 'WAIT' ? '<button style="background:' + (v.d === 'BUY' ? '#3DCB8A;color:#08130D' : '#F06A57;color:#1A0B08') + '" data-confirm="' + v.d + ' 1 × 0.01 ' + esc(v.n) + ' now?" data-cmd="/trade ' + esc(v.n) + ' ' + v.d + ' 0.01 1" data-msg="Placing ' + v.d + ' ' + esc(v.n) + '…">' + v.d + ' 1 × 0.01</button><button style="background:#2E4739;color:#EDE6D3" data-tab2="chat">Talk about it ›</button>' : '') + '</div></div>' : '') + '</div></div>';
+    }
+    if (chatErr && scanShot) res += '<div class="alert bad">' + esc(chatErr) + '</div>';
+    return box + res;
   }
 
   function home() {
@@ -2672,7 +2698,7 @@ nav button{font-size:10.5px}
     if (S && (tab === 'mkt' || tab === 'sym')) rp += hotCard(tab === 'mkt' ? mkN : '') || (tab === 'mkt' ? hotCard() : '');
     document.body.classList.toggle('cchome', tab === 'home' && wide()); ccTick();
     var hlBan = S && S.hl ? '<div class="alert bad"><b>⛔ ' + esc(S.hl) + '</b><br>Applies to your trades too. Closing trades still works.</div>' : '';
-    var body = tab === 'home' ? botHome() : tab === 'markets' ? scanHtml() : tab === 'a9' ? ccHead('Patterns', 'the app reads every chart') + '<section class="ccp ccbr"><b>Chart read · ' + esc(curA9() ? curA9().n : '') + ' · ' + esc(String(a9tf2).toUpperCase()) + '</b><p class="cread" data-m="' + esc(curA9() ? curA9().n : '') + '" style="font-size:14px;color:#EDE6D3">' + esc(readText(curA9() || {}, cRead[curA9() ? curA9().n : ''])) + '</p></section>' + patternsHtml() + a9Tab() : tab === 'perf' ? ccHead('AI Analytics', 'strategy tournament') + tourHtml() + perfTab() : tab === 'risk' ? riskTab() : tab === 'alerts' ? alertsTab() : tab === 'about' ? aboutTab() : tab === 'news' ? worldNews() : tab === 'growth' ? growthTab() : tab === 'signals' ? signalsWrap() : tab === 'chat' ? chatTab() : tab === 'news' ? worldNews() : tab === 'trades' ? ccHead('Trade Journal', 'every trade · straight from MT5') + tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings(); if (tab !== 'home' && hlBan) body = hlBan + body;
+    var body = tab === 'home' ? botHome() : tab === 'markets' ? scanUpload() + scanHtml() : tab === 'a9' ? ccHead('Patterns', 'the app reads every chart') + '<section class="ccp ccbr"><b>Chart read · ' + esc(curA9() ? curA9().n : '') + ' · ' + esc(String(a9tf2).toUpperCase()) + '</b><p class="cread" data-m="' + esc(curA9() ? curA9().n : '') + '" style="font-size:14px;color:#EDE6D3">' + esc(readText(curA9() || {}, cRead[curA9() ? curA9().n : ''])) + '</p></section>' + patternsHtml() + a9Tab() : tab === 'perf' ? ccHead('AI Analytics', 'strategy tournament') + tourHtml() + perfTab() : tab === 'risk' ? riskTab() : tab === 'alerts' ? alertsTab() : tab === 'about' ? aboutTab() : tab === 'news' ? worldNews() : tab === 'growth' ? growthTab() : tab === 'signals' ? signalsWrap() : tab === 'chat' ? chatTab() : tab === 'news' ? worldNews() : tab === 'trades' ? ccHead('Trade Journal', 'every trade · straight from MT5') + tradesTab() : tab === 'mkt' ? market() : tab === 'sym' ? symView() : settings(); if (tab !== 'home' && hlBan) body = hlBan + body;
     var html = rp + body + askSheet();
     if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
     var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
@@ -2840,7 +2866,7 @@ nav button{font-size:10.5px}
   setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 2200);   // v11.5: the AXON-9 PRO logo greets you every time
   setInterval(function () { if (S && !document.hidden) loadBars(); }, 30000);
   setInterval(function () { if (S && !document.hidden && /^(a9|home|markets|trades)$/.test(tab)) loadBarsX(a9m); }, 12000);
-  document.addEventListener('change', function (e) { if (e.target && e.target.id === 'chatfile' && e.target.files && e.target.files[0]) { chatShrink(e.target.files[0], function (d) { chatImg = d; lastHtml = ''; render(true); }); } });
+  document.addEventListener('change', function (e) { if (e.target && e.target.id === 'scanfile' && e.target.files && e.target.files[0]) { chatShrink(e.target.files[0], function (d) { scanShot = d; chatImg = d; chatSend('SCAN: read this MT5 chart. Which market and timeframe is it, what is the direction and structure, any pattern, and what should I do?', true); }); return; } if (e.target && e.target.id === 'chatfile' && e.target.files && e.target.files[0]) { chatShrink(e.target.files[0], function (d) { chatImg = d; lastHtml = ''; render(true); }); } });
   document.addEventListener('keydown', function (e) { if (e.target && e.target.id === 'chatq' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); var v = e.target.value; e.target.value = ''; chatSend(v); } });
   var wasWide = wide();
   window.addEventListener('resize', function () { if (wide() !== wasWide) { wasWide = wide(); lastHtml = ''; render(true); return; } if (/^(a9|home|markets|trades)$/.test(tab)) drawChart(); });
