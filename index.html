@@ -823,7 +823,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '14.4.0';
+  var APP_VER = '14.5.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2302,7 +2302,7 @@ nav button{font-size:10.5px}
   function aboutTab() {
     var s = S, c = conn();
     var kv = function (a) { return '<table class="cctbl"><tbody>' + a.map(function (x) { return '<tr><td class="n">' + x[0] + '</td><td class="m ' + (x[2] || '') + '">' + x[1] + '</td></tr>'; }).join('') + '</tbody></table>'; };
-    var H = [['14.4', 'GER40 shown again; market list fully lined up (no scroll bar)'], ['14.3', 'Set SL / TP on all positions of a market at once (bot 6.9.0); clear warning when a market is closed'], ['14.2', 'Scanner: upload an MT5 chart picture and AXON-9 reads the direction and says BUY / SELL / WAIT'], ['14.1', 'News page: big world events (central banks, wars, tariffs, big-tech scandals) and which of your markets they push up or down; Ask AXON can search the news'], ['14.0', 'Clean redesign: Ask AXON chat + chart-image analysis, live scanner cards, money icons, fewer charts, US30 + NAS100 back, no limits except the 0.02 lot cap (bot 6.8.9)'], ['13.5', 'Your own trades: no position limit, only the 0.02 lot cap (needs bot 6.8.8)'], ['13.4', 'Hard loss lock: 5% a day, 10% a week, 5 losses in a row – stops your trades and the bot (needs bot 6.8.7)'], ['13.3', 'Retest shield: GOLD max 2, BTC max 5, yen pairs max 10 positions of 0.01 (needs bot 6.8.6)'], ['13.2', 'Lot size capped at 0.01–0.02 per position everywhere (needs bot 6.8.5)'], ['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
+    var H = [['14.5', 'News works with no key: free world headlines every 30 min, tagged with the markets they move, filter per market'], ['14.4', 'GER40 shown again; market list fully lined up (no scroll bar)'], ['14.3', 'Set SL / TP on all positions of a market at once (bot 6.9.0); clear warning when a market is closed'], ['14.2', 'Scanner: upload an MT5 chart picture and AXON-9 reads the direction and says BUY / SELL / WAIT'], ['14.1', 'News page: big world events (central banks, wars, tariffs, big-tech scandals) and which of your markets they push up or down; Ask AXON can search the news'], ['14.0', 'Clean redesign: Ask AXON chat + chart-image analysis, live scanner cards, money icons, fewer charts, US30 + NAS100 back, no limits except the 0.02 lot cap (bot 6.8.9)'], ['13.5', 'Your own trades: no position limit, only the 0.02 lot cap (needs bot 6.8.8)'], ['13.4', 'Hard loss lock: 5% a day, 10% a week, 5 losses in a row – stops your trades and the bot (needs bot 6.8.7)'], ['13.3', 'Retest shield: GOLD max 2, BTC max 5, yen pairs max 10 positions of 0.01 (needs bot 6.8.6)'], ['13.2', 'Lot size capped at 0.01–0.02 per position everywhere (needs bot 6.8.5)'], ['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
       ['6.8.3', 'Bot: Auto trades HOLD only · stop to entry at +1.5R · one copy across MT5 terminals'], ['6.8.2', 'Bot: patterns always drawn, 12h high/low when no clean pattern'], ['6.8.1', 'Bot: NAS100, US30, GER40, ETH removed']];
     return ccHead('About', 'AXON-9 Pro') + '<div class="ccrow">' +
       '<section class="ccp ccbr"><b>System</b>' + kv([['App version', APP_VER], ['Bot version', esc(s.ver || '?'), verGE('6.8.3') ? 'u' : 'w'], ['Broker', esc(brokerName())], ['Account', esc(String(s.login || '')) + (s.real ? ' · REAL' : ' · DEMO')], ['Developer', 'Zola Huna']]) + '</section>' +
@@ -2477,48 +2477,35 @@ nav button{font-size:10.5px}
       .catch(function (e) { chatBusy = false; chatErr = 'No connection to AXON-9\'s brain – check your internet.'; lastHtml = ''; render(true); });
   }
 
-  //--- v14.1 WORLD NEWS: big international events that move YOUR markets (Claude + live web search, key on this device)
-  var newsD = (function () { try { return JSON.parse(localStorage.getItem('axnews') || 'null'); } catch (e) { return null; } })(), newsBusy = false, newsErr = '';
+  //--- v14.5 WORLD NEWS: free headlines from the AXON-9 news robot (GitHub, every 30 min) - no API key, no cost
+  var newsD = null, newsBusy = false, newsErr = '', newsAt = 0;
   function newsLoad(force) {
-    if (newsBusy) return; var key = chatKey();
-    if (!key) { newsErr = 'Add your API key in Ask AXON first (same key).'; lastHtml = ''; render(true); return; }
-    if (!force && newsD && Date.now() - newsD.t < 3 * 3600 * 1000) return;
-    var mk = (S && S.markets || []).filter(function (x) { return !x.off; }).map(function (x) { return x.n; }).join(', ') || 'GOLD, BTC, US30, NAS100, GER40, USDJPY, GBPJPY, EURJPY';
-    newsBusy = true; newsErr = ''; lastHtml = ''; render(true);
-    var prompt = 'Today is ' + new Date().toDateString() + '. Search the web for the 6 most important world news stories of the last 48 hours that can move these markets: ' + mk + '. ' +
-      'Think big: central banks (Fed, BoJ, ECB, BoE), inflation/jobs data, wars and geopolitics, tariffs/trade, big-tech scandals or earnings (e.g. Nvidia), crypto regulation, oil shocks. ' +
-      'Answer ONLY with a JSON array, no other text: [{"title":"short headline","when":"e.g. 3h ago","source":"publisher","url":"https://...","big":true|false,"why":"1-2 plain sentences: what happened and why traders care","impact":[{"m":"GOLD","d":"up|down|mixed"}]}]. ' +
-      'Only use market names from the list. Most important first.';
-    fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-      body: JSON.stringify({ model: 'claude-sonnet-5-5', max_tokens: 2500, tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 6 }], messages: [{ role: 'user', content: prompt }] }) })
-      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
-      .then(function (x) {
-        newsBusy = false;
-        if (!x.ok) { newsErr = 'News could not load: ' + ((x.j && x.j.error && x.j.error.message) || 'error'); }
-        else {
-          var t = (x.j.content || []).filter(function (c) { return c.type === 'text'; }).map(function (c) { return c.text; }).join('');
-          var a = t.indexOf('['), b = t.lastIndexOf(']'), arr = null;
-          try { arr = JSON.parse(t.slice(a, b + 1)); } catch (e) {}
-          if (arr && arr.length) { newsD = { t: Date.now(), items: arr }; try { localStorage.setItem('axnews', JSON.stringify(newsD)); } catch (e) {} } else newsErr = 'News came back in a strange format – tap Refresh.';
-        }
-        lastHtml = ''; render(true);
-      })
-      .catch(function () { newsBusy = false; newsErr = 'No internet connection for the news.'; lastHtml = ''; render(true); });
+    if (newsBusy || (!force && newsD && Date.now() - newsAt < 10 * 60 * 1000)) return;
+    newsBusy = true; newsErr = '';
+    fetch('news.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.json(); })
+      .then(function (j) { newsBusy = false; if (j && j.items) { newsD = j; newsAt = Date.now(); } else newsErr = 'News is warming up – the first headlines arrive within 30 minutes.'; lastHtml = ''; render(true); })
+      .catch(function () { newsBusy = false; newsErr = 'News could not load – check your internet and tap Refresh.'; lastHtml = ''; render(true); });
   }
+  function agoTxt(t) { var m = Math.max(0, Math.round((Date.now() / 1000 - t) / 60)); return m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : Math.round(m / 1440) + ' d ago'; }
   function worldNews() {
-    if (!newsD && !newsBusy && !newsErr && chatKey()) setTimeout(function () { newsLoad(false); }, 30);
-    var age = newsD ? Math.round((Date.now() - newsD.t) / 60000) : 0;
-    var bar = '<div class="scbar"><i></i><span><b>World news that moves your markets</b> · ' + (newsBusy ? 'searching the web…' : newsD ? 'updated ' + (age < 1 ? 'just now' : age < 60 ? age + ' min ago' : Math.round(age / 60) + ' h ago') : 'not loaded yet') + '</span><button data-newsref="1"' + (newsBusy ? ' disabled' : '') + '>' + (newsBusy ? 'Searching…' : 'Refresh') + '</button></div>';
-    var items = newsD ? newsD.items.map(function (n) {
-      var imp = (n.impact || []).map(function (i) { var d = /up/i.test(i.d) ? ['u', '▲'] : /down/i.test(i.d) ? ['d', '▼'] : ['m', '↕']; return '<span>' + coin(String(i.m).toUpperCase(), 'sm') + esc(i.m) + ' <b class="' + d[0] + '">' + d[1] + '</b></span>'; }).join('');
+    if (!newsD && !newsBusy && !newsErr) setTimeout(function () { newsLoad(false); }, 30);
+    var bar = '<div class="scbar"><i></i><span><b>World news that moves your markets</b> · ' + (newsBusy ? 'loading…' : newsD ? 'headlines updated ' + agoTxt(newsD.t) + ' · refreshes every 30 min' : 'loading…') + '</span><button data-newsref="1">Refresh</button></div>';
+    var mk = (S && S.markets || []).map(function (x) { return x.n; }), want = newsF || '';
+    var list = newsD ? (newsD.items || []).filter(function (n) { return !want || (n.m || []).indexOf(want) >= 0; }) : [];
+    var chips = '<div class="chips2" style="margin:2px 0 4px"><button data-newsf=""' + (!want ? ' style="border-color:#D0904F;color:#F1B877"' : '') + '>All</button>' + mk.map(function (n) { return '<button data-newsf="' + esc(n) + '"' + (want === n ? ' style="border-color:#D0904F;color:#F1B877"' : '') + '>' + n + '</button>'; }).join('') + '</div>';
+    var items = list.slice(0, 14).map(function (n) {
+      var imp = (n.m || []).map(function (m) { return '<span>' + coin(m, 'sm') + esc(m) + '</span>'; }).join('');
       var url = /^https:\/\//.test(n.url || '') ? n.url : '';
-      return '<article class="nwc' + (n.big ? ' big' : '') + '"><div class="meta">' + (n.big ? '<b style="color:#E8C26B">BIG · </b>' : '') + esc(n.source || '') + (n.when ? ' · ' + esc(n.when) : '') + '</div><h3>' + esc(n.title || '') + '</h3><p>' + esc(n.why || '') + '</p>' + (imp ? '<div class="imp">' + imp + '</div>' : '') +
-        (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">Read the story ›</a>' : '') + '<button class="btn ghost" style="align-self:flex-start;height:38px" data-tab2="chat" data-chatnews="' + esc(n.title || '') + '">Ask AXON what to do</button></article>';
-    }).join('') : '';
-    var empty = !chatKey() ? '<section class="ccp ccbr"><b>One step first</b><p>News uses the same AXON-9 brain as Ask AXON. Open <b>Ask AXON</b>, paste your API key once, then come back. Each refresh costs roughly R1–R2.</p><button class="btn gold" data-tab2="chat">Open Ask AXON ›</button></section>' : '';
-    return ccHead('News', 'big world events · your markets') + bar + (newsErr ? '<div class="alert bad">' + esc(newsErr) + '</div>' : '') + empty + '<div class="nwl">' + items + '</div>' +
+      return '<article class="nwc' + (n.big ? ' big' : '') + '"><div class="meta">' + (n.big ? '<b style="color:#E8C26B">BIG · </b>' : '') + esc(n.source || '') + ' · ' + agoTxt(n.t) + '</div><h3>' + esc(n.title || '') + '</h3>' +
+        (imp ? '<div class="imp"><small class="why" style="align-self:center">Moves:</small>' + imp + '</div>' : '') +
+        '<div class="row" style="gap:8px;justify-content:flex-start">' + (url ? '<a class="btn ghost" style="height:38px;display:inline-flex;align-items:center" href="' + esc(url) + '" target="_blank" rel="noopener">Read the story ›</a>' : '') +
+        '<button class="btn ghost" style="height:38px" data-tab2="chat" data-chatnews="' + esc(n.title || '') + '">Ask AXON what to do</button></div></article>';
+    }).join('');
+    return ccHead('News', 'big world events · your markets') + bar + chips + (newsErr ? '<div class="alert bad">' + esc(newsErr) + '</div>' : '') +
+      '<div class="nwl">' + (items || (newsD ? '<div class="why">No big news for this market in the last 48 hours.</div>' : '')) + '</div>' +
       '<details class="card pnl" style="margin-top:10px"><summary><b class="ttl">Economic calendar &amp; alerts</b></summary>' + newsTab() + '</details>';
   }
+  var newsF = '';
 
   //--- v14.2 Scanner: upload an MT5 chart picture -> AXON-9 reads the direction (same brain as Ask AXON)
   var scanShot = null;
@@ -2757,6 +2744,7 @@ nav button{font-size:10.5px}
       if (!confirm('Set ' + (sv !== '0' ? 'SL ' + sv : '') + (sv !== '0' && tv !== '0' ? ' and ' : '') + (tv !== '0' ? 'TP ' + tv : '') + ' on ALL ' + b.dataset.modall + ' positions?')) return;
       send('/modall ' + b.dataset.modall + ' ' + sv + ' ' + tv, 'Setting SL / TP on all ' + b.dataset.modall + ' positions…'); return; }
     if (b.dataset.newsref) { newsLoad(true); return; }
+    if (b.dataset.newsf !== undefined && b.hasAttribute('data-newsf')) { newsF = b.dataset.newsf; lastHtml = ''; render(true); return; }
     if (b.dataset.chatnews) { var nt = b.dataset.chatnews; setTimeout(function () { chatSend('About this news: "' + nt + '" – how does it affect my markets and what should I do?'); }, 50); }
     if (b.dataset.chatq) { chatSend(b.dataset.chatq); return; }
     if (b.dataset.chatsend) { var qx = $('chatq'); var qv = qx ? qx.value : ''; if (qx) qx.value = ''; chatSend(qv); return; }
