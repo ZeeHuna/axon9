@@ -807,8 +807,8 @@ nav button{font-size:10.5px}
 <nav>
   <img class="ccl" src="bp-icon.png?v=2" alt="AXON-9 Pro">
   <button data-tab="home" class="on" aria-label="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</button>
-  <button data-tab="chat" aria-label="Ask AXON-9 - chat and chart analysis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg>Ask AXON</button>
   <button data-tab="signals" aria-label="Trade Engine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Trade</button>
+  <button data-tab="chat" aria-label="Ask AXON-9 - chat and chart analysis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg>Ask AXON</button>
   <button data-tab="markets" aria-label="Market Scanner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>Scanner</button>
   <button data-tab="news" aria-label="World news that moves your markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>News</button>
   <button data-tab="a9" aria-label="Patterns"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-6 4 4 8-10"/><path d="M3 21h18"/></svg>Patterns</button>
@@ -823,7 +823,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '14.5.0';
+  var APP_VER = '14.6.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2302,7 +2302,7 @@ nav button{font-size:10.5px}
   function aboutTab() {
     var s = S, c = conn();
     var kv = function (a) { return '<table class="cctbl"><tbody>' + a.map(function (x) { return '<tr><td class="n">' + x[0] + '</td><td class="m ' + (x[2] || '') + '">' + x[1] + '</td></tr>'; }).join('') + '</tbody></table>'; };
-    var H = [['14.5', 'News works with no key: free world headlines every 30 min, tagged with the markets they move, filter per market'], ['14.4', 'GER40 shown again; market list fully lined up (no scroll bar)'], ['14.3', 'Set SL / TP on all positions of a market at once (bot 6.9.0); clear warning when a market is closed'], ['14.2', 'Scanner: upload an MT5 chart picture and AXON-9 reads the direction and says BUY / SELL / WAIT'], ['14.1', 'News page: big world events (central banks, wars, tariffs, big-tech scandals) and which of your markets they push up or down; Ask AXON can search the news'], ['14.0', 'Clean redesign: Ask AXON chat + chart-image analysis, live scanner cards, money icons, fewer charts, US30 + NAS100 back, no limits except the 0.02 lot cap (bot 6.8.9)'], ['13.5', 'Your own trades: no position limit, only the 0.02 lot cap (needs bot 6.8.8)'], ['13.4', 'Hard loss lock: 5% a day, 10% a week, 5 losses in a row – stops your trades and the bot (needs bot 6.8.7)'], ['13.3', 'Retest shield: GOLD max 2, BTC max 5, yen pairs max 10 positions of 0.01 (needs bot 6.8.6)'], ['13.2', 'Lot size capped at 0.01–0.02 per position everywhere (needs bot 6.8.5)'], ['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
+    var H = [['14.6', 'Ask AXON + chart-picture scanning work free (own brain: live MT5 data, chart reader, news, picture reader); Claude key optional; Trade before Ask AXON'], ['14.5', 'News works with no key: free world headlines every 30 min, tagged with the markets they move, filter per market'], ['14.4', 'GER40 shown again; market list fully lined up (no scroll bar)'], ['14.3', 'Set SL / TP on all positions of a market at once (bot 6.9.0); clear warning when a market is closed'], ['14.2', 'Scanner: upload an MT5 chart picture and AXON-9 reads the direction and says BUY / SELL / WAIT'], ['14.1', 'News page: big world events (central banks, wars, tariffs, big-tech scandals) and which of your markets they push up or down; Ask AXON can search the news'], ['14.0', 'Clean redesign: Ask AXON chat + chart-image analysis, live scanner cards, money icons, fewer charts, US30 + NAS100 back, no limits except the 0.02 lot cap (bot 6.8.9)'], ['13.5', 'Your own trades: no position limit, only the 0.02 lot cap (needs bot 6.8.8)'], ['13.4', 'Hard loss lock: 5% a day, 10% a week, 5 losses in a row – stops your trades and the bot (needs bot 6.8.7)'], ['13.3', 'Retest shield: GOLD max 2, BTC max 5, yen pairs max 10 positions of 0.01 (needs bot 6.8.6)'], ['13.2', 'Lot size capped at 0.01–0.02 per position everywhere (needs bot 6.8.5)'], ['13.1', 'App + bot 6.8.4: only HOLD trades by itself · safety gate on every auto order · size capped at 2% · score explained'], ['12.1', 'App: 10 sections – Dashboard, Trade Engine, Scanner, Patterns, Journal, Analytics, Risk, Alerts, Settings, About'], ['12.0', 'App: Command Centre terminal dashboard'],
       ['6.8.3', 'Bot: Auto trades HOLD only · stop to entry at +1.5R · one copy across MT5 terminals'], ['6.8.2', 'Bot: patterns always drawn, 12h high/low when no clean pattern'], ['6.8.1', 'Bot: NAS100, US30, GER40, ETH removed']];
     return ccHead('About', 'AXON-9 Pro') + '<div class="ccrow">' +
       '<section class="ccp ccbr"><b>System</b>' + kv([['App version', APP_VER], ['Bot version', esc(s.ver || '?'), verGE('6.8.3') ? 'u' : 'w'], ['Broker', esc(brokerName())], ['Account', esc(String(s.login || '')) + (s.real ? ' · REAL' : ' · DEMO')], ['Developer', 'Zola Huna']]) + '</section>' +
@@ -2434,14 +2434,14 @@ nav button{font-size:10.5px}
         (v ? '<div class="vd">' + (known ? coin(v.n, 'sm') : '') + '<b class="' + (v.d === 'BUY' ? 'u' : v.d === 'SELL' ? 'd' : '') + '">' + v.d + ' ' + esc(v.n) + '</b>' + (v.sl ? '<span class="why">SL ' + esc(v.sl) + (v.tp ? ' · TP ' + esc(v.tp) : '') + '</span>' : '') +
           (known && v.d !== 'WAIT' ? '<button style="background:' + (v.d === 'BUY' ? '#3DCB8A;color:#08130D' : '#F06A57;color:#1A0B08') + '" data-confirm="' + v.d + ' 1 × 0.01 ' + esc(v.n) + ' now?" data-cmd="/trade ' + esc(v.n) + ' ' + v.d + ' 0.01 1" data-msg="Placing ' + v.d + ' ' + esc(v.n) + '…">' + v.d + ' 1 × 0.01</button><button style="background:#2E4739;color:#EDE6D3" data-tab2="signals" data-sctrade="' + esc(v.n) + '">Open in Trade ›</button>' : '') + '</div>' : '') + '</div>';
     }).join('');
-    if (!chatMsgs.length) log = '<div class="bub ai">Hi champ 👋 I\'m AXON-9. Ask me about any market – “Should I sell GOLD now?” – or tap 📎 and send me a screenshot of your MT5 chart. I\'ll read it together with the live data and tell you BUY, SELL or WAIT, with the stop and target.</div>';
+    if (!chatMsgs.length) log = '<div class="bub ai">Hi champ 👋 I\'m AXON-9. Ask me about any market – “Should I sell GOLD now?”, “What\'s the news?” – or tap 📎 and send a screenshot of your MT5 chart. I read it with your live MT5 data and tell you BUY, SELL or WAIT with the stop and target.</div>';
     if (chatBusy) log += '<div class="bub ai"><span class="dots"><i></i><i></i><i></i></span> reading the market…</div>';
     if (chatErr) log += '<div class="alert bad">' + esc(chatErr) + '</div>';
-    var setup = key ? '' : '<section class="ccp ccbr"><b>Connect AXON-9\'s brain</b><p>Ask AXON uses Claude to read your charts. Paste your Anthropic API key once (console.anthropic.com → API keys). It is saved only on this device. Each chart read costs roughly R0.20–R0.60.</p><div class="row" style="gap:8px"><input id="akin" type="password" placeholder="sk-ant-…" style="flex:1;min-height:44px;padding:0 12px;border-radius:10px;border:1px solid #2E4739;background:#0E1A13;color:#EDE6D3"><button class="btn gold" data-aksave="1">Save</button></div></section>';
+    var setup = key ? '' : '<details class="ccp ccbr" style="order:9"><summary style="cursor:pointer;color:#8FA398;font-size:13px">Optional: AXON-9 Pro brain (Claude) for deeper chart reading</summary><b style="display:none">x</b><p>Ask AXON uses Claude to read your charts. Paste your Anthropic API key once (console.anthropic.com → API keys). It is saved only on this device. Each chart read costs roughly R0.20–R0.60.</p><div class="row" style="gap:8px"><input id="akin" type="password" placeholder="sk-ant-…" style="flex:1;min-height:44px;padding:0 12px;border-radius:10px;border:1px solid #2E4739;background:#0E1A13;color:#EDE6D3"><button class="btn gold" data-aksave="1">Save</button></div></details>';
     var chips = '<div class="chips2">' + mk0.slice(0, 7).map(function (n) { return '<button data-chatq="Should I buy or sell ' + n + ' right now?">' + n + '?</button>'; }).join('') + '<button data-chatq="Which market has the best trade right now?">Best trade now?</button>' + (chatMsgs.length ? '<button data-chatclear="1">Clear chat</button>' : '') + '</div>';
     var prev = chatImg ? '<div class="chatprev"><img src="' + chatImg + '" alt="Chart to send">Chart ready – type a question or just press send <button class="linkb" data-chatimgx="1">remove</button></div>' : '';
-    return ccHead('Ask AXON', 'chat · chart analysis') + '<div class="chat">' + setup + '<div class="chatlog" id="chatlog">' + log + '</div>' + chips + prev +
-      '<div class="chatin"><label title="Upload a chart screenshot" aria-label="Upload a chart screenshot">📎<input type="file" accept="image/*" id="chatfile" style="display:none"></label><textarea id="chatq" rows="1" placeholder="Ask AXON-9 about the market…"></textarea><button class="snd" data-chatsend="1" aria-label="Send">➤</button></div></div>';
+    return ccHead('Ask AXON', 'chat · chart analysis') + '<div class="chat"><div class="chatlog" id="chatlog">' + log + '</div>' + chips + prev +
+      '<div class="chatin"><label title="Upload a chart screenshot" aria-label="Upload a chart screenshot">📎<input type="file" accept="image/*" id="chatfile" style="display:none"></label><textarea id="chatq" rows="1" placeholder="Ask AXON-9 about the market…"></textarea><button class="snd" data-chatsend="1" aria-label="Send">➤</button></div>' + setup + '</div>';
   }
   function chatShrink(file, cb) {
     var rd = new FileReader();
@@ -2450,7 +2450,16 @@ nav button{font-size:10.5px}
   }
   function chatSend(q, isScan) {
     q = (q || '').trim(); if (!q && !chatImg) return; if (chatBusy) return;
-    var key = chatKey(); if (!key) { chatErr = 'Paste your API key first.'; lastHtml = ''; render(true); return; }
+    var key = chatKey();
+    if (!key) {   // v14.6 free brain
+      var img0 = chatImg; chatImg = null; chatErr = '';
+      chatMsgs.push({ r: 'me', t: q || 'Read this chart for me.', img: img0 });
+      var mk0 = (isScan && scanMk) || mkOfText(q) || (img0 ? sgM : '');
+      var done0 = function (shot) { var t0 = brainAnswer(q, shot, mk0); chatMsgs.push({ r: 'ai', t: t0, v: chatVerdict(t0), scan: !!isScan, shot: isScan ? scanShot : null }); chatBusy = false; chatSave(); lastHtml = ''; render(true); var lg = $('chatlog'); if (lg) lg.scrollIntoView({ block: 'end' }); };
+      chatBusy = true; lastHtml = ''; render(true);
+      if (img0) readShot(img0, done0); else setTimeout(function () { done0(null); }, 250);
+      return;
+    }
     var img = chatImg; chatImg = null; chatErr = '';
     chatMsgs.push({ r: 'me', t: q || 'Read this chart for me.', img: img }); chatBusy = true; lastHtml = ''; render(true);
     var sys = 'You are AXON-9, a sharp, honest trading assistant inside Zola\'s trading app. Speak simply and briefly (max 8 short lines), call him champ. ' +
@@ -2508,12 +2517,13 @@ nav button{font-size:10.5px}
   var newsF = '';
 
   //--- v14.2 Scanner: upload an MT5 chart picture -> AXON-9 reads the direction (same brain as Ask AXON)
-  var scanShot = null;
+  var scanShot = null, scanMk = '';
   function scanUpload() {
     var key = chatKey(), last = null;
     for (var i = chatMsgs.length - 1; i >= 0; i--) { if (chatMsgs[i].r === 'ai' && chatMsgs[i].scan) { last = chatMsgs[i]; break; } }
     var box = '<div class="scup"><div class="ic" aria-hidden="true">📷</div><div><b>Scan a chart picture</b><small>Upload a screenshot from MT5 – AXON-9 reads the direction, the pattern and tells you BUY, SELL or WAIT with the stop and target.</small></div>' +
-      (key ? '<label>Upload chart<input type="file" accept="image/*" id="scanfile" style="display:none"></label>' : '<button class="btn gold" data-tab2="chat">Connect AXON-9 first ›</button>') + '</div>';
+      '<select id="scanmk" aria-label="Which market is the picture" style="height:46px;padding:0 10px;border-radius:10px;border:1px solid #2E4739;background:#0E1A13;color:#EDE6D3;font:600 14px \'Space Grotesk\',sans-serif">' + (S.markets || []).map(function (x) { return '<option' + (x.n === (scanMk || sgM) ? ' selected' : '') + '>' + esc(x.n) + '</option>'; }).join('') + '</select>' +
+      '<label>Upload chart<input type="file" accept="image/*" id="scanfile" style="display:none"></label></div>';
     var res = '';
     if (chatBusy && scanShot) res = '<div class="scres"><img src="' + scanShot + '" alt="Your chart"><div class="tx"><span class="dots"><i></i><i></i><i></i></span> reading your chart…</div></div>';
     else if (last) {
@@ -2539,6 +2549,102 @@ nav button{font-size:10.5px}
           '<input id="mas_' + id + '" inputmode="decimal" placeholder="new SL" style="width:130px;min-height:42px;padding:0 10px;border-radius:8px;border:1px solid #2E4739;background:#0E1A13;color:#F06A57;font:600 14px \'JetBrains Mono\',monospace">' +
           '<input id="mat_' + id + '" inputmode="decimal" placeholder="new TP" style="width:130px;min-height:42px;padding:0 10px;border-radius:8px;border:1px solid #2E4739;background:#0E1A13;color:#3DCB8A;font:600 14px \'JetBrains Mono\',monospace">' +
           '<button class="btn gold" style="height:42px" data-modall="' + esc(k) + '" data-modid="' + id + '">Set on all ' + g[k] + '</button></div>'; }).join('') + '</div>';
+  }
+
+  //--- v14.6 AXON-9's OWN BRAIN (free, no key): answers from live MT5 data + chart reader + news, and reads chart pictures itself
+  var MKRX = [['GOLD', /gold|xau/i], ['BTC', /btc|bitcoin|crypto/i], ['NAS100', /nas|nasdaq|ustec|tech/i], ['US30', /us ?30|dow/i], ['GER40', /ger|dax|de ?30|de ?40|germany/i],
+    ['USDJPY', /usd ?jpy|dollar.?yen|usdjpy/i], ['GBPJPY', /gbp ?jpy|pound.?yen|gbpjpy/i], ['EURJPY', /eur ?jpy|euro.?yen|eurjpy/i]];
+  function mkOfText(q) { for (var i = 0; i < MKRX.length; i++) if (MKRX[i][1].test(q || '')) return MKRX[i][0]; return ''; }
+  function mkObj(n) { return (S && S.markets || []).filter(function (x) { return x.n === n; })[0]; }
+  function arrow(v) { return v > 0 ? '▲' : v < 0 ? '▼' : '–'; }
+  function brainRead(m, shot) {
+    var c = confOf(m), pa = m.pa || {}, r0 = modeSig(m), cr = cRead[m.n], d = m.aid > 0 ? 'BUY' : m.aid < 0 ? 'SELL' : 'WAIT';
+    var cl = function (v) { return String(v == null ? '' : v).replace(/[\s ,]/g, ''); }, r = r0 && r0.sl ? { sl: cl(r0.sl), t1: cl(r0.t1), t2: cl(r0.t2) } : r0;
+    var L = [m.n + ' – ' + (d === 'WAIT' ? 'no clear side' : d) + ' · ' + c + '% · ' + (m.aim || m.reg || '')];
+    L.push('Trend: D1 ' + arrow(pa.d1) + '  H4 ' + arrow(pa.h4 != null ? pa.h4 : m.h4) + '  H1 ' + arrow(pa.h1 != null ? pa.h1 : m.h1) + (m.aiw ? ' – ' + m.aiw : ''));
+    if (cr) L.push('Chart: ' + readText(m, cr));
+    if (m.pt && m.pt.n) L.push('Pattern: ' + m.pt.n + (m.pt.st ? ' (' + m.pt.st + ')' : ''));
+    var call = d, why = '';
+    if (shot) {
+      L.push('Your picture: ' + shot.txt);
+      if (shot.dir && d !== 'WAIT' && (shot.dir > 0) !== (m.aid > 0)) { call = 'WAIT'; why = 'Your picture and the live trend disagree – wait until they line up.'; }
+      else if (shot.dir && d === 'WAIT') call = shot.dir > 0 ? 'BUY' : 'SELL';
+    }
+    if (call !== 'WAIT' && c < 60 && !shot) { call = 'WAIT'; why = 'Only ' + c + '% of the checks agree – too weak to trade.'; }
+    if (mkClosed(m)) { why = (why ? why + ' ' : '') + m.n + ' is closed right now – it opens Sunday about 23:00 SA time.'; }
+    var news = (newsD && newsD.items || []).filter(function (n) { return (n.m || []).indexOf(m.n) >= 0; })[0];
+    if (news) L.push('News: ' + news.title + ' (' + (news.source || '') + ', ' + agoTxt(news.t) + ')');
+    if (call !== 'WAIT' && r && r.sl) L.push('Plan: ' + call + ' at ' + (m.px || 'market') + ', stop ' + r.sl + ', target ' + r.t1 + (r.t2 ? ' then ' + r.t2 : '') + '. Wrong if price closes beyond ' + r.sl + '.');
+    if (why) L.push(why);
+    L.push('VERDICT: ' + call + ' ' + m.n + (call !== 'WAIT' && r && r.sl ? ' SL ' + r.sl + ' TP ' + r.t1 : ''));
+    return L.join('\n');
+  }
+  function brainAnswer(q, shot, mk) {
+    var ms = (S && S.markets || []).filter(function (x) { return !x.off; });
+    if (!ms.length) return 'I have no live data yet, champ – make sure MT5 is connected.';
+    if (!newsD) newsLoad(false);
+    if (/news|happen|why .*(moving|falling|rising|dropping)|scandal|nvidia|fed\b|war/i.test(q || '') && !mkOfText(q) && !shot) {
+      var it = (newsD && newsD.items || []).slice(0, 4);
+      return it.length ? 'Biggest news for your markets right now:\n' + it.map(function (n) { return '• ' + n.title + ' → ' + (n.m || []).join(', '); }).join('\n') + '\nAsk me about one market and I\'ll tell you what to do.' : 'News is still loading – try again in a moment.';
+    }
+    var n = mk || mkOfText(q), m = n ? mkObj(n) : null;
+    if (!m) { m = ms.filter(function (x) { return x.aid; }).sort(function (a, b) { return confOf(b) - confOf(a); })[0] || ms[0]; return 'Best setup right now:\n' + brainRead(m, shot); }
+    return brainRead(m, shot);
+  }
+  //--- reads an MT5 screenshot: finds the candles, follows highs and lows, works out the direction
+  function readShot(dataUrl, cb) {
+    var im = new Image();
+    im.onload = function () {
+      var W = Math.min(900, im.width), H = Math.round(im.height * W / im.width), c = document.createElement('canvas'); c.width = W; c.height = H;
+      var g = c.getContext('2d'); g.drawImage(im, 0, 0, W, H); var px = g.getImageData(0, 0, W, H).data;
+      var bgR = px[(Math.round(H * 0.5) * W + Math.round(W * 0.5)) * 4], cnt = {}, k, bg = [0, 0, 0];
+      for (var y0 = Math.round(H * 0.15); y0 < H * 0.55; y0 += 5) for (var x0 = Math.round(W * 0.3); x0 < W * 0.9; x0 += 5) { k = (y0 * W + x0) * 4; var key = (px[k] >> 4) + ',' + (px[k + 1] >> 4) + ',' + (px[k + 2] >> 4); cnt[key] = (cnt[key] || 0) + 1; }
+      var best = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; })[0].split(',').map(function (v) { return v * 16 + 8; }); bg = best;
+      var near = function (k2) { return Math.abs(px[k2] - bg[0]) + Math.abs(px[k2 + 1] - bg[1]) + Math.abs(px[k2 + 2] - bg[2]) < 60; };
+      var runOf = function (len, frac) {   // longest run (small gaps allowed) where the line is mostly chart background
+        var bestA = 0, bestB = len - 1, st = -1, gap = 0, bestL = 0, endOk = -1;
+        for (var t = 0; t <= len; t++) {
+          var ok = t < len && frac(t) > 0.5;
+          if (ok) { if (st < 0) st = t; endOk = t; gap = 0; }
+          else if (st >= 0 && (++gap > 8 || t === len)) { if (endOk - st > bestL) { bestL = endOk - st; bestA = st; bestB = endOk; } st = -1; gap = 0; }
+        }
+        return [bestA, bestB];
+      };
+      var cy = runOf(H, function (t) { var h2 = 0, n2 = 0; for (var u = 0; u < W; u += 3) { n2++; if (near((t * W + u) * 4)) h2++; } return h2 / n2 * 1.25; });
+      var cx = runOf(W, function (t) { var h2 = 0, n2 = 0; for (var u = cy[0]; u <= cy[1]; u += 3) { n2++; if (near((u * W + t) * 4)) h2++; } return h2 / Math.max(1, n2); });
+      var cxR = cx.slice(), cyR = cy.slice(), cw = cx[1] - cx[0], ch = cy[1] - cy[0];
+      if (cw < W * 0.25 || ch < H * 0.25) { cx = [0, W - 1]; cy = [0, H - 1]; cw = W; ch = H; }
+      var x1 = Math.round(cx[0] + cw * 0.02), x2 = Math.round(cx[0] + cw * 0.93), y1 = Math.round(cy[0] + ch * 0.12), y2 = Math.round(cy[0] + ch * 0.80), bins = 40, hi = [], lo = [];
+      for (var b = 0; b < bins; b++) { hi.push(null); lo.push(null); }
+      var lineRow = {};
+      for (var yy = y1; yy < y2; yy++) { var redN = 0; for (var xx = x1; xx < x2; xx += 3) { var k3 = (yy * W + xx) * 4; if (px[k3] > 150 && px[k3] > px[k3 + 1] + 60) redN++; } if (redN > (x2 - x1) / 3 * 0.35) lineRow[yy] = 1; }
+      for (var x = x1; x < x2; x++) {
+        var top = null, bot = null;
+        for (var y = y1; y < y2; y++) {
+          k = (y * W + x) * 4; var r = px[k], gg = px[k + 1], bl = px[k + 2], dist = Math.abs(r - bg[0]) + Math.abs(gg - bg[1]) + Math.abs(bl - bg[2]), sat = Math.max(r, gg, bl) - Math.min(r, gg, bl);
+          var candle = (gg > 120 && gg > r + 50 && gg > bl + 50) || (r > 150 && r > gg + 60 && r > bl + 40 && dist > 200 && !lineRow[y]);   // green / red candle pixels (text, grid and level lines ignored)
+          if (candle && dist > 120) { if (top === null) top = y; bot = y; }
+        }
+        if (top === null || bot - top > (y2 - y1) * 0.6) continue;
+        var bi = Math.floor((x - x1) / (x2 - x1) * bins);
+        hi[bi] = hi[bi] === null ? top : Math.min(hi[bi], top); lo[bi] = lo[bi] === null ? bot : Math.max(lo[bi], bot);
+      }
+      var P = []; for (b = 0; b < bins; b++) if (hi[b] !== null) P.push({ i: b, h: -hi[b], l: -lo[b], m: -(hi[b] + lo[b]) / 2 });
+      if (P.length < 10) { cb({ dir: 0, txt: 'I could not find the candles clearly – send a cleaner chart (no windows over it).' }); return; }
+      var n = P.length, sx = 0, sy = 0, sxy = 0, sxx = 0; P.forEach(function (p) { sx += p.i; sy += p.m; sxy += p.i * p.m; sxx += p.i * p.i; });
+      var slope = (n * sxy - sx * sy) / (n * sxx - sx * sx), rng = Math.max.apply(null, P.map(function (p) { return p.h; })) - Math.min.apply(null, P.map(function (p) { return p.l; }));
+      var third = Math.floor(n / 3), a = P.slice(0, third), z = P.slice(n - third);
+      var avg = function (arr, f) { return arr.reduce(function (s0, p) { return s0 + p[f]; }, 0) / arr.length; };
+      var hhhl = avg(z, 'h') > avg(a, 'h') && avg(z, 'l') > avg(a, 'l'), lhll = avg(z, 'h') < avg(a, 'h') && avg(z, 'l') < avg(a, 'l');
+      var lastMove = (P[n - 1].m - P[Math.max(0, n - 6)].m) / (rng || 1), steep = Math.abs(slope * bins) / (rng || 1);
+      var dir = hhhl && slope > 0 ? 1 : lhll && slope < 0 ? -1 : 0;
+      var txt = dir > 0 ? 'the candles make higher highs and higher lows – an UPTREND' : dir < 0 ? 'the candles make lower highs and lower lows – a DOWNTREND' : 'the candles go sideways – no clean trend';
+      if (dir && steep < 0.25) txt += ' (but a weak one)';
+      if (dir > 0 && lastMove < -0.15) txt += '; the last candles are pulling back down';
+      if (dir < 0 && lastMove > 0.15) txt += '; the last candles are bouncing up';
+      cb({ dir: steep < 0.15 ? 0 : dir, txt: txt });
+    };
+    im.src = dataUrl;
   }
 
   function home() {
@@ -2873,7 +2979,7 @@ nav button{font-size:10.5px}
   setTimeout(function () { var sp = $('splash'); if (sp) { sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 600); } }, 2200);   // v11.5: the AXON-9 PRO logo greets you every time
   setInterval(function () { if (S && !document.hidden) loadBars(); }, 30000);
   setInterval(function () { if (S && !document.hidden && /^(a9|home|markets|trades)$/.test(tab)) loadBarsX(a9m); }, 12000);
-  document.addEventListener('change', function (e) { if (e.target && e.target.id === 'scanfile' && e.target.files && e.target.files[0]) { chatShrink(e.target.files[0], function (d) { scanShot = d; chatImg = d; chatSend('SCAN: read this MT5 chart. Which market and timeframe is it, what is the direction and structure, any pattern, and what should I do?', true); }); return; } if (e.target && e.target.id === 'chatfile' && e.target.files && e.target.files[0]) { chatShrink(e.target.files[0], function (d) { chatImg = d; lastHtml = ''; render(true); }); } });
+  document.addEventListener('change', function (e) { if (e.target && e.target.id === 'scanfile' && e.target.files && e.target.files[0]) { var sm = $('scanmk'); scanMk = sm ? sm.value : ''; chatShrink(e.target.files[0], function (d) { scanShot = d; chatImg = d; chatSend('SCAN: read this MT5 chart. Which market and timeframe is it, what is the direction and structure, any pattern, and what should I do?', true); }); return; } if (e.target && e.target.id === 'chatfile' && e.target.files && e.target.files[0]) { chatShrink(e.target.files[0], function (d) { chatImg = d; lastHtml = ''; render(true); }); } });
   document.addEventListener('keydown', function (e) { if (e.target && e.target.id === 'chatq' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); var v = e.target.value; e.target.value = ''; chatSend(v); } });
   var wasWide = wide();
   window.addEventListener('resize', function () { if (wide() !== wasWide) { wasWide = wide(); lastHtml = ''; render(true); return; } if (/^(a9|home|markets|trades)$/.test(tab)) drawChart(); });
