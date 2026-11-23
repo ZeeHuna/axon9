@@ -829,7 +829,7 @@ nav{background:#0A130E!important;z-index:50}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '14.8.0';
+  var APP_VER = '14.9.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1382,7 +1382,7 @@ nav{background:#0A130E!important;z-index:50}
       ['Entry confirmation', conf, v.sig && /BUY|SELL/.test(v.v) ? 'up' : '']];
   }
   function ago(t) { var d = Math.max(0, Date.now() / 1000 - t); return d < 60 ? 'now' : d < 3600 ? Math.floor(d / 60) + 'm' : d < 86400 ? Math.floor(d / 3600) + 'h' : Math.floor(d / 86400) + 'd'; }
-  function feedKind(x) { x = String(x).toUpperCase(); return /OPEN|ENTRIES|APP TRADE/.test(x) ? ['open', '▲'] : /CLOSED|BANKED|TP|PROFIT/.test(x) ? ['close', '✓'] : /BLOCK|SKIP|EMERGENCY|STOP|PAUSE/.test(x) ? ['block', '!'] : /SIGNAL|BUY|SELL/.test(x) ? ['sig', '⚡'] : ['', '•']; }
+  function feedKind(x) { x = String(x).toUpperCase(); return /OPEN|ENTRIES|APP TRADE/.test(x) ? ['open', '▲'] : /CLOSED|BANKED|TP|PROFIT/.test(x) ? ['close', '✓'] : /BLOCK|SKIP|REFUSED|BREAKER|EMERGENCY|STOP|PAUSE/.test(x) ? ['block', '!'] : /SIGNAL|BUY|SELL/.test(x) ? ['sig', '⚡'] : ['', '•']; }
   function feedHtml(n) {
     var f = (S.feed || []).slice(0, n);
     if (!f.length) return '<div class="why" style="padding:10px 0">Nothing yet today. Signals, auto-trades, closes and blocks appear here the moment they happen.</div>';
@@ -2387,7 +2387,7 @@ nav{background:#0A130E!important;z-index:50}
       '<div class="bkv"><span>This week</span><b class="' + ((s.wkPct || 0) >= 0 ? 'u' : 'd') + '">' + ((s.wkPct || 0) >= 0 ? '+' : '') + Number(s.wkPct || 0).toFixed(1) + '%</b></div>' + (n < 30 ? '<div class="why" style="margin-top:8px">Needs 30+ closed trades before these numbers mean much.</div>' : '') + '</div></section>';
     //--- 7 AI ACTIVITY
     var fe = f.slice(0, 30);
-    g += '<section class="bxp a-act"><h2><i></i>AI activity<em>live</em></h2><div class="bpb bact">' + (fe.length ? fe.map(function (e) { var k = feedKind(e.x), d = new Date((e.t || 0) * 1000); return '<div><time>' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + '</time><span class="' + k[0] + '">' + esc(e.x) + '</span></div>'; }).join('') : '<div>Nothing yet today.</div>') + '</div></section>';
+    g += '<section class="bxp a-act"><h2><i></i>AXON decisions<em>traded · refused · why</em></h2><div class="bpb bact">' + (fe.length ? fe.map(function (e) { var k = feedKind(e.x), d = new Date((e.t || 0) * 1000); return '<div><time>' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + '</time><span class="' + k[0] + '">' + esc(e.x) + '</span></div>'; }).join('') : '<div>Nothing yet today.</div>') + '</div></section>';
     return out + g + '</div>';
   }
 
