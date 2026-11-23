@@ -835,7 +835,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
 .dzst2 button i{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:28px;background:#1B201E;box-shadow:0 0 0 3px #121614,0 0 0 6px #7BCB6B}
 .dzh{font-size:24px;font-weight:700;color:#F4EFE3;margin:26px 0 14px;display:flex;align-items:center;gap:10px}
 .dzh small{font-size:13px;font-weight:500;color:#7E8A84;margin-left:auto}
-.dzideas{display:flex;gap:14px;overflow-x:auto;margin:0 -16px;padding:0 16px 6px;scroll-snap-type:x mandatory;scrollbar-width:none}.dzideas::-webkit-scrollbar{display:none}
+.dzideas{position:relative;display:flex;gap:14px;overflow-x:auto;margin:0 -16px;padding:0 16px 6px;scroll-snap-type:x mandatory;scrollbar-width:none}.dzideas::-webkit-scrollbar{display:none}
 .dzidea{flex:none;width:86%;scroll-snap-align:start;background:#1F2522;border-radius:26px;padding:20px;display:flex;flex-direction:column;gap:14px}
 .dzidea .top{display:flex;align-items:center;gap:14px}.dzidea .top .coin{width:52px;height:52px;font-size:20px}
 .dzidea .top b{font-size:20px;color:#F4EFE3;display:block}.dzidea .top small{color:#7E8A84;font-size:13px}
@@ -891,7 +891,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '16.1.0';
+  var APP_VER = '16.2.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2031,8 +2031,8 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
     if (c.k !== 'ok') r = null;   // v10.3.2: no BUY/SELL from old data
     loadBarsX(m.n); curSig = r; if (r && !r.ai) selSig = radKey(r); else selSig = '';
     var dir = c.k !== 'ok' ? 'OFFLINE' : m.aim && !rm ? ((m.aim === 'SCALP' || m.aim === 'HOLD') && m.aid ? (m.aid > 0 ? 'BUY' : 'SELL') : m.aim) : r ? r.s : /BUY|SELL/.test(v.v) ? v.v : 'WAIT', conf = m.aim ? (m.aim === 'CHOP' ? 0 : m.aic || 0) : r ? (r.c || 60) : (v.sig ? v.sig.sc : 0);
-    var htf = (function () { var pa = m.pa || {}, h4 = pa.h4 != null ? pa.h4 : m.h4, h1 = pa.h1 != null ? pa.h1 : m.h1; return { h4: +h4 || 0, h1: +h1 || 0 }; })();   // v15.0: never against the bigger trend
-    if ((dir === 'BUY' && (htf.h4 < 0 || htf.h1 < 0)) || (dir === 'SELL' && (htf.h4 > 0 || htf.h1 > 0)) || (r && r.s === 'BUY' && (htf.h4 < 0 || htf.h1 < 0)) || (r && r.s === 'SELL' && (htf.h4 > 0 || htf.h1 > 0))) { dir = 'WAIT'; r = null; curSig = null; selSig = ''; }
+    var htf = (function () { var pa = m.pa || {}; return { h4: tfv(pa.h4 != null ? pa.h4 : m.h4), h1: tfv(pa.h1 != null ? pa.h1 : m.h1) }; })();   // v15.0: never against the bigger trend
+    if ((dir === 'BUY' && (htf.h4 <= 0 || htf.h1 <= 0)) || (dir === 'SELL' && (htf.h4 >= 0 || htf.h1 >= 0)) || (r && r.s === 'BUY' && (htf.h4 <= 0 || htf.h1 <= 0)) || (r && r.s === 'SELL' && (htf.h4 >= 0 || htf.h1 >= 0))) { dir = 'WAIT'; r = null; curSig = null; selSig = ''; }
     var tdir = r ? r.s : dir;
     var cfx = conf || (r && r.c ? r.c : 0);   // v11.3: confidence always shown, even in RANGE / NEWS
     if ((dir === 'BUY' || dir === 'SELL') && cfx > 0 && cfx < 60) dir = 'WEAK';   // v11.6: under 60% is a coin flip - no big BUY/SELL   // v11.1: YOUR trade button always works - the AI mode only advises
@@ -2859,9 +2859,11 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
   document.addEventListener('focusout', function () { setTimeout(function () { if (pendingRender && !typing()) { pendingRender = false; render(); } }, 150); });
 
   //--- v16.0 APP SHELL (Doto-style): Home · Markets · Trade · My trades · Profile
+  function tfv(x) { if (typeof x === 'number') return x; var t = String(x == null ? '' : x).toUpperCase(); return /UP|BULL|▲|^1$/.test(t) ? 1 : /DOWN|BEAR|▼|^-1$/.test(t) ? -1 : 0; }
   function dzSide(m) {
     var r = null; try { r = modeSig(m); } catch (e) {}
-    var d = r ? r.s : (m.aid > 0 ? 'BUY' : m.aid < 0 ? 'SELL' : ''), pa = m.pa || {}, h4 = +(pa.h4 != null ? pa.h4 : m.h4) || 0, h1 = +(pa.h1 != null ? pa.h1 : m.h1) || 0, c = confOf(m) || 0;
+    var d = r ? r.s : (m.aid > 0 ? 'BUY' : m.aid < 0 ? 'SELL' : ''), pa = m.pa || {}, h4 = tfv(pa.h4 != null ? pa.h4 : m.h4), h1 = tfv(pa.h1 != null ? pa.h1 : m.h1), c = confOf(m) || 0;
+    if (d && (!h4 || !h1)) d = '';   // v16.2: 4H and 1H must both point the trade's way
     if ((d === 'BUY' && (h4 < 0 || h1 < 0)) || (d === 'SELL' && (h4 > 0 || h1 > 0)) || c < 60 || mkClosed(m)) d = '';
     return { d: d, c: c };
   }
@@ -2886,7 +2888,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
       '<button data-tab="chat"><i>✦</i>Ask AXON</button>' +
       '<button class="x" data-confirm="STOP: close ALL trades and lock Auto?" data-cmd="/kill" data-msg="Stopping…"><i>■</i>Stop all</button></div>';
     out += '<div class="dzst2">' + [['news', '🌍', 'World news'], ['markets', '📷', 'Scan a chart'], ['a9', '📐', 'Patterns'], ['perf', '📊', 'Results'], ['trades', '💼', 'My trades']].map(function (x) { return '<button data-tab2="' + x[0] + '"><i>' + x[1] + '</i>' + x[2] + '</button>'; }).join('') + '</div>';
-    var ms = (s.markets || []).filter(function (x) { return !x.off; }).map(function (m) { return { m: m, sd: dzSide(m) }; }).filter(function (x) { return x.sd.d; }).sort(function (a, b) { return b.sd.c - a.sd.c; });
+    var ms = (s.markets || []).filter(function (x) { return !x.off; }).map(function (m) { return { m: m, sd: dzSide(m) }; }).filter(function (x) { return x.sd.d; }).sort(function (a, b) { return b.sd.c - a.sd.c || (a.m.n < b.m.n ? -1 : 1); });
     out += '<div class="dzh">✦ AXON ideas<small>' + (ms.length ? 'with the 4H + 1H trend' : 'nothing clean right now') + '</small></div>';
     out += ms.length ? '<div class="dzideas">' + ms.map(function (x) {
       var m = x.m, why = m.aiw || m.aw || m.why || '';
@@ -2941,9 +2943,11 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
     var html = rp + body + askSheet();
     if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
     var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
-    var keepX = {}; ['dzideas', 'dzst2', 'dzpills'].forEach(function (c) { var el = v.querySelector('.' + c); if (el) keepX[c] = el.scrollLeft; });   // v16.1: swipe rows keep their place when prices update
+    var keepX = {}, keepCard = ''; ['dzideas', 'dzst2', 'dzpills'].forEach(function (c) { var el = v.querySelector('.' + c); if (el) keepX[c] = el.scrollLeft; });
+    var idw = v.querySelector('.dzideas'); if (idw) [].some.call(idw.querySelectorAll('.dzidea'), function (cd) { if (cd.offsetLeft + cd.offsetWidth / 2 >= idw.scrollLeft) { var bt = cd.querySelector('[data-dzgo]'); keepCard = bt ? bt.dataset.dzgo : ''; return true; } return false; });   // v16.1: swipe rows keep their place when prices update
     lastHtml = html; v.innerHTML = html;
     Object.keys(keepX).forEach(function (c) { var el = v.querySelector('.' + c); if (el) el.scrollLeft = keepX[c]; });
+    if (keepCard) { var idn = v.querySelector('.dzideas'), cb = idn && idn.querySelector('.dzidea [data-dzgo="' + keepCard + '"]'); if (cb) { var cd2 = cb.closest('.dzidea'); idn.style.scrollSnapType = 'none'; idn.scrollLeft = cd2.offsetLeft - 16; idn.style.scrollSnapType = ''; } }
     [].forEach.call(v.querySelectorAll('details summary'), function (x) { if (opened.indexOf(x.textContent) >= 0) x.parentNode.open = true; });
     window.scrollTo(0, keepY);
     if (/^(a9|home|markets|trades)$/.test(tab)) drawChart();
