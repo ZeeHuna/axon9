@@ -1884,7 +1884,7 @@ nav{background:#0A130E!important;z-index:50}
     var out = '<div class="seg">' + [['list', 'Markets'], ['news', 'News & calendar']].map(function (x) { return '<button class="' + (mSub === x[0] ? 'on' : '') + '" data-msub="' + x[0] + '">' + x[1] + '</button>'; }).join('') + '</div>';
     if (mSub === 'news') return out + newsTab();
     var ms = S.markets || []; if (!ms.length) return out + '<div class="card empty">No markets from the bot yet.</div>';
-    var m = curA9(); a9m = m.n; mkSel = m.i; loadBars(); loadBarsX(m.n); lotSel = Math.min(Math.max(0.01, lotSel), Math.min(HARD_LOT, m.maxLot || 100));
+    var m = curA9(); a9m = m.n; mkSel = m.i; loadBars(); loadBarsX(m.n); lotSel = Math.min(Math.max(0.01, lotSel), Math.min(capOf(m), m.maxLot || 100));
     var c = conn(), q = mQ.toUpperCase();
     var book = '<div class="xpan sbook"><div class="xtabs"><span class="on">Symbol Book</span><span>' + (S.markets || []).length + ' bot markets</span></div><input id="mxq" class="xin" placeholder="Search symbols…" value="' + esc(mQ) + '" autocomplete="off">' +
       '<div class="sbh"><span>Symbol</span><span>Bid</span><span>Spread</span><span>Ask</span></div>' +
@@ -2142,7 +2142,7 @@ nav{background:#0A130E!important;z-index:50}
     var s = S, ms = (s.markets || []).filter(function (x) { return !x.off; }); if (!ms.length) ms = s.markets || [];
     if (!ms.length) return '';
     var m = curA9(); a9m = m.n; mkSel = m.i; loadBars(); loadBarsX(m.n);
-    var c = conn(), buy = a9side === 'buy', maxLot = Math.min(HARD_LOT, m.maxLot || 100); lotSel = Math.min(Math.max(0.01, lotSel), maxLot);
+    var c = conn(), buy = a9side === 'buy', maxLot = Math.min(capOf(m), m.maxLot || 100); lotSel = Math.min(Math.max(0.01, lotSel), maxLot);
     var hk0 = m.n + '|' + a9side; if (hk0 !== hKey) { hKey = hk0; hEdit = false; } if (!hEdit) { var hl = autoLv(m, buy); if (hl) { hSL = hl.sl; hTP = hl.tp; } }
     var list = '<div class="hpan ha-list"><div class="hh">Markets</div><div class="hlist" style="margin-top:6px">' + ms.map(function (x) {
       return '<button class="hli ' + (x.n === m.n ? 'on' : '') + '" data-a9m="' + esc(x.n) + '"><div><b>' + esc(x.n) + '</b><small>' + esc(MNAME[x.n] || x.sym || '') + '</small></div><div class="hp"><b class="' + (x.chg >= 0 ? 'up' : 'down') + '">' + esc(x.px) + '</b><br><span class="hchg ' + (x.chg >= 0 ? 'up' : 'down') + '">' + (x.chg >= 0 ? '↗ +' : '↘ ') + Number(x.chg || 0).toFixed(2) + '%</span></div></button>'; }).join('') + '</div></div>';
