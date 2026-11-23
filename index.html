@@ -793,6 +793,12 @@ nav button{font-size:10.5px}
 .scup label{margin-left:auto;display:inline-flex;align-items:center;height:46px;padding:0 20px;border-radius:10px;background:#D0904F;color:#0B1510;font:800 14px 'Space Grotesk',sans-serif;cursor:pointer}
 .scres{background:#111F17;border:1px solid #2E4739;border-radius:12px;padding:14px;display:flex;gap:14px;flex-wrap:wrap}
 .scres img{width:220px;max-width:100%;border-radius:8px;align-self:flex-start}.scres .tx{flex:1 1 300px;white-space:pre-wrap;font-size:14px;line-height:1.5}
+
+/* 14.7 phone fit */
+.eqg2{grid-template-columns:minmax(0,1fr)}@media (min-width:700px){.eqg2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+nav{background:#0A130E!important;z-index:50}
+.cchd h2{white-space:nowrap}
+@media (max-width:600px){.cchd span{display:none}.hright .pill.live>span{display:none}.hright .pill.live{padding:8px}.eqw{max-height:none}}
 </style>
 </head>
 <body>
@@ -823,7 +829,7 @@ nav button{font-size:10.5px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '14.6.0';
+  var APP_VER = '14.7.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2065,7 +2071,7 @@ nav button{font-size:10.5px}
         return row; }).join('') + '</table></div>' : '<div class="hempty"><span>〰</span>No open positions</div>';
     else if (tTab === 'pend') body = '<div class="hempty"><span>⏳</span>No pending orders – AXON-9 places market orders only</div>';
     else { var H = PF && PF.hist || []; body = !PF ? '<div class="hempty"><span>🕘</span>History needs AXON-9 bot 5.3 on the PC</div>' : H.length ? '<div class="tblw"><table class="ptbl xt"><tr><th>Symbol</th><th>ID</th><th>Opened</th><th>Closed</th><th>Type</th><th>Volume</th><th>Price</th><th>Strategy</th><th>Profit</th></tr>' + H.map(function (h) { return '<tr><td><b>' + esc(String(h.s).replace(/m$/, '')) + '</b></td><td class="mono">' + h.id + '</td><td class="mono">' + new Date(h.ti * 1000).toLocaleString('en-ZA', { hour12: false }).replace(',', '') + '</td><td class="mono">' + new Date(h.to * 1000).toLocaleString('en-ZA', { hour12: false }).replace(',', '') + '</td><td class="' + (h.d === 'BUY' ? 'blu' : 'down') + '">' + (h.d === 'BUY' ? 'Buy' : 'Sell') + '</td><td class="mono">' + Number(h.v).toFixed(2) + '</td><td class="mono">' + esc(h.pi) + ' → ' + esc(h.po) + '</td><td>' + esc(h.e) + '</td><td class="mono ' + (h.p >= 0 ? 'blu' : 'down') + '">' + money(h.p) + '</td></tr>'; }).join('') + '</table></div>' : '<div class="hempty"><span>🕘</span>No closed trades yet</div>'; }
-    return '<div class="eqg" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)"><div class="eqright">' + mw + '</div><div class="eqright">' + ord + '</div></div><div class="xpan eqb">' + tabs + sumb + body + '</div>';   // v14.0: no chart here
+    return '<div class="eqg eqg2"><div class="eqright">' + mw + '</div><div class="eqright">' + ord + '</div></div><div class="xpan eqb">' + tabs + sumb + body + '</div>';   // v14.0: no chart here
   }
   //------------------------------------------------------------------ 06 PERFORMANCE
   function loadPerf(force) {
