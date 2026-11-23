@@ -891,7 +891,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '16.0.0';
+  var APP_VER = '16.1.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2913,8 +2913,12 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
       '<div class="dzcard">' + rows.map(function (r) { return '<button class="dzli" data-tab2="' + r[0] + '"><i>' + r[1] + '</i><span><b>' + r[2] + '</b><small>' + r[3] + '</small></span><em>›</em></button>'; }).join('') + '</div>' +
       '<div class="why" style="text-align:center;margin-top:18px">App ' + APP_VER + ' · bot ' + esc(S.ver || '?') + '</div>';
   }
+  var dzTouch = 0;
+  document.addEventListener('touchstart', function (e) { if (e.target.closest && e.target.closest('.dzideas,.dzst2,.dzpills')) dzTouch = Date.now(); }, { passive: true });
+  document.addEventListener('scroll', function (e) { if (e.target && e.target.classList && /dzideas|dzst2|dzpills/.test(e.target.className)) dzTouch = Date.now(); }, true);
   function render(force) {
-    if (!force && typing()) { pendingRender = true; return; }   // keep the keyboard open - redraw after typing
+    if (!force && typing()) { pendingRender = true; return; }
+    if (!force && Date.now() - dzTouch < 1500) { setTimeout(function () { render(); }, 1600); return; }   // v16.1: let the swipe finish   // keep the keyboard open - redraw after typing
     var v = $('view');
     document.body.classList.toggle('bare', !U || !KEY || tab === 'wiz');
     document.querySelector('header').style.display = !U || (!KEY && tab !== 'wiz') ? 'none' : '';
@@ -2937,7 +2941,9 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
     var html = rp + body + askSheet();
     if (html === lastHtml) return;          // nothing changed - leave the screen alone (no flicker)
     var keepY = window.scrollY, opened = [].map.call(v.querySelectorAll('details[open] summary'), function (x) { return x.textContent; });
+    var keepX = {}; ['dzideas', 'dzst2', 'dzpills'].forEach(function (c) { var el = v.querySelector('.' + c); if (el) keepX[c] = el.scrollLeft; });   // v16.1: swipe rows keep their place when prices update
     lastHtml = html; v.innerHTML = html;
+    Object.keys(keepX).forEach(function (c) { var el = v.querySelector('.' + c); if (el) el.scrollLeft = keepX[c]; });
     [].forEach.call(v.querySelectorAll('details summary'), function (x) { if (opened.indexOf(x.textContent) >= 0) x.parentNode.open = true; });
     window.scrollTo(0, keepY);
     if (/^(a9|home|markets|trades)$/.test(tab)) drawChart();
