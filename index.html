@@ -891,7 +891,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '16.2.0';
+  var APP_VER = '16.3.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2035,7 +2035,16 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
     if ((dir === 'BUY' && (htf.h4 <= 0 || htf.h1 <= 0)) || (dir === 'SELL' && (htf.h4 >= 0 || htf.h1 >= 0)) || (r && r.s === 'BUY' && (htf.h4 <= 0 || htf.h1 <= 0)) || (r && r.s === 'SELL' && (htf.h4 >= 0 || htf.h1 >= 0))) { dir = 'WAIT'; r = null; curSig = null; selSig = ''; }
     var tdir = r ? r.s : dir;
     var cfx = conf || (r && r.c ? r.c : 0);   // v11.3: confidence always shown, even in RANGE / NEWS
-    if ((dir === 'BUY' || dir === 'SELL') && cfx > 0 && cfx < 60) dir = 'WEAK';   // v11.6: under 60% is a coin flip - no big BUY/SELL   // v11.1: YOUR trade button always works - the AI mode only advises
+    if ((dir === 'BUY' || dir === 'SELL') && cfx > 0 && cfx < 60) dir = 'WEAK';
+    if (c.k === 'ok' && !mkClosed(m) && !(r && (dir === 'BUY' || dir === 'SELL'))) {   // v16.3: no WAIT - always a trade WITH the bigger trend (4H, then 1H, then D1)
+      var pa0 = m.pa || {}, td = htf.h4 || htf.h1 || tfv(pa0.d1 != null ? pa0.d1 : m.d1), atr0 = num(m.atr) || num(m.px || m.bid) * 0.003;
+      if (td && atr0 > 0) {
+        var pr0 = num(td > 0 ? m.ask || m.px : m.bid || m.px), ds0 = 1.5 * atr0;
+        r = { m: m.n, s: td > 0 ? 'BUY' : 'SELL', e: 'AI', u: 'With the ' + (htf.h4 ? '4H' : htf.h1 ? '1H' : 'daily') + ' trend', w: m.aiw || m.aw || '', st: 'TREND', g: 'B', c: Math.max(cfx || 0, 55), t: Date.now() / 1000,
+              sl: fmtP(m, pr0 - td * ds0), t1: fmtP(m, pr0 + td * 1.5 * ds0), t2: fmtP(m, pr0 + td * 3 * ds0), ai: true, rp: pr0 };
+        dir = r.s; tdir = r.s; curSig = r; selSig = ''; if (!conf) conf = r.c;
+      }
+    }   // v11.6: under 60% is a coin flip - no big BUY/SELL   // v11.1: YOUR trade button always works - the AI mode only advises
     var cats = [['ALL', '🌐 All markets'], ['FOREX', '💱 Major FX'], ['METALS', '🥇 Metals'], ['INDICES', '📈 Indices'], ['CRYPTO', '₿ Crypto']];
     var left = '<div class="gpan"><b class="gt">Choose Your Market</b><div class="gcat">' + cats.map(function (k) { return '<button class="' + (sigCat === k[0] ? 'on' : '') + '" data-cat="' + k[0] + '">' + k[1] + '</button>'; }).join('') + '</div>' +
       '<div class="glist">' + ms.filter(function (x) { return sigCat === 'ALL' || catOf(x) === sigCat; }).map(function (x) { var cf = confOf(x), rx = modeSig(x), mt = modeTag(x); if (rx && cf > 0 && cf < 60) rx = null;
