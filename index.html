@@ -891,7 +891,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '16.3.0';
+  var APP_VER = '16.4.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -2044,6 +2044,12 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
               sl: fmtP(m, pr0 - td * ds0), t1: fmtP(m, pr0 + td * 1.5 * ds0), t2: fmtP(m, pr0 + td * 3 * ds0), ai: true, rp: pr0 };
         dir = r.s; tdir = r.s; curSig = r; selSig = ''; if (!conf) conf = r.c;
       }
+    }
+    if (!cfx && (dir === 'BUY' || dir === 'SELL')) {   // v16.4: confidence always shown - real share of the checks that agree with the trade
+      var dd = dir === 'BUY' ? 1 : -1, pa1 = m.pa || {}, ck = [tfv(pa1.d1 != null ? pa1.d1 : m.d1), htf.h4, htf.h1, tfv(pa1.m15 != null ? pa1.m15 : m.m15)], ag = 0, kn = 0;
+      ck.forEach(function (x) { if (x) { kn++; if (x === dd) ag++; } });
+      cfx = confOf(m) || (kn ? Math.round(100 * ag / Math.max(kn, 3)) : 0);
+      if (r) r.c = cfx;
     }   // v11.6: under 60% is a coin flip - no big BUY/SELL   // v11.1: YOUR trade button always works - the AI mode only advises
     var cats = [['ALL', '🌐 All markets'], ['FOREX', '💱 Major FX'], ['METALS', '🥇 Metals'], ['INDICES', '📈 Indices'], ['CRYPTO', '₿ Crypto']];
     var left = '<div class="gpan"><b class="gt">Choose Your Market</b><div class="gcat">' + cats.map(function (k) { return '<button class="' + (sigCat === k[0] ? 'on' : '') + '" data-cat="' + k[0] + '">' + k[1] + '</button>'; }).join('') + '</div>' +
