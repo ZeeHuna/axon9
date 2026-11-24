@@ -891,7 +891,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '16.4.0';
+  var APP_VER = '16.5.0';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
     var m = t.match(/var APP_VER = '([0-9.]+)'/); if (m && m[1] !== APP_VER && store.get('axrl') !== m[1]) { store.set('axrl', m[1]); location.reload(); } }).catch(function () {}); } catch (e) {}
@@ -1102,7 +1102,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
           if (shownMsg !== null && d.msg && d.msg !== shownMsg && Date.now() - lastSent < 90000 && !/^AXON-9 (SCALP|HOLD)/.test(d.msg)) { reply = d.msg; replyT = Date.now(); tradeWait = 0; }   // v3.4.5: the bot's answer shows here, not on Telegram
           shownMsg = d.msg || '';
           if (!d.tgmute && store.get('axtg345') !== '1') { store.set('axtg345', '1'); send('/tgoff', 'Signals & trades now come to this app (Telegram only for emergencies)'); }
-          var RMV = /^(ETH)/i;   // v14.4: GER40 is back (bot 6.8.9+); only ETH stays hidden
+          var RMV = /^(ETH|GER40|NAS100|US30|DE30|DE40|USTEC)/i;   // v16.5: GER40, NAS100, US30 removed (Zola) - JP225 + US500 in
           if (d.watch) d.watch = d.watch.filter(function (w) { return !RMV.test(w.s); });
           if (d.markets) d.markets = d.markets.filter(function (m) { return !RMV.test(m.n) && !RMV.test(m.sym || ''); });
           if (d.rad) d.rad = d.rad.filter(function (r) { return !RMV.test(r.m); });
@@ -1213,9 +1213,9 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
   function num(x) { return parseFloat(String(x == null ? '' : x).replace(/[ ,]/g, '')); }
   function digitsOf(m) { var s = String(m.bid || m.px || '').replace(/[ ,]/g, ''), i = s.indexOf('.'); return i < 0 ? 0 : s.length - i - 1; }
   function fmtP(m, p) { return isFinite(p) ? Number(p).toLocaleString('en-US', { minimumFractionDigits: digitsOf(m), maximumFractionDigits: digitsOf(m) }).replace(/,/g, ' ') : '–'; }
-  var MCOL = { GER40: '#9AA8C0', Gold: '#E8B33A', GOLD: '#E8B33A', NAS100: '#F1B877', US30: '#7F9CFF', BTC: '#F7931A', ETH: '#A8B8FF', USDJPY: '#F06A57', GBPJPY: '#C77DFF', EURJPY: '#5EE6A8' };
-  var MNAME = { GOLD: 'Gold / US Dollar', Gold: 'Gold / US Dollar', NAS100: 'Nasdaq 100 Index', US30: 'Dow Jones 30 Index', BTC: 'Bitcoin / US Dollar', USDJPY: 'US Dollar / Japanese Yen', GBPJPY: 'British Pound / Japanese Yen', EURJPY: 'Euro / Japanese Yen', GER40: 'Germany 40 Index', ETH: 'Ethereum / US Dollar' };
-  var MICO = { GER40: '🇩🇪', Gold: '🥇', GOLD: '🥇', NAS100: '🇺🇸', US30: '🇺🇸', BTC: '₿', ETH: 'Ξ', USDJPY: '💴', GBPJPY: '💷', EURJPY: '💶' };
+  var MCOL = { US500: '#7FD1FF', JP225: '#FF7A90', GER40: '#9AA8C0', Gold: '#E8B33A', GOLD: '#E8B33A', NAS100: '#F1B877', US30: '#7F9CFF', BTC: '#F7931A', ETH: '#A8B8FF', USDJPY: '#F06A57', GBPJPY: '#C77DFF', EURJPY: '#5EE6A8' };
+  var MNAME = { US500: 'S&P 500 Index', JP225: 'Japan 225 (Nikkei)', GOLD: 'Gold / US Dollar', Gold: 'Gold / US Dollar', NAS100: 'Nasdaq 100 Index', US30: 'Dow Jones 30 Index', BTC: 'Bitcoin / US Dollar', USDJPY: 'US Dollar / Japanese Yen', GBPJPY: 'British Pound / Japanese Yen', EURJPY: 'Euro / Japanese Yen', GER40: 'Germany 40 Index', ETH: 'Ethereum / US Dollar' };
+  var MICO = { US500: '🇺🇸', JP225: '🇯🇵', GER40: '🇩🇪', Gold: '🥇', GOLD: '🥇', NAS100: '🇺🇸', US30: '🇺🇸', BTC: '₿', ETH: 'Ξ', USDJPY: '💴', GBPJPY: '💷', EURJPY: '💶' };
   function closedM(m) { return (m.pa || {}).tickAge > 600; }
   function spark(m) {
     var b = barsOf(m.n, 'm15').slice(-36);
@@ -1927,7 +1927,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
   function autoLv(m, buy) { var px = num(buy ? m.ask || m.px : m.bid || m.px), d = num(m.slDist); if (!isFinite(px) || !(d > 0)) return null; return { sl: fmtP(m, px - (buy ? 1 : -1) * d).replace(/\s/g, ''), tp: fmtP(m, px + (buy ? 1 : -1) * 2 * d).replace(/\s/g, '') }; }
   var mQ = '', oneClick = false, sigCat = 'ALL', sgM = '', tTab = 'pos', tVol = '0.01', tTP = '', tSL = '', modTk = '', modSL = '', modTP = '', pRange = 'daily', pRep = 'daily', PF = null, PFt = 0;
   var rejected = (function () { try { return JSON.parse(store.get('axrej') || '{}'); } catch (e) { return {}; } })();
-  function catOf(m) { var n = String(m.n).toUpperCase(); return /BTC|ETH|SOL|XRP/.test(n) ? 'CRYPTO' : /GOLD|XAU|XAG|SILVER/.test(n) ? 'METALS' : /NAS|US30|GER|SPX|US500|DAX/.test(n) ? 'INDICES' : 'FOREX'; }
+  function catOf(m) { var n = String(m.n).toUpperCase(); return /BTC|ETH|SOL|XRP/.test(n) ? 'CRYPTO' : /GOLD|XAU|XAG|SILVER/.test(n) ? 'METALS' : /NAS|US30|GER|SPX|US500|DAX|JP225|NIKKEI/.test(n) ? 'INDICES' : 'FOREX'; }
   function trd(d) { return d > 0 ? '<b class="up">▲</b>' : d < 0 ? '<b class="down">▼</b>' : '<b class="why">–</b>'; }
   function mOf(sym) { return (S.markets || []).filter(function (x) { return x.sym && String(sym).indexOf(String(x.sym).replace(/m$/, '')) === 0; })[0]; }
   function sumSwap() { var w = 0; (S.trades || []).forEach(function (t) { w += Number(t.sw || 0); }); return w; }
@@ -2474,7 +2474,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
 
   //--- v14.0 money icons
   function coin(n, sz) {
-    var k = n === 'GOLD' ? ['c-gold', 'Au'] : n === 'BTC' ? ['c-btc', '₿'] : n === 'USDJPY' ? ['c-usd', '$'] : n === 'GBPJPY' ? ['c-gbp', '£'] : n === 'EURJPY' ? ['c-eur', '€'] : /US30|NAS|GER/.test(n) ? ['c-idx', n === 'US30' ? '30' : n === 'GER40' ? '40' : '100'] : ['c-usd', '$'];
+    var k = n === 'GOLD' ? ['c-gold', 'Au'] : n === 'BTC' ? ['c-btc', '₿'] : n === 'USDJPY' ? ['c-usd', '$'] : n === 'GBPJPY' ? ['c-gbp', '£'] : n === 'EURJPY' ? ['c-eur', '€'] : /US30|NAS|GER|US500|JP225/.test(n) ? ['c-idx', n === 'US30' ? '30' : n === 'GER40' ? '40' : n === 'US500' ? '500' : n === 'JP225' ? '225' : '100'] : ['c-usd', '$'];
     return '<span class="coin ' + k[0] + (sz ? ' ' + sz : '') + '" aria-hidden="true">' + k[1] + '</span>';
   }
   //--- v14.0 SCANNER: every market scanned live, ranked, with entry / stop / target and one tap to trade
@@ -2637,7 +2637,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
   }
 
   //--- v14.6 AXON-9's OWN BRAIN (free, no key): answers from live MT5 data + chart reader + news, and reads chart pictures itself
-  var MKRX = [['GOLD', /gold|xau/i], ['BTC', /btc|bitcoin|crypto/i], ['NAS100', /nas|nasdaq|ustec|tech/i], ['US30', /us ?30|dow/i], ['GER40', /ger|dax|de ?30|de ?40|germany/i],
+  var MKRX = [['GOLD', /gold|xau/i], ['BTC', /btc|bitcoin|crypto/i], ['NAS100', /nas|nasdaq|ustec|tech/i], ['US30', /us ?30|dow/i], ['GER40', /ger|dax|de ?30|de ?40|germany/i], ['US500', /us ?500|s&p|spx|sp ?500/i], ['JP225', /jp ?225|nikkei|japan ?225/i],
     ['USDJPY', /usd ?jpy|dollar.?yen|usdjpy/i], ['GBPJPY', /gbp ?jpy|pound.?yen|gbpjpy/i], ['EURJPY', /eur ?jpy|euro.?yen|eurjpy/i]];
   function mkOfText(q) { for (var i = 0; i < MKRX.length; i++) if (MKRX[i][1].test(q || '')) return MKRX[i][0]; return ''; }
   function mkObj(n) { return (S && S.markets || []).filter(function (x) { return x.n === n; })[0]; }
