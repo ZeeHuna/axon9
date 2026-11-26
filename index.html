@@ -993,6 +993,16 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
 .pill,.card,.dzcard,.console-panel{color:var(--text)}.why,.label,.dzli small{color:var(--muted)}
 @media(max-width:760px){.machine-grid,.machine-stream{grid-template-columns:1fr}.machine-bay{min-height:290px}.machine-bay::after{width:250px}.machine-avatar{width:min(49%,205px)}.machine-kpis div:nth-child(2){border-right:0}.machine-kpis div:nth-child(n+3){border-top:1px solid var(--line)}}
 
+
+.brand:before{content:none}.brand .badge{display:block;object-fit:cover;background:#cadba5;border:1px solid #c2d1a7;box-shadow:0 0 0 2px #60816b;width:36px;height:36px}
+.market-identity{display:inline-flex;align-items:center;gap:9px;min-width:0}.market-identity b{font-weight:700}.market-identity .coin{width:32px;height:32px;font-size:12px;box-shadow:inset 0 -2px 0 #0002}
+.trade-markets button{display:flex;align-items:center;gap:8px}.trade-markets button .market-identity .coin{width:27px;height:27px}
+.ticket-panel h3 .market-identity{vertical-align:middle}.ticket-panel h3 .coin{width:32px;height:32px}
+.trade-confidence{border-bottom:1px solid var(--line);padding:2px 0 12px;margin-bottom:12px}.trade-confidence strong{font:800 31px Consolas,monospace;color:#245941;letter-spacing:-.06em}
+.trade-confidence p{margin:6px 0 0;font-size:12px}.trade-confidence meter{width:100%;height:14px;accent-color:#4d8934}
+.signal-history h3{margin:0 0 10px;font-size:18px}.signal-history ol{list-style:none;margin:0;padding:0}.signal-history li{display:grid;grid-template-columns:58px minmax(0,1fr) auto;gap:8px;align-items:start;padding:9px 0;border-top:1px solid var(--line);font-size:13px}
+.signal-history time{font:700 11px Consolas,monospace;color:var(--muted);padding-top:4px}.signal-history p{margin:5px 0 0;color:var(--muted);font-size:12px;overflow-wrap:anywhere}.signal-history .direction{display:inline-block}.signal-history .history-status{font-size:11px;font-weight:650;color:var(--muted);text-align:right}
+@media(max-width:450px){.brand .badge{width:28px;height:28px}.market-identity{gap:6px}.signal-history li{grid-template-columns:45px minmax(0,1fr) auto}}
 </style>
 </head>
 <body>
@@ -1017,7 +1027,7 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '19.0.1';
+  var APP_VER = '19.1.0';
   var preview = new URLSearchParams(location.search).get('preview') === '1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { if (!preview && location.protocol !== 'file:' && /(?:^|\/)index\.html$|\/$/.test(location.pathname)) fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
@@ -2221,6 +2231,31 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
     function label(n) { return n > 0 ? 'Bullish' : n < 0 ? 'Bearish' : 'Neutral'; }
     return '<div class="tfstrip"><span>H4 ' + label(reading.h4) + '</span><span>H1 ' + label(reading.h1) + '</span></div>';
   }
+  function marketIdentity(name) {
+    return '<span class="market-identity">' + coin(name) + '<b>' + esc(name) + '</b></span>';
+  }
+  function signalConfidence(m, reading) {
+    var score = reading.score;
+    if (score == null && m.aic != null && m.aic !== '') {
+      var reported = Number(m.aic);
+      if (Number.isFinite(reported) && reported >= 0 && reported <= 100) score = reported;
+    }
+    var stale = conn().k !== 'ok', shown = score == null ? '—' : Math.round(score) + '%';
+    return '<div class="trade-confidence"><div class="row"><b>AI Confidence</b><strong>' + shown + '</strong></div>' +
+      (score == null ? '' : '<meter min="0" max="100" value="' + score + '" aria-label="AI Confidence"></meter>') +
+      '<p>' + (score == null ? 'MT5 has not reported a confidence score.' : stale ? 'Last reported score. Feed is stale.' : 'Setup agreement score. Win probability is unknown.') + '</p></div>';
+  }
+  function recentSignals(m) {
+    var history = (S.rad || []).filter(function (row) { return row.m === m.n && Number(row.t) > 0; })
+      .sort(function (a,b) { return b.t-a.t; }).slice(0,8);
+    return '<section class="console-panel signal-history"><h3>Signal history · ' + marketIdentity(m.n) + '</h3>' +
+      (history.length ? '<ol>' + history.map(function (row) {
+        var tone = row.s === 'BUY' ? 'buy' : row.s === 'SELL' ? 'sell' : '';
+        return '<li><time datetime="' + new Date(row.t*1000).toISOString() + '">' + esc(hm(row.t)) + '</time><div><b>' +
+          esc(ENGN[row.e] || row.e || 'Setup') + '</b><p>' + esc([row.u,row.w].filter(Boolean).join(' · ')) + '</p></div>' +
+          '<div class="history-status"><span class="direction ' + tone + '">' + esc(row.s || 'WAIT') + '</span><p>' + esc(STL[row.st] || row.st || '–') + '</p></div></li>';
+      }).join('') + '</ol>' : '<p>MT5 has not reported any recent signals for this market.</p>') + '</section>';
+  }
   function signals() {
     curSig = null; selSig = '';
     var ms = (S.markets || []).filter(function (m) { return !m.off && (sigCat === 'ALL' || catOf(m) === sigCat); });
@@ -2235,13 +2270,13 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
     var accountBlock = conn().k !== 'ok' ? 'Waiting for fresh MT5 telemetry.' : S.kill ? 'Engine locked.' : S.hl || (S.algo === false ? 'Algo Trading is disabled in MT5.' : !canSize ? 'Broker minimum exceeds the configured app lot cap.' : '');
     if (r && canSize && !accountBlock && !preview) curSig = r;
     var left = '<section class="console-panel trade-market-panel"><h3 class="screen-label">Instruments</h3><div class="trade-markets">' + ms.map(function (x) {
-      return '<button class="' + (x === m ? 'on' : '') + '" aria-pressed="' + (x === m) + '" data-sgm="' + esc(x.n) + '">' + esc(x.n) + '</button>';
+      return '<button class="' + (x === m ? 'on' : '') + '" aria-pressed="' + (x === m) + '" data-sgm="' + esc(x.n) + '">' + marketIdentity(x.n) + '</button>';
     }).join('') + '</div></section>';
     var prices = r ? '<div class="ticket-levels">' + [['Quote',fmtP(m,rd.entry)],['Stop loss',r.sl],['Target 1',r.t1],['Target 2',r.t2],['Reward / risk to TP2',rd.rr.toFixed(2) + 'R'],['Strategy',ENGN[r.e] || r.e || '–']].map(function (x) {
       return '<div><small>' + esc(x[0]) + '</small><b>' + esc(x[1]) + '</b></div>';
     }).join('') + '</div>' : '';
-    var center = '<section class="console-panel ticket-panel"><span class="screen-label">Bot setup</span><h3>' + esc(m.n) + ' <small>' + esc(MNAME[m.n] || '') + '</small></h3><strong class="ticket-side ' + rd.tone + '">' + esc(rd.stage) + '</strong>' +
-      '<p>' + esc(rd.why) + '</p>' + readingTrends(rd) + (rd.score == null ? '' : '<p>Setup score <b>' + rd.score + ' / 100</b></p><div class="signal-score" aria-hidden="true"><i style="width:' + rd.score + '%"></i></div>') + prices + '</section>';
+    var center = '<section class="console-panel ticket-panel"><span class="screen-label">Bot setup</span><h3>' + marketIdentity(m.n) + ' <small>' + esc(MNAME[m.n] || '') + '</small></h3><strong class="ticket-side ' + rd.tone + '">' + esc(rd.stage) + '</strong>' +
+      '<p>' + esc(rd.why) + '</p>' + readingTrends(rd) + prices + '</section>';
     var controls = '';
     if (r && canSize) {
       var baseStop = num(m.slDist), unitRisk = Number(m.r001), risk = baseStop > 0 && unitRisk > 0 ? unitRisk * (sgLot / 0.01) * sgN * Math.abs(rd.entry - num(r.sl)) / baseStop : null;
@@ -2251,9 +2286,9 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
         '<p>Estimated stop risk <b>' + (risk == null ? 'Unavailable' : risk.toFixed(2) + '%') + '</b></p>' +
         '<button class="execute ' + rd.tone + '"' + (curSig ? ' data-sigconfirm="1" data-confirm="' + esc(confirmText) + '"' : ' disabled') + '>' + (preview ? 'Simulation only' : 'Review ' + r.s + ' order') + '</button>';
     }
-    var right = '<section class="console-panel ticket-panel"><span class="screen-label">Order ticket</span><h3>' + (curSig ? 'Ready for review' : 'Entry on hold') + '</h3>' +
+    var right = '<section class="console-panel ticket-panel"><span class="screen-label">Order ticket</span>' + signalConfidence(m,rd) + '<h3>' + (curSig ? 'Ready for review' : 'Entry on hold') + '</h3>' +
       (accountBlock ? '<p>' + esc(accountBlock) + '</p>' : '') + (controls || '<p>Waiting for an eligible setup with valid order levels.</p>') + '</section>';
-    return out + '<div class="trade-grid">' + left + center + right + '</div>';
+    return out + '<div class="trade-grid">' + left + center + right + '</div>' + recentSignals(m);
   }
 
   function sigTable() {
@@ -3081,7 +3116,7 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
     var stats = '<div class="terminal-kpis machine-kpis">' + [
       ['Balance',s.bal || '–',''],['Equity',s.eq || '–',''],['Today’s P/L',s.today || '–',s.todayPct<0?'down':'up'],['Open · P/L',tr.length+' / '+openPL,pl<0?'down':'up']
     ].map(function (k) { return '<div><span>' + k[0] + '</span><b class="' + k[2] + '">' + esc(k[1]) + '</b></div>'; }).join('') + '</div>';
-    var cards = setups.slice(0,4).map(function (x) { return '<div class="dzidea"><div class="row"><b>' + esc(x.m.n) + '</b>' + readingPill(x.rd) + '</div><p>' +
+    var cards = setups.slice(0,4).map(function (x) { return '<div class="dzidea"><div class="row">' + marketIdentity(x.m.n) + readingPill(x.rd) + '</div><p>' +
       esc(x.rd.why) + '</p><button class="dzbtn" data-dzgo="' + esc(x.m.n) + '">Review setup</button></div>'; }).join('');
     var activity = (s.feed || []).slice(0,5).map(function (e) { return '<div><time>' + esc(hm(e.t)) + '</time><span>' + esc(e.x) + '</span></div>'; }).join('');
     var tools = !preview ? '<div class="dzst2" aria-label="Tools">' + [['news','Market news'],['markets','Chart scan'],['a9','Patterns'],['perf','Results']].map(function (item) {
@@ -3116,6 +3151,11 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
       {n:'GOLD', i:2, bid:'3565.244', chg:-0.31, aim:'CHOP', h4:0, h1:0, aiw:'Price is moving sideways without a clean setup.'},
       {n:'USDJPY', i:3, bid:'149.810', ask:'149.820', chg:0.23, aim:'HOLD', aid:1, aic:84, h4:1, h1:1, asl:'149.400', at1:'150.450', at2:'151.080', slDist:0.42, r001:0.22, vmin:0.01, aiw:'H4 and H1 are both trending higher.'},
       {n:'BTC', i:4, bid:'60437.27', chg:0.09, aim:'WAIT', h4:1, h1:0, aiw:'Waiting for H1 to confirm the H4 trend.'}
+    ];
+    S.rad = [
+      {m:'USDJPY',t:now-420,e:'HOLD',s:'BUY',st:'DETECTED',u:'H4 and H1 aligned',w:'Waiting for confirmation'},
+      {m:'USDJPY',t:now-980,e:'HOLD',s:'BUY',st:'REJECTED',u:'Spread check',w:'Quote spread exceeded the sample limit'},
+      {m:'US500',t:now-300,e:'HOLD',s:'SELL',st:'FORMING',u:'Downtrend aligned',w:'Order blocked by broker minimum'}
     ];
     function paint() {
       var notice = '<p class="preview-notice">Simulation preview · Sample data · Trading disabled</p>';
@@ -3152,7 +3192,7 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
     });
     var cards = filtered.map(function (row) {
       var m = row.market, rd = row.reading, change = m.chg == null ? NaN : Number(m.chg);
-      return '<button class="scan-card" data-dzgo="' + esc(m.n) + '" aria-label="Review ' + esc(m.n) + '"><span class="row"><b>' + esc(m.n) + '</b>' + readingPill(rd) + '</span>' +
+      return '<button class="scan-card" data-dzgo="' + esc(m.n) + '" aria-label="Review ' + esc(m.n) + '"><span class="row">' + marketIdentity(m.n) + readingPill(rd) + '</span>' +
         '<span class="row"><span class="scan-price">' + esc(m.bid || m.px || '–') + '</span>' + (Number.isFinite(change) ? '<small class="' + (change >= 0 ? 'up' : 'down') + '">' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%</small>' : '') + '</span>' +
         readingTrends(rd) + '<small class="scan-note">' + esc(rd.why) + '</small></button>';
     }).join('');
