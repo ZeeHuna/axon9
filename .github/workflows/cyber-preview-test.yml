@@ -1,0 +1,44 @@
+name: Cyber Blue preview browser test
+on:
+  push:
+    branches: ['feature/cyber-blue-overhaul']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright
+      - run: npx playwright install --with-deps chromium
+      - name: Test preview navigation
+        run: |
+          node <<'JS'
+          const {chromium}=require('playwright');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            for(const width of [390,1280]){
+              const page=await browser.newPage({viewport:{width,height:844}});
+              const errors=[];
+              page.on('pageerror',e=>errors.push(e.message));
+              await page.goto('file://'+process.cwd()+'/cyber-preview.html');
+              for(const tab of ['home','mk2','chat','trades','settings']){
+                await page.locator('#dzbar button[data-tab="'+tab+'"]').click();
+                if(!(await page.locator('#screen').innerText()).trim())throw Error('Empty '+tab);
+                await page.screenshot({path:'preview-'+width+'-'+tab+'.png',fullPage:true});
+              }
+              if(errors.length)throw Error(errors.join('; '));
+              await page.close();
+            }
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cyber-blue-screenshots
+          path: preview-*.png
