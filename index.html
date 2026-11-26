@@ -1003,6 +1003,10 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
 .signal-history h3{margin:0 0 10px;font-size:18px}.signal-history ol{list-style:none;margin:0;padding:0}.signal-history li{display:grid;grid-template-columns:58px minmax(0,1fr) auto;gap:8px;align-items:start;padding:9px 0;border-top:1px solid var(--line);font-size:13px}
 .signal-history time{font:700 11px Consolas,monospace;color:var(--muted);padding-top:4px}.signal-history p{margin:5px 0 0;color:var(--muted);font-size:12px;overflow-wrap:anywhere}.signal-history .direction{display:inline-block}.signal-history .history-status{font-size:11px;font-weight:650;color:var(--muted);text-align:right}
 @media(max-width:450px){.brand .badge{width:28px;height:28px}.market-identity{gap:6px}.signal-history li{grid-template-columns:45px minmax(0,1fr) auto}}
+
+.order-presets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:0 0 14px}.order-presets button{border:1px solid var(--line2);min-height:36px;border-radius:6px;background:#edf2e8;color:var(--text);font-weight:700}.order-presets button.on{background:#d9efae;border-color:#8ea870}
+.ticket-panel .execute{font-size:15px;min-height:48px}.ticket-panel .execute.buy{background:#d5f097;color:#1b402b}.ticket-panel .execute.sell{background:#f6d7d8;color:#76252e;border-color:#d89c9f}
+.manual-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.manual-actions .execute{font-size:13px}
 </style>
 </head>
 <body>
@@ -1027,7 +1031,7 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '19.1.0';
+  var APP_VER = '19.2.0';
   var preview = new URLSearchParams(location.search).get('preview') === '1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { if (!preview && location.protocol !== 'file:' && /(?:^|\/)index\.html$|\/$/.test(location.pathname)) fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
@@ -2256,10 +2260,19 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
           '<div class="history-status"><span class="direction ' + tone + '">' + esc(row.s || 'WAIT') + '</span><p>' + esc(STL[row.st] || row.st || '–') + '</p></div></li>';
       }).join('') + '</ol>' : '<p>MT5 has not reported any recent signals for this market.</p>') + '</section>';
   }
+  function signalOrderBlock(m) {
+    if (conn().k !== 'ok') return 'Waiting for fresh MT5 telemetry.';
+    if (S.kill) return 'Engine locked.';
+    if (S.hl) return S.hl;
+    if (S.algo === false) return 'Algo Trading is disabled in MT5.';
+    if (m.off || mkClosed(m)) return 'This market is unavailable.';
+    if (minOf(m) > Math.min(capOf(m),Number(m.maxLot) || 100)) return 'Broker minimum exceeds the configured app lot cap.';
+    return '';
+  }
   function signals() {
     curSig = null; selSig = '';
     var ms = (S.markets || []).filter(function (m) { return !m.off && (sigCat === 'ALL' || catOf(m) === sigCat); });
-    var out = '<div class="cockpit-head"><h2>Execution console</h2><div><span class="screen-label">' + esc(conn().t) + '</span></div></div>' + scannerFilters(sigCat, 'data-cat', false);
+    var out = '<div class="cockpit-head"><h2>Trade signals</h2><div><span class="screen-label">' + esc(conn().t) + '</span></div></div>' + scannerFilters(sigCat, 'data-cat', false);
     if (!ms.length) return out + '<div class="console-panel">No markets in this category.</div>';
     var m = ms.find(function (x) { return x.n === sgM; });
     if (!m) { m = ms[0]; sgM = m.n; sgN = 1; sgLot = 0.01; }
@@ -2267,7 +2280,7 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
     var rd = evaluateMarket(m), r = rd.signal, min = minOf(m), cap = Math.min(capOf(m), Number(m.maxLot) || 100), canSize = min <= cap;
     sgN = Math.max(1, Math.min(maxPosFor(m.n, sgLot), sgN));
     if (canSize) sgLot = Math.min(cap, Math.max(min, sgLot));
-    var accountBlock = conn().k !== 'ok' ? 'Waiting for fresh MT5 telemetry.' : S.kill ? 'Engine locked.' : S.hl || (S.algo === false ? 'Algo Trading is disabled in MT5.' : !canSize ? 'Broker minimum exceeds the configured app lot cap.' : '');
+    var accountBlock = signalOrderBlock(m);
     if (r && canSize && !accountBlock && !preview) curSig = r;
     var left = '<section class="console-panel trade-market-panel"><h3 class="screen-label">Instruments</h3><div class="trade-markets">' + ms.map(function (x) {
       return '<button class="' + (x === m ? 'on' : '') + '" aria-pressed="' + (x === m) + '" data-sgm="' + esc(x.n) + '">' + marketIdentity(x.n) + '</button>';
@@ -2278,16 +2291,29 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
     var center = '<section class="console-panel ticket-panel"><span class="screen-label">Bot setup</span><h3>' + marketIdentity(m.n) + ' <small>' + esc(MNAME[m.n] || '') + '</small></h3><strong class="ticket-side ' + rd.tone + '">' + esc(rd.stage) + '</strong>' +
       '<p>' + esc(rd.why) + '</p>' + readingTrends(rd) + prices + '</section>';
     var controls = '';
-    if (r && canSize) {
-      var baseStop = num(m.slDist), unitRisk = Number(m.r001), risk = baseStop > 0 && unitRisk > 0 ? unitRisk * (sgLot / 0.01) * sgN * Math.abs(rd.entry - num(r.sl)) / baseStop : null;
-      var confirmText = r.s + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' with SL ' + r.sl + ' and targets ' + r.t1 + ' / ' + r.t2 + '?';
-      controls = '<small>Positions</small><div class="ticket-step"><button data-sgnstep="-1" aria-label="Fewer positions">−</button><b>' + sgN + '</b><button data-sgnstep="1" aria-label="More positions">+</button></div>' +
-        '<small>Lots per position</small><div class="ticket-step"><button data-sglot="-1" aria-label="Decrease lot size">−</button><b>' + sgLot.toFixed(2) + '</b><button data-sglot="1" aria-label="Increase lot size">+</button></div>' +
-        '<p>Estimated stop risk <b>' + (risk == null ? 'Unavailable' : risk.toFixed(2) + '%') + '</b></p>' +
-        '<button class="execute ' + rd.tone + '"' + (curSig ? ' data-sigconfirm="1" data-confirm="' + esc(confirmText) + '"' : ' disabled') + '>' + (preview ? 'Simulation only' : 'Review ' + r.s + ' order') + '</button>';
+    if (!accountBlock) {
+      var presets = [1,5,10,15,20,25].filter(function (n) { return n <= maxPosFor(m.n,sgLot); }).map(function (n) {
+        return '<button data-sgn="' + n + '" aria-pressed="' + (n===sgN) + '" class="' + (n===sgN?'on':'') + '">' + n + '</button>';
+      }).join('');
+      controls = '<small>Positions</small><div class="ticket-step"><button data-sgnstep="-1" aria-label="Fewer positions">−</button><b>' + sgN + '</b><button data-sgnstep="1" aria-label="More positions">+</button></div><div class="order-presets" aria-label="Position presets">' + presets + '</div>' +
+        '<small>Lots per position</small><div class="ticket-step"><button data-sglot="-1" aria-label="Decrease lot size">−</button><b>' + sgLot.toFixed(2) + '</b><button data-sglot="1" aria-label="Increase lot size">+</button></div>';
+      var size = sgN + ' × ' + sgLot.toFixed(2);
+      if (r) {
+        var baseStop = num(m.slDist), unitRisk = Number(m.r001), risk = baseStop > 0 && unitRisk > 0 ? unitRisk * (sgLot / 0.01) * sgN * Math.abs(rd.entry - num(r.sl)) / baseStop : null;
+        var confirmText = r.s + ' ' + size + ' ' + m.n + ' with SL ' + r.sl + ' and targets ' + r.t1 + ' / ' + r.t2 + '?';
+        controls += '<p>Estimated stop risk <b>' + (risk == null ? 'Unavailable' : risk.toFixed(2) + '%') + '</b></p>' +
+          '<button class="execute ' + rd.tone + '"' + (curSig ? ' data-sigconfirm="1" data-confirm="' + esc(confirmText) + '"' : ' disabled') + '>' +
+          r.s + ' ' + size + ' · Review</button>';
+      } else {
+        controls += '<details><summary>Manual order</summary><p>Choose the direction yourself. MT5 calculates the stop and targets.</p><div class="manual-actions">' +
+          ['BUY','SELL'].map(function (side) {
+            return '<button class="execute ' + side.toLowerCase() + '"' + (preview ? ' disabled' : ' data-signalmanual="' + side + '"') + '>' + side + ' ' + size + '</button>';
+          }).join('') + '</div></details>';
+      }
     }
-    var right = '<section class="console-panel ticket-panel"><span class="screen-label">Order ticket</span>' + signalConfidence(m,rd) + '<h3>' + (curSig ? 'Ready for review' : 'Entry on hold') + '</h3>' +
-      (accountBlock ? '<p>' + esc(accountBlock) + '</p>' : '') + (controls || '<p>Waiting for an eligible setup with valid order levels.</p>') + '</section>';
+    var heading = accountBlock ? 'Order on hold' : r ? 'Review and place' : 'Waiting for a signal';
+    var right = '<section class="console-panel ticket-panel"><span class="screen-label">Order ticket</span>' + signalConfidence(m,rd) + '<h3>' + heading + '</h3>' +
+      (accountBlock ? '<p>' + esc(accountBlock) + '</p>' : controls) + (preview ? '<p>Simulation only. Trading is disabled.</p>' : '') + '</section>';
     return out + '<div class="trade-grid">' + left + center + right + '</div>' + recentSignals(m);
   }
 
@@ -3178,6 +3204,7 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
       if (b.dataset.dzcat) dzCat = b.dataset.dzcat;
       if (b.dataset.cat) sigCat = b.dataset.cat;
       if (b.dataset.sgm) { sgM = b.dataset.sgm; sgN = 1; sgLot = 0.01; }
+      if (b.dataset.sgn) sgN = Number(b.dataset.sgn);
       if (b.dataset.sgnstep) sgN += Number(b.dataset.sgnstep);
       if (b.dataset.sglot) sgLot = lotStep0(sgLot, Number(b.dataset.sglot));
       paint();
@@ -3352,6 +3379,16 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
       else cmd0 = '/trade ' + hm0.n + ' ' + side0 + ' ' + lotSel.toFixed(2) + ' ' + nSel;
       if (!confirm(side0.toUpperCase() + ' ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + hm0.n + (hSL ? ' – SL ' + hSL + ', TP ' + hTP : ' – AXON-9 sets SL/TP') + '?')) return;
       send(cmd0, side0 === 'buy' ? 'Buying…' : 'Selling…'); hEdit = false; hKey = ''; return;
+    }
+    if (b.dataset.signalmanual && tab === 'signals') {
+      var manualMarket = (S.markets || []).find(function (m) { return m.n === sgM; });
+      if (!manualMarket || !/^(BUY|SELL)$/.test(b.dataset.signalmanual)) return;
+      var blocked = signalOrderBlock(manualMarket);
+      if (blocked) { toast(blocked); return; }
+      var manualSide = b.dataset.signalmanual, manualLot = sgLot.toFixed(2), manualCount = sgN;
+      if (!confirm('Manual ' + manualSide + ' ' + manualCount + ' × ' + manualLot + ' ' + manualMarket.n + '? MT5 sets SL and TP.')) return;
+      send('/trade ' + manualMarket.n + ' ' + manualSide.toLowerCase() + ' ' + manualLot + ' ' + manualCount);
+      return;
     }
     if (b.dataset.sigconfirm) {
       var R0 = S.rad || [], r0 = tab === 'signals' ? curSig : ((selSig ? R0.filter(function (x) { return radKey(x) === selSig; })[0] : null) || R0.filter(tradeable)[0]);
