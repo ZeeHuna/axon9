@@ -1017,7 +1017,7 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '19.0.0';
+  var APP_VER = '19.0.1';
   var preview = new URLSearchParams(location.search).get('preview') === '1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { if (!preview && location.protocol !== 'file:' && /(?:^|\/)index\.html$|\/$/.test(location.pathname)) fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
@@ -3064,7 +3064,7 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
     var disabled = ready && !preview ? '' : ' disabled';
     var openPL = Number.isFinite(pl) && (!tr.length || tr.every(function (t) { return typeof t.pv === 'number'; })) ?
       pl.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) + (s.cur ? ' ' + s.cur : '') : '–';
-    var title = '<div class="machine-title"><div><h2>AXON-9</h2><p>Forex robot control room</p></div>' + (preview ?
+    var title = '<div class="machine-title"><div><h2>AXON-9 Pro</h2><p>Forex robot control room</p></div>' + (preview ?
       '<div class="scan-toolbar" aria-label="Simulation scenarios"><button data-sim="scan">Scanning</button><button data-sim="risk">Risk hold</button><button data-sim="stale">Feed lost</button></div>' :
       '<button class="dzacc" data-tab2="accts"><span class="tg">' + (s.real===true?'Live':s.real===false?'Demo':'MT5') + '</span>' + esc(acctName()) + ' ▾</button>') + '</div>';
     var machine = '<div class="machine-grid"><section class="machine-bay" style="--optic:' + optic + '" aria-label="Robot status">' +
