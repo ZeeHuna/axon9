@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0B1510">
+<meta name="theme-color" content="#050b14">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AXON-9">
@@ -899,6 +899,26 @@ nav#dzbar button:focus-visible,.dzact button:focus-visible{outline:3px solid #ff
 .dzbtn.g{background:linear-gradient(#56d8ff,#008cff);color:#04101e}
 @media(prefers-reduced-motion:reduce){.dzorb:before,.dzorb:after{animation:none!important}}
 
+/* Cyber Blue — secondary screens */
+:root{--bg:#050b14;--purple2:#62b7ee}
+body.dz main#view{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+body.dz .card,body.dz .ccp,body.dz .eqw,body.dz .eqo,body.dz .xpan{background:linear-gradient(150deg,#14283e,#081321);border-color:#345572;border-radius:14px}
+body.dz .ccp .card{background:none;border:0}
+body.dz .eqr{border-color:#284b69}body.dz .eqr.on{background:#123c60}
+body.dz .eqv,body.dz .eqn,body.dz .eq2 input{border-color:#426784}
+body.dz .eqv input,body.dz .eq2 input,body.dz .eqn button{background:#081321;color:#e8f3ff}
+body.dz .bub.ai,body.dz .bub .vd{background:#101e30;border-color:#345572}
+body.dz .bub.me{background:#164875}
+body.dz .chatin{position:static;background:#101e30;border-color:#426784}
+body.dz .chatin textarea{color:#e8f3ff}
+body.dz .chatin label,body.dz .chatin button{background:#14283e;border-color:#426784;color:#80e4ff}
+body.dz .chatin button.snd{background:#32baff;color:#050b14}
+body.dz .dzpills button.on{background:#32baff;color:#050b14}
+body.dz .dzrow,body.dz .dzli,body.dz .dzfeed div{border-color:#284b69}
+.cyber-heading{margin:12px 0 18px;color:#e8f3ff;font-size:24px;letter-spacing:.06em;font-weight:800}
+.cyber-heading small{display:block;color:#a1b7cb;font-size:13px;letter-spacing:0;font-weight:400;margin-top:5px}
+@media(max-width:360px){nav#dzbar button{font-size:8px}nav#dzbar button.dzc{flex-basis:65px;height:65px}nav#dzbar button svg{width:21px;height:21px}}
+
 </style>
 </head>
 <body>
@@ -912,10 +932,10 @@ nav#dzbar button:focus-visible,.dzact button:focus-visible{outline:3px solid #ff
 <main id="view"></main>
 <nav id="dzbar">
   <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>HOME</span></button>
-  <button data-tab="mk2" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>MARKETS</span></button>
-  <button data-tab="chat" class="dzc" aria-label="Ask AXON"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>AXON-9</span></button>
+  <button data-tab="mk2" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3v18h17M8 6v10m4-13v14m4-8v10m4-14v10"/><path d="M6 9h4m0 3h4m0 1h4m0-4h4"/></svg><span>MARKETS</span></button>
+  <button data-tab="chat" class="dzc" aria-label="Ask AXON"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4c1 6 5 7 8 5h2c3 2 7 1 8-5-1 8-4 9-6 10l-3 6-3-6C7 13 4 12 3 4Z"/></svg><span>AXON-9</span></button>
   <button data-tab="trades" aria-label="My trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><span>TRADES</span></button>
-  <button data-tab="me" aria-label="Settings and profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>SETTINGS</span></button>
+  <button data-tab="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/><circle cx="12" cy="12" r="8"/></svg><span>SETTINGS</span></button>
 </nav>
 <div id="toast" class="toast"></div>
 <script>
@@ -2953,7 +2973,7 @@ nav#dzbar button:focus-visible,.dzact button:focus-visible{outline:3px solid #ff
   function dzMarkets() {
     var ms = (S.markets || []).filter(function (x) { return !x.off && (dzCat === 'ALL' || (dzCat === 'SIG' ? dzSide(x).d : catOf(x) === dzCat)); });
     var cats = [['ALL', '🔥 All'], ['SIG', '✦ Signals'], ['METALS', '🥇 Gold'], ['FOREX', '💱 Forex'], ['INDICES', '📈 Indices'], ['CRYPTO', '₿ Crypto']];
-    return dzTop() + '<div class="dzpills">' + cats.map(function (c) { return '<button class="' + (dzCat === c[0] ? 'on' : '') + '" data-dzcat="' + c[0] + '">' + c[1] + '</button>'; }).join('') + '</div>' +
+    return dzTop() + '<div class="cyber-heading">MARKETS<small>Live market intelligence</small></div><div class="dzpills">' + cats.map(function (c) { return '<button class="' + (dzCat === c[0] ? 'on' : '') + '" data-dzcat="' + c[0] + '">' + c[1] + '</button>'; }).join('') + '</div>' +
       '<div class="dzcard">' + (ms.map(dzRow).join('') || '<div style="padding:18px;color:#9AA59F">No market here right now.</div>') + '</div>';
   }
   function dzMe() {
