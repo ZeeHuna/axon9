@@ -1031,7 +1031,7 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   //--- v3.4.1 SIGN IN: each person (Zola, Suzan ...) has a login; their accounts are saved under it in the cloud
-  var APP_VER = '19.2.0';
+  var APP_VER = '19.2.1';
   var preview = new URLSearchParams(location.search).get('preview') === '1';
   // self-update: if GitHub has a newer app than this phone, reload once
   try { if (!preview && location.protocol !== 'file:' && /(?:^|\/)index\.html$|\/$/.test(location.pathname)) fetch('index.html?ts=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
@@ -2240,14 +2240,17 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
   }
   function signalConfidence(m, reading) {
     var score = reading.score;
-    if (score == null && m.aic != null && m.aic !== '') {
+    if (score == null) {
       var reported = Number(m.aic);
-      if (Number.isFinite(reported) && reported >= 0 && reported <= 100) score = reported;
+      if (Number.isFinite(reported) && reported > 0 && reported <= 100) score = reported;
     }
     var stale = conn().k !== 'ok', shown = score == null ? '—' : Math.round(score) + '%';
+    var note = score == null ? (stale ? 'Waiting for an updated MT5 score.' : 'No confidence score for the current market read.') :
+      stale ? 'Last reported score. Feed is stale.' : reading.signal ? 'Setup agreement score. Win probability is unknown.' :
+      'Latest MT5 confidence. The setup is still on hold.';
     return '<div class="trade-confidence"><div class="row"><b>AI Confidence</b><strong>' + shown + '</strong></div>' +
       (score == null ? '' : '<meter min="0" max="100" value="' + score + '" aria-label="AI Confidence"></meter>') +
-      '<p>' + (score == null ? 'MT5 has not reported a confidence score.' : stale ? 'Last reported score. Feed is stale.' : 'Setup agreement score. Win probability is unknown.') + '</p></div>';
+      '<p>' + note + '</p></div>';
   }
   function recentSignals(m) {
     var history = (S.rad || []).filter(function (row) { return row.m === m.n && Number(row.t) > 0; })
@@ -2266,7 +2269,8 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
     if (S.hl) return S.hl;
     if (S.algo === false) return 'Algo Trading is disabled in MT5.';
     if (m.off || mkClosed(m)) return 'This market is unavailable.';
-    if (minOf(m) > Math.min(capOf(m),Number(m.maxLot) || 100)) return 'Broker minimum exceeds the configured app lot cap.';
+    var minimum = minOf(m), cap = Math.min(capOf(m),Number(m.maxLot) || 100);
+    if (minimum > cap + 1e-9) return m.n + ' requires at least ' + minimum.toFixed(2) + ' lots at your broker. Your app cap is ' + cap.toFixed(2) + ' lots per position.';
     return '';
   }
   function signals() {
@@ -3173,8 +3177,8 @@ nav#dzbar button,nav#dzbar button.dzc{color:#bfd0c5!important}nav#dzbar button.o
     $('live').children[1].textContent = 'SIMULATION';
     S.markets = [
       {n:'US500', i:0, bid:'7210.71', ask:'7210.91', chg:0.04, aim:'HOLD', aid:-1, aic:82, h4:-1, h1:-1, asl:'7240.00', at1:'7166.00', at2:'7123.00', vmin:0.14, aiw:'H4 and H1 agree on the downside. Broker lot minimum holds the order.'},
-      {n:'JP225', i:1, bid:'57485.5', chg:-0.16, aim:'WAIT', h4:1, h1:-1, aiw:'H4 and H1 disagree. Waiting for alignment.'},
-      {n:'GOLD', i:2, bid:'3565.244', chg:-0.31, aim:'CHOP', h4:0, h1:0, aiw:'Price is moving sideways without a clean setup.'},
+      {n:'JP225', i:1, bid:'57485.5', chg:-0.16, aim:'WAIT', aic:74, vmin:3, h4:1, h1:-1, aiw:'H4 and H1 disagree. Waiting for alignment.'},
+      {n:'GOLD', i:2, bid:'3565.244', chg:-0.31, aim:'CHOP', aic:0, h4:0, h1:0, aiw:'Price is moving sideways without a clean setup.'},
       {n:'USDJPY', i:3, bid:'149.810', ask:'149.820', chg:0.23, aim:'HOLD', aid:1, aic:84, h4:1, h1:1, asl:'149.400', at1:'150.450', at2:'151.080', slDist:0.42, r001:0.22, vmin:0.01, aiw:'H4 and H1 are both trending higher.'},
       {n:'BTC', i:4, bid:'60437.27', chg:0.09, aim:'WAIT', h4:1, h1:0, aiw:'Waiting for H1 to confirm the H4 trend.'}
     ];
