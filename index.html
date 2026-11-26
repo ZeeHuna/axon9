@@ -867,6 +867,38 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
 .dznews{background:#1F2522;border-radius:26px;padding:20px;position:relative;margin-top:8px}
 .dznews .bn{position:absolute;top:-12px;right:16px;background:#E9605A;color:#fff;border-radius:16px;padding:6px 14px;font-size:14px;font-weight:600}
 .dznews small{color:#7E8A84}.dznews h3{margin:6px 0 8px;font-size:19px;color:#F4EFE3;line-height:1.3}.dznews p{margin:0;color:#9AA59F;font-size:14px}
+ 
+/* Cyber Blue visual layer — existing execution handlers unchanged */
+:root{--gold:#32baff;--gold2:#80e4ff;--purple:#102944;--surface:#101e30;--surface2:#172b42;--line:#284b69;--line2:#426784;--text:#e8f3ff;--muted:#a1b7cb}
+body.dz{background:radial-gradient(ellipse at 50% 15%,#102b48 0%,#050b14 55%);color:#e8f3ff}
+body.dz.dzn main#view{max-width:600px;padding-bottom:150px}
+nav#dzbar{bottom:calc(12px + env(safe-area-inset-bottom))!important;width:min(560px,calc(100% - 20px))!important;height:78px!important;border-radius:22px!important;background:linear-gradient(180deg,#52677c,#101e30 12%,#050b14 85%,#344e67)!important;border:1px solid #79b7df!important;gap:4px;box-shadow:0 0 22px #008cff55,inset 0 0 8px #00bfff55!important}
+nav#dzbar button{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;flex:1;min-width:0;height:60px;border:1px solid #284c70;border-radius:12px;background:linear-gradient(#18324c,#081322);color:#bcd7ee;font-size:10px;font-weight:700;letter-spacing:.02em}
+nav#dzbar button.on{color:#65e5ff;border-color:#00bfff;box-shadow:inset 0 0 12px #008cff66}
+nav#dzbar button.dzc{flex:0 0 82px;height:82px;margin-top:-22px;background:radial-gradient(circle,#183f63,#07121f 70%);border:3px solid #70dfff;color:#e8f3ff!important;box-shadow:0 0 18px #008cff}
+nav#dzbar button svg{width:25px;height:25px}
+nav#dzbar button:focus-visible,.dzact button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.dzacc,.dzcard,.dzidea,.dznews,.dzpills button,.dzbtn,.dzme i{background:#101e30;border:1px solid #284b69;color:#e8f3ff}
+.dzacc .tg{background:#153b60;color:#80e4ff}
+.dzorb{width:min(300px,80vw);height:auto;aspect-ratio:1;margin:0 auto 12px}
+.dzorb img{width:88%;height:88%;border:0;border-radius:0;object-fit:contain}
+.dzorb:before{background:conic-gradient(#0079ff,#78eaff,#102944,#0079ff);box-shadow:0 0 30px #008cff66}
+.dzorb:after{border-color:#00bfff66}
+.dzorb.off:before{background:#34495e;box-shadow:none}.dzorb.bad:before{background:#b83c45;box-shadow:none}
+.dzorb.off img,.dzorb.bad img{filter:saturate(.35)}
+.dzbrand{font-size:25px;font-weight:900;letter-spacing:.16em;color:#dceeff;text-shadow:0 0 14px #008cff;margin-bottom:8px}.dzbrand span{color:#38caff}
+.dzact{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.dzact button{background:linear-gradient(#18324c,#081322);border:1px solid #426784;border-radius:14px;padding:12px;color:#e8f3ff;gap:6px}
+.dzact button:first-child{grid-column:1/-1;flex-direction:row;justify-content:center;font-size:22px;font-weight:800;border:2px solid #32baff;box-shadow:0 0 16px #008cff55}
+.dzact button i{width:38px;height:38px;background:transparent;color:#80e4ff}
+.dzact button.on{border-color:#00e5ff;background:linear-gradient(#164e80,#09223d)}
+.dzact button.x{border-color:#a84d58}.dzact button.x i{background:transparent}
+.dzst2 button i{background:#101e30;box-shadow:0 0 0 2px #284b69;border:1px solid #38baff}
+.dzst,.dzpl,.dzh small,.dzidea p,.dzrow .nm small,.dzfeed time{color:#a1b7cb}
+.dzbal,.dzh,.dzrow .nm b,.dzrow .px b,.dzidea .top b,.dzli b{color:#e8f3ff}
+.dzbtn.g{background:linear-gradient(#56d8ff,#008cff);color:#04101e}
+@media(prefers-reduced-motion:reduce){.dzorb:before,.dzorb:after{animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -879,11 +911,11 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
 <div id="cctick" aria-label="Markets"></div>
 <main id="view"></main>
 <nav id="dzbar">
-  <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></button>
-  <button data-tab="mk2" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
-  <button data-tab="signals" class="dzc" aria-label="Trade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></button>
-  <button data-tab="trades" aria-label="My trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
-  <button data-tab="me" aria-label="Profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></button>
+  <button data-tab="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>HOME</span></button>
+  <button data-tab="mk2" aria-label="Markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>MARKETS</span></button>
+  <button data-tab="chat" class="dzc" aria-label="Ask AXON"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>AXON-9</span></button>
+  <button data-tab="trades" aria-label="My trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><span>TRADES</span></button>
+  <button data-tab="me" aria-label="Settings and profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>SETTINGS</span></button>
 </nav>
 <div id="toast" class="toast"></div>
 <script>
@@ -2895,7 +2927,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
     var s = S, st = botStatus(s), pl = sumPL(), tr = s.trades || [], c = conn();
     var orb = c.k !== 'ok' ? 'bad' : s.auto && !s.kill ? '' : 'off';
     var say = c.k !== 'ok' ? 'MT5 is offline – check the PC' : s.kill ? 'Stopped – tap START' : s.auto ? '<b>Hunting</b> ' + (s.markets || []).length + ' markets for you' : 'AUTO is <b>off</b> – you trade, I advise';
-    var out = dzTop() + '<div class="dzbot"><div class="dzorb ' + orb + '"><img src="bp-icon.png?v=2" alt="AXON-9"></div><div class="dzst">' + say + '</div><div class="dzbal">' + esc(s.bal || s.eq || '') + '</div>' +
+    var out = dzTop() + '<div class="dzbot"><div class="dzbrand">AXON-9 <span>PRO</span></div><div class="dzorb ' + orb + '"><img src="cyber-robot.svg" alt="AXON-9 titanium AI core"></div><div class="dzst">' + say + '</div><div class="dzbal">' + esc(s.bal || s.eq || '') + '</div>' +
       '<div class="dzpl">Today <span class="' + ((s.todayPct || 0) >= 0 ? 'u' : 'd') + '">' + esc(s.today || '–') + '</span> · Open ' + tr.length + ' · <span class="' + (pl >= 0 ? 'u' : 'd') + '">' + money(pl) + '</span></div></div>';
     out += '<div class="dzact">' +
       (s.kill ? '<button data-confirm="START: unlock AXON-9?" data-cmd="/unlock" data-msg="Unlocking…"><i>▶</i>Start</button>' :
