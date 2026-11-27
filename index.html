@@ -2045,6 +2045,19 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
         dir = r.s; tdir = r.s; curSig = r; selSig = ''; if (!conf) conf = r.c;
       }
     }
+    // BTC: use the normal signal ticket for a directional read, not a separate manual-only layout.
+    if (/^BTC/i.test(m.n) && c.k === 'ok' && !mkClosed(m) && !m.off && !(Number((m.pa || {}).tickAge) > 60) && !(r && /^(BUY|SELL)$/.test(dir))) {
+      var bp = m.pa || {}, bt = techOf(m), bv = tfv(bp.h4 != null ? bp.h4 : m.h4) || tfv(bp.h1 != null ? bp.h1 : m.h1) || tfv(bp.d1 != null ? bp.d1 : m.d1) || (bt && bt.ema === bt.macd ? bt.ema : 0) || tfv(bp.m15 != null ? bp.m15 : m.m15) || Math.sign(Number(m.aid || 0));
+      if (bv) {
+        var be = num(bv > 0 ? m.ask || m.px : m.bid || m.px), bd = num(m.slDist);
+        if (!(bd > 0)) bd = num(m.atr) * 1.5;
+        if (!(bd > 0)) bd = be * 0.003;
+        if (be > 0 && bd > 0 && be - 3 * bd > 0) {
+          r = {m:m.n,s:bv>0?'BUY':'SELL',e:'AI',u:'Directional BTC read (manual only)',w:'Trend or momentum indication; AUTO entry not confirmed',st:'AI',g:'C',c:cfx||0,t:Date.now()/1000,sl:fmtP(m,be-bv*bd),t1:fmtP(m,be+bv*1.5*bd),t2:fmtP(m,be+bv*3*bd),ai:true};
+          dir = tdir = r.s; curSig = r; selSig = ''; rm = null;
+        }
+      }
+    }
     if (!cfx && (dir === 'BUY' || dir === 'SELL')) {   // v16.4: confidence always shown - real share of the checks that agree with the trade
       var dd = dir === 'BUY' ? 1 : -1, pa1 = m.pa || {}, ck = [tfv(pa1.d1 != null ? pa1.d1 : m.d1), htf.h4, htf.h1, tfv(pa1.m15 != null ? pa1.m15 : m.m15)], ag = 0, kn = 0;
       ck.forEach(function (x) { if (x) { kn++; if (x === dd) ag++; } });
