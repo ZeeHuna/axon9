@@ -2082,7 +2082,7 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
         '<div class="why" style="margin-top:10px;text-align:left"><b style="color:var(--text)">Reason:</b> ' + esc(r.u) + ' – ' + esc(r.w || '') + '</div>' +
         (reply && Date.now() - replyT < 90000 ? '<div class="alert ' + (/opened|Placed|confirmed|✅/.test(reply) && !/ 0 of /.test(reply) ? 'ok' : 'warn') + '" style="margin-top:12px;text-align:left"><b>AXON-9:</b> ' + esc(reply) + '</div>' : '') +
         (mkClosed(m) ? closedNote(m) : '') + (+m.vmin > 0.02 ? '<div class="alert" style="margin:0 0 10px"><b>' + esc(m.n) + ': smallest lot here is ' + (+m.vmin).toFixed(2) + '</b> – pick ' + (+m.vmin).toFixed(2) + ' or ' + IDX_LOT.toFixed(2) + ' per position (each risks about ' + (+m.vmin / 0.02).toFixed(1) + '–' + (IDX_LOT / 0.02).toFixed(0) + '× a 0.02 position).</div>' : '') + '<div class="gact">' + (true ? '<button class="gex ' + (tdir === 'SELL' ? 's' : '') + '" data-sigconfirm="1" data-confirm="' + esc(tdir + ' ' + sgN + ' × ' + sgLot.toFixed(2) + ' ' + m.n + ' – SL ' + r.sl + ', TP ' + r.t1 + ' / ' + r.t2 + '?') + '">' + (rm && dir !== 'WEAK' ? '✓ Execute ' : '⚠ ' + esc(dir === 'WEAK' ? 'WEAK' : m.aim || '') + ' – your call: ') + esc(tdir) + '</button>' : '<button class="gex offl" disabled>⛔ MT5 OFFLINE</button>') + '<button class="grj" data-sgreject="' + esc(radKey(r)) + '">✕ Reject</button></div>'
-        : '<div class="gunl">◎ Execute unlocks when AXON-9 confirms a setup on ' + esc(m.n) + '</div>') + '</div>';
+        : (/^BTC/i.test(m.n) && c.k === 'ok' && !mkClosed(m) && !m.off && !(Number((m.pa || {}).tickAge) > 60) && num(m.bid || m.px) > 0 && num(m.ask || m.px) > 0 && minOf(m) <= 0.02 ? '<div class="gunl">Manual BTC trading · no confirmed AI setup · stop and target set by MT5</div><div class="gact"><button class="gex" data-btcmanual="buy">BUY 0.01–0.02</button><button class="gex s" data-btcmanual="sell">SELL 0.01–0.02</button></div><div class="why">Choose direction yourself. AUTO remains unchanged.</div>' : '<div class="gunl">◎ Execute unlocks when AXON-9 confirms a setup on ' + esc(m.n) + '</div>')) + '</div>';
     var hist = (S.rad || []).filter(function (x) { return x.m === m.n; }).slice(0, 8);
     var center2 = '<div class="gpan"><b class="gt">Signal history · ' + esc(m.n) + '</b>' + (hist.length ? hist.map(function (x) { return '<div class="lrow"><small class="mono">' + hm(x.t) + '</small><span class="tag ' + (x.s === 'BUY' ? 'buy' : x.s === 'SELL' ? 'sell' : '') + '">' + esc(x.s) + '</span><small class="grow">' + esc(ENGN[x.e] || x.e) + ' – ' + esc(x.u) + '</small><span class="rst2 ' + (STC[x.st] || '') + '">' + esc(rejected[radKey(x)] ? 'Rejected' : STL[x.st] || x.st) + '</span></div>'; }).join('') : '<div class="why" style="padding:12px 0">No signals on ' + esc(m.n) + ' yet today.</div>') + '</div>';
     var right = '<div class="gpan"><div class="row"><b class="gt">AI Trade Signal</b><small class="gh">● ' + (r ? (r.ai ? 'Live price' : 'Signal found ' + (ago(r.t) === 'now' ? 'just now' : ago(r.t) + ' ago')) : 'Scanning') + '</small></div>' +
@@ -3076,6 +3076,14 @@ nav#dzbar button.dzc svg{width:32px;height:32px}
       else cmd0 = '/trade ' + hm0.n + ' ' + side0 + ' ' + lotSel.toFixed(2) + ' ' + nSel;
       if (!confirm(side0.toUpperCase() + ' ' + nSel + ' × ' + lotSel.toFixed(2) + ' ' + hm0.n + (hSL ? ' – SL ' + hSL + ', TP ' + hTP : ' – AXON-9 sets SL/TP') + '?')) return;
       send(cmd0, side0 === 'buy' ? 'Buying…' : 'Selling…'); hEdit = false; hKey = ''; return;
+    }
+    if (b.dataset.btcmanual) {
+      var bm = (S.markets || []).filter(function(x){ return x.n === sgM; })[0], bs = b.dataset.btcmanual;
+      if (!bm || !/^BTC/i.test(bm.n) || !/^(buy|sell)$/.test(bs) || conn().k !== 'ok' || mkClosed(bm) || bm.off || Number((bm.pa || {}).tickAge) > 60 || !(num(bm.bid || bm.px) > 0) || !(num(bm.ask || bm.px) > 0)) { toast('BTC unavailable or data stale'); return; }
+      var bl = minOf(bm) <= 0.01 ? 0.01 : minOf(bm);
+      if (bl > 0.02) { toast('Broker minimum exceeds 0.02 lot'); return; }
+      if (!confirm(bs.toUpperCase() + ' 1 × ' + bl.toFixed(2) + ' ' + bm.n + ' manually? No confirmed AI setup. MT5 sets SL/TP.')) return;
+      send('/trade ' + bm.n + ' ' + bs + ' ' + bl.toFixed(2) + ' 1', 'Placing manual BTC order…'); return;
     }
     if (b.dataset.sigconfirm) {
       var R0 = S.rad || [], r0 = (tab === 'signals' && curSig) ? curSig : ((selSig ? R0.filter(function (x) { return radKey(x) === selSig; })[0] : null) || R0.filter(tradeable)[0]);
